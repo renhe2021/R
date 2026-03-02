@@ -1,0 +1,235 @@
+Table of Contents
+Title Page
+Copyright Page
+Foreword
+Acknowledgments
+Introduction
+It’s the Business that Matters
+The Long-Term Approach
+Having the Courage of Your Convictions
+Let’s Get Started
+Chapter  1 -  The Five Rules for Successful Stock Investing
+Do Your Homework
+Find Economic Moats
+Have a Margin of Safety
+Hold for the Long Haul
+Know When to Sell
+Investor’s Checklist: The Five Rules for Successful Stock Investing
+Chapter  2 -  Seven Mistakes to Avoid
+Swinging for the Fences
+Believing that It’s Different This Time
+Falling in Love with Products
+Panicking When the Market Is Down
+Trying to Time the Market
+Ignoring Valuation
+Relying on Earnings for the Whole Story
+Investor’s Checklist: Seven Mistakes to Avoid
+Chapter  3 -  Economic Moats
+Evaluating Profitability
+Building an Economic Moat
+How Long Will It Last?
+Industry Analysis
+Investor’s Checklist: Economic Moats
+Chapter  4 -  The Language of Investing
+The Basics
+Where the Money Goes
+Practical Financials—The Statements in Use
+Investor’s Checklist: The Language of Investing
+Chapter  5 -  Financial Statements Explained
+The Balance Sheet
+The Income Statement
+The Statement of Cash Flows
+Conclusion
+Investor’s Checklist: Financial Statements Explained
+Chapter  6 -  Analyzing a Company—The Basics
+Growth
+Profitability
+Financial Health
+The Bear Case
+Conclusion
+Investor’s Checklist: Analyzing a Company—The Basics
+Chapter  7 - Analyzing a Company—Management
+Compensation
+Character
+Running the Business
+Investor’s Checklist: Analyzing a Company—Management
+Chapter  8 -  Avoiding Financial Fakery
+Six Red Flags
+Seven Other Pitfalls to Watch Out For
+Investor’s Checklist: Avoiding Financial Fakery
+Chapter 9 -  Valuation—The Basics
+Paying Up Rarely Pays Off
+Using Price Multiples Wisely
+Say Yes to Yield
+Investor’s Checklist: Valuation—The Basics
+Chapter  10 - Valuation:—Intrinsic Value
+Cash Flow, Present Value, and Discount Rates
+Calculating Present Value
+Fun with Discount Rates
+Calculating Perpetuity Values
+Margin of Safety
+Conclusion
+Investor’s Checklist: Valuation—Intrinsic Value
+Chapter  11 -  Putting It All Together
+Advanced Micro Devices
+Biomet
+Conclusion
+Chapter  12 -  The 10-Minute Test
+Does the Firm Pass a Minimum Quality Hurdle?
+Has the Company Ever Made an Operating Profit?
+Does the Company Generate Consistent Cash Flow from Operations?
+Are Returns on Equity Consistently above 10 Percent, with Reasonable Leverage?
+Is Earnings Growth Consistent or Erratic?
+How Clean Is the Balance Sheet?
+Does the Firm Generate Free Cash Flow?
+How Much “Other” Is There?
+Has the Number of Shares Outstanding Increased Markedly over the Past Several Years?
+Beyond the 10 Minutes
+Chapter  13 - A Guided Tour of the Market
+Where to Look
+Conclusion
+Chapter  14 -  Health Care
+Economic Moats in Health Care
+Pharmaceuticals
+Generic Drug Companies
+Biotechnology
+Medical Device Companies
+Health Insurance/Managed Care
+Investor’s Checklist: Health Care
+Chapter  15 -  Consumer Services
+Companies We See Every Day
+Restaurants
+Retail
+Conclusion
+Investor’s Checklist: Consumer Services
+Chapter  16 - Business Services
+Outsourcing Trend
+Economic Moats in Business Services
+Technology-Based Businesses
+People-Based Businesses
+Hard-Asset-Based Businesses
+Investor’s Checklist: Business Services
+Chapter  17 -  Banks
+It’s All about Risk
+Managing Credit Risk
+Selling Liquidity
+Managing Interest Rate Risk
+Economic Moats in Banks
+Hallmarks of Success for Banks
+Investor’s Checklist: Banks
+Chapter  18 - Asset Management and Insurance
+Asset Management
+Life Insurance
+Property/Casualty Insurance
+Investor’s Checklist: Asset Management and Insurance
+Chapter  19 -  Software
+Segments of the Software Industry
+Economic Moats in the Software Industry
+Software Accounting 101
+Red Flags
+Hallmarks of Success for Software Companies
+What’s Not to Like about Software?
+Conclusion
+Investor’s Checklist: Software
+Chapter  20 -  Hardware
+What Drives the Hardware Industry
+Hardware Industry Dynamics
+Economic Moats in Hardware
+Hallmarks of Success for Hardware Companies
+Investor’s Checklist: Hardware
+Chapter  21 -  Media
+How Media Companies Make Money
+Economic Moats in Media
+Publishing Profits
+Broadcasting and Cable
+Investing in the Entertainment Industry
+Hallmarks of Success in the Media Sector
+Risks in the Media Sector
+Investor’s Checklist: Media
+Chapter  22 -  Telecom
+Telecom Economics
+Economic Moats in Telecom
+Hallmarks of Success in Telecom
+Conclusion
+Investor’s Checklist: Telecom
+Chapter  23 -  Consumer Goods
+How Companies Make Money in Consumer Goods
+Key Strategies for Growth
+What’s Not to Like in Consumer Products
+Economic Moats in Consumer Goods
+Hallmarks of Success in Consumer Goods
+Conclusion
+Investor’s Checklist: Consumer Goods
+Chapter  24 -  Industrial Materials
+The Problem with Cyclicality
+Economic Moats in Basic Materials
+Economic Moats in Industrial Materials
+Hallmarks of Success in Industrial Materials
+Red Flags
+Finding Opportunities in Industrial Materials
+Investor’s Checklist: Industrial Materials
+Chapter  25 -  Energy
+From the Ground
+To the Pipelines
+To the Refineries
+To the Consumers
+Providing the Services
+The Impact of Commodity Prices
+Economic Moats in Energy
+Hallmarks of Success for Energy Companies
+Risks in the Energy Sector
+Conclusion
+Investor’s Checklist: Energy
+Chapter  26 -  Utilities
+Electricity Primer
+Regulation, Regulation, Regulation
+Financial Characteristics of Utilities
+Hallmarks of Success for Utility Companies
+Risks in the Utilities Sector
+The Big Picture
+Investor’s Checklist: Utilities
+Appendix
+Recommended Readings
+Morningstar Resources
+Index
+
+Foreword
+BECAUSE I’M THE founder of Morningstar, you might think I invest most of my personal assets in mutual funds. The truth is I own few mutual funds. Nearly all of my assets are in stocks. Although I love funds, I have an even greater passion for stocks. Funds are great for those who don’t want to spend a lot of time doing research. But if you enjoy analyzing companies—and I think it’s a tremendous amount of fun—you can do perfectly well invest
+
+=== [MIDDLE OMITTED] ===
+
+ow the firm is likely to generate next year, how fast it will grow, and add the discounted value of these cash flows to a perpetuity value. If your estimated intrinsic value is very different from the market price, check your assumptions. Are you being too pessimistic or too optimistic? If you recheck your assumptions, the stock still looks undervalued, and your multiple-based analysis didn’t scream “sell,” you might just have uncovered a great investment.
+
+13
+A Guided Tour of the Market
+IN THE PREVIOUS chapter, I discussed easy ways to home in on companies that will be worth your while. In the next section of the book, we’ll focus on tools for understanding different areas of the market.
+As I said in Chapter 3, it’s easier for companies to make money in some industries than in others. Moreover, some industries lend themselves to the creation of economic moats more so than others, and these are the industries where you’ll want to spend most of your time. Although we don’t advocate a
+top-down
+investment strategy—in which you select areas of the market that you think will perform better than others and invest heavily in your top-rated industries—the economics of some industries are superior to others. Hence, you should spend more time learning about attractive industries than unattractive ones.
+Every industry has its own unique dynamics and set of jargon—and some industries (such as financial services) even have financial statements that look very different from the ones we discussed in Chapter 5. I asked Morningstar’s staff of 30 equity analysts to put together a series of chapters covering just about every corner of the market. These chapters should help you wade through the different economics of each industry and understand how  companies in each industry can create economic moats—which strategies work and how you can identify companies pursuing those strategies.
+Where to Look
+Because you’re likely as pressed for time as every other person with a day job who also manages his or her own investments, let me try to briefly steer you toward some areas of the market that are definitely worth more of your time.
+Banks and Financial Services
+In general, most financial services firms are in excellent economic positions as middlemen for money. Banks in particular enjoy the enviable position of paying very little to hold on to depositors’ money (when you consider the low rates on checking accounts and all of the fee income that such accounts generate), which they then turn around and lend out at substantially higher interest rates than they’re paying to depositors. In fact, some banks do so well at levying fees and cross-selling financial products that depositors literally pay the bank to hold their money. Moreover, because banks have somewhat confusing financial statements, many investors simply pass them by or look at only the biggest and most well-known firms. By learning what makes banks and other financial services firms tick, you’ll be ahead of most
+
+=== [END SECTION] ===
+
+g, scanning, or otherwise, except as permitted under Section 107 or 108 of the 1976 United States Copyright Act, without either the prior written permission of the Publisher, or authorization through payment of the appropriate per-copy fee to the Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923, 978-750-8400, fax 978-646-8600, or on the web at
+www.copyright.com
+. Requests to the Publisher for permission should be addressed to the Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ 07030, 201-748-6011, fax 201-748-6008.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best efforts in preparing this book, they make no representations or warranties with respect to the accuracy or completeness of the contents of this book and specifically disclaim any implied warranties of merchantability or fitness for a particular purpose. No warranty may be created or extended by sales representatives or written sales materials. The advice and strategies contained herein may not be suitable for your situation. You should consult with a professional where appropriate. Neither the publisher nor author shall be liable for any loss of profit or any other commercial damages, including but not limited to special, incidental, consequential, or other damages.
+For general information on our other products and services, or technical support, please contact our Customer Care Department within the United States at 800-762-2974, outside the United States at 317-572-3993 or fax 317-572-4002.
+Certain financial information included in the The Five Rules for Successful Stock Investing is proprietary to Mergent, Inc. Copyright © 2003. Reproduction of such information in any form is prohibited. Because of the possibility of human or mechanical error by Mergent sources, Mergent or others, Mergent does not guarantee the accuracy, adequacy, completeness, timeliness or availability of any information and is not responsible for any errors or omissions or for the results obtained from the use of such information. There are no express or limited warranties, including, but not limited to, warranties of merchantability or fitness for a particular purpose or use. In no event shall Mergent be liable for any indirect, special or consequential damages in connection with subscriber’s or other’s use of such information.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in print may not be available in electronic books. For more information about Wiley products, visit our web site at
+www.wiley.com
+.
+Library of Congress Cataloging-in-Publication Data:
+Dorsey, Pat.
+The five rules for successful stock investing : Morningstar’s guide to building wealth and winning in the market / Pat Dorsey.
+p. cm.
+Includes bibliographical references and index.
+ISBN 0-471-26965-4 (CLOTH)
+1. Investments. 2. Stocks. I. Morningstar, Inc. II. Title.
+HG4521.D646 2004
+332.63’22—dc22
+2003018287

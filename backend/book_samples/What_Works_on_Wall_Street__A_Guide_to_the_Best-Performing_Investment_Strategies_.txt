@@ -1,0 +1,192 @@
+WHAT WORKS ONWALL STREET
+OTHER BOOKS BY JAMES P . O’SHAUGHNESSY
+Invest Like the Best: Using Your Computer to Unlock the Secrets of theTop Money ManagersHow to Retire Rich: Time-Tested Strategies to Beat the Market and Retire in StyleO’Shaughnessy 00  4/26/05  6:09 PM  Page ii
+WHAT WORKS ONWALL STREET
+A Guide to the Best-Performing Investment
+Strategies of All Time
+JAMES P. O’SHAUGHNESSYThird Edition
+McGraw-Hill
+New York   Chicago   San Francisco   Lisbon   London   Madrid   Mexico City   Milan   New Delhi   San Juan   SeoulSingapore   Sydney   Toronto
+O’Shaughnessy 00  4/26/05  6:09 PM  Page iv
+Copyright © 2005 by  James P. O’Shaughnessy. All rights reserved. Manufactured in the United States of 
+America. Except as permitted under the United States Copyright Act of 1976, no part of this publication may be reproduced or distributed in any form or by any means, or stored in a database or retrieval 
+system, without the prior written permission of the publisher. 
+ 0-07-146961-3
+ 
+The material in this eBook also appears in  the print version of this title: 0-07-145225-7. 
+ 
+All trademarks are trademarks of their respective owne rs. Rather than put a trademark symbol after every 
+occurrence of a trademarked name, we use names in an  editorial fashion only, and to the benefit of the 
+trademark owner, with no intention of infringement of  the trademark. Where such designations  appear in 
+this book, they have been printed with initial caps.  McGraw-Hill eBooks are available at special quantity 
+discounts to use as premiums and sales promotions, or  for use in corporate training programs. For more 
+information, please contact George Hoare, Special  Sales, at george_hoare@mcgraw-hill.com or (212) 
+904-4069. 
+ 
+TERMS OF USE 
+ 
+This is a copyrighted work and The McGraw-Hill Co mpanies, Inc. (“McGraw-Hill”) and its licensors 
+reserve all rights in and to the work. Use of this wo rk is subject to these terms. Except as permitted under 
+the Copyright Act of 1976 and the right to store and retrieve one copy of the work, you may not decompile, disassemble, reverse engineer, reprodu ce, modify, create derivative works based upon, 
+transmit, distribute, dissemi nate, sell, publish or sublicense the wo rk or any part of it without McGraw-
+Hill’s prior consent. You may use the work for your  own noncommercial and personal use; any other use 
+of the work is strictly prohibited. Your right to us e the work may be terminated if you fail to comply 
+with these terms. 
+ 
+THE WORK IS PROVIDED “AS IS.” Mc GRAW-HILL AND ITS LICENSORS MAKE NO 
+GUARANTEES OR WARRANTIES AS TO THE ACCURACY, ADEQUACY OR COMPLETENESS OF OR RESULTS TO BE OBTAINED FROM USING THE WORK, INCLUDING ANY INFORMATION THAT CAN BE ACCESSED THROUGH THE WORK VIA HYPERLINK OR 
+OTHERWISE, AND EXPRESSLY DISCLAIM ANY WARRANTY, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO IMPLIE D WARRANTIES OF ME RCHANTABILITY OR 
+FITNESS FOR A PARTICULAR PURPOSE. McGraw -Hill and its licensors do not warrant or 
+guarantee that the functions contained in the work w ill meet your requirements or that its operation will 
+be uninterrupted or error free. Neither McGraw-Hill nor its licensors shall be liable to you or anyone else 
+for any inaccuracy, error or omission, regardless of cause, in the work or for any damages resulting therefrom. McGraw-Hill has no responsibility for th e content of any information accessed through the 
+work. Under no circumstances shall McGraw-Hill and/ or its licensors be liable for any indirect, 
+incidental, special, punitive, consequential or similar damages that result from the use of or inability to 
+use the work, even if any of them has been advised of the possibility of such damages. This limitation of 
+liability shall apply to any claim or cause whatsoever whether such claim or cause arises in contract, tort or otherwise. 
+ 
+DOI: 10.1036/0071469613
+ 
+
+O’Shaughnessy App  4/26/05  7:15 PM  Page 392
+������������
+Want to learn more?
+We hope you enjoy this 
+McGraw-Hill eBook! If 
+you’d like more information about this book, 
+its author, or related books and websites, 
+please click here .
+To Lael, Kathryn, Patrick, and MelissaO’Shaughnessy 00  4/26/05  6:09 PM  Page v
+ABOUT THE AUTHOR
+James P. O’Shaughnessy is the Director of Systematic Equity for Bear StearnsAsset Management and a Senior Managing Director of the firm.O’Shaughnessy’s investment strategies have been featured in The Wall Street
+Journal , Barron’s , The New York Times , The Washington Post , Investor’s
+Business Daily , The Financial Times , London’s Daily Mail , Japan’s Nikkei
+Shimbun Daily , and many other publications worldwide, as well as on NBC’s
+“Today Show,” ABC’s “The Oprah Winfrey Show,” CNBC, and CNN.O’Shaughnessy 00  4/26/05  6:09 PM  Page vi
+Copyright © 2005 by  James P. O’Shaughness y. Click here for terms of use. Copyright © 2005 by  James P. O’Shaughness y. Click here for terms of use. 
+Wait for the wisest of all counselors, time.
+—PericlesO’Shaughnessy 00  4/26/05  6:09 PM  Page vii
+This page intentionally left blank.
+CONTENTS
+Preface xviiiAcknowledgments xx
+Chapter 1Stock Investment Strategies: Different Methods, Similar Goals 1Traditional Active Management Doesn’t Work 2What’s the Problem? 3Studying the Wrong Things 5Why Indexing Works 5Pinpointing Performance 7Discipline Is the Key 7Consistency Wins 8A Structured Portfolio in Action 8Overwhelmed by Our Nature 9Case Study: The Dogs of the Dow 9
+Chapter 2The Unreliable Experts: Getting in the Way of Outstanding Performance 13Human Judgment Is Limited 14What’s the Problem? 15Why Models Beat Humans 15Base Rates Are Boring 17The Individual versus the Group 18Personal Experience Preferred 19Simple versus Complex 20A Simple Solution 21Additional Reading 23Case Study: Using Long-Term Data to Make Predictions about the Future 24
+ixO’Shaughnessy 00  4/26/05  6:09 PM  Page ix
+For more information about this title, click here
+Chapter 3Rules of the Game 31Short Periods Are Valueless 32Anecdotal Evidence Is Not Enough 34Pote
+
+=== [MIDDLE OMITTED] ===
+
+s Business, Economies, Societies
+and Nations , James Surowiecki argues that “under the right circumstances,
+groups are remarkably intelligent, and are often smarter than the smar test
+people in them.” Surowiecki says that if four conditions are met, a crowd’ s
+“collective intelligence” will prove superior to the judgments of a smaller
+221
+group of experts. The four conditions are (1) diversity of opinion; (2) inde-pendence of members from one another; (3) decentralization; and (4) a goodmethod for aggregating opinions. He then goes on to list several accounts inwhich crowds were far more accurate than any individual member trying tomake a correct forecast.
+Generally speaking, these four conditions are present in market-based
+price auctions, with the final price of a stock serving as an aggregator of allmarket opinion about the prospects for that stock. The only times this is nottrue is when markets are either in a bubble or a bust. At these marketextremes, a uniformity of opinion occurs that impairs the ability of a groupto offer good collective judgment. 
+Conversely, another school of thought says you should buy stocks that
+have been most battered by the market. This is the argument of Wall Street’s
+bottom fishers, who use absolute price change as their guide, buying issuesafter they’ve performed poorly. If Surowiecki is correct, this type of approachwould only work after a bubble or bust, when the collective wisdom got theanswer wrong.  Let’s see who is right.
+THE RESULTS
+We’ll look at buying those 50 stocks having the bestand the worst one-year
+price changes from both the All Stocks and Large Stocks universes. This willcontrast the results of buying last year’s biggest winners with last year’sbiggest losers. We’ll also separate the stocks by decile for both universes.Let’s look at the winners first. (In this and future chapters, I’ll use the terms“relative strength” and “price appreciation” interchangeably. Stocks withthe best relative strength are the biggest winners in terms of their previousyear’s price appreciation.) Starting on December 31, 1951, we’ll buy those50 stocks having the largest price appreciation from the previous year(Figure 15-2). I arrive at this number by dividing this year’s closing price bythat from the previous 12 months. Thus, if XYZ closed this year at 10 andlast year at 2, it would have a gain of 400 percent and a price index of 5 (10divided by 2).
+A $10,000 investment on December 31, 1951 in those 50 stocks from
+All Stocks having the best one-year price appreciation is worth $4,814,164 atthe end of 2003, a compound return of 12.61 percent a year (Table 15-1).This is the first fairly significant reversal of a factor’s performance since thepublication of this book in 1997. Originally, buying the stocks with the bestperformance from the All Stocks universe did better than All Stocks, but withmuch higher volatility. Due to the market bubble in 2000, and the three hor-rible years that ensued, we see them faring slightly 
+
+=== [END SECTION] ===
+
+sting strategies for,
+281–293
+volatility and, 278–279worst-case scenarios for, 61,
+63–64 , 272–273, 274–275,
+274–275
+Smart & Final, 356Sortino ratio, 320South Sea Trading Company, 33speculation, 335standard deviation of returns, 45,
+277–278
+statistical analysis of stock perform-
+ance, 14, 18, 38, 320–321
+Staunton, Mike, 32Stocks for the Long Run , 331
+structured portfolio, 8–9summary return and risk results,
+62–63 , 67, 67, 68–69
+summation models, 327Super Stocks , 127
+Surowiecki, James, 221–222survivorship bias, 38Systematic Equity Group, Bear
+Stearns, 37
+Szent-Gyorgyi, Albert, 155T-bills, 346
+absolute returns in, 337–346,
+338–345T-bills, (continued)
+downside risk in, 357–366,
+358–365, 366 , 357
+risk-adjusted returns in,
+347–357, 348–355
+T-statistics, 45Taoism, 377, 378taxes, 391technology stocks, 34Texas Instruments, 34time horizons used in book, 386Time Magazine , 11–12
+To Divine the Future, Study the
+Past, 25–27
+transaction costs, 46–47, 391Treynor ratio, 320Triumph of the Optimists , 32
+Twain, Mark, 143U.S. News & World Reports , 379
+Union Carbide, 46universe of stocks in presented
+investment strategies, 38–39,386
+value factors, 155–166value investing, 1, 281–293
+10-stock Cornerstone Value
+strategy in, 289–290,290–291
+All Stocks universe  and,
+282–284, 283, 292
+base rates and, 292
+best and worst average annual
+returns in, 292–293
+Cornerstone fund and, 284,
+285–286 , 289–290, 290–291
+dividend yield and, 286downside risk and return in, 282implications of, 291–292,
+292–293
+Market Leaders universe and,
+284–291, 285–286
+price-to-book ratios and, 281price-to-cashflow ratios and, 
+281
+price-to-earnings (PE) ratios and,
+281
+price-to-sales ratios (PSR) and,
+281
+real-time performance and, 289risk-adjusted performance and,
+309–318, 312–318
+shareholder yield and, 286–288,
+287, 288
+worst-case scenarios and, 292Value Line Investment Survey , 17,
+325
+Vermeulen, Menno, 32Vishny, Robert W., 32volatility, relative price strength
+and, 224–225
+Ward, Artemus, 167Warner Brothers Corporation, 34Winchell, Walter, 185Windsor fund, 8Wisdom of Crowds, The , 221–222
+Wittgenstein’s maxim, 377worst-case scenarios, 49–50,
+51–55, 53, 54, 55 , 381
+All Stocks universe, 161, 165
+best and worst average annual
+compound returns for, 52–53,52, 53
+dividend yields and, 150–151,
+150–151
+earnings gains and, 171–173,
+172–173 , 178–180, 179, 180
+earnings per share percentage
+changes and, 191–192, 192
+growth investing and, 304, 306
+Market Leaders universe and, 63,
+265
+multifactor models and, 258
+price-to-book ratios and, 102,
+103, 104
+price-to-cashflow ratios and,
+113–115, 114, 115 , 122–123
+price-to-earnings (PE) ratios and,
+high-PE, 84
+price-to-sales ratios (PSR) and,
+132–134, 133–134
+profit margins and, 201, 202 ,
+203, 203–205
+relative price strength and,
+230–232, 231–234, 226–227
+return on equity (ROE) and,
+213, 214–215 , 215–216, 216
+Small Stocks universe, 61,
+63–64 , 272–275, 274–275
+value investing and, 292
+wu wei , 377
+Xcelera, 82Xerox, 335Yahoo, 77Zweig, Jason, 379–380412 Index

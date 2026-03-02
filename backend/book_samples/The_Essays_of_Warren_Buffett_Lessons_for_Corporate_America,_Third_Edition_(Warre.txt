@@ -1,0 +1,342 @@
+T
+HE
+E
+SSAYS OF
+W
+ARREN
+B
+UFFETT
+:
+L
+ESSONS FOR
+C
+ORPORATE
+A
+MERICA
+
+T
+HE
+E
+SSAYS OF
+W
+ARREN
+B
+UFFETT
+:
+L
+ESSONS FOR
+C
+ORPORATE
+A
+MERICA
+E
+SSAYS BY
+W
+ARREN
+E. B
+UFFETT
+S
+ELECTED
+, A
+RRANGED, AND
+I
+NTRODUCED BY
+L
+AWRENCE
+A. C
+UNNINGHAM
+T
+HIRD
+E
+DITION
+
+Library of Congress Cataloging-in-Publication Data
+eISBN: 978-1-61163-447-1
+Cunningham, Lawrence A., 1962-
+Buffett, Warren E., 1930-
+The Essays of Warren Buffett: Lessons for Corporate America / selected, arranged, and introduced by Lawrence A. Cunningham—3d ed.
+308 p. 26 cm.
+Includes previously copyrighted material. Reprinted with permission. Includes bibliographical references and index.
+1. Corporations—United States—Finance. 2. Corporate governance—United States. 3. Investments—United States. 4. Stocks—United States. 5. Consolidation and merger of corporations—United States. 6. Accounting—United States. I. Buffett, Warren E. II. Cunningham, Lawrence A. III. Title.
+HG4061.B8372 2001
+(OCoLC) 38497313
+Originally published as part of the
+Cardozo Law Review
+’s special issue on
+The Essays of Warren Buffett Symposium
+. Copyright © Lawrence A. Cunningham, 1997, 2001, 2008, and 2013. Includes previously copyrighted materials, © Warren E. Buffett, reprinted with permission. All rights reserved. Printed in the United States of America.
+ISBN: 978-1-61163-409-9
+Copies of this collection are available in larger quantities at special discounts to use for teaching, training, promotions, premiums or other purposes. For more information, please contact Carolina Academic Press, 700 Kent Street, Durham, NC 27701,
+http://www.cap-press.com
+.
+
+“The speech I love is a simple, natural speech
+,
+the same on paper as in the mouth;
+a speech succulent and sinewy, brief and compressed
+,
+not so much dainty and well-combed as vehement and brusque.”
+Michel de Montaigne
+The Essays of Montaigne
+(1580)
+“The sincerity and marrow of the man reaches to his sentences
+.
+I know not anywhere a book that seems less written
+.
+Cut these words and they would bleed; they are vascular and alive.”
+Ralph Waldo Emerson
+Representative Man
+(1850)
+(Referring to Montaigne and his
+Essays
+)
+
+T
+ABLE OF
+C
+ONTENTS
+P
+REFACE
+I
+NTRODUCTION
+P
+ROLOGUE
+: O
+WNER
+-R
+ELATED
+B
+USINESS
+P
+RINCIPLES
+I. C
+ORPORATE
+G
+OVERNANCE
+A.
+Full and Fair Disclosure
+B.
+Boards and Managers
+C.
+The Anxieties of Business Change
+D.
+Social Compacts
+E.
+An Owner-Based Approach to Corporate Charity
+F.
+A Principled Approach to Executive Pay
+G.
+Risk, Reputation and Oversight
+II. F
+INANCE AND
+I
+NVESTING
+A.
+Mr. Market
+B.
+Arbitrage
+C.
+Debunking Standard Dogma
+D.
+“Value” Investing: A Redundancy
+E.
+Intelligent Investing
+F.
+Cigar Butts and the Institutional Imperative
+G.
+Life and Debt
+III. I
+NVESTMENT
+A
+LTERNATIVES
+A.
+Surveying the Field
+B.
+Junk Bonds
+C.
+Zero-Coupon Bonds
+D.
+Preferred Stock
+E.
+Derivatives
+F.
+Foreign Currencies and Equities
+G.
+Home Ownership: Practice and Policy
+IV. C
+OMMON
+S
+TOCK
+A.
+The Bane of Trading: Transaction Costs
+B.
+Attracting the Right Sort of Investor
+C.
+Dividend Policy and Share Repurchases
+D.
+Stock Splits and Trading Activity
+E.
+Shareholder Strategies
+F.
+Berkshire’s Recapitalization
+V. M
+ERGERS AND
+A
+CQUISITIONS
+A.
+Bad Motives and High Prices
+B.
+Sensible Share Repurchases Versus Greenmail
+C.
+Leveraged Buyouts
+D.
+Sound Acquisition Policies
+E.
+On Selling One’s Business
+F.
+The Buyer of Choice
+VI. V
+ALUATION AND
+A
+CCOUNTING
+A.
+Aesop and Inefficient Bush Theory
+B.
+Intrinsic Value, Book Value, and Market Price
+C.
+Look-Through Earnings
+D.
+Economic versus Accounting Goodwill
+E.
+Owner Earnings and the Cash Flow Fallacy
+F.
+Option Valuation
+VII. A
+CCOUNTING
+S
+HENANIGANS
+A.
+A Satire on Accounting Shenanigans
+B.
+Standard Setting
+C.
+Stock Options
+D.
+“Restructuring” Charges
+E.
+Pension Estimates
+F.
+Realization Events
+VIII. A
+CCOUNTING
+P
+OLICY
+A.
+Mergers
+B.
+Segment Data and Consolidation
+C.
+Deferred Taxes
+D.
+Retiree Benefits
+IX. T
+AX
+M
+ATTERS
+A.
+Distribution of the Corporate Tax Burden
+B.
+Taxation and Investment Philosophy
+E
+PILOGUE
+I
+NDEX
+C
+ONCEPT
+G
+LOSSARY
+D
+ISPOSITION
+S
+UMMARY
+
+P
+REFACE
+The original edition of
+The Essays of Warren Buffett: Lessons for Corporate America
+was the centerpiece of a symposium held two decades ago at the Benjamin N. Cardozo School of Law under the auspices of its Samuel and Ronnie Heyman Center on Corporate Governance. This gathering brought hundreds of Cardozo students together for a two-day dissection of all the ideas in the collection, featuring a series of vibrant debates among some 30 distinguished professors, investors, managers, and other students, with Warren E. Buffett and Charles T. Munger participating throughout from their seats in the front row.
+The Essays
+was the standard textbook for a specialized course I taught at Cardozo in proper business practices and is adopted by scores of professors at other law and business schools for classes such as investment, finance and accounting. Some investment firms have distributed copies to their professional employees and clients as part of training programs. I am grateful for the positive feedback from these students, teachers, and other users and delighted to know that the lessons are being taught and learned. Special thanks to Professor Tom Johansen (Ft. Hays State University, Kansas) and Professor Leo Chan (Delaware State College).
+Continuing thanks also to Mr. Buffett’s good friend and advisor, Robert Denham, whom I have had the pleasure of getting to know in the years following the symposium. Mr. Denham, a partner in the law firm Munger, Tolles & Olsen, introduced Mr. Buffett to Cardozo and me through another mutual friend, former Munger, Tolles colleague and now Cardozo professor Monroe Price, and I thank both of them for opening that door. Thanks also to Carol Loomis, a close friend of Mr. Buffett’s and the person who annually edits each shareholder letter. For institutional support in countless ways, thanks as always to Sam and Ronnie Heyman.
+As in previous editions of
+The Essays
+, this one retains the architecture and philosophy of the or
+
+=== [MIDDLE OMITTED] ===
+
+ave since proved my point.
+To date, our option to convert into Salomon common has not proven of value. Furthermore, the Dow Industrials have doubled since I committed to buy the preferred, and the brokerage group has performed equally as well. That means my decision to go with Salomon because I saw value in the conversion option must be graded as very poor. Even so, the preferred has continued under some trying conditions to deliver as a fixed-income security, and the 9% dividend is currently quite attractive.
+Unless the preferred is converted, its terms require redemption of 20% of the issue on October 31 of each year, 1995–99, and $140 million of our original $700 million was taken on schedule last year. (Some press reports labeled this a sale, but a senior security that matures is not “sold.”) Though we did not elect to convert the preferred that matured last year, we have four more bites at the conversion apple, and I believe it quite likely that we will yet find value in our right to convert.
+The common stocks of both Gillette and First Empire [into which Berkshire’s preferreds had been converted] have risen substantially, in line with the companies’ excellent performance. At year end, the $600 million we put into Gillette in 1989 had appreciated to $4.8 billion, and the $40 million we committed to First Empire in 1991 had risen to $236 million.
+Our two laggards [USAir and Salomon], meanwhile, have come to life in a very major way. In a transaction that finally rewarded its long-suffering shareholders, Salomon recently merged into Travelers Group. All of Berkshire’s shareholders—including me, very personally—owe a huge debt to Deryck Maughan and Bob Denham for, first, playing key roles in saving Salomon from extinction following its 1991 scandal and, second, restoring the vitality of the company to a level that made it an attractive acquisition for Travelers. I have often said that I wish to work with executives that I like, trust and admire. No two fit that description better than Deryck and Bob.
+Berkshire’s final results from its Salomon investment won’t be tallied for some time, but it is safe to say that they will be far better than I anticipated two years ago. Looking back, I think of my Salomon experience as having been both fascinating and instructional, though for a time in 1991-92 [when serving as its chairman] I felt like the drama critic who wrote: “I would have enjoyed the play except that I had an unfortunate seat. It faced the stage.”
+The resuscitation of US Airways borders on the miraculous. Those who have watched my moves in this investment know that I have compiled a record that is unblemished by success. I was wrong in originally purchasing the stock, and I was wrong later, in repeatedly trying to unload our holdings at 50 cents on the dollar.
+Two changes at the company coincided with its remarkable rebound: (1) Charlie and I left the board of directors and (2) Stephen Wolf became CEO. Fortunately for our egos, the second e
+
+=== [END SECTION] ===
+
+e business’ long-term performance is likely to be terrible.
+See
+Part II.F.
+Circle of Competence
+. The limits of one’s ability to judge the economics of businesses, intelligent investors draw a thick boundary and stick with companies they can understand.
+See
+Part II.E.
+Dividend Test
+. Retention of earnings is only justified if each dollar retained produces at least a one dollar increase in per share market value.
+See
+Part IV.C.
+Double-Barreled Acquisition Style
+. A sensible acquisition policy of buying either 100% of businesses in negotiated acquisitions or less than 100% in stock market purchases.
+See
+Prologue.
+Institutional Imperative
+. A pervasive force in organizations that leads to irrational business decisions from resistance to change, absorption of corporate funds in suboptimal projects or acquisitions, indulgence of the cravings of senior executives, and mindless imitation of peer companies.
+See
+Part II.F.
+Intrinsic Value
+. A hard-to-calculate but crucial measure of business value, it is the discounted present value of the cash that can be taken out of a business during its remaining life.
+See
+Part VI.B.
+Look-through Earnings
+. An alternative to GAAP rules governing investments in marketable securities of the investee less than 20%, this measures the investor’s economic performance based on its percentage interest of the investee’s undistributed earnings (after an incremental reduction for income taxes).
+See
+Part VI.C.
+Margin-of-Safety
+. Probably the single most important principle of sound and successful investing, Ben Graham’s principle says not to purchase a security unless the price being paid is substantially lower than the value being delivered.
+See
+Part II.D.
+Mr. Market
+. Ben Graham’s allegory for the overall stock market, a moody manic-depressive where price and value diverge, making superior intelligent investing possible.
+See
+Part II.A.
+Owner Earnings
+. A better measure of economic performance than cash flow or GAAP earnings, equal to (
+a
+) operating earnings
+plus (b
+) depreciation and other non-cash charges
+minus (c
+) required reinvestment in a business to maintain present competitive position and unit volume.
+See
+Part VI.E.
+
+D
+ISPOSITION
+S
+UMMARY
+The disposition table on the opposite page shows where in this collection you may find excerpts from various annual letters. The far columns on the left and right indicate the year of each letter, beginning with
+79
+for 1979 and going through
+11
+for 2011. Across the top of the rows the table divides the collection according to its Parts (I through IX) and its sub-headings (such as A through G). Letters excerpted in the opening paragraphs of a Part are reported in the table as being excerpted in Section A of that Part. The Prologue is from 1979 and 1996; the Epilogue contains selections from 1989, 1994, 1996, 2005 and 2006. This disposition table may be of special interest to those who have read previous editions carefully, to see what is new and some rearrangements that have been made.

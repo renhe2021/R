@@ -1,12 +1,77 @@
-.env
+# Python
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*$py.class
+*.so
 *.egg-info/
 dist/
 build/
-.venv/
+*.egg
+
+# Virtual Environment
 venv/
+.venv/
+env/
+
+# Environment Variables
+.env
+
+# Database
 *.db
-.codebuddy/
+*.sqlite3
+
+# ChromaDB
+chroma_data/
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Build
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
 *.log
+
+# Blog drafts (keep generated ones)
+blogs/drafts/
+
+# User uploaded documents (keep txt only excluded)
+backend/app/knowledge/user_docs/*.txt
+
+# Bloomberg cache
+bloomberg_cache/
+
+# DB WAL/SHM files
+*.db-shm
+*.db-wal
+
+# Temp/debug files
+$null
+tsc_*.txt
+npm_error.txt
+uvicorn.log
+
+# Package lock at root (frontend has its own)
+package-lock.json
+
+# Vite cache
+.vite/
+
+# .codebuddy
+.codebuddy/
+
+# Backend env
+backend/.env
+
+

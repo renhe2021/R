@@ -1,0 +1,113 @@
+Table of Contents
+Title Page
+Copyright Page
+Dedication
+Acknowledgments
+Foreword
+Introduction
+Introduction to the Original Edition
+Chapter One
+Chapter Two
+Chapter Three
+Chapter Four
+Chapter Five
+Chapter Six
+Chapter Seven
+Chapter Eight
+Chapter Nine
+Chapter Ten
+Chapter Eleven
+Chapter Twelve
+Chapter Thirteen
+Step - by - Step Instructions
+Afterword to the 2010 Edition
+Appendix
+Copyright © 2010 by Joel Greenblatt. All rights reserved
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey
+Published simultaneously in Canada
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any form or by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise, except as permitted under Section 107 or 108 of the 1976 United States Copyright Act, without either the prior written permission of the Publisher, or authorization through payment of the appropriate per-copy fee to the Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923, (978) 750-8400, fax (978) 750-4470, or on the web at
+www.copyright.com
+. Requests to the Publisher for permission should be addressed to the Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ 07030, (201) 748-6011, fax (201) 748-6008, or online at
+http://www.wiley.com/go/permissions
+.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best efforts in preparing this book, they make no representations or warranties with respect to the accuracy or completeness of the contents of this book and specifically disclaim any implied warranties of merchantability or fitness for a particular purpose. No warranty may be created or extended by sales representatives or written sales materials. The advice and strategies contained herein may not be suitable for your situation. You should consult with a professional where appropriate. Neither the publisher nor author shall be liable for any loss of profit or any other commercial damages, including but not limited to special, incidental, consequential, or other damages.
+For general information on our other products and services or for technical support, please contact our Customer Care Department within the United States at (800) 762-2974, outside the United States at (317) 572-3993 or fax (317) 572-4002.
+Wiley also publishes its books in a variety of electronic formats. Some content that appears in print may not be available in electronic books. For more information about Wiley products, visit our web site at
+www.wiley.com
+.
+ISBN 978-0-470-62415-9 (cloth); 978-0-470-92671-0 (ebk);
+978-0-470-92672-7 (ebk)
+To my wonderful wife, Julie, and our five magnificent spin-offs
+Acknowledgments
+I AM GRATEFUL TO THE MANY FRIENDS, colleagues, and family who have contributed to this project. In particular, special thanks are due to my partners at Gotham Capital, Rob Goldstein and John Petry. Not only are they the true coauthors of the
+Magic Formula
+study that appears in this book, but it is also a rare privilege to be associated with such brilliant, talented, and generous people. Their contributions to this book—and to the success of Gotham Capital—cannot be overstated and are appreciated more than they know. I would also like to give special thanks to Edward Ramsden at Caburn Capital for his extraordinarily insightful comments, suggestions, and editing work; to Norbert Lou at Punchcard Capital, particularly for his inspiration and suggestions for Chapter 9; and to Patrick Ede at Gotham Capital for his major contributions to the
+Magic Formula
+study, for his intelligent and helpful comments, and for his editing talents. In addition, my brother, Richard Greenblatt at America Capital, deserves a major part of the credit for being my editor-at-large, for his many good ideas, for his numerous contributions to each chapter, and especially for his encouragement with this project and throughout my life.
+I am also grateful for the many helpful contributions and inspiration provided by Dr. Sharon Curhan (my sister, and my favorite artist), Dr. Gary Curhan, Joshua Curhan, Justin Curhan, Linda Greenblatt Gordon at Saddle Rock Partners, Michael Gordon, Bryan Binder at Caxton Associates, Dr. Susan Binder, Allan and Mickey Greenblatt (my wonderful parents), Dr. George and Cecile Teebor (the famous in-laws), Ezra Merkin at Gabriel Capital, Rod Moskowitz, John Scully, Marc Silbert, David Rabinowitz at Kirkwood Capital, Larry Balaban, Rabbi Label Lam, Eric Rosenfeld at Crescendo Partners, Robert Kushel (my broker at Smith Barney), Dan Nir at Gracie Capital, Brian Gaines at Springhouse Capital, Bruce Newberg (who got me started), Matthew Newberg, Rich Pzena at Pzena Investment Management, and Adam Barth, David Pecora, and Yury Kholondyrev at Gotham Capital. Special thanks to David Pugh, my editor at John Wiley, and Sandra Dijkstra, my literary agent, for their encouragement and enthusiastic support of this project. Thank you also to Andrew Tobias for graciously writing the foreword and for being a good friend.
+I would also like to thank my two oldest children, Matthew and Rebecca Greenblatt, for being willing students and readers (and for laughing at most of the jokes). To my three youngest children, Melissa, Jonathan, and Jordan, thank you for your inspiration. And to all the kids, thank you for the joy you bring each day. Thank you also to my beautiful wife, Julie, for her sage advice with this book, and in life, for her love and support and for each precious day together.
+Foreword
+THE BEST THING ABOUT THIS BOOK—from which I intend to steal liberally for the next edition of
+The Only Investment Guide You’ll Ever Need
+—is that most people won’t believe it. Or, believing it, won’t have the patience to follow its advice. That’s good, because the more people who know about a good thing, the more expensive that thing ordinarily becomes … bye-bye bargain.
+Yet unlike most “systems” meant to exploit anomalies in the market, Joel Greenbla
+
+=== [MIDDLE OMITTED] ===
+
+e it should work!
+But how do your bones feel about that?
+Quick Summary
+1. Most people and businesses can’t find investments that will earn very high rates of return. A company that can earn a high return on capital is therefore very special.
+2. Companies that earn a high return on capital may also have the opportunity to invest some or all of their profits at a high rate of return. This opportunity is very valuable. It can contribute to a high rate of earnings growth.
+3. Companies that achieve a high return on capital are likely to have a special advantage of some kind. That special advantage keeps competitors from destroying the ability to earn above-average profits.
+4. By eliminating companies that earn ordinary or poor returns on capital, the magic formula starts with a group of companies that have a high return on capital. It then tries to buy these above-average companies at below-average prices.
+5. Since the magic formula makes overwhelming sense, we should be able to stick with it during good times and bad.
+And finally,
+6. If you must vomit under the 3em-spaces, don’t forget to
+run
+!
+Chapter Ten
+I LOVE SAILING.
+I’m not very good at sailing.
+I know this, not just from the fact that my wife and kids are scared to go with me, but from hard experience. Once, through a slight miscalculation of wind and water speed, I was 20 feet away from being slammed by a barge at least three football fields long. I remember this quite well, because I had my wife as a passenger (who hates boats anyway) while I was busy pulling the starter cord on my little five-horsepower outboard engine (darn thing never works when you really need it) as the giant barge blasted its horn for me to get out of the way.
+Usually sailboats have the right of way over motor-boats, but since 9-billion-pound barges don’t steer all that quickly, the right-of-way thing gets switched around (good to keep in mind if it ever comes up). So there I was, repeatedly pulling the worthless starter cord while trying to act like I had everything under control (just so my wife’s last words wouldn’t be “I hate this stupid boat!”), when a final puff of wind helped us sail out of danger.
+I’m recounting this story not because I enjoy sailing alone. I actually like having company (preferably brave or blind company). I’m telling you this because even though I’m clearly not a good sailor, I still love sailing. And that’s the same way many people feel about investing in the stock market. They may not be particularly good at it, or they may not know whether they are any good at it, but there’s something about the process or the experience that they enjoy.
+For some of these people, investing by using a magic formula may take away some of that fun. I understand this. There are also people who are good or would be good at picking individual stocks—without using a magic formula. And that’s fine, too. The next chapter should give both groups an idea of what they’ll need to know if they want to be successful at p
+
+=== [END SECTION] ===
+
+s in the database varied during the study period.
+40
+For purposes of the study and in the interest of simplicity, it was assumed that depreciation and amortization expense (noncash charges against earnings) were roughly equal to maintenance capital spending requirements (cash expenses not charged against earnings). It was, therefore, assumed that EBITDA - Maintenance Cap/Expenditures = EBIT.
+41
+Including preferred equity.
+42
+$100,000 in EBIT less $48,000 in interest expense equals $52,000 in pretax income. $52,000/$200,000 equals 26 percent. The E/P (earnings/price), or after-tax earnings yield, would be 15.6 percent ($100,000 in EBIT less $48,000 in interest less $20,800 in income tax equals $31,200 in after-tax income; $31,200/$200,000 equals 15.6 percent). This 15.6 percent return would be more comparable to looking at an EBIT/EV after-tax yield of 6 percent (i.e., looking at EBIT as if fully taxed, or net operating profit after tax divided by EV;
+it is important to note that the fully taxed EBIT to enterprise value of 6 percent would be the earnings yield ratio used to measure investment alternatives versus the risk-free 10-year government bond yield, not the EBIT/EV ratio of 10 percent
+).
+43
+For example, whether you pay $200,000 for a building and assume an $800,000 mortgage or pay $1 million up front, it should be the same to you. The building costs $1 million either way!
+44
+Both before and after management fees and expenses.
+45
+This is 13.72 percent for the lowest price/book decile to 11.51 percent for the highest price/book decile. The market average for this group was 11.64 percent.
+46
+Piotroski, J. “Value Investing: The Use of Historical Financial Statements to Separate Winners from Losers,”
+Journal of Accounting Research
+, vol. 38, supplement, 2000.
+47
+This is equivalent in the magic formula study to stocks with market capitalizations over approximately $700 million.
+48
+Though Piotroski’s “lowest”-ranked large-cap stocks did do poorly relative to other low price/book stocks, his ranking system selected a total of only 34 low-ranked stocks over 21 years.
+49
+Or in the small-cap universe.
+50
+Haugen, R., and N. Baker, “Commonality in the Determinants of Expected Stock Returns,”
+Journal of Financial Economics
+, Summer 1996.
+51
+Portfolios were purchased every month during the 10-year period, and each portfolio was held for one year, so more than 120 separate portfolios were tested for each strategy.
+52
+Professor Haugen does not suggest buying the top 10% of his highest rated stocks in one portfolio or holding stocks for one year. Also, the losses for the worst 36-month return for the theoretical “top 10%” Haugen portfolio were similar to the overall market’s loss during that period. The statistics listed were compiled for comparison purposes with the magic formula portfolio using only those stocks that were included in both the Haugen and magic formula over $1 billion universe.
+53
+On second thought, who am I kidding? I hope it lives forever!

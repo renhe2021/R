@@ -1,0 +1,154 @@
+BRUCE C. N. GREENWALD 
+JUDD KAHN PAUL D. SONKIN 
+MICHAEL VAN BIEMA
+For Virginia Greenwald 
+who now only need find a ship 
+and Anne Rogin 
+who need not
+
+Preface
+PART I AN INTRODUCTION TO VALUE INVESTING
+1 Value Investing: Definitions, Distinctions, Results, Risks, and Principles
+2 Searching for Value: Fish Where the Fish Are
+PART II THREE SOURCES OF VALUE
+3 Valuation in Principle, Valuation in Practice
+Appendix: The Present Value of Future Cash Flows
+4 Valuing the Assets: From Book Value to Reproduction Costs
+5 Earnings Power Value: Assets Plus Franchise
+Appendix: The Value of Brands-Less than Meets the Eye?
+6 A Wonderful Little Franchise: The Earnings Power of WD-40
+7 Inside Intel: The Value of Growth within the Franchise
+Appendix: Valuation Algebra: Return on Capital, Cost of Capital, and Growth
+8 Constructing the Portfolio: Risk, Diversification, and Default Strategies
+PART III VALUE INVESTING IN PRACTICE: PROFILES OF EIGHT VALUE INVESTORS
+9 Warren Buffett: Investing Is Allocating Capital
+10 Mario Gabelli: Discovering and Unlocking the Private Market Value
+11 Glenn Greenberg: Investigate, Concentrate, and-Watch That Basket
+12 Robert H. Heilbrunn: Investing in Investors
+13 Seth Klarman: Distressed Sellers, Absent Buyers
+14 Michael Price: Discipline, Patience, Focus, and Power
+15 Walter and Edwin Schloss: Keep It Simple, and Cheap
+16 Paul D. Sonkin: Small Is Beautiful, Especially When It's Ugly
+References
+Acknowledgments
+Index
+
+Benjamin Graham is commonly credited with establishing security analysis as a reasonably firm discipline within an investment world that had 
+been dominated by speculation, insider information, and other practices at 
+best unsound and at worst downright shady. The publication of Security 
+Analysis with David Dodd in 1934 marks the start of a profession. Graham 
+made his ideas and techniques more available to professionals and interested amateurs with The Intelligent Investor, which initially appeared in 
+1949. Each book has been revised several times. Security Analysis is available both in its initial, classic version and in a fifth edition that purists feel 
+has little of Graham remaining. The New York Society of Security Analysts, an association Graham founded, contends that he "is to investing 
+what Euclid is to geometry, and Darwin is to the study of evolution." 
+Though this may carry the praise further than Graham himself would have 
+allowed, his significance to investing is not in dispute.
+Graham did more than put investing on a rational foundation. He also 
+engraved on the minds of his students and devotees a strong preference for 
+what would now be called value investing. To present the most succinct description, the value investor seeks to purchase a security at a bargain price, 
+the proverbial dollar for 50 cents. There is considerably more to it than 
+that, as this book attests. Still, despite all the changes in the investment 
+world since the 1920s, Graham initiated an approach to investing that remains vital today. Our effort here is to build on his work and on that of his 
+successors and to incorporate the advances in value investing that have appeared over the last three or four decades.
+Starting in 1928, Graham began to teach a course on security analysis at Columbia University, his alma mater. The book he wrote with Dodd 
+grew from that course. The course at Columbia lasted through several incarnations after Graham and Dodd and passed eventually into the hands 
+of Roger Murray, an author of the fifth edition of Security Analysis. On 
+Murray's retirement in 1978, the course and the tradition disappeared from 
+the formal academic curriculum. Outside the university, the intellectual 
+life of value investing remained robust in the world of practicing investors, 
+thanks primarily to Warren Buffett, who had taken the original Graham 
+and Dodd course in 1950 after having been exposed to The Intelligent Investor. He read the first edition of Security Analysis while on his honeymoon. Together with a number of other Graham students, Walter Schloss 
+among them, Buffett established records of consistent investment success 
+that attracted continuing attention to value investing.
+Further generations of former students, including Mario Gabelli, who 
+had taken the course with Roger Murray, continued to refine and extend 
+the basic value approach. In 1992 Gabelli prevailed on Murray to offer a 
+series of lectures on value investing to Gabelli's own analysts, who had 
+found nothing like it in their formal MBA courses. As the newly appointed 
+Heilbrunn Professor of Asset Management and Finance, I attended those 
+lectures out of curiosity. Like generations of investors who preceded me, I 
+was struck by the compelling logic of Graham's approach. As a consequence, in 1993 I dragooned Roger Murray into joining me in offering a revived and revised version of the value course. That course, which continues to attract large numbers of both MBA and professional-level students, 
+is the point of departure for this book.
+Meanwhile, in the 1950s and 1960s a new approach to investment analysis emerged from scholars who had been trained in economics or statistics. 
+As a group they produced a body of work, sometimes called modern investment 
+theory, that, if accurate, has several inescapable implications for investors:
+• The market is efficient, and it is not possible to outdo its returns except by accident.
+• Risk is measured by the contribution of individual securities to the 
+volatility of returns of widely diversified portfolios, rather than the 
+more common-sense understanding of risk as permanent loss of capital.
+• The best strategy for investors is to buy a broad index of securities 
+and adjust for the desired level of risk by combining investments in 
+this index portfolio with greater or lesser amounts of a risk-free asset, such as cash.
+There were always investment professionals who disagreed with this theory, especially as their livelihood depended on its being incorrect 
+
+=== [MIDDLE OMITTED] ===
+
+. 
+There are less extreme situations that also present challenges. Consider a 
+value investment firm that has $100 million in assets. The portfolio managers have found enough value stocks or other investments to absorb $80 
+million, but everything else they look at seems either overpriced or too uncertain. What do they do with the last $20 million? One answer is to spread it among the existing investments. They may have decided against this 
+course, either because they own full positions that they are reluctant to increase, or because the prices have risen to the point where, although they 
+don't want to sell, perhaps because of the tax consequences, they won't buy 
+any more either. For investment managers not of the value stripe, this 
+problem may not emerge. They can live with a policy to be always fully invested, and they can at any time find securities that are "relatively" cheap 
+or meet other comparative standards. Most value investors avoid the "relative" path.
+The standard response of value investors has been expressed by Warren Buffett in his frequently cited baseball analogy. The investor can take 
+pitches all day long and not have to swing because there are no called 
+strikes in investing. Thus, it is reasonable to regard the paucity of new opportunities as a sign that the market as a whole is overvalued. This is not a 
+market timing call made on the basis of a macroeconomic forecast or a 
+broad valuation metric like the price to earnings ratio of the S&P 500. It is 
+the result of a bottom up search for good investments that, at this moment, 
+comes up empty. But the consequences may be identical. If the market is 
+overvalued, it is a good time to hold cash, the risk-free asset, and wait until opportunities reappear. Cash for value investors has been the default default strategy; it may be the best place to keep the money, and the buildup 
+of cash may serve, much like a miner's canary, as a sign that things are not 
+right.
+But in this investment climate, where they publish the scores every 
+day, that may be a luxury that not all investment managers can afford. Had 
+Berkshire Hathaway been an open-ended mutual fund rather than a corporation with publicly traded securities, many investors would have pulled 
+money out after 1999 and into 2000, a period in which the company's stock 
+declined by about half in the face of a rising market. In the last years of 
+the 1990s, some value managers saw their asset base plummet as investors 
+took their money out to pursue the higher returns being achieved in technogrowth funds or similar products. For nothing more elevated than career 
+preservation purposes, some value managers may need a default strategy 
+other than holding cash.
+This brings us by a circuitous route back to modern investment theory
+and the efficient market hypothesis. Value investors would not be in business if they did not believe that fundamental analysis done from the value perspective can, in some but not all cases, identify an i
+
+=== [END SECTION] ===
+
+ive at maintenance capex.
+In this case, WD-40 is spending more on maintenance capex than depreciation, 
+suggesting that it is either not using its money wisely or that the cost of capital goods 
+in its industry is increasing. Either way, the difference is insignificant.
+'The goodwill from the purchase of 3-IN-ONE is precisely this kind of quasiasset: money spent to develop the brand and the distribution infrastructure. We think 
+a new entrant would have to match this spending in order to compete.
+'In fact, Dupont, GE, 3M, and Borden all did make efforts but abandoned them 
+when the losses began to mount.
+4In increasing dividends by 3 percent per year, we are assuming that the historical 
+growth continues and also that WD-40 does not have to spend very much on current 
+or fixed assets to support this growth. These assumptions are not always warranted. We 
+examine the issue of profitable growth in Chapter 7.
+'Since Intel had little debt in its capital structure, we have concentrated on the 
+equity values of the assets and the earnings power. When a firm has significant financial leverage, the appropriate starting point is the enterprise value, which includes 
+both debt and equity and then subtracts cash. Equity values are less stable because of 
+the financial leverage. In Intel's case, the debt is insignificant.
+'In the late 1990s, a fashion for more concentrated portfolios did emerge, even 
+for growth-oriented investors. Mutual funds with the number "20" or "30" in their 
+names started to appear, as did those dubbing themselves "focused." This may have 
+been a result of the weakening hold of modern investment theory in the profession, 
+or simply of the desire to increase returns by capitalizing on the "best ideas." After a 
+decade and a half of a long bull market, the balance between fear and greed that regulates the levels of the markets may have shifted toward greed-a troubling sign, we 
+believe.
+'Between 1871 and 1992, stocks outperformed bonds in 71 percent of all five-year 
+periods. They outperformed Treasury bills in 75 percent of the periods. See Siegel in 
+References, Chapter 8.
+'Other value investors, including Michael Price and Seth Klarman, also participated in the thrift conversion opportunity. Klarman's explanation of the investment 
+arithmetic is somewhat different from Greenberg's, illustrating that even among successful value investors, there are alternate paths to the same goal.
+' Walter Schloss began using the S&P Industrial Index in 1955 because without 
+utilities or transportation companies, it more accurately matched the investments in 
+his portfolio. He has kept that index as his benchmark comparison even as the S&P 
+500 has become the proxy of choice. Comparing the two over the last two decades, we 
+found that they tracked each other very closely and that the Industrial had a slightly 
+higher return than the 500.
+' Klarman's firm owned several issues; its largest position matured in 1989, but 
+it also owned some due in 1987.

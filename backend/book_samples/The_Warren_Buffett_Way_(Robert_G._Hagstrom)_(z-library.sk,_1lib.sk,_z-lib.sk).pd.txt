@@ -1,0 +1,232 @@
+THE
+WARREN 
+BUFFETT
+WAY
+THIRD EDITION
+ROBERT G. HAGSTROM
+ffirs.indd   i 04-09-2013   14:48:31
+Cover image: © Bloomberg via Getty Images
+Cover design: Paul McCarthy
+Copyright © 2014 by Robert G. Hagstrom. All rights reserved.Published by John Wiley & Sons, Inc., Hoboken, New Jersey.The Second Edition of The Warren Buffett Way was published by John Wiley & Sons, Inc. in 2004. 
+Published simultaneously in Canada.
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any 
+form or by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise, 
+except as permitted under Section 107 or 108 of the 1976 United States Copyright Act, without 
+either the prior written permission of the Publisher, or authorization through payment of the appropriate per-copy fee to the Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923, (978) 750-8400, fax (978) 646-8600, or on the Web at www.copyright.com. Requests to the Publisher for permission should be addressed to the Permissions Department, John Wiley & 
+Sons, Inc., 111 River Street, Hoboken, NJ 07030, (201) 748-6011, fax (201) 748-6008, or online at 
+http://www.wiley.com/go/permissions.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best 
+efforts in preparing this book, they make no representations or warranties with respect to the accu-racy or completeness of the contents of this book and specifi  cally disclaim any implied warranties of merchantability or fi  tness for a particular purpose. No warranty may be created or extended by 
+sales representatives or written sales materials. The advice and strategies contained herein may not 
+be suitable for your situation. You should consult with a professional where appropriate. Neither the publisher nor author shall be liable for any loss of profi  t or any other commercial damages, including but not limited to special, incidental, consequential, or other damages.
+For general information on our other products and services or for technical support, please 
+contact our Customer Care Department within the United States at (800) 762-2974, outside the 
+United States at (317) 572-3993 or fax (317) 572-4002.
+Wiley publishes in a variety of print and electronic formats and by print-on-demand. Some material 
+included with standard print versions of this book may not be included in e-books or in print-on-
+demand. If this book refers to media such as a CD or DVD that is not included in the version you purchased, you may download this material at http://booksupport.wiley.com. For more informa-tion about Wiley products, visit www.wiley.com.
+Library of Congress Cataloging-in-Publication Data:
+Hagstrom, Robert G., 1956–
+ The Warren Buffett way / Robert G. Hagstrom. — Third edition.
+   pages cm  Includes index.  ISBN 978-1-118-50325-6 (cloth); ISBN 978-1-118-81380-5 (ePDF); 
+  ISBN 978-1-118-79399-2 (ePub)
+  1. Buffett, Warren. 2. Capitalists and fi  nanciers--United States--Biography.
+ 3. Investments--United States. I. Title.   HG172.B84H34 2014
+  332.6--dc23
+Printed in the United States of America.
+10 9 8 7 6 5 4 3 2 1
+ffirs.indd   ii 04-09-2013   14:48:31
+iiiContents
+Foreword: The Exception vii
+Howard Marks
+Foreword to the Second Edition xvii
+Bill Miller
+Foreword to the First Edition xix
+Peter S. Lynch
+Introduction xxv
+Kenneth L. Fisher
+Preface xxxi
+Chapter One A Five-Sigma Event: The World’s 
+Greatest Investor 1
+Personal History and Investment Beginnings 3
+The Buffett Partnership Ltd. 10Berkshire Hathaway 13Insurance Operations 15The Man and His Company 17Five-Sigma Event 18
+Chapter Two The Education of Warren Buffett 21
+Benjamin Graham 21
+Philip Fisher 30
+Charlie Munger 35
+A Blending of Intellectual Inﬂ  uences 38
+ftoc.indd   iii 29-08-2013   15:59:17
+iv Contents
+Chapter Three Buying a Business: The Twelve 
+Immutable Tenets 45
+Business Tenets 46
+Management Tenets 50
+Financial Tenets 59
+Market Tenets 64
+Anatomy of a Long-Term Stock Price 69
+Chapter Four  Common Stock Purchases: 
+Nine Case Studies 71
+The Washington Post Company 72
+GEICO Corporation 81
+Capital Cities/ABC 91
+The Coca-Cola Company 100
+General Dynamics 110
+Wells Fargo & Company 114
+American Express Company 120
+International Business Machines 123
+H.J. Heinz Company 130
+A Common Theme 135
+Chapter Five Portfolio Management: 
+The Mathematics of Investing 137
+The Mathematics of Focus Investing 143
+Focus Investors in Graham-and-Doddsville 155
+Chapter Six The Psychology of Investing 179
+The Intersection of Psychology and Economics 180
+Behavioral Finance 182And on the Other Side, Warren Buffett 194Why Psychology Matters 199
+Chapter Seven The Value of Patience 201
+For the Long Term 202
+Rationality: The Critical Difference 205
+Slow-Moving Ideas 206
+System 1 and System 2 207
+The Mindware Gap 210
+Time and Patience 211
+ftoc.indd   iv 29-08-2013   15:59:18
+ Contents v
+Chapter Eight The World’s Greatest Investor 213
+The Private Buffett 216
+The Buffett Advantage 218
+Learning to Think Like Buffett 224
+Finding Your Own Way 232
+Appendix 235
+Notes 253Acknowledgments 263About the Website 267About the Author 269Index 271
+ftoc.indd   v 29-08-2013   15:59:18
+ftoc.indd   vi 29-08-2013   15:59:18
+viiForeword: The Exception
+W hat accounts for Warren Buffett’s exceptional investment 
+success? That’s one of the questions I’m asked most often. It’s also 
+the question I want to explore in this foreword.
+When I studied for my MBA at the University of Chicago in the 
+late 1960s, I was exposed to a new theory of fi  nance that had been 
+developed, largely there, in the preceding few years. One of the most important components of the “Chicago School” of thought was the Effi  cient Market Hypothesis. According to that hypothesis, 
+the combined efforts of millions of intelligent, motivated, objec-tive, and informed investors cause information to immediately be refl ected in market prices such that assets will provide a fair risk-
+adjusted return, no more and no less. Prices 
+
+=== [MIDDLE OMITTED] ===
+
+hat Wells Fargo earned $1 billion pretax annually 
+after expensing an average $300 million for loan losses. He fi  gured 
+if 10 percent of the bank ’s $48 billion in loans (not just commer-
+cial loans, but all of the bank ’s loans) were problem loans in 1991 
+and produced losses, including interest, averaging 30 percent of the principal, Wells Fargo would break even. He calculated that this was unlikely. Even if Wells Fargo earned no money for a year, that would not be distressing. “At Berkshire,” Buffett said, “we would love to acquire businesses or invest in capital projects that produce no return for a year, but that could then be expected to earn 20% on growing equity.”  
+ 42   The attraction of Wells Fargo intensifi  ed 
+when Buffett was able to purchase shares at a 50 percent discount to value. 
+ “Banking doesn ’t have to be a bad business, but it often is,” 
+Buffett said, adding that “bankers don ’t have to do stupid things, 
+but they often do.”  
+ 43   He describes a high-risk loan as any loan made 
+by a stupid banker. When Buffett purchased Wells Fargo, he bet 
+that Reichardt was not a stupid banker. “It ’s all a bet on manage-
+ment,” said Charlie Munger. “We think they will fi  x the problems 
+faster and better than other people.”   44   Berkshire ’s bet paid off. By 
+the end of 1993, Wells Fargo ’s price per share had reached $137. 
+c04.indd   119 29-08-2013   15:18:08
+120 The Warren Buffett Way
+    American Express Company 
+ “I fi nd that a long-term familiarity with a company and its products 
+is often helpful in evaluating it,” Buffett said.   45   With the exception 
+of selling bottles of Coca-Cola for a nickel, delivering copies of the 
+ Washington Post , and recommending that his father ’s clients buy 
+shares of GEICO, Buffett has had a longer history with American 
+Express than any other company Berkshire owns. You may recall that in the mid-1960s, the Buffett Limited Partnership invested 40 percent of its assets in American Express shortly after the compa-ny ’s losses in the salad oil scandal. Thirty years later, Berkshire accu-
+mulated 10 percent of American Express shares for $1.4 billion. 
+  Tenet: Consistent Operating History 
+ Although the company has weathered a cycle of changes, American 
+Express is essentially the same business it was when Buffett fi  rst pur-
+chased the company in his Partnership. There were three divisions. Travel Related Services (TRS), which issues the American Express charge card and American Express Travelers Cheques, contributed about 72 percent of American Express ’s sales. American Express 
+Financial Advisors (formerly IDS Financial Services), a fi  nancial 
+planning, insurance, and investment product division, contributed 22 percent of sales. The American Express Bank contributed a modest 5 percent of sales. The bank had long been the local repre-sentative for the American Express card with a network of 87 offi  ces 
+in 37 countries worldwide. 
+ American Express Travel Related Services continu
+
+=== [END SECTION] ===
+
+
+Risk arbitrage, 148–149Risk-free rate, 66Robinson, James, 121Rometty, Ginni, 130Ruane, Bill, 9, 13, 159–161, 
+162, 169
+Russell, Bob, 4
+Sacconaghi, Toni, 130
+Salad oil scandal, 11Salem, George, 115Samuelson, Paul, 189Schloss, Walter, 9Schroeder, Alice, 9Security Analysis (Graham and 
+Dodd), 21–23, 155, 181
+See’s Candies, 37Sequoia Fund, 13, 159–161, 168Shahan, Eugene, 168Shannon, Claude, 150Sharpe, Bill, 195–196Shearson-Lehman, 120–122Shleifer, Andrei, 202Short-sightedness. See Myopic loss 
+aversion
+Short-term mentality, 166–168Short-term vs. long -term investing, 
+201–205
+Simple and understandable (busi-
+ness tenet), 47–48, 224–225
+Capital Cities/ABC, 93Coca-Cola, 101Washington Post Company, 
+74–75“A Simplifi  ed Model of Portfolio 
+Analysis” (Sharpe), 195
+Simpson, Lou, 161–165Slow-moving ideas, 206–210Smith, Frank, 91The Snowball: Warren Buffett and the 
+Business of Life (Schroeder), 9
+Speculation, vs. investment, 24–25Stock repurchases, 53, 125–126The Success Equation (Mauboussin), 
+213
+“The Superinvestors of Graham-
+and- Doddsville” (Buffett), 155, 164, 165, 168
+Systemic/unsystemic risk, 195–196
+Taxes, 174–175
+Technology, effect on investors, 
+184–185, 221
+Tenets of the Warren Buffett Way, 
+46–69
+business tenets, 46–50, 224–226 
+(see also Business tenets)
+fi  nancial tenets, 59–64, 227–228 
+(see also Financial tenets)
+management tenets, 50–58, 
+226–227 (see also Management tenets)
+overview, 46
+Textile industry. See Berkshire 
+Hathaway
+Thaler, Richard, 183–184, 187–190Theory of Games and Economic 
+Behavior (Morgenstern and von Neumann), 186
+The Theory of Investment Value 
+(Williams), 29, 65
+Thinking Fast and Slow (Kahneman), 
+208
+bindex.indd   280 29-08-2013   15:56:14
+ Index 281
+Thomas, Lowell, 91
+Thorndike, William, 81, 223Thorp, Edward O., 1493G Capital, 133–134Transparency. See Candor (manage-
+ment tenet)
+Treynor, Jack, 206Treynor on Institutional Investing 
+(Treynor), 206
+Tsai, Gerald, 214Turnover, cost of, 223–224Turnover rates, 142, 174, 175Tversky, Amos, 185, 187–188
+Unrealized gain, 175
+Utility theory, 186
+Valuation. See Determine the value 
+(market tenet)
+Value determination. See Determine 
+the value (market tenet)
+Value investors, 67
+Vishny, Robert, 202
+The Washington Post Company, 
+72–81
+buy at attractive prices, 77
+consistent operating history, 75determine the value, 76–77favorable long-term prospects, 
+75–76
+one-dollar premise, 80–81overview, 72–74profi  t margins, 78–79rationality, 79–80return on equity, 77–78simple and understandable, 
+74–75
+Weinberg, Sidney, 5–6Wells Fargo & Company, 
+114–119
+determine the value, 118–119favorable long-term prospects, 
+116
+overview, 114–116rationality, 116–118
+What Intelligence Tests Miss: The 
+Psychology of Rational Thought (Stanovich), 205
+Who Says Elephants Can’t Dance? 
+(Gerstner), 124
+Williams, John Burr, 29, 65, 90The Winner’s Curse: Paradoxes and 
+Anomalies of Economic Life (Thaler), 187
+Woodruff, Robert, 104
+bindex.indd   281 29-08-2013   15:56:14
+bindex.indd   282 29-08-2013   15:56:14

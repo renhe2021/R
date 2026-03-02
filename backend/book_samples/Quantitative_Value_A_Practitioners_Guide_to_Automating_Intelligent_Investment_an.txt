@@ -1,0 +1,254 @@
+Contents
+Cover
+Series
+Title Page
+Copyright
+Dedication
+Preface
+Acknowledgments
+Part 1: The Foundation of Quantitative Value
+Chapter 1: The Paradox of Dumb Money
+VALUE STRATEGIES BEAT THE MARKET
+HOW QUANTITATIVE INVESTING PROTECTS AGAINST BEHAVIORAL ERRORS
+THE POWER OF QUANTITATIVE VALUE INVESTING
+NOTES
+Chapter 2: A Blueprint to a Better Quantitative Value Strategy
+GREENBLATT'S MAGIC FORMULA
+IT'S ALL ACADEMIC: IMPROVING QUALITY AND PRICE
+STRATEGY IMPLEMENTATION: INVESTORS BEHAVING BADLY
+NOTES
+Part 2: Margin of Safety—How to Avoid a Permanent Loss of Capital
+Chapter 3: Hornswoggled! Eliminating Earnings Manipulators and Outright Frauds
+ACCRUALS AND THE ART OF EARNINGS MANIPULATION
+PREDICTING PROBMs
+NOTES
+Chapter 4: Measuring the Risk of Financial Distress: How to Avoid the Sick Men of the Stock Market
+A BRIEF HISTORY OF BANKRUPTCY PREDICTION
+IMPROVING BANKRUPTCY PREDICTION
+HOW WE CALCULATE THE RISK OF FINANCIAL DISTRESS
+SCRUBBING THE UNIVERSE
+NOTES
+Part 3: Quality—How to Find a Wonderful Business
+Chapter 5: Franchises—The Archetype of High Quality
+THE CHAIRMAN'S SECRET RECIPE
+HOW TO FIND A FRANCHISE
+NOTES
+Chapter 6: Financial Strength: Foundations Built on Rock
+THE PIOTROSKI FUNDAMENTAL SCORE (F_SCORE)
+OUR FINANCIAL STRENGTH SCORE (FS_SCORE)
+COMPARING THE PERFORMANCE OF PIOTROSKI'S F_SCORE AND OUR FS_SCORE
+CASE STUDY: LUBRIZOL CORPORATION
+NOTES
+Part 4: The Secret to Finding Bargain Prices
+Chapter 7: Price Ratios: A Horse Race
+THE HORSES IN THE RACE
+RULES OF THE RACE
+THE RACE CALL
+A PRICE RATIO FOR ALL SEASONS
+THE OFFICIAL WINNER
+NOTES
+Chapter 8: Alternative Price Measures—Normalized Earning Power and Composite Ratios
+NORMALIZED EARNING POWER
+COMPOUND PRICE RATIOS: IS THE WHOLE GREATER THAN THE SUM OF ITS PARTS?
+NOTES
+Part 5: Corroborative Signals
+Chapter 9: Blue Horseshoe Loves Anacott Steel: Follow the Signals from the Smart Money
+STOCK BUYBACKS, ISSUANCE, AND ANNOUNCEMENTS
+INSIDER TRADERS BEAT THE MARKET
+ACTIVISM AND CLONING
+SHORT MONEY IS SMART MONEY
+NOTES
+Part 6: Building and Testing the Model
+Chapter 10: Bangladeshi Butter Production Predicts the S&P 500 Close
+SUSTAINABLE ALPHA: A FRAMEWORK FOR ASSESSING PAST RESULTS
+WHAT'S THE BIG IDEA?
+RIGOROUSLY TEST THE BIG IDEA
+THE PARAMETERS OF THE UNIVERSE
+NOTES
+Chapter 11: Problems with the Magic Formula
+GLAMOUR IS ALWAYS A BAD BET
+IMPROVING THE STRUCTURE OF A QUANTITATIVE VALUE STRATEGY
+OUR FINAL QUANTITATIVE VALUE CHECKLIST
+NOTES
+Chapter 12: Quantitative Value Beats the Market
+RISK AND RETURN
+ROBUSTNESS
+A PEEK INSIDE THE BLACK BOX
+MAN VERSUS MACHINE
+BEATING THE MARKET WITH QUANTITATIVE VALUE
+NOTES
+Appendix: Analysis Legend
+About the Authors
+About the Companion Website
+Index
+
+Founded in 1807, John Wiley & Sons is the oldest independent publishing company in the United States. With offices in North America, Europe, Australia and Asia, Wiley is globally committed to developing and marketing print and electronic products and services for our customers' professional and personal knowledge and understanding.
+The Wiley Finance series contains books written specifically for finance and investment professionals as well as sophisticated individual investors and their financial advisors. Book topics range from portfolio management to e-commerce, risk management, financial engineering, valuation and financial instrument analysis, as well as much more.
+For a list of available titles, visit our website at
+www.WileyFinance.com
+.
+
+Cover design: John Wiley & Sons
+Copyright © 2013 by Wesley R. Gray and Tobias E. Carlisle. All rights reserved.
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+Published simultaneously in Canada.
+No part of this publication may be reproduced, stored in a retrieval system, or transmitted in any form or by any means, electronic, mechanical, photocopying, recording, scanning, or otherwise, except as permitted under Section 107 or 108 of the 1976 United States Copyright Act, without either the prior written permission of the Publisher, or authorization through payment of the appropriate per-copy fee to the Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923, (978) 750-8400, fax (978) 646-8600, or on the Web at
+www.copyright.com
+. Requests to the Publisher for permission should be addressed to the Permissions Department, John Wiley & Sons, Inc., 111 River Street, Hoboken, NJ 07030, (201) 748-6011, fax (201) 748-6008, or online at
+www.wiley.com/go/permissions
+.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used their best efforts in preparing this book, they make no representations or warranties with respect to the accuracy or completeness of the contents of this book and specifically disclaim any implied warranties of merchantability or fitness for a particular purpose. No warranty may be created or extended by sales representatives or written sales materials. The advice and strategies contained herein may not be suitable for your situation. You should consult with a professional where appropriate. Neither the publisher nor author shall be liable for any loss of profit or any other commercial damages, including but not limited to special, incidental, consequential, or other damages.
+For general information on our other products and services or for technical support, please contact our Customer Care Department within the United States at (800) 762-2974, outside the United States at (317) 572-3993 or fax (317) 572-4002.
+Wiley publishes in a variety of print and electronic formats and by print-on-demand. Some material included with standard print versions of this book may not be included in e-books or in print-on-demand. If this book refers to media such as a CD or DVD that is not included in the version you purchased, you may download this material at
+http://booksupport.wiley.com
+. For more information about Wiley products, visit
+www.wiley.com
+.
+Library of Congress Cataloging-in-Publication Data:
+Gray, Wesley R.
+Quantitative value + website : a practitioner's guide to automat
+
+=== [MIDDLE OMITTED] ===
+
+ki finds that the value portfolio earns market-beating returns in the one-year and two-year periods following portfolio formation. This is old news. Piotroski's insightful observation, however, is that despite the strong overall performance of the value portfolio, a majority of the stocks (approximately 57 percent) actually underperform the market. Piotroski concludes that any strategy that can eliminate the left tail of the return distribution (i.e., the underperforming stocks) will greatly improve the portfolio's overall performance.
+Piotroski uses his F_SCORE to further classify the value portfolio according to the financial health of the stocks in it (the higher the F_SCORE, the financially healthier the stock). He finds that high F_SCORE value stocks beat the market by 13.4 percent per year versus 5.9 percent for the entire value quintile. This means that the high F_SCORE value stocks beat the average value stock by 7.5 percent per year (13.4 percent less 5.9 percent). The high F_SCORE value portfolio also contains a higher proportion of winners than the average portfolio. The high F_SCORE value portfolio picks winners 50 percent of the time. Clearly the F_SCORE discriminates between eventual winners and losers.
+One criticism of the F_SCORE is that the best-performing stocks—the high F_SCORE value stocks—tend to be very small, with a median end-of-year market capitalization of just $14.4 million dollars (the average market capitalization is a little larger at $188.5 million). Piotroski deals with this issue by examining the returns in higher market capitalizations. He divides the universe into three portfolios based on market capitalization. The vast majority (almost 60 percent) of value stocks are in the small market capitalization portfolio. Around 28 percent of value stocks are in the medium-sized portfolio, and just 13 percent of value firms are in the top market capitalization portfolio. Piotroski finds that the above-market returns earned by value stocks are concentrated in the smaller companies. Applying the F_SCORE within each size grouping, he also finds the strongest benefit from financial statement analysis in the small stock portfolio. Piotroski finds some benefit from the application of the F_SCORE in the medium size portfolio, with high-score stocks earning approximately 7 percent more than the average medium-size firms and 17.3 percent more than the low F_SCORE firms. Disappointingly, the F_SCORE does not differentiate much between the largest stocks. The improvement in returns from the application of the F_SCORE is isolated to stocks in the bottom two-thirds of market capitalization. This makes sense. Larger stocks are more widely followed by analysts and so are less likely to suffer from chronic undervaluation that can be easily identified by reading financial statements.
+Piotroski's F_SCORE is clearly a useful, and intuitive metric for value investors. His key insight is that quantitatively analyzing financial statements ca
+
+=== [END SECTION] ===
+
+ski Fundamental Score (F_SCORE)
+analyzing
+leverage, liquidity, and source of funds
+operating efficiency
+profitability
+formula and interpretation
+and FS_SCORE, comparing performance
+Piotroski, Joseph
+Point-in-time bias.
+See
+Look-ahead bias
+Price ratios
+analysis of compound annual growth rates
+alpha and adjusted performance
+risk-adjusted performance and absolute measures of risk
+value premium and spread
+book-to-market
+composite
+formed from all metrics
+formed from the “best” price ratios
+top-performing
+earnings yield
+EBIT variation, outperformance by
+enterprise yield (EBITDA and EBIT variations)
+forward earnings estimate
+free cash flow yield
+gross profits yield
+long-term study
+methods of studying
+Princeton-Newport Partners
+PROBM model
+Procter & Gamble
+Profit margins
+growth
+maximum
+stability
+Pronovost, Peter
+Puthenpurackal, John
+Quality and Price, improving
+compared with Magic Formula
+finding Price
+finding Quality
+Quantitative value checklist
+Quantitative value strategy
+examining, results of
+analysis legend
+beating the market
+black box, looking inside
+man versus machine
+risk and return
+robustness
+Greenblatt's Magic Formula
+bargain price
+examination of
+findings
+good business
+Quality and Price, improving
+compared with Magic Formula
+finding Price
+finding Quality
+simplifying
+strategy implementation
+checklist
+tried-and-true value investing principles
+Quinn, Kevin
+The Random Character of Stock Market Prices
+(Bachelier)
+Random walk theory
+Regression analysis
+Representativeness heuristic
+“Returns to Trading Strategies Based on Price-to-Earnings and Price-to-Sales Ratios” (Nathan, Sivakumar, & Vijayakumar)
+Ridgeline Partners
+Risk-adjusted performance and absolute measures of risk
+R-squared
+Ruane, William
+Scaled net operating assets (SNOA)
+Scaled total accruals (STA)
+Schedule 13D
+Security Analysis
+(Graham & Dodd)
+See's Candies
+Self-attribution bias
+Sequoia Fund
+Sharpe, William
+Sharpe ratio
+Shiller, Robert
+Short selling
+Shumway, Tyler
+Simons, Jim
+Singleton, Henry
+Sloan, Richard
+Small sample bias
+“Some Insiders Are Indeed Smart Investors” (Giamouridis, Liodakis, & Moniz)
+Sortino ratio
+Stock buybacks, issuance, and announcements
+Stock market, predicting movements in
+sustainable alpha
+quantitative value strategy
+simplifying
+tried-and-true value investing principles
+model, testing
+benchmarking
+data errors
+historical data versus forward data
+size of portfolio and target stocks
+small sample bias
+transaction costs
+universe, parameters of
+Super Crunchers: Why Thinking-by-Numbers Is the New Way to Be Smart
+(Ayres)
+“The Superinvestors of Graham-and-Doddsville” (Buffett)
+Survivorship bias
+Sustainable alpha
+Taleb, Nassim
+Teledyne
+Tetlock, Philip
+Theory of Investment Value
+(Williams)
+Third Avenue Value Fund
+Thorp, Ed
+Total enterprise value (TEV)
+Transaction costs
+Tsai, Claire
+Tversky, Amos
+Value investors'errors
+Value portfolio
+Value premium and spread
+Wellman, Jay
+What Works on Wall Street
+(O'Shaughnessy)
+Whitman, Martin J.
+Williams, John Burr
+WorldCom
+Z-score
+Zur, Emanuel

@@ -1,0 +1,267 @@
+THE MANUAL 
+OF IDEAS
+Mihaljevic052418_ffirs.indd  i Trim Size: 6 × 9 in.    08 Jul 2025  11:44:30 AM
+ Downloaded from https://onlinelibrary.wiley.com/doi/ by alex jounh - Oregon Health & Science University , Wiley Online Library on [03/09/2025]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+THE MANUAL 
+OF IDEAS
+SECOND EDITION
+THE PROVEN FRAMEWORK FOR FINDING  
+THE BEST VALUE INVESTMENTS
+JOHN MIHALJEVIC
+FOREWORD BY GUY SPIER
+Mihaljevic052418_ffirs.indd  iii Trim Size: 6 × 9 in.    08 Jul 2025  11:44:30 AM
+ Downloaded from https://onlinelibrary.wiley.com/doi/ by alex jounh - Oregon Health & Science University , Wiley Online Library on [03/09/2025]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Copyright © 2025 by John Mihaljevic. All rights reserved.
+Published by John Wiley & Sons, Inc., Hoboken, New Jersey.
+Published simultaneously in Canada.
+No part of this publication may be reproduced, stored in a retrieval system, or 
+transmitted in any form or by any means, electronic, mechanical, photocopying, 
+recording, scanning, or otherwise, except as permitted under Section 107 or 108 of 
+the 1976 United States Copyright Act, without either the prior written permission of 
+the Publisher, or authorization through payment of the appropriate per-  copy fee to 
+the Copyright Clearance Center, Inc., 222 Rosewood Drive, Danvers, MA 01923, (978) 
+750- 8400, fax (978) 750-  4470, or on the web at www.copyright.com. Requests to the 
+Publisher for permission should be addressed to the Permissions Department, John 
+Wiley & Sons, Inc., 111 River Street, Hoboken, NJ 07030, (201) 748-  6011, fax (201)  
+748- 6008, or online at http://www.wiley.com/go/permission.
+The manufacturer’s authorized representative according to the EU General Product 
+Safety Regulation is Wiley-  VCH GmbH, Boschstr. 12, 69469 Weinheim, Germany, e-  mail: 
+Product_Safety@wiley.com.
+Trademarks: Wiley and the Wiley logo are trademarks or registered trademarks of John 
+Wiley & Sons, Inc. and/or its affiliates in the United States and other countries and 
+may not be used without written permission. All other trademarks are the property of 
+their respective owners. John Wiley & Sons, Inc. is not associated with any product or 
+vendor mentioned in this book.
+Limit of Liability/Disclaimer of Warranty: While the publisher and author have used 
+their best efforts in preparing this book, they make no representations or warranties 
+with respect to the accuracy or completeness of the contents of this book and 
+specifically disclaim any implied warranties of merchantability or fitness for a particular 
+purpose. No warranty may be created or extended by sales representatives or written 
+sales materials. The advice and strategies contained herein may not be suitable for your 
+situation. You should consult with a professional where appropriate. Further, readers 
+should be aware that websites listed in this work may have changed or disappeared 
+between when this work was written and when it is read. Neither the publisher 
+nor authors shall be liable for any loss of profit or any other commercial damages, 
+including but not limited to special, incidental, consequential, or other damages.
+For general information on our other products and services or for technical support, 
+please contact our Customer Care Department within the United States at (800)  
+762- 2974, outside the United States at (317) 572-  3993 or fax (317) 572-  4002.
+Wiley also publishes its books in a variety of electronic formats. Some content that 
+appears in print may not be available in electronic formats. For more information about 
+Wiley products, visit our web site at www.wiley.com.
+Library of Congress Cataloging-  in- Publication Data is Available:
+ISBN 9781119052418 (Cloth)
+ISBN 9781119270324 (ePub)
+ISBN 9781119058519 (ePDF)
+Cover Design: Wiley 
+Cover Images: © Kevin Russ/Getty Images, © Dmitri Gribov/Getty Images
+Mihaljevic052418_ffirs.indd  iv Trim Size: 6 × 9 in.    08 Jul 2025  11:44:30 AM
+ Downloaded from https://onlinelibrary.wiley.com/doi/ by alex jounh - Oregon Health & Science University , Wiley Online Library on [03/09/2025]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+Contents
+Foreword to the First Edition  ix
+For
+eword to The Manual of Ideas (Second Edition)  xi
+Pref
+ace xv
+PART ONE  MINDSET
+CHAPTER 1   Identify as a Capital Allocator: 
+Put Your Capital Where It Is Treated Best  3
+Passiv
+e Versus Active Investing  4
+Role of Capital Allocator  9
+Owner Mentality  17
+Stock Selection Fr
+amework  21
+Ke
+y Takeaways  23
+Notes 25
+CHAPTER 2  Invert, Always Invert: To Finish First, First Finish
+ 27
+Follo
+wing the Crowd  30
+If Y
+ou Don’t Blow Up . . .  37
+Ergodicity
+: Win Infinite Games  40
+Entropy
+: A Lesson from Thermodynamics  43
+Ke
+y Takeaways  46
+Notes 48
+v
+ Downloaded from https://onlinelibrary.wiley.com/doi/ by alex jounh - Oregon Health & Science University , Wiley Online Library on [03/09/2025]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+PART TWO  IDEA GENERATION
+CHAPTER 3  Ben Graham Bargains: Deep Discounts 
+to Readily Ascertainable Net Asset Value  51
+The Approach: Why It Works  52
+Uses and Misuses of Deep Value Inv
+esting  63
+Screening for Gr
+aham-Style Bargains  71
+Bey
+ond Screening: Working Through a  
+List of Deep Value Candidates  74
+Asking the Right Questions of  
+Gr
+aham-Style Bargains  79
+Ke
+y Takeaways  84
+Notes 85
+CHAPTER 4  Sum of the Parts: Investing in Companies w
+
+=== [MIDDLE OMITTED] ===
+
+T Educational Services as 
+their stock prices declined during 2012.
+Most stock screening tools include time series data on shares 
+outstanding, making it possible to look for repurchasers even if 
+data on buyback activity is not explicitly provided. A decline in the 
+number of basic shares outstanding usually serves as a good proxy 
+for the number of shares repurchased. If we consider a quarterly 
+series over several years, we may be able to develop insight into the 
+relationship between repurchase activity and stock price changes. 
+We may also be able to identify one or more key points at which 
+management bought back shares particularly aggressively. With the 
+benefit of hindsight, we can determine whether it overpaid for the 
+shares, at least in the subsequent judgment of the market.
+This last caveat is important: We cannot expect CEOs to pick the 
+bottom when buying back stock. CEOs add value by repurchasing 
+shares below fair value, even if the stock price declines following 
+those repurchases. Since we may not be in a position to estimate the 
+intrinsic value of a company at various points in the past, we resort 
+to the current market price as a proxy, but only if we allow for the 
+passage of time. In our experience, a two-  to three- year horizon is 
+the minimum amount of time required to judge the soundness of a 
+repurchase decision.
+PROXY TWO: DIVIDENDS Those who studied economics may recall 
+the Modigliani–Miller theorem, an implication of which is that, leaving 
+aside tax considerations, dividends do not matter. Yogi Berra might 
+ Downloaded from https://onlinelibrary.wiley.com/doi/ by alex jounh - Oregon Health & Science University , Wiley Online Library on [03/09/2025]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+174 The Manual of Ideas
+agree. More likely, he might observe, “In theory there is no difference 
+between theory and practice. In practice there is.” Franco Modigliani 
+and Merton Miller may not have surveyed corporate executives when 
+formulating their mathematically sound theorem. Managements 
+exhibit a tendency toward spending the money at their disposal. If 
+an amount of capital is retained rather than paid out as a dividend, 
+the excess capital may find a way into general and administrative 
+expenses— without a commensurate increase in revenue.
+In the real world, there have been quite a few value- destructive 
+acquisitions done by management teams with too much capital at 
+their disposal. Those acquisitions were not rational deals that turned 
+sour later, but rather deals a rational observer might have identified 
+as destructive ex ante. We recall cringing on two separate occasions 
+when the highly pedigreed management team of Hewlett- Packard 
+decided to allocate billions of shareholder capital to Compaq and, 
+some years later, to a software company called Autonomy.
+Divid
+
+=== [END SECTION] ===
+
+Turner, Elliot, 130Tversky, Amos, 259, 279
+Tweedy Browne, 198, 217
+ UBS Financial Services, 217, 291
+UCITS fund, 5
+UK Society of Investment 
+Professionals, 140
+Ultimate Value, 264
+Underfollowed- equals- inefficient 
+fallacy, 219– 221
+Underperformance, 4, 17, 20, 
+55, 73, 93, 121, 124, 127, 
+152, 154, 176, 195, 197, 267, 
+269, 285, 296, 305. See also 
+Outperformance
+Union Pacific, 134
+United Rentals, 233– 234
+University of Nevada, 192
+ Valeant Pharmaceuticals, 44– 45
+Value appraisal, 61– 62, 
+220, 266, 268
+Value capture, 110– 111
+Value creation, xii, 17, 68– 70, 
+72– 74, 139, 151, 153, 172, 
+178, 253, 265, 269– 270,  
+294– 295
+Value investing, xv– xvi, 54, 
+93, 190, 199, 201, 279, 302, 
+321– 322, 325. See also Deep 
+value investing
+Value Investing World, 264
+Value Investors Club, 176
+Value proposition, 45, 145
+Vaulx, Charles de, xv
+Vealls, 305– 306
+Venture capitalists, 35, 275
+Verizon Wireless, 87, 101
+Vinci, Leonardo da, 249
+ Downloaded from https://onlinelibrary.wiley.com/doi/ by alex jounh - Oregon Health & Science University , Wiley Online Library on [03/09/2025]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+360 Index
+Virgin Megastore, 51
+Vltava Fund, 137, 321
+Vodafone, 87, 101, 195– 196
+Volatility, xii, 28, 37, 63, 66, 70, 
+77, 123, 127, 146, 152, 217, 
+245, 260, 303
+Vucemilovic, Marko, 130
+ W. R. Berkley, 177
+Wachenheim, Ed, xv
+Wadhwaney, Amit, 53, 102, 172
+Walden (Thoreau), 18
+Wall Street Journal, 15, 69, 264
+Wallenberg, Jacob & Marcus, 177
+Walmart, 70, 116– 117, 119, 167
+Walt Disney Company, 160
+Warner, Adrian, xv
+The Warren Buffett Way 
+(Hagstrom), 3
+Washington Post  
+Company, 192
+Waterstone Financial, 104
+Watsa, Prem, xv, 153, 172, 
+177, 192, 197
+Wayne, Richard, 177
+Weber, Samuel, 90
+Weidinger, Florian, xv
+Welch, Jack, 175, 181
+Wenning, Todd, 264
+Weschler, Ted, 192
+Western Refining, 62
+What Has Worked in Investing 
+(Browne), 217What Has Worked in Investing 
+(O’Shaughnessy), 217
+What I Learned About Investing 
+from Darwin (Prasad), 158
+WhatsApp, 93
+White Mountains Insurance, 7
+Whitman, Marty, 31, 54, 72, 286
+Whitney, Richard, 154
+Wide- Moat Investing 
+Summit, 253
+Williams, Andrew, 215
+Williamson, Andrew, 76
+WL Ross & Co, 102
+WMKI Group, 20
+Wolfe, Josh, 29
+Wolfson, Simon, 177
+Working capital requirements, 
+72, 74, 77
+WorldCom, 155
+Wright, Orville, 36
+WSFS Financial, 192
+ X (Twitter), 93, 264
+Xerox, 91
+XM Satellite Radio, 234– 235
+ Yahoo, 101
+Yale University, xi, 275
+Yasu, Jiro, xv
+You Can Be a Stock Market 
+Genius (Greenblatt), 250, 267
+ Zuckerberg, Mark, 154
+ Downloaded from https://onlinelibrary.wiley.com/doi/ by alex jounh - Oregon Health & Science University , Wiley Online Library on [03/09/2025]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

@@ -1,0 +1,252 @@
+expectations
+investing
+reading stock prices
+for better returns
+ALFRED RAPPAPORT
+MICHAEL J. MAUBOUSSIN
+HARVARD BUSINESS SCHOOL PRESS
+BOSTON, MASSACHUSETTS
+
+Copyright 2001 Alfred Rappaport and Michael J. Mauboussin
+All rights reserved
+Printed in the United States of America
+05  04  03  02  01 5  4  3  2  1
+SVAR
+®
+and SSVA
+®
+are registered trademarks of L.E.K. Consulting LLC.
+Requests for permission to use or reproduce material from this book should be directed to
+permissions@hbsp.harvard.edu
+, or mailed to Permissions, Harvard Business School Publishing, 60 Harvard Way, Boston, Massachusetts 02163.
+Library of Congress Cataloging-in-Publication Data
+Rappaport, Alfred.
+Expectations investing : reading stock prices for better returns / Alfred Rappaport, Michael J. Mauboussin.
+p. cm.
+Includes bibliographical references and index.
+ISBN 1-57851-252-2 (alk. paper)
+1. Investment analysis. 2. Portfolio management. 3. Stocks—Prices. I. Mauboussin, Michael J., 1964– II. Title.
+HG4529 .R37 2000
+332.63'2042—dc21
+2001024378
+The paper used in this publication meets the requirements of the American National Standard for Permanence of Paper for Publications and Documents in Libraries and Archives Z39.48-1992.
+
+contents
+Greater Expectations: How Investing Differs from Art Collecting by Peter L. Bernstein
+Preface
+Acknowledgments
+1
+The Case for Expectations Investing
+Active Management: Challenge and Opportunity
+The Expectations Investing Process
+The Twilight of Traditional Analysis
+Essential Ideas
+Appendix: Earnings Growth and Value Creation
+Part I
+Gathering the Tools
+2
+How the Market Values Stocks
+The Right Expectations
+Shareholder-Value Road Map
+Free Cash Flow
+Cost of Capital
+Forecast Period
+From Corporate Value to Shareholder Value
+Summary Illustration
+Essential Ideas
+Appendix: Estimating Residual Value
+The Perpetuity Method
+The Perpetuity-with-Inflation Method
+3
+The Expectations Infrastructure
+The Expectations Infrastructure
+Not All Expectations Revisions Are Equal
+Essential Ideas
+4
+Analyzing Competitive Strategy
+The Dual Uses of Competitive Strategy Analysis
+Historical Analysis
+Competitive Strategy Frameworks
+Essential Ideas
+Part II
+Implementing the Process
+5
+How to Estimate Price-Implied Expectations
+Reading Expectations
+Gateway Case Study
+Why Revisit Expectations?
+Essential Ideas
+Appendix: Employee Stock Options and Expectations Investing
+Valuing ESOs
+6
+Identifying Expectations Opportunities
+Searching for Expectations Opportunities
+Pitfalls to Avoid
+Gateway Case Study
+Essential Ideas
+7
+Buy, Sell, or Hold?
+Expected-Value Analysis
+Gateway Case Study
+The Buy Decision
+The Sell Decision
+The Role of Taxes
+Essential Ideas
+8
+Beyond Discounted Cash Flow
+Real Options
+When to Use Real-Options Analysis in Expectations Investing
+The Value of Real Options in
+Amazon.com
+Reflexivity
+Essential Ideas
+9
+Across the Economic Landscape
+Business Categories
+Business Categories and the Value Factors
+Essential Ideas
+Part III
+Reading Corporate Signals
+10
+Mergers and Acquisitions
+How Acquiring Companies Add Value
+Evaluating Synergies
+What to Do When a Deal Is Announced
+Essential Ideas
+11
+Share Buybacks
+The Golden Rule of Share Buybacks
+Four Popular Motivations for Share Buybacks
+Essential Ideas
+12
+Incentive Compensation
+CEO and Other Corporate-Level Executives
+Operating-Unit Executives
+Middle Managers and Frontline Employees
+Essential Ideas
+Notes
+Index
+About the Authors
+
+greater expectations
+how investing differs
+from art collecting
+Peter L. Bernstein
+How does the capitalist system
+really
+work? In
+Capital
+, Karl Marx uses a remarkably simple equation to answer this question: M-C-M'. In words, the capitalist starts with
+M
+oney, converts it into
+C
+apital, and ends up with
+M
+ore
+M
+oney than he had originally. Note that money appears at both the beginning and the end of this equation. Note, also, that Marx does not describe a system in which the capitalist starts with money and then ends up with capital worth more than the original investment. Marx knew how to avoid that trap. If capital can never produce a flow of cash to its owners, then it is worthless, intrinsically and as a practical matter.
+A century and a quarter after the publication of
+Capital
+, Jack Welch, the legendary CEO of General Electric and capitalist supreme, displayed his own recognition of M' as the driving force at GE—although the intellectual roots of how he perceived the corporate goal might surprise him. In the company’s 1995 annual report, Welch explained that GE was “a company whose only answer to the trendy question, ‘What do you intend to spin off?’ is ‘
+cash—and lots of it
+.’”
+Al Rappaport and Michael Mauboussin also fully appreciate the overarching importance of cash. The seminal concept of M' forms the core of their extraordinary book. In crystal-clear language, they capture the full spirit of Marx’s and Welch’s emphasis on cash and employ it to develop a unique and powerful structure for investment strategies.
+Had Marx limited his mathematical description of capitalism only to M-C, what purpose could such capital possibly serve? Without a monetary return, the owners of a firm could not pay for their groceries, opera tickets, Mercedes limousines, and Park Avenue apartments. Without money, they could pay for nothing. Even someone who would accept shares of a company as a stock dividend or in payment for a merger or acquisition would have to visualize a flow of cash somewhere, some time in the future. Any other expectation would be irrational; only people who collect objects like old stock certificates or works of art would expect anything else.
+Indeed, without the prospect of cash flows, corporate assets would resemble bars of gold or zero-coupon bonds of infinite maturity, assets whose values are set only by the whims of the market (otherwise known as other investors), with no anchors, no tangibility, no
+meaning
+. I alluded above to art collectors to make this point: The process for pricing assets that will never produce a flow of cash to their owners p
+
+=== [MIDDLE OMITTED] ===
+
+rn. By the same logic, when expected value is below the current stock price, the faster the price converges toward expected value, and the greater the urgency to sell the stock.
+Table 7-7
+shows the excess returns for various combinations of price/expected values and number of years for expectations to converge. Let’s say you figure a stock is trading at 80 percent of its expected value. Further assume that the market will take two years to adjust its expectations to yours. You can expect to earn an annual 13 percent excess return above the cost of capital.
+3
+If expectations stay the same thereafter, the stock will generate no additional excess returns.
+Remember that buying opportunities do not depend on the absolute level of company performance or investor expectations, but rather on
+your expectations
+relative to
+price-implied expectations
+. A high-expectations stock is still attractive if the company delivers results that spur investors to revise their expectations upward. Likewise, a low-expectations stock is no bargain if you believe that the company’s prospects warrant those expectations.
+Before we leave the buy decision, we urge that you avoid falling into the escalation trap. Investors tend to make choices that justify past decisions. Past investments of money or time that cannot be recovered create what economists call
+sunk costs
+. Even though investors know that sunk costs are irrelevant to current decisions, some find it hard to divorce the two.
+TABLE 7-7
+Excess Returns on Stock Purchase below Expected Value
+Assumes a 10 percent cost of equity capital.
+Investors manifest this behavior when they escalate their commitment to a stock by buying even more of it after it has declined. Not only are investors slow to take losses, but they often buy
+more
+of a stock just because they bought it in the past. Of course, prior investment decisions are history, and decisions today need to be based on today’s expectations, not yesterday’s. As Warren Buffett says, “The most important thing to do when you find yourself in a hole is to stop digging.” Investors who stick to the recommendation of buying stocks only when they trade at a sufficient discount to their expected value will avoid the irrational escalation trap.
+How a problem or set of circumstances is presented can also affect people’s decisions. Even the same problem framed in different—and objectively equal—ways can cause people to make different choices. One example is what Richard Thaler calls
+mental accounting
+.
+4
+Say that an investor buys a stock at $50 per share and it surges to $100. Many investors divide the value of the stock into two distinct parts: the initial investment and the profit. And many treat each part differently—the original investment with caution and the profit portion with considerably less discipline.
+This “house-money effect” is not limited to individuals. Hersh Shefrin documents how the committee in charge of Santa Clara University’s endowment portfolio succumbed to thi
+
+=== [END SECTION] ===
+
+ofessor Emeritus at Northwestern University’s J.L. Kellogg Graduate School of Management, where he was a member of the faculty for twenty-eight years. His research focuses on the application of shareholder value to corporate planning, performance evaluation, and mergers and acquisitions. He is also Shareholder Value Adviser to L.E.K. Consulting. His widely acclaimed, pioneering book,
+Creating Shareholder Value: The New Standard for Business Performance
+, was published in 1986. An updated edition,
+Creating Shareholder Value: A Guide for Managers and Investors,
+was published in 1998. Rappaport has been a guest columnist for the
+Wall Street Journal,
+the
+New York Times,
+and
+Business Week
+and has contributed more than seventy articles to leading business and academic publications. He originated the
+Wall Street Journal Shareholder Scoreboard,
+a ranking by total shareholder returns of the 1,000 most valuable U.S. corporations, published annually since 1996. He lives in La Jolla, California.
+Michael J. Mauboussin
+is a Managing Director and Chief U.S. Investment Strategist at Credit Suisse First Boston Corporation in New York City. He is an acknowledged leader in the application of the shareholder value approach to security analysis and has lectured and published widely on the subject. Mauboussin is an Adjunct Professor of Finance at the Columbia University Graduate School of Business, is a former President of the Consumer Analyst Group of New York, and has been repeatedly named to
+Institutional Investor’s
+All-America Research Team and the
+Wall Street Journal
+All-Star Survey in the food industry category. He is also on the board of trustees at the Santa Fe Institute, a leading center for multidisciplinary research in complex systems theory. He lives in Darien, Connecticut.
+
+related materials
+by these authors
+“Stock or Cash? The Trade-O ffs for Buyers and Sellers in Mergers and Acquisitions”
+Alfred Rappaport and Mark L. Sirower
+Harvard Business Review
+, November–December 1999
+Reprint 99611
+“New Thinking on How to Link Executive Pay with Performance”
+Alfred Rappaport
+Harvard Business Review
+, March–April 1999
+Reprint 99210
+“CFO s and Strategists: Forging a Common Framework”
+Alfred Rappaport
+Harvard Business Review
+, May–June 1992
+Reprint 92309
+“The Staying Power of the Public Corporation”
+Alfred Rappaport
+Harvard Business Review
+, January–February 1990
+Reprint 90110
+“Stock Market Signals to Managers”
+Alfred Rappaport
+Harvard Business Review
+, November–December 1987
+Reprint 87611
+“Selecting Strategies That Create Shareholder Value”
+Alfred Rappaport
+Harvard Business Review
+, May–June 1981
+Reprint 81310
+“Strategic Analysis for More Profitable Acquisitions”
+Alfred Rappaport
+Harvard Business Review
+, July–August 1979
+Reprint 79409
+“Executive Incentives vs. Corporate Growth”
+Alfred Rappaport
+Harvard Business Review
+, July–August 1978
+Reprint 78406
+For more information or to download these articles from the Internet, please visit our Web site:
+www.hbsp.harvard.edu

@@ -1,0 +1,638 @@
+Table of Contents
+Cover
+Table of Contents
+Title Page
+Copyright
+Dedication
+Preface to the Fourth Edition
+Chapter 1 Introduction to Valuation
+A Philosophical Basis for Valuation
+Pricing Versus Valuation
+The Bermuda Triangle of Valuation
+Market Efficiency
+The Role of Valuation
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 2 Approaches to Valuation
+Intrinsic Valuation
+Pricing or Relative Valuation
+Contingent Claim Valuation
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 3 Understanding Financial Statements
+The Basic Accounting Statements
+Asset Measurement and Valuation
+Measuring Financing Mix
+Measuring Earnings and Profitability
+Measuring Risk
+Other Issues in Analyzing Financial Statements
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 4 The Basics of Risk
+What Is Risk?
+Equity Risk and Expected Return
+Alternative Models for Equity Risk
+A Comparative Analysis of Equity Risk Models
+Models of Default Risk
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 5 Option Pricing Theory and Models
+Basics of Option Pricing
+Option Pricing Models
+Extensions of Option Pricing
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 6 Market Efficiency—Definition, Tests, and Evidence
+Market Efficiency and Investment Valuation
+What Is an Efficient Market?
+Testing Market Efficiency
+Cardinal Sins in Testing Market Efficiency
+Some Lesser Sins That Can Be a Problem
+Evidence on Market Efficiency
+Time Series Properties of Price Changes
+Market Reaction to Information Events
+Market Anomalies
+Evidence on Insiders and Investment Professionals
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 7 Riskless Rates and Risk Premiums
+The Risk-Free Rate
+Equity Risk Premium
+Default Spreads on Bonds
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 8 Estimating Risk Parameters and Costs of Financing
+The Cost of Equity and Capital
+Cost of Equity
+From Cost of Equity to Cost of Capital
+Best Practices at Firms
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 9 Measuring Earnings
+The Lead-in: From Accounting Data to Financial Information
+Adjusting Earnings
+Measuring Earnings Power: Clean Up and Time Differences
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 10 From Earnings To Cash Flows
+The Tax Effect
+Reinvestment Needs
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 11 Estimating Growth
+The Importance of Growth
+Historical Growth
+Outsourcing Growth
+Fundamental Determinants of Growth
+Top-Down Growth: From Revenue Growth to Free Cash Flows
+Qualitative Aspects of Growth
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 12 Closure in Valuation: Estimating Terminal Value
+Closure in Valuation
+The Survival Issue
+Closing Thoughts on Terminal Value
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 13 Narrative and Numbers – Story to Value
+Valuation as a Bridge
+The Importance of Storytelling
+The Dangers in Storytelling
+From Story to Numbers: The Process
+Narrative and Numbers Across the Life Cycle
+Story Resets, Changes, and Breaks
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 14 Equity Intrinsic Value Models
+Equity Valuation
+The Dividend Discount Model
+The Augmented Dividend Discount Model
+Potential Dividend or FCFE Models
+FCFE Valuation Versus Dividend Discount Model Valuation
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 15 Firm Valuation: Cost of Capital and Adjusted Present Value Approaches
+Free Cash Flow to the Firm
+Firm Valuation: The Cost of Capital Approach
+Firm Valuation: The Adjusted Present Value Approach
+Firm Valuation: Sum of the Parts
+Effect of Leverage on Firm Value
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 16 Estimating Equity Value per Share
+Value of Nonoperating Assets
+Firm Value and Equity Value
+Stock-Based Compensation
+Value per Share When Voting Rights Vary
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 17 Fundamental Principles of Relative Valuation
+Use of Relative Valuation
+Standardized Values and Multiples
+Four Basic Steps to Using Multiples
+Reconciling Relative and Discounted Cash Flow Valuations
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 18 Earnings Multiples
+Price-Earnings Ratio
+The PEG Ratio
+Other Variants on the PE Ratio
+Enterprise Value to EBITDA Multiple
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 19 Book Value Multiples
+Price-to-Book Equity
+Value-to-Book Ratios
+Tobin’S Q: Market Value/Replacement Cost
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 20 Revenue Multiples and Sector-Specific Multiples
+Revenue Multiples
+Sector-Specific Multiples
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 21 Valuing Financial Service Firms
+Categories of Financial Service Firms
+What Is Unique About Financial Service Firms?
+General Framework for Valuation
+Discounted Cash Flow Valuation
+Relative Valuation
+The Crisis Effect
+Nonbank Financial Service Firms
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 22 Valuing Money-Losing Firms
+Negative Earnings: Consequences and Causes
+Valuing Money-Losing Firms
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 23 Valuing Young or Start-Up Firms
+Information Constraints
+General Framework for Analysis
+Value Drivers
+Estimation Noise
+The Expectations Game
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 24 Valuing Private Firms
+What Makes Private Firms Different?
+Estimating Valuation Inputs at Private Firms
+Valuation Motives and Value Estimates
+Valuing Venture Capital and Private Equity Stakes
+Pricing Private Businesses
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 25 Acquisitions and Takeovers
+Background on Acquisitions
+Steps in an Acquisition
+Takeover Valuation: Biases and Common Errors
+Structuring the Acquisition
+Improving the Odds
+Analyzing Management and Leveraged Buyouts
+Conclusion
+Questions and Short Problems
+Notes
+Chapter 26 Valuing Real Estate
+Real Versus Financial Assets
+Real Estate: The Underfollowed Investment Class
+Intrinsic Valuation of Real Estate
+Comparable/Relative Valuation
+Valuing Real Estate Businesses
+Conclusion
+Questions and Short P
+
+=== [MIDDLE OMITTED] ===
+
+os fo companies operating in that segment.
+Problems with the Regression Methodology
+The regression methodology offers a convenient way of compressing large amounts of data into one equation capturing the relationship between PE ratios and financial fundamentals. But it does have its limitations. First, the independent variables are correlated with each other.
+4
+For example, high-growth firms tend to have high-risk and low-payout ratios, as is clear from
+Table 18.15
+, which summarizes the correlations between beta, growth, and payout ratios for all U.S. firms. Note the negative correlation between payout ratios and growth, and the positive correlation between beta and growth. This multicollinearity makes the coefficients of the regressions unreliable (increased standard error), and may explain the wrong signs on the coefficients (such as beta having a positive coefficient) and the large changes in these coefficients from period to period. Second, the regression is based on a linear relationship between PE ratios and the fundamentals, and that might not be appropriate. An analysis of the residuals from a regression may suggest transformations of the independent variables (squared or natural logs) that work better in explaining PE ratios. Third, the basic relationship between PE ratios and financial variables itself is not stable, and if it shifts from year to year, the predictions from the regression equation may not be reliable for extended periods. For all these reasons, the regression approach is useful, but it has to be viewed as one more tool in the search for true value.
+Table 18.15
+Pearson Correlations between Independent Variables
+Correlation
+a
+Trailing PE
+Beta
+Payout ratio
+Expetced growth rate in EPS—Next 5 years
+Trailing PE
+Correlation
+1
+.116**
+.167**
+.091**
+Sig. (2-tailed)
+<.001
+<.001
+.002
+N
+2607
+2481
+2586
+1114
+Beta
+Correlation
+.116**
+1
+−.005
+.140**
+Sig. (2-tailed)
+<.001
+.797
+<.001
+N
+2481
+5634
+2589
+1444
+Payout ratio
+Correlation
+.167**
+−.005
+1
+−.154**
+Sig. (2-tailed)
+<.001
+.797
+<.001
+N
+2586
+2589
+2728
+1157
+Expetced growth rate in EPS- Next 5 years
+Correlation
+.091**
+.140**
+−.154**
+1
+Sig. (2-tailed)
+.002
+<.001
+<.001
+N
+1114
+1444
+1157
+1462
+**. Correlation is significant at the 0.01 level (2–tailed).
+a.
+Broad Group = United States
+ILLUSTRATION 18.9:
+Valuing Procter & Gamble (PG) Using the Market Regression in 2024
+In an earlier illustration, we estimated the intrinsic PE ratio for Procter and Gamble in 2011, using a 2-stage dividend discount model. In this illustration, we will price P&G in 2024 using the PE market regression for U.S. stocks in January 2024. To price P&G using the broader regression, you would first have to estimate the values, for P&G, of the independent variables in the regression:
+P
+&
+G’s
+beta
+=
+0.65
+P
+&
+G’s
+payout
+ratio
+=
+61.48
+%
+P
+&
+G’s
+expected
+growth
+rate
+=
+11.45
+%
+Note that these variables have been defined consistently with the variables in the regression. Thus, the growth rate over the next five years, the beta over 
+
+=== [END SECTION] ===
+
+ing of assets,
+931
+–932
+at private firms,
+758
+–781
+for project delay option,
+912
+–915
+Valuation models
+asset-based,
+24
+–25
+choices in,
+1065
+–1066
+selecting,
+1066
+–1069
+Valuation story,
+291
+Value
+of brand name,
+625
+–632
+effects of tax rate on,
+272
+–274
+of equity,
+660
+of firm,
+660
+,
+963
+–964
+marketing strategy and,
+624
+–626
+of optionality,
+909
+–910
+of real estate relative to other asset classes,
+838
+–839
+risk-adjusted,
+1045
+–1047,
+1057
+–1058
+in story-based valuation,
+377
+–379
+in takeovers,
+797
+–799
+Value-creating actions,
+977
+–978,
+996
+–997
+Value drivers, for young or start-up firms,
+750
+–751,
+754
+Value enhancement
+buy-in on,
+1002
+cash flow return on investment approach to,
+1023
+–1028
+components of,
+1028
+–1029
+considerations in,
+1001
+–1002
+economic value added approach to,
+1008
+–1023
+firm-specific,
+1002
+increasing cash flows from existing investments,
+978
+–986
+increasing expected growth,
+986
+–990
+lenghtening period of high growth,
+990
+–994
+overview of,
+978
+reducing the cost of financing,
+995
+–996
+responsibility for,
+1001
+–1002
+value-creating
+vs.
+value-netural actions and,
+977
+–978
+Value enhancement chain,
+996
+–1001
+Value multiples,
+577
+Value-neutral actions,
+977
+–978,
+996
+–997
+Value-to-book ratios
+analysis of,
+605
+–606
+application of,
+607
+–608
+characteristics of,
+604
+–605
+explanation of,
+603
+–604
+Value-to-sales (VS) ratio,
+517
+Vans Shoes,
+208
+–210
+Variables, companion,
+525
+,
+623
+–624
+Variance, estimating,
+939
+Venture capital
+private equity
+vs.
+,
+738
+returns on,
+764
+stakes in private firms for,
+786
+–788
+valuation for,
+736
+–738
+Vesting, option,
+504
+–505
+Vodafone,
+400
+,
+585
+–586
+Volatile expenses and income,
+259
+Volatility
+Black–Scholes model and,
+100
+earnings,
+264
+–265,
+534
+equity value and,
+964
+–965
+Volkswagen,
+415
+–416
+Voting rights,
+510
+–511
+Voting shares,
+785
+–786
+Vulture investing,
+972
+W
+Warrants,
+505
+Weak form efficiency,
+114
+Weekend effect,
+144
+–146
+Weighted average,
+34
+Weighted average cost of capital (WACC),
+441
+Wells Fargo,
+1037
+–1038
+Whispered earnings,
+256
+–257
+Whole Foods Markets,
+618
+–619,
+626
+,
+637
+–641
+Working capital
+defining,
+285
+–286
+expected changes in noncash,
+287
+–288
+negative,
+288
+–289
+noncash,
+286
+–288,
+984
+–986
+Worst-case analysis,
+1034
+Worthless equity,
+963
+–964
+Write-offs,
+258
+X
+Xerox,
+262
+–263,
+716
+–717
+Y
+Young growth phase, in life cycle,
+735
+Young or start-up firms
+assessing current standing of,
+738
+estimation noise for,
+751
+–753
+expectations for,
+753
+–755
+framework for analyzing,
+738
+–750
+historical growth at,
+306
+–307
+information constraints for,
+733
+–738
+“key person” effect for,
+773
+life-cycle perspective on,
+734
+–736
+normalized earnings for,
+1072
+reinvestment to generate growth for,
+741
+–744
+revenue growth for,
+739
+–740
+risk parameters and discount rates for,
+744
+–746
+sustainable operating margin in stable growth for,
+740
+–741
+valuation of,
+727
+–728
+value drivers for,
+750
+–751
+value of,
+746
+–749
+value of equity and per-share value of,
+749
+–750
+venture capital at,
+736
+–738
+Z
+Zomato,
+372
+–373,
+374
+,
+376
+–380,
+383
+,
+384
