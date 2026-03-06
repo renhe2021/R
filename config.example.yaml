@@ -1,0 +1,37 @@
+# Book Knowledge Base 配置文件
+# 复制此文件为 config.yaml 并填入你的 API Key
+
+# LLM 配置
+llm:
+  # 默认使用的 provider: claude / zhipu / deepseek
+  default_provider: deepseek
+
+  claude:
+    api_key: "your-claude-api-key"
+    model: "claude-sonnet-4-20250514"
+
+  zhipu:
+    api_key: "your-zhipu-api-key"
+    chat_model: "glm-4"
+    embedding_model: "embedding-2"
+
+  deepseek:
+    api_key: "your-deepseek-api-key"
+    base_url: "https://api.deepseek.com"
+    model: "deepseek-chat"
+
+# 文本分块配置
+chunking:
+  chunk_size: 800
+  chunk_overlap: 100
+
+# 存储路径配置
+storage:
+  output_dir: "data/output"
+  knowledge_dir: "data/knowledge"
+  vectordb_dir: "data/vectordb"
+
+# 选股扩展（预留）
+# stock_screening:
+#   target_markets: ["US", "HK"]
+#   data_sources: []

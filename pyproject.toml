@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "book-knowledge-base"
+version = "0.1.0"
+description = "投资选股书籍知识库提取与检索系统"
+requires-python = ">=3.10"
+dependencies = [
+    "pdfplumber>=0.10.0",
+    "ebooklib>=0.18",
+    "python-docx>=1.0.0",
+    "beautifulsoup4>=4.12.0",
+    "chromadb>=0.4.0",
+    "anthropic>=0.25.0",
+    "zhipuai>=2.0.0",
+    "openai>=1.10.0",
+    "click>=8.1.0",
+    "langchain-text-splitters>=0.0.1",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "pyyaml>=6.0",
+    "lxml>=5.0.0",
+    "yfinance>=0.2.0",
+    "flask>=3.0.0",
+    "flask-cors>=4.0.0",
+]
+
+[project.scripts]
+book-kb = "src.cli:cli"
+book-kb-web = "src.web_app:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
