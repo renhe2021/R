@@ -1,0 +1,55 @@
+# Book Knowledge Base 配置文件
+
+# LLM 配置
+llm:
+  # 默认使用的 provider: claude / zhipu / deepseek
+  default_provider: claude
+
+  claude:
+    api_key: "ftp-fArt6LXSkYQvGGwGmn94FtC7"
+    base_url: "http://dev.fit-ai.woa.com/api/llmproxy"
+    model: "claude-opus-4-6"
+    embedding_model: "bge-m3"
+    temperature: 0.1
+    top_p: 0.2
+
+  zhipu:
+    api_key: "ftp-fArt6LXSkYQvGGwGmn94FtC7"
+    base_url: "http://dev.fit-ai.woa.com/api/llmproxy"
+    chat_model: "glm-5"
+    embedding_model: "bge-m3"
+    temperature: 0.1
+    top_p: 0.2
+
+  deepseek:
+    api_key: "ftp-fArt6LXSkYQvGGwGmn94FtC7"
+    base_url: "http://dev.fit-ai.woa.com/api/llmproxy"
+    model: "deepseek-v3.2"
+    embedding_model: "bge-m3"
+    temperature: 0.1
+    top_p: 0.2
+
+# 文本分块配置
+chunking:
+  chunk_size: 800
+  chunk_overlap: 100
+
+# 存储路径配置
+storage:
+  output_dir: "data/output"
+  knowledge_dir: "data/knowledge"
+  vectordb_dir: "data/vectordb"
+
+# 数据源配置
+data:
+  # 默认数据源: auto (优先 Bloomberg) / bloomberg / yfinance / fmp
+  default_provider: "auto"
+  bloomberg:
+    host: "localhost"
+    port: 8194
+  fmp:
+    # Financial Modeling Prep API Key (免费申请: https://financialmodelingprep.com)
+    api_key: ""
+  finnhub:
+    # Finnhub API Key (免费申请: https://finnhub.io/register, 60次/分钟)
+    api_key: ""
