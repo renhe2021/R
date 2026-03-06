@@ -22,7 +22,9 @@ dependencies = [
     "pydantic-settings>=2.0.0",
     "pyyaml>=6.0",
     "lxml>=5.0.0",
+    "requests>=2.31.0",
     "yfinance>=0.2.0",
+    "finnhub-python>=2.4.0",
     "flask>=3.0.0",
     "flask-cors>=4.0.0",
 ]

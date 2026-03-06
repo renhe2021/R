@@ -1,0 +1,107 @@
+{
+  "book_title": "test_investment_book",
+  "rules": [
+    {
+      "description": "PE ratio below 15 generally indicates an undervalued stock",
+      "expression": "PE < 15",
+      "source_chapter": "",
+      "target_market": [
+        "US",
+        "HK"
+      ]
+    },
+    {
+      "description": "PE ratio below 15 combined with ROE above 15% signals a high-quality company trading at a discount",
+      "expression": "PE < 15 AND ROE > 0.15",
+      "source_chapter": "",
+      "target_market": [
+        "US",
+        "HK"
+      ]
+    },
+    {
+      "description": "Buffett's ideal stock screening rule: low PE, high ROE, and low leverage to ensure profitability and financial stability",
+      "expression": "PE < 15 AND ROE > 0.15 AND DE_RATIO < 0.5",
+      "source_chapter": "",
+      "target_market": [
+        "US",
+        "HK"
+      ]
+    },
+    {
+      "description": "Price-to-Book ratio below 1.5 is an important value signal",
+      "expression": "PB < 1.5",
+      "source_chapter": "",
+      "target_market": [
+        "US",
+        "HK"
+      ]
+    },
+    {
+      "description": "Benjamin Graham suggested buying stocks when PB is below 1.0 for maximum safety margin",
+      "expression": "PB < 1.0",
+      "source_chapter": "",
+      "target_market": [
+        "US",
+        "HK"
+      ]
+    },
+    {
+      "description": "当RSI低于30（超卖条件）且MACD出现看涨交叉（MACD线上穿信号线）且价格高于200日均线时，产生买入信号。这结合了动量分析和趋势分析以获得更好的入场时机。",
+      "expression": "RSI < 30 AND MACD_LINE > SIGNAL_LINE AND MACD_LINE_PREV <= SIGNAL_LINE_PREV AND PRICE > MA200",
+      "source_chapter": "",
+      "target_market": [
+        "US",
+        "HK"
+      ]
+    }
+  ],
+  "indicators": [
+    {
+      "name": "PE",
+      "type": "fundamental",
+      "definition": "Price-to-Earnings ratio, calculated as the stock price divided by earnings per share. Measures how much investors pay per unit of earnings."
+    },
+    {
+      "name": "ROE",
+      "type": "fundamental",
+      "definition": "Return on Equity, calculated as net income divided by shareholders' equity. Measures a company's profitability relative to equity."
+    },
+    {
+      "name": "DE_RATIO",
+      "type": "fundamental",
+      "definition": "Debt-to-Equity ratio, calculated as total liabilities divided by shareholders' equity. Measures a company's financial leverage and stability."
+    },
+    {
+      "name": "PB",
+      "type": "fundamental",
+      "definition": "Price-to-Book ratio, calculated as the stock price divided by book value per share. Indicates whether a stock is trading below its net asset value."
+    },
+    {
+      "name": "MACD",
+      "type": "technical",
+      "definition": "移动平均收敛散度（Moving Average Convergence Divergence），是一种趋势跟踪动量指标。由MACD线和信号线组成，当MACD线上穿信号线时产生看涨信号（bullish crossover），下穿时产生看跌信号。"
+    },
+    {
+      "name": "RSI",
+      "type": "technical",
+      "definition": "相对强弱指数（Relative Strength Index），衡量价格变动的速度和幅度。RSI低于30表示超卖状态，通常暗示潜在的反弹机会。"
+    },
+    {
+      "name": "MA200",
+      "type": "technical",
+      "definition": "200日移动平均线，用于判断长期趋势方向。价格高于MA200通常被视为处于长期上升趋势中。"
+    }
+  ],
+  "data_requirements": [
+    "至少200个交易日的历史价格数据（用于计算MA200）",
+    "每日收盘价",
+    "每股账面价值（Book Value Per Share）",
+    "9日MACD信号线数据",
+    "12日和26日指数移动平均线数据（用于计算MACD线）",
+    "每股收益（EPS）数据",
+    "季度/年度财报数据（净利润、股东权益、总负债）",
+    "每日最高价和最低价（用于RSI计算）"
+  ],
+  "summary": "**Chapter 1: PE Ratio and Value Investing**: 本章介绍了价值投资中最核心的基本面指标。PE ratio低于15通常表明股票被低估，结合ROE高于15%可以筛选出以折扣价交易的优质公司。巴菲特的理想选股规则是PE<15、ROE>15%且负债权益比<0.5，以确保公司既盈利又财务稳健。此外，格雷厄姆建议在PB<1.0时买入以获得最大安全边际，PB<1.5也是重要的价值信号。这些规则共同构成了经典价值投资的量化筛选框架。\n\n**Chapter 2: Technical Analysis Signals**: 本章介绍了技术分析中的关键信号指标，核心理念是将多个技术指标组合使用以提高交易信号的可靠性。MACD作为趋势跟踪动量指标用于捕捉趋势变化，RSI用于识别超卖条件下的潜在反弹机会，MA200用于确认长期趋势方向。通过将RSI超卖信号、MACD看涨交叉和价格位于200日均线之上三个条件结合，可以在确认长期上升趋势的前提下，利用短期超卖和动量反转寻找更优的入场时机。"
+}

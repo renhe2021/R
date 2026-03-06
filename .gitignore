@@ -1,6 +1,5 @@
 config.yaml
 .env
-data/
 __pycache__/
 *.pyc
 *.pyo
@@ -12,3 +11,12 @@ venv/
 *.db
 .codebuddy/
 *.log
+
+# 原始书籍文件（版权）
+data/books/
+
+# 向量数据库缓存（可重建）
+data/vectordb/
+
+# 提取的 markdown 输出（可重建）
+data/output/

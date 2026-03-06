@@ -1,5 +1,6 @@
 # Book Knowledge Base 配置文件
 # 复制此文件为 config.yaml 并填入你的 API Key
+#   cp config.example.yaml config.yaml
 
 # LLM 配置
 llm:
@@ -8,17 +9,27 @@ llm:
 
   claude:
     api_key: "your-claude-api-key"
-    model: "claude-sonnet-4-20250514"
+    base_url: "https://api.anthropic.com"
+    model: "claude-opus-4-6"
+    embedding_model: "bge-m3"
+    temperature: 0.1
+    top_p: 0.2
 
   zhipu:
     api_key: "your-zhipu-api-key"
+    base_url: ""
     chat_model: "glm-4"
     embedding_model: "embedding-2"
+    temperature: 0.1
+    top_p: 0.2
 
   deepseek:
     api_key: "your-deepseek-api-key"
     base_url: "https://api.deepseek.com"
     model: "deepseek-chat"
+    embedding_model: "bge-m3"
+    temperature: 0.1
+    top_p: 0.2
 
 # 文本分块配置
 chunking:
@@ -31,7 +42,21 @@ storage:
   knowledge_dir: "data/knowledge"
   vectordb_dir: "data/vectordb"
 
-# 选股扩展（预留）
-# stock_screening:
-#   target_markets: ["US", "HK"]
-#   data_sources: []
+# 数据源配置
+data:
+  # 默认数据源: auto / yfinance / yahoo_direct / bloomberg / fmp / finnhub
+  # auto = 自动选择最佳可用源
+  # 注意: yfinance 和 yahoo_direct 免费可用，无需 API key
+  default_provider: "auto"
+
+  bloomberg:
+    host: "localhost"
+    port: 8194
+
+  fmp:
+    # Financial Modeling Prep API Key (免费申请: https://financialmodelingprep.com)
+    api_key: ""
+
+  finnhub:
+    # Finnhub API Key (免费申请: https://finnhub.io/register, 60次/分钟)
+    api_key: ""
