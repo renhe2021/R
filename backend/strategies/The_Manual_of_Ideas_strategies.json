@@ -1,0 +1,32 @@
+{
+  "book_title": "The Manual of Ideas",
+  "book_author": "John Mihaljevic",
+  "total_chapters_analyzed": 1,
+  "strategies": [],
+  "strategies_count": 0,
+  "strategies_by_category": {},
+  "data_fields_required": [],
+  "data_fields_available": [],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "Ben Graham bargains",
+    "capital allocation",
+    "deep value investing",
+    "entropy in investing",
+    "ergodicity",
+    "idea generation",
+    "inversion",
+    "net asset value",
+    "owner mentality",
+    "passive versus active investing",
+    "stock selection framework",
+    "sum of the parts investing",
+    "value investing"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "fmatter",
+      "summary": "This front matter section of 'The Manual of Ideas' (Second Edition) by John Mihaljevic provides the book's title page, copyright information, and table of contents. It outlines the book's structure, which covers investment mindset (capital allocation, risk avoidance through inversion), and idea generation frameworks including Ben Graham deep value bargains, sum-of-the-parts investing, and other value investing approaches. The book presents itself as a proven framework for finding the best value investments, with a foreword by Guy Spier. No specific screening rules or numeric thresholds are presented in this front matter section."
+    }
+  ]
+}

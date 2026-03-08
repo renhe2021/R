@@ -1,0 +1,2547 @@
+{
+  "book_title": "Investment Valuation",
+  "book_author": "Aswath Damodaran",
+  "total_chapters_analyzed": 41,
+  "strategies": [
+    {
+      "name": "Intrinsic Value vs Price Rule",
+      "description": "An investor should not pay more for an asset than it is worth. The price paid should be less than or equal to the intrinsic value derived from expected cash flows.",
+      "expression": "price <= intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 1Introduction to Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety Principle",
+      "description": "Sound investing requires that the price paid reflects a margin of safety relative to the estimated intrinsic value, ensuring the investor does not overpay even if valuation estimates contain errors.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 1Introduction to Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Return Exceeds Cost of Funding",
+      "description": "A good investment is one that makes a return greater than the cost of funding it. Firms should generate returns on their investments that exceed the cost of capital used to finance those investments.",
+      "expression": "roe > 0",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Chapter 3Understanding Financial Statements",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Book Value vs Market Value Discrepancy",
+      "description": "Historical cost (book value) may differ significantly from actual asset value. Firms where book value significantly understates true asset value may represent opportunities, as accounting relies on historical cost rather than current market value.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 3Understanding Financial Statements",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow Generation",
+      "description": "The statement of cash flows reveals actual cash generation. Firms that generate positive free cash flow (cash from operations minus capital expenditures) demonstrate that their assets are producing real economic value beyond what accounting income may suggest.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Chapter 3Understanding Financial Statements",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Balanced Debt-Equity Financing Mix",
+      "description": "Firms finance assets through a mix of equity and debt. A firm with a reasonable debt-to-equity ratio indicates prudent financing of its asset base, reducing uncertainty about the firm's financial stability.",
+      "expression": "debt_to_equity < 1.0",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "low",
+      "source_chapter": "Chapter 3Understanding Financial Statements",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Operating Profitability",
+      "description": "Operating profit measures the profitability of a firm's core business operations before financial expenses. Firms with positive operating margins demonstrate that their assets are generating value from operations.",
+      "expression": "operating_margin > 0",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Chapter 3Understanding Financial Statements",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Gross Profit Margin Check",
+      "description": "Gross profit represents unit profitability before covering indirect costs and financial expenses. A positive and meaningful gross margin indicates the firm's products/services generate value above direct production costs.",
+      "expression": "profit_margin > 0",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Chapter 3Understanding Financial Statements",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low P/E Screening for Undervaluation",
+      "description": "The chapter discusses that in an efficient market, stocks with lower PE ratios should be no more or less likely to be undervalued than stocks with high PE ratios. This implies that in an inefficient market, low PE stocks may systematically be undervalued. Screen for stocks with below-average P/E ratios relative to the market.",
+      "expression": "pe < market_pe",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 6Market Efficiency—Definition, Tests, and Evidence",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Neglected Firm Screen - Low Institutional Ownership",
+      "description": "The chapter explicitly suggests that stocks neglected by institutional investors are more likely to be undervalued and earn excess returns. A strategy that screens firms for low institutional investment (as a percentage of outstanding stock) may yield a subsample of neglected firms more likely to be undervalued. This cannot be directly expressed with available variables.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Chapter 6Market Efficiency—Definition, Tests, and Evidence",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Jensen's Alpha Positive Performance",
+      "description": "Identify stocks that have earned returns greater than expected given their beta risk level, indicating positive Jensen's alpha (outperformance relative to CAPM expected returns).",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "Chapter 8Estimating Risk Parameters and Costs of Financing",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cost of Equity Estimation (CAPM)",
+      "description": "The cost of equity for a firm is estimated as the risk-free rate plus beta times the equity risk premium. Firms with lower cost of equity relative to their earned returns represent potential value. This is a framework for evaluating whether a stock's expected return compensates for its risk.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 8Estimating Risk Parameters and Costs of Financing",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Operating Lease Adjustment Filter",
+      "description": "When valuing firms, operating lease expenses should be reclassified as financial expenses rather than operating expenses, which adjusts both EBIT and invested capital. Firms with significant operating leases will have understated operating earnings (EBIT) and overstated debt levels when properly adjusted. Screen for firms where this adjustment materially changes valuation metrics.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 9Measuring Earnings",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "R&D Capitalization Adjustment",
+      "description": "Research and development expenses should be treated as capital expenditures rather than operating expenses. Firms with significant R&D spending will have understated earnings and understated book value of capital when R&D is expensed rather than capitalized. This affects both earnings measures and invested capital estimates used in valuation.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 9Measuring Earnings",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Normalization - Multi-Year Average",
+      "description": "Rather than relying on the most recent year's earnings, use normalized earnings averaged over multiple years to get a better sense of earnings power. This smooths out volatility from company-specific and macroeconomic shifts. Firms whose current earnings deviate significantly from their multi-year average may be mispriced.",
+      "expression": null,
+      "data_fields_required": [
+        "eps",
+        "avg_eps_10y",
+        "avg_eps_3y"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 9Measuring Earnings",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Consistency Check",
+      "description": "Screen for firms with consistent profitability over time, as volatile earnings make it dangerous to use the most recent year as the basis for future forecasts. Firms with more profitable years out of the last 10 are more reliable for valuation purposes.",
+      "expression": "profitable_years >= 8",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 9Measuring Earnings",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Extraordinary Items / One-Time Charges Warning",
+      "description": "Be cautious of firms that frequently use extraordinary items and one-time charges to manage earnings. These can cause reported earnings to gyrate and skew valuations. Firms with significant divergence between reported earnings and normalized earnings may be engaging in aggressive earnings management.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Chapter 9Measuring Earnings",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Stability Screen",
+      "description": "Compare current EPS to the 10-year average EPS to identify firms where current earnings are reasonably representative of earnings power. Avoid firms where current earnings are dramatically above or below their long-term average, as this suggests the current figure may not be sustainable or representative.",
+      "expression": "eps > avg_eps_10y * 0.7 and eps < avg_eps_10y * 1.5",
+      "data_fields_required": [
+        "eps",
+        "avg_eps_10y"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 9Measuring Earnings",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "After-Tax Operating Income Calculation (Marginal Rate)",
+      "description": "When valuing a firm, compute after-tax operating income by multiplying EBIT by (1 - marginal tax rate). For U.S. firms in 2024, the marginal corporate tax rate including state and local taxes is approximately 25%.",
+      "expression": "ebit * (1 - 0.25)",
+      "data_fields_required": [
+        "ebit"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Chapter 10From Earnings To Cash Flows",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Effective Tax Rate Median Range Filter",
+      "description": "The median effective tax rate for both U.S. and global companies falls between 20% and 25%. Firms with effective tax rates significantly below 10% or above 50% may warrant additional scrutiny for sustainability of tax benefits or unusual tax burdens.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 10From Earnings To Cash Flows",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Firm Filter for Tax Analysis",
+      "description": "When analyzing tax rates, focus on money-making (profitable) firms, as money-losing companies often have negative or zero effective tax rates that distort analysis.",
+      "expression": "net_income > 0",
+      "data_fields_required": [
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Chapter 10From Earnings To Cash Flows",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Federal Marginal Tax Rate (U.S. 2024)",
+      "description": "The U.S. federal corporate tax rate on marginal income is 21%. With state and local taxes, most profitable U.S. firms face approximately 25% marginal rate. Use this for after-tax cash flow calculations.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Chapter 10From Earnings To Cash Flows",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Free Cash Flow to Firm Estimation",
+      "description": "Cash flows for firm valuation should be after taxes, prior to debt payments, and after reinvestment needs (net capital expenditures and working capital changes). This is essentially EBIT*(1-tax rate) minus reinvestment.",
+      "expression": null,
+      "data_fields_required": [
+        "ebit",
+        "free_cash_flow"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 10From Earnings To Cash Flows",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow Screen",
+      "description": "The value of an asset comes from its capacity to generate cash flow. Firms should demonstrate positive free cash flow after accounting for taxes and reinvestment needs.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 10From Earnings To Cash Flows",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Growth Asset Dominance Check",
+      "description": "For high-growth firms, the majority of value comes from growth assets (future investments) rather than assets in place. Firms where growth assets dominate should be valued with careful growth estimation rather than relying on current earnings multiples.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "growth",
+      "confidence": "low",
+      "source_chapter": "Chapter 11Estimating Growth",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Geometric vs Arithmetic Growth Consistency",
+      "description": "Firms with volatile earnings will show large divergences between arithmetic and geometric average growth rates. Prefer geometric averages for growth estimation, and be cautious of firms where the arithmetic average significantly exceeds the geometric average, as this signals earnings volatility.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11Estimating Growth",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Growth Stability Filter",
+      "description": "Revenue growth rates tend to be more stable and reliable than earnings growth rates. When estimating historical growth, revenue growth is a more dependable measure than earnings growth, especially for firms with volatile or negative earnings.",
+      "expression": "revenue_growth_rate > 0",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11Estimating Growth",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Negative Earnings Caution Flag",
+      "description": "Firms with negative earnings in past or current periods make historical growth rate estimation unreliable. Screen for firms with consistent profitability to ensure growth rate estimates are meaningful.",
+      "expression": "profitable_years >= 5",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11Estimating Growth",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Fundamental Growth Rate - Reinvestment Quality",
+      "description": "A firm's fundamental growth rate is determined by how much it reinvests and the quality (return) on those investments. Growth is sustainable when driven by high reinvestment rates combined with high returns on equity. Firms with high ROE and positive reinvestment generate higher fundamental growth.",
+      "expression": "roe > 0.15 and eps_growth_rate > 0",
+      "data_fields_required": [
+        "roe",
+        "eps_growth_rate"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11Estimating Growth",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High-Growth Firm Identification",
+      "description": "High-growth firms derive most of their value from future growth assets rather than assets in place. These firms typically have high revenue growth rates and may have low or negative current earnings, making traditional valuation metrics less reliable.",
+      "expression": "revenue_growth_rate > 0.20",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11Estimating Growth",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Stable Growth Rate Cap",
+      "description": "A firm's terminal/stable growth rate should not exceed the growth rate of the economy in which it operates. When screening, firms projecting perpetual growth rates above the economy's growth rate (typically proxied by nominal GDP growth or long-term treasury yields) are suspect.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 12Closure in Valuation: Estimating Terminal Value",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Liquidation Value - Book Value Approach",
+      "description": "When estimating liquidation value, the book value of assets should be adjusted for inflation over the average life of the assets. This implies that firms trading below their inflation-adjusted book value may be undervalued on a liquidation basis. As a rough screen, firms trading below book value (P/B < 1) may represent liquidation value opportunities.",
+      "expression": "pb < 1",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 12Closure in Valuation: Estimating Terminal Value",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Net Current Asset Value Screen",
+      "description": "When considering liquidation value for equity investors, debt must be subtracted from asset value. Firms where net current asset value per share exceeds the current price represent potential liquidation bargains.",
+      "expression": "ncav_per_share > price",
+      "data_fields_required": [
+        "ncav_per_share",
+        "price"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 12Closure in Valuation: Estimating Terminal Value",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earning Power vs Book Value Check",
+      "description": "The chapter notes that liquidation value based on earning power of assets can differ significantly from book value. Firms with high ROE relative to their cost of capital have earning power that exceeds book value, suggesting the going concern value exceeds liquidation value. High ROE firms should be valued as going concerns, not on liquidation basis.",
+      "expression": "roe > 0.10",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Chapter 12Closure in Valuation: Estimating Terminal Value",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Intrinsic Value with Margin of Safety",
+      "description": "The chapter emphasizes intrinsic valuation over relative valuation (multiples from comparable firms). Stocks should be purchased when price is below intrinsic value, providing a margin of safety.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 12Closure in Valuation: Estimating Terminal Value",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Dividend Discount Model - Stable Growth Filter",
+      "description": "Identify companies suitable for the Gordon Growth Model by screening for firms that pay dividends and are in a stable growth state, where dividends grow at a sustainable rate that does not exceed the cost of equity or the overall economy's growth rate.",
+      "expression": "dividend_yield > 0 and revenue_growth_rate <= 0.06 and eps_growth_rate <= 0.06",
+      "data_fields_required": [
+        "dividend_yield",
+        "revenue_growth_rate",
+        "eps_growth_rate"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Chapter 14Equity Intrinsic Value Models",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Dividend-Paying Company Screen",
+      "description": "Screen for companies that actually pay dividends, which is the fundamental requirement for applying the dividend discount model. The simplest cash flow to equity in a publicly traded company is the dividend received.",
+      "expression": "dividend_yield > 0",
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "high",
+      "source_chapter": "Chapter 14Equity Intrinsic Value Models",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Stable Growth Consistency Check",
+      "description": "For the Gordon Growth Model to apply, the firm's earnings growth and revenue growth should be roughly aligned and sustainable. Screen for firms where earnings growth and revenue growth are similar and moderate, indicating true steady state.",
+      "expression": "revenue_growth_rate > 0 and eps_growth_rate > 0 and revenue_growth_rate < 0.06 and eps_growth_rate < 0.06",
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 14Equity Intrinsic Value Models",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sustainable Payout Ratio Filter",
+      "description": "In a stable growth company, dividends should reflect what the company can afford to pay out. A payout ratio that is neither too high (unsustainable) nor converging toward zero (not returning cash) suggests the firm is in steady state suitable for DDM valuation.",
+      "expression": "dividend_payout_ratio > 0.2 and dividend_payout_ratio < 0.9",
+      "data_fields_required": [
+        "dividend_payout_ratio"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Chapter 14Equity Intrinsic Value Models",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Free Cash Flow to Equity Positive Screen",
+      "description": "The chapter emphasizes that potential dividends (free cash flow to equity) represent the broadest measure of cash flow to equity investors. Screen for companies with positive free cash flow, indicating capacity to return cash to shareholders.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Chapter 14Equity Intrinsic Value Models",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Dividend vs. FCFE Alignment",
+      "description": "Companies where dividends paid are close to free cash flow to equity are ideal candidates for the DDM, as the three measures of cash flow to equity converge. Screen for firms paying dividends that are supported by free cash flow.",
+      "expression": "dividend_yield > 0 and free_cash_flow > 0 and dividend_payout_ratio > 0.3 and dividend_payout_ratio < 0.8",
+      "data_fields_required": [
+        "dividend_yield",
+        "free_cash_flow",
+        "dividend_payout_ratio"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 14Equity Intrinsic Value Models",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Intrinsic Value Margin of Safety",
+      "description": "When equity intrinsic value is estimated via discounted cash flow models (DDM or FCFE), the stock should trade below its intrinsic value to provide a margin of safety for the investor.",
+      "expression": "margin_of_safety > 0.2",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 14Equity Intrinsic Value Models",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Earnings Base for DDM",
+      "description": "The DDM requires positive and consistent earnings as the foundation for dividend projections. Screen for companies with sustained profitability to ensure dividend forecasts are reliable.",
+      "expression": "eps > 0 and profitable_years >= 5 and net_income > 0",
+      "data_fields_required": [
+        "eps",
+        "profitable_years",
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 14Equity Intrinsic Value Models",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cash as Non-Operating Asset Identification",
+      "description": "When valuing a firm, cash and near-cash investments that exceed operating cash requirements should be treated as nonoperating assets and added separately to the value of operating assets, rather than being discounted at the firm's cost of equity. Cash invested at fair market rates should not be penalized by being discounted at a higher operating cost of capital.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16Estimating Equity Value per Share",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Cash Discount in Consolidated Valuation",
+      "description": "When a firm holds significant cash (e.g., 10% or more of value), discounting that cash at the firm's cost of equity (e.g., 11% for a steel company) rather than the risk-free rate (e.g., 3%) will undervalue the cash holdings. A billion dollars in cash could be valued at only $800 million if the wrong discount rate is applied. Firms with large cash balances relative to market cap may be undervalued by the market.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16Estimating Equity Value per Share",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Net Cash Value Screen",
+      "description": "Firms where cash and near-cash investments represent a large proportion of total market capitalization may be undervalued if the market is effectively discounting the cash at the firm's higher cost of equity rather than at its face value. Look for firms where the net cash per share (cash minus debt) represents a significant portion of the stock price, as the operating business may be available at a discount.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "total_debt",
+        "book_value"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16Estimating Equity Value per Share",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Option Overhang Awareness",
+      "description": "When estimating equity value per share, the presence of management and employee stock options (option overhang) must be accounted for. Simply dividing equity value by shares outstanding can overstate per-share value. Firms with significant option overhang will have diluted per-share values lower than the simple calculation suggests.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16Estimating Equity Value per Share",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "NCAV Deep Value Screen",
+      "description": "Firms trading below their net current asset value per share (current assets minus total liabilities divided by shares outstanding) may represent deep value opportunities, as the market is pricing the operating business at zero or negative value. This is related to the chapter's discussion of separating operating and nonoperating asset values.",
+      "expression": "ncav_per_share > price",
+      "data_fields_required": [
+        "ncav_per_share",
+        "price"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16Estimating Equity Value per Share",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low P/E Relative Value",
+      "description": "When buying a stock, a lower price-to-earnings multiple is better than a higher one, as it indicates you are paying less per unit of earnings. Look for stocks with P/E ratios below the market or sector average.",
+      "expression": "pe < market_pe",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 17Fundamental Principles of Relative Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price-to-Book Value Screen",
+      "description": "Standardize stock prices relative to book value to compare pricing across firms. A lower price-to-book ratio suggests the stock may be cheaper relative to its accounting value of assets.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 17Fundamental Principles of Relative Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price-to-Sales Standardization",
+      "description": "Standardize stock prices relative to revenues generated to compare pricing across firms. A lower price-to-sales ratio indicates cheaper pricing relative to revenue generation.",
+      "expression": "ps < 1.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 17Fundamental Principles of Relative Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Enterprise Value to EBITDA Screen",
+      "description": "When evaluating the operating assets of a firm, examine enterprise value as a multiple of EBITDA. A lower multiple is preferable, though it must be adjusted for growth potential and risk.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 17Fundamental Principles of Relative Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Enterprise Value to Operating Income Screen",
+      "description": "Examine the value of operating assets as a multiple of operating income (EBIT). A lower multiple indicates cheaper pricing for the business's operating assets.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 17Fundamental Principles of Relative Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Growth-Adjusted P/E Comparison",
+      "description": "When comparing multiples across firms, control for differences in growth potential. Firms with higher growth should trade at higher multiples; a stock with a low P/E relative to its growth rate may be undervalued.",
+      "expression": null,
+      "data_fields_required": [
+        "pe",
+        "eps_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 17Fundamental Principles of Relative Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Risk-Adjusted Multiple Comparison",
+      "description": "When comparing pricing across firms using multiples, control for differences in risk. Higher-risk firms should trade at lower multiples; a firm trading at a low multiple despite low risk may be undervalued.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 17Fundamental Principles of Relative Valuation",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "PE Below Median Filter",
+      "description": "Screen for stocks with a current PE ratio below the market median of approximately 15, suggesting the stock may be undervalued relative to the broader market based on January 2024 U.S. market data.",
+      "expression": "pe < 15 and pe > 0",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 18Earnings Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "PE Below First Quartile Filter",
+      "description": "Screen for stocks with a current PE ratio below the 25th percentile of approximately 8.2, indicating deep value relative to the market distribution based on January 2024 U.S. data.",
+      "expression": "pe < 8.2 and pe > 0",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 18Earnings Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Forward PE Below Median Filter",
+      "description": "Screen for stocks with a forward PE ratio below the market median of approximately 16.85, suggesting the stock is cheaper than the typical stock on a forward earnings basis.",
+      "expression": "forward_pe < 16.85 and forward_pe > 0",
+      "data_fields_required": [
+        "forward_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 18Earnings Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Forward PE Below First Quartile",
+      "description": "Screen for stocks with a forward PE ratio below the 25th percentile of approximately 11.2, indicating deep value on a forward earnings basis.",
+      "expression": "forward_pe < 11.2 and forward_pe > 0",
+      "data_fields_required": [
+        "forward_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 18Earnings Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Forward PE Below Third Quartile",
+      "description": "Screen for stocks with a forward PE ratio below the 75th percentile of approximately 27.2, filtering out the most expensive quartile of stocks.",
+      "expression": "forward_pe < 27.2 and forward_pe > 0",
+      "data_fields_required": [
+        "forward_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 18Earnings Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Earnings Filter",
+      "description": "Exclude firms with negative earnings per share, since PE ratios are not meaningful for companies with negative earnings. This is a prerequisite for any PE-based analysis.",
+      "expression": "eps > 0",
+      "data_fields_required": [
+        "eps"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Chapter 18Earnings Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "PE Below Market PE",
+      "description": "Screen for stocks trading at a PE ratio below the overall market PE ratio, indicating relative undervaluation compared to the market average.",
+      "expression": "pe < market_pe and pe > 0",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 18Earnings Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Trailing PE Below Third Quartile",
+      "description": "Screen for stocks with trailing PE below the 75th percentile of approximately 32.7, filtering out the most expensive stocks by trailing earnings.",
+      "expression": "pe < 32.71 and pe > 0",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 18Earnings Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Classic Book Value Discount Screen",
+      "description": "Stocks selling for well below the book value of equity have generally been considered undervalued. A price-to-book ratio below 1.0 indicates the stock is trading below its book value.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 19Book Value Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Overvalued Book Value Screen",
+      "description": "Stocks selling for more than book value have been targeted as potentially overvalued. This identifies stocks with price-to-book ratios significantly above 1.0.",
+      "expression": "pb > 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 19Book Value Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Negative Earnings Alternative - PBV Screen",
+      "description": "For firms with negative earnings that cannot be valued using P/E ratios, use price-to-book value ratios as an alternative valuation metric. Screen for firms with negative earnings but positive book value trading below book.",
+      "expression": "eps < 0 and pb > 0 and pb < 1.0",
+      "data_fields_required": [
+        "eps",
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 19Book Value Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Book Value Filter",
+      "description": "Exclude firms with negative book value of equity, which can occur after sustained negative earnings, as the price-to-book ratio becomes meaningless in such cases.",
+      "expression": "book_value > 0",
+      "data_fields_required": [
+        "book_value"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Chapter 19Book Value Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "PBV-ROE Consistency Check",
+      "description": "The price-to-book ratio is fundamentally driven by return on equity. Firms with high ROE should trade at higher PBV ratios. A stock with high ROE but low PBV may be undervalued.",
+      "expression": "roe > 0.15 and pb < 1.5",
+      "data_fields_required": [
+        "roe",
+        "pb"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 19Book Value Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Sales Ratio Screen",
+      "description": "Firms trading at low multiples of revenues are viewed as cheap relative to firms trading at high multiples of revenues. The median PS ratio for US firms was 1.95 in January 2024, so screening below the median identifies relatively cheap firms on a revenue basis.",
+      "expression": "ps < 2.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bottom Quartile Price-to-Sales",
+      "description": "Firms in the bottom 25th percentile of price-to-sales ratios (below 0.73) represent the cheapest firms relative to their revenue generation, based on January 2024 US distribution data.",
+      "expression": "ps < 0.73",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Multiple with Profitability Control",
+      "description": "The chapter warns that using revenue multiples without controlling for differences in costs and profit margins can lead to misleading valuations. Screen for low price-to-sales firms that also have positive profit margins to avoid assigning high values to firms losing money.",
+      "expression": "ps < 2.0 and profit_margin > 0",
+      "data_fields_required": [
+        "ps",
+        "profit_margin"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low PS with Positive Earnings Filter",
+      "description": "The chapter notes the biggest disadvantage of revenue multiples is assigning high values to firms with high revenue growth but significant losses. This filter combines a low price-to-sales ratio with the requirement that the firm actually generates positive earnings.",
+      "expression": "ps < 2.0 and eps > 0",
+      "data_fields_required": [
+        "ps",
+        "eps"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Multiple for Negative Earnings Firms",
+      "description": "Revenue multiples are available even for troubled firms and very young firms with negative earnings where PE ratios are not meaningful. Screen for firms with negative earnings but low price-to-sales ratios as potential turnaround or early-stage value candidates.",
+      "expression": "ps < 1.0 and eps < 0",
+      "data_fields_required": [
+        "ps",
+        "eps"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Leverage PS Ratio Comparability",
+      "description": "The chapter warns that price-to-sales ratios yield lower values for more highly levered firms and may lead to misleading conclusions when compared across firms with different leverage. Screen for low PS ratio firms with low leverage to ensure the low PS is not merely a leverage artifact.",
+      "expression": "ps < 2.0 and debt_to_equity < 0.5",
+      "data_fields_required": [
+        "ps",
+        "debt_to_equity"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Growth with Margin Control",
+      "description": "The chapter warns against being lulled into assigning high values to firms generating high revenue growth while losing significant money. Screen for firms with strong revenue growth that also maintain positive operating margins.",
+      "expression": "revenue_growth_rate > 0.15 and operating_margin > 0.05 and ps < 4.0",
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "operating_margin",
+        "ps"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cyclical Firm Revenue Multiple Stability",
+      "description": "The chapter notes that price-sales ratios are less volatile than PE ratios for cyclical firms because earnings are more sensitive to economic changes than revenues. For cyclical firms, a low PS ratio may be a more reliable indicator of value than PE.",
+      "expression": "ps < 1.0 and profit_margin > 0",
+      "data_fields_required": [
+        "ps",
+        "profit_margin"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Services Equity-Only Capital Focus",
+      "description": "When evaluating financial service firms, focus on equity capital rather than total capital (debt + equity), since debt is a raw material rather than a source of capital for these firms. This implies using equity-based valuation metrics (P/B, ROE, dividend discount models) rather than enterprise value-based metrics.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 21Valuing Financial Service Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Services Regulatory Capital Adequacy",
+      "description": "Financial service firms should maintain adequate capital ratios as required by regulators to ensure they do not expand beyond their means. Firms meeting or exceeding regulatory capital requirements are better positioned and less risky.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "financial_health",
+      "confidence": "low",
+      "source_chapter": "Chapter 21Valuing Financial Service Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Services ROE Screen",
+      "description": "Since equity capital is the primary measure of capital for financial service firms, ROE is the key profitability metric. Financial service firms should demonstrate strong returns on equity to indicate they are generating adequate profits from their equity base.",
+      "expression": "roe > 0.10",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 21Valuing Financial Service Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Services Book Value Screen",
+      "description": "Price-to-book ratio is highlighted as a key multiple for financial service firms since book value of equity is the primary capital measure. Firms trading below book value may represent value opportunities if fundamentals are sound.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 21Valuing Financial Service Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Services Dividend Discount Model Suitability",
+      "description": "Financial service firms that pay consistent dividends are best valued using dividend discount models, since cash flows are difficult to define due to the nature of debt as raw material. Screen for firms with established dividend histories.",
+      "expression": "consecutive_dividend_years > 0 and dividend_yield > 0",
+      "data_fields_required": [
+        "consecutive_dividend_years",
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Chapter 21Valuing Financial Service Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cyclical Firm Normalized Earnings Valuation",
+      "description": "For cyclical firms where negative earnings are due to economic deterioration, use normalized (average) earnings rather than current earnings for valuation. This implies screening for firms whose current earnings are significantly below their long-term average.",
+      "expression": "eps < avg_eps_10y * 0.5 and avg_eps_10y > 0",
+      "data_fields_required": [
+        "eps",
+        "avg_eps_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 22Valuing Money-Losing Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Negative Earnings Identification",
+      "description": "Identify firms with negative current earnings that may require special valuation approaches. These firms have negative net income or operating earnings.",
+      "expression": "net_income < 0 or ebit < 0",
+      "data_fields_required": [
+        "net_income",
+        "ebit"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Chapter 22Valuing Money-Losing Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Abnormally Low Earnings Screen",
+      "description": "Identify firms with abnormally low earnings where current earnings are much lower than historical averages, suggesting temporary depression rather than permanent decline.",
+      "expression": "eps > 0 and eps < avg_eps_10y * 0.5 and avg_eps_10y > 0",
+      "data_fields_required": [
+        "eps",
+        "avg_eps_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 22Valuing Money-Losing Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bankruptcy Risk Filter for Money-Losing Firms",
+      "description": "For firms with negative earnings, assess going concern risk by checking leverage. Firms with negative earnings and high debt-to-equity are at greater risk of bankruptcy, and the assumption of infinite life may not apply.",
+      "expression": "net_income < 0 and debt_to_equity > 1.0",
+      "data_fields_required": [
+        "net_income",
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Chapter 22Valuing Money-Losing Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Over-Leveraged Negative Earnings Screen",
+      "description": "Identify firms that have negative earnings primarily because they have borrowed too much, creating potential for default. These firms may have positive operating income but negative net income due to interest burden.",
+      "expression": "ebit > 0 and net_income < 0 and interest_coverage_ratio < 1.0",
+      "data_fields_required": [
+        "ebit",
+        "net_income",
+        "interest_coverage_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Chapter 22Valuing Money-Losing Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cyclical Recovery Candidate",
+      "description": "Screen for cyclical firms with currently negative or depressed earnings but a history of profitability, suggesting earnings will recover with the economic cycle.",
+      "expression": "eps < 0 and avg_eps_10y > 0 and profitable_years >= 7",
+      "data_fields_required": [
+        "eps",
+        "avg_eps_10y",
+        "profitable_years"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 22Valuing Money-Losing Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Temporary Problem Firm Screen",
+      "description": "Identify firms with temporarily depressed earnings (e.g., from a strike or product recall) where recent earnings are negative but longer-term averages are positive and the firm has manageable debt.",
+      "expression": "eps < 0 and avg_eps_3y > 0 and avg_eps_10y > 0 and debt_to_equity < 1.0",
+      "data_fields_required": [
+        "eps",
+        "avg_eps_3y",
+        "avg_eps_10y",
+        "debt_to_equity"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 22Valuing Money-Losing Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Restructuring Candidate with Strategic Problems",
+      "description": "Identify firms with long-term operating problems (negative earnings, declining margins) that may be restructuring candidates. These require assumptions about whether the firm can outlive its problems.",
+      "expression": "net_income < 0 and operating_margin < 0.05 and profit_margin < 0",
+      "data_fields_required": [
+        "net_income",
+        "operating_margin",
+        "profit_margin"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Chapter 22Valuing Money-Losing Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Negative Earnings Without Growth Justification",
+      "description": "Young or start-up firms often lose money but may still have high valuations if future growth potential justifies it. Firms with negative earnings and no clear path to profitability should be avoided.",
+      "expression": "net_income < 0 and revenue_growth_rate < 0.20",
+      "data_fields_required": [
+        "net_income",
+        "revenue_growth_rate"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Chapter 23Valuing Young or Start-Up Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Established Firm Preference - Profitable Operations",
+      "description": "The chapter notes that more profitable firms have generally been valued more highly than less profitable ones. Prefer firms with demonstrated profitability over speculative start-ups.",
+      "expression": "profit_margin > 0 and net_income > 0",
+      "data_fields_required": [
+        "profit_margin",
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 23Valuing Young or Start-Up Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Firms Lacking Tangible Asset Base",
+      "description": "Young firms often derive bulk of value from growth assets rather than tangible assets. Firms with very low book value relative to market cap may carry higher estimation risk.",
+      "expression": "pb > 20",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 23Valuing Young or Start-Up Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Existence Filter",
+      "description": "The chapter warns about firms that have no products or services to sell yet. Filter for firms that have at least some established revenue, reducing the risk of valuing pure concept companies.",
+      "expression": "revenue > 0",
+      "data_fields_required": [
+        "revenue"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 23Valuing Young or Start-Up Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Peer Group Comparability Check",
+      "description": "The chapter emphasizes using competitor/peer group data to compensate for limited firm history. Firms in sectors with many comparable companies provide more reliable valuation benchmarks. Avoid firms with extreme valuations relative to market (very high P/S with no earnings).",
+      "expression": "ps < 20 or net_income > 0",
+      "data_fields_required": [
+        "ps",
+        "net_income"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 23Valuing Young or Start-Up Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow Preference",
+      "description": "The chapter's core principle is that firm value is the present value of expected cash flows. Firms already generating positive free cash flow are less speculative than those burning cash.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 23Valuing Young or Start-Up Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Private Firm Illiquidity Discount",
+      "description": "When valuing private firms, apply an illiquidity discount to account for the difficulty and expense of liquidating an equity position compared to publicly traded firms. The discount varies based on the buyer type (individual vs. publicly traded firm vs. IPO).",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 24Valuing Private Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Diversification Risk Adjustment for Private Firms",
+      "description": "Private firm owners who have all or most of their wealth invested in a single firm face nondiversifiable risk that should be reflected in a higher discount rate or risk premium compared to diversified public market investors.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 24Valuing Private Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Control Premium Assessment",
+      "description": "When a private firm is being acquired, a premium for control may be added to the value depending on the potential buyer and the degree of control being transferred.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 24Valuing Private Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bottom-Up Beta Estimation for Private Firms",
+      "description": "In the absence of historical stock price data, estimate beta using bottom-up approaches based on comparable publicly traded firms' betas, adjusted for the private firm's financial leverage and business mix.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 24Valuing Private Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Accounting Beta Estimation",
+      "description": "Use accounting earnings data (rather than stock price data) to estimate beta for private firms by regressing changes in the firm's accounting earnings against changes in market earnings.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 24Valuing Private Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Personal Expense Adjustment for Private Firm Cash Flows",
+      "description": "When valuing private firms, adjust reported cash flows to separate personal expenses intermingled with business expenses and to differentiate between management salary and dividends, ensuring clean operating cash flow estimates.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Chapter 24Valuing Private Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Acquisition Target - Below Book Value",
+      "description": "Identify firms trading below their book value, which may attract acquirers who see potential value in restructuring or breaking up the firm, as the acquisition price often exceeds both market price and book value.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 25Acquisitions and Takeovers",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Acquisition Target - Large Cash Buffer",
+      "description": "Technology firms and other companies with large cash buffers have been active acquirers. Firms with substantial free cash flow relative to market cap may be either acquirers or attractive targets.",
+      "expression": "free_cash_flow / market_cap > 0.08",
+      "data_fields_required": [
+        "free_cash_flow",
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Chapter 25Acquisitions and Takeovers",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Potential Restructuring Target - Low Price to Book",
+      "description": "Firms trading at significant discounts to book value may attract raiders or management buyout groups who see potential value in restructuring or breaking up the firm, as described with firms like Beatrice Foods and RJR Nabisco.",
+      "expression": "pb < 0.7 and market_cap > 0",
+      "data_fields_required": [
+        "pb",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 25Acquisitions and Takeovers",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Acquisition Target - Trading Below NCAV",
+      "description": "Firms trading below net current asset value per share represent deep value situations that may attract acquirers or leveraged buyout groups seeking to purchase assets at a discount.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 25Acquisitions and Takeovers",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Synergy-Driven Acquisition Target - High Profit Margin",
+      "description": "Firms with high operating margins may be attractive acquisition targets for companies seeking synergy benefits in the form of lower costs, as described in the chapter's discussion of synergy motives.",
+      "expression": "operating_margin > 0.20 and pb < 2.0",
+      "data_fields_required": [
+        "operating_margin",
+        "pb"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 25Acquisitions and Takeovers",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cash Flow Generating Asset Identification",
+      "description": "Invest in assets (stocks, businesses) that generate or are expected to generate cash flows, favoring those with higher cash flows and lower risk over those with lower cash flows and more risk.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 27Valuing Other Assets",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Relative Valuation via PE Ratio",
+      "description": "Price assets relative to each other by comparing PE ratios across similar companies to identify which stocks are cheap and which are expensive. Stocks with lower PE ratios relative to peers may be undervalued.",
+      "expression": "pe < market_pe",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 27Valuing Other Assets",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price-to-Book Relative Comparison",
+      "description": "Use Price-to-Book ratio as a pricing multiple to compare similar companies and form pricing judgments about relative cheapness or expensiveness.",
+      "expression": "pb > 0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 27Valuing Other Assets",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price-to-Sales Relative Comparison",
+      "description": "Use Price-to-Sales (EV/Sales) ratio to compare similar companies and identify relatively cheap or expensive stocks.",
+      "expression": "ps > 0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 27Valuing Other Assets",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Cash Flow Asset Filter",
+      "description": "Filter for investments that qualify as cash-generating assets, which can be properly valued using discounted cash flow models, as opposed to collectibles or currencies that cannot be intrinsically valued.",
+      "expression": "free_cash_flow > 0 and net_income > 0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "net_income"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 27Valuing Other Assets",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Higher Cash Flow Lower Risk Preference",
+      "description": "Prefer assets with high cash flows and less risk (proxied by lower debt-to-equity), which should be valued more than assets with lower cash flows and more risk.",
+      "expression": "free_cash_flow > 0 and debt_to_equity < 1.0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "debt_to_equity"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 27Valuing Other Assets",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Distressed Firm Identification - High Leverage",
+      "description": "Identify firms that are highly levered and distressed, where equity may have option value. These are firms with substantial debt relative to assets, negative earnings, and significant assets in place.",
+      "expression": "debt_to_equity > 3 and net_income < 0",
+      "data_fields_required": [
+        "debt_to_equity",
+        "net_income"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Chapter 30Valuing Equity in Distressed Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Negative Earnings with Substantial Debt Filter",
+      "description": "Screen for firms with negative earnings and significant debt loads where traditional DCF may undervalue equity due to option value. The chapter argues DCF will say equity is worth nothing in these cases, but equity has call option value.",
+      "expression": "net_income < 0 and total_debt > market_cap",
+      "data_fields_required": [
+        "net_income",
+        "total_debt",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 30Valuing Equity in Distressed Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Equity Below Liquidation Value (NCAV Screen)",
+      "description": "Identify firms where the market price of equity is below the net current asset value per share, suggesting the firm's liquidation value may exceed its market capitalization - a scenario where the option to liquidate adds value to equity.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 30Valuing Equity in Distressed Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Distressed Firm with Asset Uncertainty",
+      "description": "Firms where debt exceeds firm value (market cap + debt) but significant asset value uncertainty exists. The chapter emphasizes that option value of equity is especially significant when there is high uncertainty about asset values. Higher volatility increases the call option value of equity.",
+      "expression": "total_debt > (market_cap + total_debt) * 0.8 and net_income < 0",
+      "data_fields_required": [
+        "total_debt",
+        "market_cap",
+        "net_income"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 30Valuing Equity in Distressed Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Deeply Distressed Equity - Book Value Exceeds Market Cap",
+      "description": "Screen for firms where book value of assets significantly exceeds market capitalization, suggesting the market may be pricing equity as nearly worthless while assets in place have substantial value - a scenario where option-based valuation may reveal hidden equity value.",
+      "expression": "pb < 0.5 and net_income < 0 and debt_to_equity > 2",
+      "data_fields_required": [
+        "pb",
+        "net_income",
+        "debt_to_equity"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 30Valuing Equity in Distressed Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Default Spread Indicator - High Debt to Equity",
+      "description": "The illustration shows that when face value of debt is 80% of firm value, the implied default spread is 2.77%. Firms with very high leverage ratios where debt approaches or exceeds total firm value may have equity with significant option characteristics.",
+      "expression": "debt_to_equity > 4 and net_income < 0 and market_cap > 0",
+      "data_fields_required": [
+        "debt_to_equity",
+        "net_income",
+        "market_cap"
+      ],
+      "category": "financial_health",
+      "confidence": "low",
+      "source_chapter": "Chapter 30Valuing Equity in Distressed Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Publicly Traded Limited Liability Filter",
+      "description": "The chapter explicitly states that the equity-as-call-option argument holds only for firms with limited liability (publicly traded companies). Private firms with unlimited liability should not be valued this way. This is a prerequisite filter for the distressed equity option approach.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Chapter 30Valuing Equity in Distressed Firms",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Excess Return on Existing Assets",
+      "description": "Identify firms whose existing investments earn less than their cost of capital, indicating potential for value creation through operational improvements, divestitures, or liquidation of poor investments.",
+      "expression": "roe < treasury_yield_10y + 0.05",
+      "data_fields_required": [
+        "roe",
+        "treasury_yield_10y"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Yield Above Cost of Capital",
+      "description": "Screen for firms where earnings yield (inverse of P/E) suggests the firm is generating returns above its cost of capital, indicating value creation from existing assets.",
+      "expression": "earnings_yield > treasury_yield_10y + 0.04",
+      "data_fields_required": [
+        "earnings_yield",
+        "treasury_yield_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Growth with Excess Returns",
+      "description": "Value is created when expected growth is accompanied by excess returns (ROE exceeding cost of equity). Screen for firms with positive earnings growth AND returns on equity that exceed a reasonable cost of equity threshold.",
+      "expression": "eps_growth_rate > 0 and roe > 0.12",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sustained High Growth Period",
+      "description": "Firms with a longer high-growth period create more value. Screen for firms demonstrating consistent long-term earnings growth over 10 years, suggesting a durable competitive advantage that extends the high-growth period.",
+      "expression": "earnings_growth_10y > 0.05 and profitable_years >= 8",
+      "data_fields_required": [
+        "earnings_growth_10y",
+        "profitable_years"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Cost of Capital (Low Leverage Risk)",
+      "description": "Reducing cost of capital increases firm value. Screen for firms with manageable debt levels that suggest an optimized or improvable capital structure without excessive financial risk.",
+      "expression": "debt_to_equity < 1.0 and interest_coverage_ratio > 3",
+      "data_fields_required": [
+        "debt_to_equity",
+        "interest_coverage_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value Enhancement Candidate - Underperforming Assets",
+      "description": "Identify firms with low operating margins relative to their sector that could benefit from operational restructuring, divestiture of poor investments, or improved asset management. These are potential activist/turnaround targets.",
+      "expression": "operating_margin < 0.10 and revenue > 0 and roe < 0.08",
+      "data_fields_required": [
+        "operating_margin",
+        "revenue",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Net Current Asset Value Opportunity",
+      "description": "Firms trading below net current asset value per share may have liquidation or divestiture value exceeding continuing value, making them candidates for value enhancement through asset restructuring.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Margin of Safety with Growth",
+      "description": "Screen for firms where intrinsic value exceeds market price (margin of safety exists) and the firm also shows earnings growth, suggesting both undervaluation and value-creating growth.",
+      "expression": "margin_of_safety > 0.15 and eps_growth_rate > 0.05",
+      "data_fields_required": [
+        "margin_of_safety",
+        "eps_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High ROE with Reasonable Valuation",
+      "description": "Firms generating excess returns (high ROE) while trading at reasonable valuations are creating value through growth. The combination ensures growth is value-additive rather than value-destructive.",
+      "expression": "roe > 0.15 and pe < 25 and eps_growth_rate > 0",
+      "data_fields_required": [
+        "roe",
+        "pe",
+        "eps_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive EVA (Value Creation)",
+      "description": "A firm creates value when its return on capital invested exceeds its cost of capital, resulting in a positive Economic Value Added. Screen for companies where ROE (as a proxy for return on capital) exceeds the cost of capital.",
+      "expression": null,
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 32Value Enhancement: Economic Value Added, Cash Flow Return on Investment, and Other Tools",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Return on Capital Exceeds Cost of Capital",
+      "description": "EVA is positive when the return on capital invested exceeds the cost of capital. As a practical screen, look for firms with high return on equity as a proxy for excess returns over cost of capital. Firms with ROE significantly above typical cost of capital (roughly 10%) are likely creating economic value.",
+      "expression": "roe > 0.10",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 32Value Enhancement: Economic Value Added, Cash Flow Return on Investment, and Other Tools",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive After-Tax Operating Income",
+      "description": "EVA requires positive after-tax operating income (EBIT after taxes) as a baseline for value creation. Screen for firms with positive EBIT as a necessary condition for positive EVA.",
+      "expression": "ebit > 0",
+      "data_fields_required": [
+        "ebit"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Chapter 32Value Enhancement: Economic Value Added, Cash Flow Return on Investment, and Other Tools",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Yield Above Cost of Capital Proxy",
+      "description": "The earnings yield (inverse of P/E) can serve as a proxy for the return investors earn on the market price of capital. A high earnings yield relative to bond yields suggests the firm earns returns above its cost of capital, consistent with positive EVA.",
+      "expression": "earnings_yield > treasury_yield_10y",
+      "data_fields_required": [
+        "earnings_yield",
+        "treasury_yield_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 32Value Enhancement: Economic Value Added, Cash Flow Return on Investment, and Other Tools",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Book Value Capital Efficiency",
+      "description": "EVA uses book value of capital as a proxy for capital invested in assets in place. Firms with high return on equity relative to their book value are generating surplus value. Screen for firms where the ratio of net income to book value (ROE) is meaningfully positive.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 32Value Enhancement: Economic Value Added, Cash Flow Return on Investment, and Other Tools",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Operations Filter",
+      "description": "For EVA to be meaningful, the firm must have consistent profitability. Screen for firms that have been profitable over multiple years, indicating sustained value creation from existing investments.",
+      "expression": "profitable_years >= 5",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 32Value Enhancement: Economic Value Added, Cash Flow Return on Investment, and Other Tools",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Operating Margin",
+      "description": "A positive and healthy operating margin is a prerequisite for generating after-tax operating income that exceeds the cost of capital, which is the core of EVA. Screen for firms with meaningful operating margins.",
+      "expression": "operating_margin > 0.10",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 32Value Enhancement: Economic Value Added, Cash Flow Return on Investment, and Other Tools",
+      "source_book": "Investment Valuation",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 135,
+  "strategies_by_category": {
+    "valuation": 59,
+    "profitability": 16,
+    "quality": 22,
+    "financial_health": 7,
+    "momentum": 1,
+    "composite": 19,
+    "growth": 7,
+    "dividend": 4
+  },
+  "data_fields_required": [
+    "avg_eps_10y",
+    "avg_eps_3y",
+    "book_value",
+    "consecutive_dividend_years",
+    "debt_to_equity",
+    "dividend_payout_ratio",
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "ebit",
+    "eps",
+    "eps_growth_rate",
+    "forward_pe",
+    "free_cash_flow",
+    "interest_coverage_ratio",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "ncav_per_share",
+    "net_income",
+    "operating_margin",
+    "pb",
+    "pe",
+    "price",
+    "profit_margin",
+    "profitable_years",
+    "ps",
+    "revenue",
+    "revenue_growth_rate",
+    "roe",
+    "total_debt",
+    "treasury_yield_10y"
+  ],
+  "data_fields_available": [
+    "avg_eps_10y",
+    "avg_eps_3y",
+    "book_value",
+    "consecutive_dividend_years",
+    "debt_to_equity",
+    "dividend_payout_ratio",
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "ebit",
+    "eps",
+    "eps_growth_rate",
+    "forward_pe",
+    "free_cash_flow",
+    "interest_coverage_ratio",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "ncav_per_share",
+    "net_income",
+    "operating_margin",
+    "pb",
+    "pe",
+    "price",
+    "profit_margin",
+    "profitable_years",
+    "ps",
+    "revenue",
+    "revenue_growth_rate",
+    "roe",
+    "total_debt",
+    "treasury_yield_10y"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "Altman Z-score",
+    "Binomial option pricing model",
+    "Black-Scholes model",
+    "Black-Scholes option pricing model",
+    "Cash Flow Return on Investment (CFROI)",
+    "EBITDA",
+    "EBITDA multiple",
+    "EVA (Economic Value Added)",
+    "Economic Value Added (EVA)",
+    "Enterprise Value to EBITDA",
+    "GAAP accounting principles",
+    "Glass-Steagall Act and investment restrictions",
+    "Gordon Growth Model",
+    "Jensen's alpha",
+    "M&A synergistic gains",
+    "Monte Carlo simulation",
+    "NOPLAT / net operating income",
+    "PEG ratio",
+    "R&D as growth asset",
+    "R&D capitalization",
+    "R&D expense capitalization",
+    "REITs as traded real estate",
+    "Tobin's Q",
+    "Treasury bond rate vs Treasury bill rate",
+    "abandonment option",
+    "accelerated vs. straight-line depreciation",
+    "accounting beta",
+    "accounting changes as value-neutral",
+    "accounting conventions and their impact on valuation",
+    "accounting inconsistencies in expense classification",
+    "accounting manipulation resistance of revenue",
+    "accrual accounting",
+    "acquisition premium",
+    "acquisition valuation",
+    "adaptive behavior based on observed outcomes",
+    "adjusted present value (APV)",
+    "adjusted present value (APV) approach",
+    "after-tax cost of debt",
+    "after-tax operating income",
+    "agency costs of debt",
+    "analyst forecasts",
+    "analyst growth estimate reliability",
+    "arbitrage pricing model (APM)",
+    "arithmetic vs geometric average growth",
+    "asset marketability",
+    "asset measurement and valuation",
+    "asset value uncertainty (volatility)",
+    "asset-based valuation",
+    "asset-specific risk factors",
+    "assets in place vs growth assets",
+    "assets in place vs. growth assets",
+    "augmented dividends",
+    "balance sheet analysis",
+    "bankruptcy costs",
+    "bankruptcy risk assessment",
+    "barriers to entry",
+    "behavioral finance",
+    "best-case/worst-case analysis",
+    "beta estimation",
+    "beta estimation (accounting, bottom-up, fundamental, regression)",
+    "beta estimation and regression tendencies",
+    "bias in valuation",
+    "bigger fool theory",
+    "book value",
+    "book value of capital",
+    "book value of capital as proxy for assets in place",
+    "book value of equity",
+    "book value vs. acquisition price",
+    "bottom-up beta",
+    "bottom-up beta estimation",
+    "business model viability",
+    "call options",
+    "capital asset pricing model (CAPM)",
+    "capital expenditures",
+    "capital invested",
+    "capital vs. operating expense distinction",
+    "capitalization versus expensing of research costs",
+    "cash and near-cash investments",
+    "cash flow driven valuation",
+    "cash flow estimation",
+    "cash flow from operations",
+    "cash flow generating assets",
+    "cash flow generation capacity",
+    "cash flow potential",
+    "cash flow to equity discount model",
+    "cash flow valuation",
+    "cash flow-based valuation",
+    "cash flows from assets in place",
+    "cash-flow-generating capacity",
+    "closure in valuation",
+    "collectible pricing based on scarcity and desirability",
+    "commodity price cyclicality",
+    "commodity valuation via supply and demand",
+    "comparable firm selection",
+    "comparable firms",
+    "competitive advantages and growth sustainability",
+    "compounding effects on growth measurement",
+    "conglomerate diversification",
+    "consistency principle (currency matching)",
+    "consolidated vs. separate valuation",
+    "contingent cash flows",
+    "contingent claim valuation",
+    "contingent claim valuation / real options",
+    "contingent claims and option characteristics",
+    "continuing value vs. liquidation value vs. divestiture value",
+    "control premium",
+    "control premium and synergy",
+    "converting narratives to valuation inputs",
+    "corporate bankruptcy prediction",
+    "corporate leverage and dividend policy",
+    "corporate life cycle",
+    "cost of capital",
+    "cost of capital approach",
+    "cost of capital estimation",
+    "cost of capital reduction",
+    "cost of debt",
+    "cost of equity",
+    "cost of waiting",
+    "cross-firm and cross-country comparability",
+    "cross-holdings in other firms",
+    "cross-sectional distribution of PE ratios",
+    "cross-sectional distribution of multiples",
+    "cross-sectional regressions",
+    "cryptocurrency valuation",
+    "currency as medium of exchange and store of purchasing power",
+    "cyclical earnings adjustment",
+    "cyclical firm valuation stability",
+    "debt as raw material vs. source of capital",
+    "debt vs. equity financing",
+    "decision trees",
+    "default risk",
+    "default risk and risk spectrum",
+    "default risk premium",
+    "default spread",
+    "deferred taxes",
+    "depreciation and amortization",
+    "depreciation of real assets",
+    "derivative assets",
+    "diluted vs primary earnings per share",
+    "dilution from employee stock options",
+    "disciplined storytelling",
+    "discount rate",
+    "discount rate mismatch for cash holdings",
+    "discount rate reflecting risk",
+    "discounted cash flow",
+    "discounted cash flow (DCF) valuation",
+    "discounted cash flow limitations for distressed firms",
+    "discounted cash flow models for start-ups",
+    "discounted cash flow valuation",
+    "discounted cash flow valuation limitations",
+    "distinction between value and price",
+    "distress-adjusted DCF",
+    "distressed firm valuation",
+    "diversifiable risk vs non-diversifiable risk",
+    "diversification",
+    "divestiture of poor investments",
+    "dividend discount model",
+    "dividend discount model (DDM)",
+    "dividend discount models",
+    "dividend impact on option value",
+    "downside risk reduction",
+    "downside risk vs upside risk",
+    "duration matching",
+    "earning power of assets",
+    "earnings adjustments",
+    "earnings growth rate estimation challenges",
+    "earnings management",
+    "earnings management critique",
+    "earnings normalization",
+    "earnings per share volatility",
+    "earnings power",
+    "earnings quality",
+    "earnings standardization",
+    "earnings yield and returns",
+    "effective tax rate vs. marginal tax rate",
+    "efficient markets",
+    "emerging market valuation",
+    "enterprise value",
+    "enterprise value-to-sales ratio",
+    "equity as a call option",
+    "equity capital as primary capital measure for financial firms",
+    "equity risk premium",
+    "equity valuation vs. business valuation",
+    "equity valuation vs. firm valuation",
+    "equity value per share",
+    "equity value vs. operating asset value",
+    "estimation uncertainty",
+    "excess return",
+    "excess return model",
+    "excess returns",
+    "exclusivity as a prerequisite for option value",
+    "expansion option life as internal constraint",
+    "expansion options",
+    "expected future cash flows",
+    "expected growth rate with excess returns",
+    "expected return",
+    "expected value",
+    "expensing vs capitalizing",
+    "face value of debt as exercise price",
+    "fair market return on cash",
+    "fair value reappraisal",
+    "false precision in financial modeling",
+    "feasibility constraints in scenario construction",
+    "financial balance sheet",
+    "financial balance sheet vs accounting balance sheet",
+    "financial health ratios (acid test, current ratio)",
+    "financing vs. operating expense distinction",
+    "finite versus infinite asset lives",
+    "firm value as underlying asset",
+    "firm value to equity value bridge",
+    "first-mover advantage",
+    "forward earnings estimates",
+    "forward-looking valuation vs. backward-looking accounting",
+    "free cash flow",
+    "free cash flow to equity (FCFE)",
+    "free cash flow to firm (FCFF)",
+    "free cash flow to the firm (FCFF)",
+    "free cash flows to equity",
+    "free cash flows to firm",
+    "fundamental analysis",
+    "fundamental analysis and public information",
+    "fundamental beta",
+    "fundamental growth analysis",
+    "fundamental growth rate",
+    "going concern assumption",
+    "going concern valuation",
+    "government securities as risk-free benchmarks",
+    "gross profit",
+    "growth assets vs. assets in place",
+    "growth assets vs. tangible assets",
+    "growth potential adjustment",
+    "growth rate estimation",
+    "historical cost vs. market value",
+    "historical earnings normalization",
+    "historical growth rate estimation",
+    "historical risk premium",
+    "holding period return",
+    "hostile vs. friendly acquisitions",
+    "hurdle rate",
+    "illiquidity discount",
+    "imaginative number crunching",
+    "implied equity risk premium",
+    "in-the-money options",
+    "income statement structure",
+    "industry averages as information substitute",
+    "inflation hedge properties of real estate",
+    "inflation-adjusted book value",
+    "information asymmetry",
+    "information constraints in valuation",
+    "initial public offering (IPO)",
+    "inside information and strong form efficiency",
+    "institutional investor coverage",
+    "insurance premium income vs. investment portfolio income",
+    "intangible asset valuation",
+    "intangible assets",
+    "intermingling of personal and business expenses",
+    "internal consistency of multiples",
+    "intrinsic valuation",
+    "intrinsic valuation applied to real assets",
+    "intrinsic valuation of all asset types",
+    "intrinsic value",
+    "intrinsic value of options",
+    "intrinsic value versus option value",
+    "intrinsic value vs relative valuation",
+    "intrinsic value vs. market price",
+    "intrinsic value vs. relative value",
+    "invested capital",
+    "investing versus trading",
+    "investment classification framework",
+    "investment time horizon",
+    "land value versus building value",
+    "length of high growth period",
+    "leverage and firm value",
+    "leverage distortion in price-to-sales",
+    "leveraged buyout (LBO)",
+    "life cycle of the firm",
+    "limited liability",
+    "liquidation value",
+    "liquidity differences between real and financial assets",
+    "loan portfolio quality",
+    "low P/E investing",
+    "macroeconomic impact on valuations",
+    "macroeconomic scenarios",
+    "management buyout (MBO)",
+    "management compensation systems",
+    "management options and dilution",
+    "management options impact on equity value",
+    "margin of safety",
+    "margin of safety (implied by convergence of price to intrinsic value)",
+    "margin of safety (implied)",
+    "margin of safety through abandonment options",
+    "marginal investor",
+    "market PE as benchmark",
+    "market anomalies",
+    "market efficiency",
+    "market inefficiency / markets make mistakes",
+    "market mood and sentiment",
+    "market portfolio",
+    "market price vs. intrinsic value",
+    "market risk",
+    "market value versus book value",
+    "market value vs. book value of capital",
+    "market value weights",
+    "mean reversion of market prices to true value",
+    "meme stock valuation",
+    "merger vs. consolidation",
+    "minority shareholders",
+    "multifactor models",
+    "multinational tax rate weighting",
+    "multiple share classes",
+    "multiple-scenario analysis",
+    "narrative and numbers integration",
+    "negative NPV projects with embedded options",
+    "negative earnings",
+    "negative earnings and growth estimation challenges",
+    "negative earnings firms",
+    "negative earnings in early-stage firms",
+    "negative earnings valuation",
+    "neglected firm effect",
+    "neglected stock effect",
+    "net capital expenditures",
+    "net income",
+    "net income vs. cash flow",
+    "net interest spread",
+    "net operating loss carryforwards",
+    "net operating losses (NOLs) carried forward",
+    "net present value",
+    "net present value (NPV)",
+    "new paradigm fallacy",
+    "nondiversifiable risk",
+    "nonequity claims",
+    "nonoperating assets",
+    "normalized earnings",
+    "normalized pricing over long cycles",
+    "one-time charge adjustments",
+    "one-time charges and extraordinary items",
+    "operating cash requirements",
+    "operating earnings (EBIT)",
+    "operating income",
+    "operating income definition challenges for banks",
+    "operating lease capitalization",
+    "operating lease reclassification",
+    "operating profit",
+    "operational restructuring",
+    "opportunities versus options",
+    "optimal capital structure",
+    "option overhang",
+    "option payoff diagrams",
+    "option pricing",
+    "option pricing (Black-Scholes)",
+    "option pricing model",
+    "option pricing models",
+    "option to abandon",
+    "option to delay",
+    "option to expand",
+    "option to liquidate",
+    "optionality",
+    "outlier effects on average vs median multiples",
+    "over-leveraged firms",
+    "patent valuation as options",
+    "payoff diagrams",
+    "payout ratio",
+    "peer group / comparable firm analysis",
+    "perpetual growth model",
+    "platform company valuation",
+    "pooling vs. purchase accounting",
+    "potential dividends",
+    "preferred stock exclusion",
+    "present value of expected cash flows",
+    "present value of expected future cash flows",
+    "present value rule",
+    "price per site visitor as flawed metric",
+    "price versus value distinction",
+    "price-earnings ratio",
+    "price-to-book ratio",
+    "price-to-book valuation",
+    "price-to-book value",
+    "price-to-book value ratio",
+    "price-to-earnings (P/E) multiple",
+    "price-to-sales ratio",
+    "pricing multiples (PE, EV/EBITDA, Price-to-Book, EV/Sales)",
+    "pricing vs. valuing",
+    "private firm valuation",
+    "private firm valuation motives",
+    "probability-weighted cash flows",
+    "profit margin control in revenue-based valuation",
+    "profit margins",
+    "purchase accounting and goodwill",
+    "purchase of assets",
+    "put options",
+    "qualitative factors in valuation",
+    "random deviations from true value",
+    "random walk hypothesis",
+    "real estate as part of a diversified portfolio",
+    "real options",
+    "real options valuation",
+    "regression beta",
+    "regulatory capital requirements",
+    "regulatory overlay on valuation",
+    "reinvestment needs",
+    "reinvestment rate",
+    "reinvestment rate and quality of investments",
+    "reinvestment rate and return on investment",
+    "reinvestment risk",
+    "relative PE",
+    "relative pricing / comparable valuation",
+    "relative valuation",
+    "relative valuation / multiples",
+    "relative valuation applied to real assets",
+    "relative valuation for financial service firms",
+    "relative valuation using multiples",
+    "relative value",
+    "replacement cost",
+    "replacement value",
+    "residual claim",
+    "restructuring potential",
+    "restructuring value",
+    "return distribution",
+    "return on capital",
+    "return on capital invested",
+    "return on equity",
+    "return on equity as driver of PBV",
+    "return on invested capital exceeding cost of capital",
+    "return on investment vs. cost of funding",
+    "revenue drivers as valuation metrics",
+    "revenue forecasting and profit margin estimation",
+    "revenue growth vs earnings growth stability",
+    "revenue multiples for negative earnings firms",
+    "right-skewed distribution of multiples",
+    "risk adjustment in multiples",
+    "risk and return models across asset classes",
+    "risk as a range of outcomes",
+    "risk as variance of returns",
+    "risk premiums",
+    "risk-adjusted valuation",
+    "risk-free investment",
+    "risk-free rate",
+    "risk-free rates",
+    "scaling down investments",
+    "scenario analysis",
+    "sector-specific multiples",
+    "semi-strong form efficiency",
+    "sensitivity analysis",
+    "separation of ownership and management",
+    "sequential risk",
+    "signaling to financial markets",
+    "small-cap effect",
+    "stable growth rate",
+    "stable-growth models",
+    "standardized values and multiples",
+    "start-up firm valuation",
+    "statement of cash flows",
+    "steady state growth",
+    "stock screening for undervalued subsample",
+    "stock splits and stock dividends as value-neutral",
+    "stock-price-based compensation",
+    "stories and numbers as valuation bridges",
+    "strike price / exercise price",
+    "strike price as expansion cost",
+    "strong form efficiency",
+    "subjective judgment in valuation",
+    "subscriber/user/customer valuation",
+    "surplus value",
+    "synergy",
+    "systematic risk",
+    "target firm valuation",
+    "tax credits",
+    "tax shield on debt",
+    "technical analysis limitations",
+    "temporary vs. structural earnings problems",
+    "tender offer",
+    "term structure of interest rates",
+    "terminal value",
+    "terminal value estimation for distressed firms",
+    "three-stage growth models",
+    "time series earnings forecasting",
+    "time value of options",
+    "time-varying discount rates",
+    "trailing PE vs forward PE vs current PE",
+    "transaction costs and differential tax rates",
+    "trophy assets",
+    "two-stage growth models",
+    "unanticipated inflation impact on asset classes",
+    "unbiased estimate of true value",
+    "uncertainty and risk in asset valuation",
+    "uncertainty in valuation",
+    "underlying asset as present value of future cash flows",
+    "underlying asset volatility",
+    "undeveloped reserves valuation",
+    "universality of valuation models across markets",
+    "unlevered beta",
+    "unlevered beta adjustment for cash",
+    "unlevered cash flow",
+    "untraded assets and observable market prices",
+    "updating earnings to real time",
+    "valuation as a bridge between stories and numbers",
+    "valuation bias",
+    "valuation multiples (earnings, cash flows, book value, sales)",
+    "value creation vs. value destruction",
+    "value creation vs. value-neutral actions",
+    "value derived from future growth potential",
+    "value vs. growth investing",
+    "value-to-book ratio",
+    "variance as a driver of option value",
+    "variance in present value",
+    "weak form efficiency",
+    "weighted average cost of capital (WACC)",
+    "working capital reinvestment",
+    "working capital requirements",
+    "zero coupon debt maturity as option life",
+    "zero-coupon bonds"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "Section 1",
+      "summary": "This section is a publisher's preface for John Wiley & Sons' Finance series, providing background on the publishing company and describing the scope of the Wiley Finance book series. It contains no investment philosophy, valuation methodology, or stock screening criteria whatsoever—it is purely introductory and administrative in nature."
+    },
+    {
+      "chapter": "Section 3",
+      "summary": "This section contains only the copyright page, publisher information, legal disclaimers, and Library of Congress cataloging data for Aswath Damodaran's 'Investment Valuation' (4th edition, published by John Wiley & Sons). It contains no substantive investment content, valuation methodologies, or stock screening criteria."
+    },
+    {
+      "chapter": "Section 4",
+      "summary": "This section is a dedication page in which the author expresses gratitude to family members for their patience, support, inspiration, and joy. It contains no investment analysis, valuation methodology, or stock screening criteria."
+    },
+    {
+      "chapter": "Preface to the Fourth Edition",
+      "summary": "This preface to the fourth edition of 'Investment Valuation' by Aswath Damodaran outlines the book's core philosophy that any asset can be valued, though sometimes imprecisely. The author discusses how the book has evolved to address emerging market companies, macroeconomic crises (2008 financial crisis and 2020 pandemic), the rise of platform companies valued by users/subscribers rather than traditional operating metrics, the bridge between narratives and numbers in valuation, and the emergence of meme stocks and crypto investments. The preface emphasizes comprehensive coverage of valuation models, real-world applications, global market illustrations, and modular organization."
+    },
+    {
+      "chapter": "Chapter 1Introduction to Valuation",
+      "summary": "This introductory chapter establishes the philosophical foundation for valuation, arguing that every asset generating future cash flows has an intrinsic value, and that sound investing requires paying no more than that value. The chapter draws a critical distinction between 'valuation' (estimating intrinsic value based on fundamentals like cash flows, growth, and risk) and 'pricing' (determining what the market will pay based on momentum, mood, and relative comparisons). It warns against the 'bigger fool' theory and emphasizes that perceptions of value must ultimately be backed by the reality of expected cash flows. The chapter also identifies the key challenges to good valuation: human bias that colors subjective inputs, uncertainty about the future, and the false precision that complexity can introduce."
+    },
+    {
+      "chapter": "Chapter 2Approaches to Valuation",
+      "summary": "Chapter 2 of 'Investment Valuation' by Aswath Damodaran provides a foundational overview of the three major approaches to valuation: intrinsic valuation (discounted cash flow models), relative pricing (comparing assets using multiples like earnings, cash flows, book value, or sales), and contingent claim valuation (option pricing models). The chapter emphasizes that DCF valuation is the bedrock upon which other approaches are built, grounding value in the present value of expected future cash flows discounted at a rate reflecting their riskiness. The chapter categorizes DCF models along dimensions such as equity valuation versus firm valuation, and establishes the philosophical basis that intrinsic value can diverge from market price, creating opportunities when markets make mistakes and prices eventually converge to fundamentals."
+    },
+    {
+      "chapter": "Chapter 3Understanding Financial Statements",
+      "summary": "This chapter provides a foundational overview of the three core financial statements—balance sheet, income statement, and statement of cash flows—and explains how accountants measure and categorize assets, liabilities, revenues, and expenses. The chapter emphasizes that accounting statements are grounded in historical cost and backward-looking measurement, whereas valuation is inherently forward-looking. It highlights four key questions for analyzing a firm: the value of its assets, how those assets were financed (debt vs. equity mix), how profitable those assets are (whether returns exceed the cost of funding), and how much uncertainty or risk is embedded in those assets. The chapter serves as a primer on reading financial statements with a critical eye toward their limitations for valuation purposes, particularly the reliance on book value rather than market value and the incomplete treatment of risk and uncertainty."
+    },
+    {
+      "chapter": "Chapter 4The Basics of Risk",
+      "summary": "Chapter 4 lays the theoretical foundations for measuring risk in investment valuation. It defines risk as the variance of actual returns around expected returns, decomposes total risk into diversifiable (firm-specific) and non-diversifiable (market) risk, and presents models such as the CAPM for measuring market risk and converting it into expected return hurdle rates. The chapter also covers default risk as measured by rating agencies. The core philosophy is that risk must be measured from the perspective of the marginal investor, who is typically well-diversified, and that only non-diversifiable market risk should be compensated with higher expected returns. The chapter is primarily conceptual and does not provide specific stock screening thresholds."
+    },
+    {
+      "chapter": "Chapter 5Option Pricing Theory and Models",
+      "summary": "This chapter from Aswath Damodaran's 'Investment Valuation' covers option pricing theory and models, explaining the fundamentals of call and put options, their payoff structures, and the six key determinants of option value (current value of underlying asset, variance, dividends, strike price, time to expiration, and risk-free rate). The chapter is theoretical in nature, focused on derivative asset valuation rather than equity screening, and does not provide stock screening rules or thresholds for selecting individual stocks based on fundamental criteria."
+    },
+    {
+      "chapter": "Chapter 6Market Efficiency—Definition, Tests, and Evidence",
+      "summary": "This chapter defines market efficiency as a condition where market prices are unbiased estimates of true value, meaning price deviations from intrinsic value are random and uncorrelated with observable variables. It introduces Fama's three forms of efficiency (weak, semi-strong, and strong) based on what information is reflected in prices. The chapter argues that while perfectly efficient markets would make valuation exercises futile beyond justifying market prices, inefficiencies—where they exist—create opportunities for skilled analysts to find under- and overvalued stocks through systematic screening. The chapter emphasizes that even if markets are inefficient, they must eventually correct toward true value for valuation-based strategies to succeed, and the time horizon for such corrections (six months to five years) profoundly affects investment approach selection."
+    },
+    {
+      "chapter": "Chapter 7Riskless Rates and Risk Premiums",
+      "summary": "Chapter 7 of 'Investment Valuation' by Aswath Damodaran focuses on the foundational inputs for all risk and return models in finance: the risk-free rate and equity risk premiums. It establishes that a truly risk-free asset must have no default risk and no reinvestment risk, practically limiting the choice to government zero-coupon bonds matched to the investment horizon. The chapter discusses how to estimate risk-free rates in markets where governments may not be default-free, how to maintain consistency between currency of cash flows and the risk-free rate chosen, and how historical and implied equity risk premiums are estimated. It also covers default spreads for corporate bonds and the factors that cause these spreads to vary over time. The chapter is primarily theoretical and methodological, providing the building blocks for discount rate estimation rather than direct stock screening criteria."
+    },
+    {
+      "chapter": "Chapter 8Estimating Risk Parameters and Costs of Financing",
+      "summary": "This chapter focuses on the mechanics of estimating risk parameters for individual firms to determine their cost of equity and cost of debt, which are then combined into a weighted average cost of capital (WACC). The cost of equity is estimated using the CAPM framework (risk-free rate + beta × equity risk premium), where beta measures a firm's exposure to market risk. The chapter discusses three approaches to estimating beta: historical market regression, fundamental characteristics, and accounting data. It also introduces Jensen's alpha as a measure of whether a stock has outperformed or underperformed relative to its CAPM-expected return. The cost of debt incorporates default risk premiums, and the overall cost of capital weights equity and debt costs by their relative market values. The chapter is primarily methodological rather than prescriptive about screening thresholds."
+    },
+    {
+      "chapter": "Chapter 9Measuring Earnings",
+      "summary": "Chapter 9 of Investment Valuation focuses on the critical importance of properly measuring earnings as the starting point for all valuations, since free cash flows to the firm and equity are derived from operating earnings and net income respectively. The chapter identifies three key adjustments needed to transform accounting earnings into useful financial information: updating earnings to reflect current reality rather than dated fiscal year reports, correcting accounting inconsistencies where R&D (a capital expense) and operating leases (a financing expense) are misclassified as operating expenses, and normalizing earnings to strip out volatility from one-time charges, extraordinary items, and macroeconomic fluctuations. The core philosophy is that accounting earnings as reported often bear little resemblance to true earnings power, and without proper adjustments, the resulting valuations will be fundamentally flawed."
+    },
+    {
+      "chapter": "Chapter 10From Earnings To Cash Flows",
+      "summary": "This chapter focuses on the critical steps of converting earnings into cash flows for valuation purposes. It examines how to estimate the tax burden on operating income, distinguishing between effective tax rates (derived from financial statements) and marginal tax rates (derived from the tax code, approximately 25% for U.S. firms including state/local taxes in 2024). The chapter explores reasons for divergence between these rates—including depreciation method differences, tax credits, deferred taxes, and foreign income treatment—and addresses how to handle tax rates for multinational firms. It also frames reinvestment broadly to include not just traditional capital expenditures and working capital but also R&D and acquisitions, and discusses the treatment of net operating losses carried forward."
+    },
+    {
+      "chapter": "Chapter 11Estimating Growth",
+      "summary": "This chapter focuses on the critical importance of estimating growth rates in firm valuation, particularly for high-growth companies. It outlines four approaches to estimating growth: historical growth rates, analyst estimates, fundamental growth analysis (based on reinvestment rates and return on investment), and revenue/margin forecasting. The chapter emphasizes that historical growth rates can be misleading, especially for volatile firms, and that geometric averages are superior to arithmetic averages for measuring true compounded growth. For high-growth firms, the majority of value derives from growth assets rather than assets in place, making growth estimation the most critical input in valuation. The chapter warns against over-reliance on analyst estimates and advocates for fundamental growth analysis tied to reinvestment and investment quality."
+    },
+    {
+      "chapter": "Chapter 12Closure in Valuation: Estimating Terminal Value",
+      "summary": "This chapter addresses how to bring closure to a discounted cash flow valuation by estimating terminal value. Two primary approaches are discussed: a going concern approach, where the firm is assumed to eventually reach a stable growth rate (at or below the economy's growth rate) and terminal value is computed using a perpetual growth model; and a liquidation approach, where the firm's assets are assumed to be sold at some future point, with value estimated either from inflation-adjusted book value or from the earning power of assets. The chapter also critiques the common practice of using market multiples to estimate terminal value, arguing that this converts an intrinsic valuation into a relative valuation and is therefore incompatible with true DCF analysis. Key considerations for determining when stable growth begins include the firm's size relative to its market, its current growth rate, and its competitive advantages."
+    },
+    {
+      "chapter": "Chapter 13Narrative and Numbers – Story to Value",
+      "summary": "Chapter 13 of 'Investment Valuation' argues that valuation is fundamentally a bridge between narratives (stories) and numbers. The chapter contends that a spreadsheet of numbers without a coherent business story is merely a financial model, not a valuation, and that a compelling story without numerical backing is a fairy tale. The core philosophy is that every number in a valuation (growth, risk, profitability) must be supported by a plausible business narrative, and every qualitative claim about a company (brand, management quality) must be translated into quantifiable valuation inputs. The chapter emphasizes the importance of being a 'disciplined storyteller' or an 'imaginative number cruncher' to produce sound valuations, and explores the neuroscience behind why stories connect with audiences more powerfully than numbers alone."
+    },
+    {
+      "chapter": "Chapter 14Equity Intrinsic Value Models",
+      "summary": "Chapter 14 focuses on equity intrinsic value models, centering on the dividend discount model (DDM) as the foundational approach to equity valuation. The chapter explains that the value of a stock is the present value of expected future dividends, and introduces the Gordon Growth Model for stable-growth firms where dividends grow at a perpetually sustainable rate. It distinguishes three measures of cash flow to equity—dividends, augmented dividends (including buybacks), and free cash flow to equity (potential dividends)—noting that these measures converge for some firms but diverge for most, yielding different equity value estimates. The chapter emphasizes that stable growth rates must be sustainable in perpetuity, meaning earnings and dividend growth rates should align in steady state, and that the payout ratio must remain consistent over time for the model to hold."
+    },
+    {
+      "chapter": "Chapter 15Firm Valuation: Cost of Capital and Adjusted Present Value Approaches",
+      "summary": "Chapter 15 examines firm valuation using the cost of capital (WACC) and adjusted present value (APV) approaches, focusing on how to compute free cash flow to the firm (FCFF) by starting with EBIT, adjusting for taxes, depreciation, capital expenditures, and working capital changes. The chapter distinguishes FCFF from FCFE, EBITDA, and NOPLAT, and discusses how leverage affects firm value through the interplay of default risk, taxes, and agency costs, arguing that the optimal financing mix is the one that maximizes firm value."
+    },
+    {
+      "chapter": "Chapter 16Estimating Equity Value per Share",
+      "summary": "This chapter addresses the process of moving from firm value to equity value per share. It begins by discussing how to value nonoperating assets—particularly cash and near-cash investments, cross-holdings in other firms, and non-cash-generating assets—and whether to consolidate them with operating assets or value them separately. The chapter argues strongly for separate valuation of cash and financial assets to avoid misvaluation that occurs when cash is discounted at the firm's higher cost of equity rather than at the risk-free rate. It then addresses the complication of converting total equity value to per-share value when management and employee stock options create an 'option overhang' that dilutes existing shareholders. The core philosophy is that precision in handling nonoperating assets and dilutive claims is essential to arriving at an accurate intrinsic value per share."
+    },
+    {
+      "chapter": "Chapter 17Fundamental Principles of Relative Valuation",
+      "summary": "This chapter introduces the fundamental principles of relative valuation, where assets are valued based on how similar assets are currently priced in the market, as opposed to discounted cash flow valuation which estimates intrinsic value from cash flows, growth, and risk. The chapter explains that relative valuation requires two components: standardizing prices into multiples (such as P/E, price-to-book, price-to-sales, or EV/EBITDA) and finding truly comparable firms. While relative valuation is popular due to its simplicity, speed, and alignment with market sentiment, it has significant pitfalls including the potential to reflect market-wide overvaluation or undervaluation, susceptibility to manipulation through biased selection of multiples and comparable firms, and the risk of ignoring key variables like risk, growth, and cash flow potential. The chapter emphasizes that lower multiples are generally preferable but must be interpreted in the context of growth potential and risk characteristics."
+    },
+    {
+      "chapter": "Chapter 18Earnings Multiples",
+      "summary": "This chapter examines earnings multiples, with a primary focus on the price-earnings (PE) ratio as the most widely used measure of relative value. It highlights the importance of understanding which variant of earnings per share is used (current, trailing, forward, diluted, or primary) since these can yield materially different PE ratios, especially for high-growth and high-risk firms. The chapter emphasizes that PE ratios have a right-skewed distribution (averages consistently exceed medians), that firms with negative earnings cannot have meaningful PE ratios, and that accounting discretion in areas like acquisition accounting, option treatment, and expense capitalization can distort earnings comparisons across firms. The chapter also previews discussion of PEG ratios, relative PE, and Enterprise Value to EBITDA multiples."
+    },
+    {
+      "chapter": "Chapter 19Book Value Multiples",
+      "summary": "Chapter 19 examines the price-to-book value (PBV) ratio as a valuation tool, explaining that stocks trading below book value have traditionally been considered undervalued while those above book value are seen as overvalued. The chapter discusses the advantages of PBV ratios—their stability, comparability across firms, and applicability even when earnings are negative—as well as disadvantages including sensitivity to accounting conventions, limited meaning for asset-light service/technology firms, and the possibility of negative book values. The chapter emphasizes proper computation of the ratio, including handling multiple share classes, excluding preferred stock, and considering management options. It also introduces variants such as the value-to-book ratio and Tobin's Q, and notes that the fundamental determinant of the PBV ratio is the firm's return on equity and earning power relative to its asset base."
+    },
+    {
+      "chapter": "Chapter 20Revenue Multiples and Sector-Specific Multiples",
+      "summary": "This chapter examines revenue multiples (price-to-sales and EV-to-sales) as alternatives to earnings and book value multiples, particularly useful for young firms with negative earnings. Revenue multiples are less susceptible to accounting manipulation, less volatile than earnings multiples, and available for nearly all firms. However, the chapter strongly cautions that revenue multiples can be misleading if analysts fail to control for differences in profit margins and cost structures across firms—ultimately, firms must generate earnings and cash flows to have value. The EV-to-sales ratio is presented as more robust than price-to-sales because it is internally consistent (matching total operating asset value with revenues generated by those assets), while price-to-sales can be distorted by leverage differences. The chapter also briefly introduces sector-specific multiples based on operational metrics like subscribers or customers."
+    },
+    {
+      "chapter": "Chapter 21Valuing Financial Service Firms",
+      "summary": "Chapter 21 addresses the unique challenges of valuing financial service firms—banks, insurance companies, investment banks, and investment management firms. The core insight is that debt functions as a raw material (akin to steel for an automaker) rather than as a source of capital for these firms, which means capital should be defined narrowly as equity only. This fundamentally changes how cash flows, reinvestment, and valuation models should be constructed. The chapter advocates using equity-based valuation approaches such as dividend discount models, cash flow to equity models, and excess return models rather than enterprise value-based approaches. Heavy regulatory oversight (capital requirements, investment restrictions) adds another layer of complexity, as regulatory changes directly affect risk and value. The chapter also emphasizes that relative valuation for financial service firms should rely on equity-based multiples like price-to-book and price-to-earnings, and that loan portfolio quality at banks must be carefully assessed."
+    },
+    {
+      "chapter": "Chapter 22Valuing Money-Losing Firms",
+      "summary": "This chapter addresses the valuation of firms with negative or abnormally low earnings, which present measurement challenges including the inability to meaningfully estimate earnings growth rates, complications in tax computation due to net operating loss carryforwards, and questions about going concern assumptions. The chapter categorizes the causes of negative earnings into several groups: temporary problems (strikes, product recalls), long-gestation infrastructure investments, cyclical downturns, commodity price movements, long-term strategic or operating problems, and excessive leverage. For each cause, different valuation adaptations are recommended—backing out temporary expenses, using normalized earnings for cyclical firms, and making restructuring assumptions for firms with structural problems. The chapter emphasizes that while none of these problems are conceptual, they are significant from a measurement standpoint and require careful adaptation of standard valuation techniques."
+    },
+    {
+      "chapter": "Chapter 23Valuing Young or Start-Up Firms",
+      "summary": "This chapter addresses the challenge of valuing young or start-up firms that lack financial history, have negative earnings, and may not yet have established products or competitors for comparison. The author argues against abandoning traditional discounted cash flow valuation models in favor of 'new paradigm' metrics (such as price per site visitor for internet companies). Instead, the chapter contends that the fundamental principle—that a firm's value equals the present value of its expected future cash flows—remains valid for start-ups, though the estimation of those cash flows is far more difficult. The key insight is that the problem with valuing young firms is not conceptual but rather one of estimation, as these firms are simply earlier in their life cycles. Investors should use all available information sources—current financials, firm history, and peer group comparisons—while recognizing that for very young firms, peer group and industry data may need to compensate for the lack of firm-specific history."
+    },
+    {
+      "chapter": "Chapter 24Valuing Private Firms",
+      "summary": "This chapter addresses the unique challenges of valuing private firms compared to publicly traded companies. While the fundamental valuation framework (discounted cash flow) remains the same, private firms present distinct estimation challenges: limited and less standardized financial information, absence of market prices for estimating risk parameters like beta, lack of liquidity for equity positions, and the intermingling of owner/manager roles that blurs personal and business finances. The chapter emphasizes that the motive for valuation (sale to an individual, sale to a public company, or IPO) materially affects value through adjustments for illiquidity discounts, nondiversifiable risk, and control premiums. Alternative approaches for estimating risk parameters include accounting betas, fundamental betas, and bottom-up betas derived from comparable public firms."
+    },
+    {
+      "chapter": "Chapter 25Acquisitions and Takeovers",
+      "summary": "This chapter examines the process and motivations behind acquisitions and takeovers, covering the four basic steps: establishing an acquisition motive, identifying and valuing a target firm, structuring and paying for the deal, and making the acquisition work post-consummation. The chapter classifies acquisitions into mergers, consolidations, tender offers, asset purchases, and management/leveraged buyouts, and distinguishes between friendly and hostile transactions. Key concepts include the acquisition premium (difference between acquisition price and pre-acquisition market price), the role of synergy (higher growth or lower costs) as a primary acquisition motive, and the historical evolution of acquisition waves from conglomerate-building in the 1960s-70s, to restructuring plays in the 1980s, media consolidation in the 1990s, and technology platform expansion in the 2010s."
+    },
+    {
+      "chapter": "Chapter 26Valuing Real Estate",
+      "summary": "Chapter 26 of 'Investment Valuation' argues that the same valuation principles used for financial assets (stocks, bonds) apply equally to real estate, despite differences in liquidity, investor types, asset lives, and inflation sensitivity. The chapter emphasizes that real estate value is determined by cash flows, their uncertainty, and expected growth—just as with stocks. Key differences include finite asset lives for buildings (affecting terminal value), real estate's role as an inflation hedge, and the fact that most real estate is untraded. The chapter does not provide specific quantitative screening thresholds for stock selection but rather establishes a conceptual framework for applying discounted cash flow and relative valuation methods to real estate assets."
+    },
+    {
+      "chapter": "Chapter 27Valuing Other Assets",
+      "summary": "Chapter 27 of 'Investment Valuation' by Damodaran extends valuation principles beyond traditional stocks and bonds to cover other asset classes including franchises, commodities, currencies, collectibles, and hybrid assets like bitcoin and gold. The core thesis is that all investments fall into four categories—cash-generating assets, commodities, currencies, and collectibles—and while cash-generating assets can be intrinsically valued using discounted cash flow models, other categories can only be priced relative to comparable benchmarks. The chapter emphasizes the critical distinction between intrinsic value (based on expected cash flows and risk) and price (based on relative comparisons, scarcity, and desirability), arguing that not everything can be valued but almost everything can be priced."
+    },
+    {
+      "chapter": "Chapter 28The Option to Delay and Valuation Implications",
+      "summary": "This chapter explores the concept of the 'option to delay' in investment valuation, arguing that traditional NPV analysis undervalues projects and assets that contain embedded real options. The key insight is that when cash flows are volatile and a firm has exclusive rights to invest (through patents, undeveloped land, or natural resource reserves), there is additional option value beyond intrinsic value because the firm can observe market outcomes and adapt its behavior accordingly—investing when conditions are favorable and waiting when they are not. The chapter emphasizes that for optionality to have meaningful value, some degree of exclusivity (via patents, government protection, or first-mover advantage) is required, and that mere opportunities in large markets should not be confused with valuable real options."
+    },
+    {
+      "chapter": "Chapter 29The Options to Expand and to Abandon: Valuation Implications",
+      "summary": "Chapter 29 explores two real options embedded in investments and firm valuations: the option to expand and the option to abandon. The chapter argues that traditional discounted cash flow (DCF) valuation understates the value of firms that possess these options. The option to expand allows firms to invest in projects with negative net present value because the embedded option to enter new markets or launch new products in the future has significant value, particularly for young start-up firms. The option to abandon or scale down investments reduces downside risk, making large investments more valuable than DCF alone would suggest. The chapter uses option pricing models (such as Black-Scholes) to value these embedded real options, demonstrating that uncertainty and volatility actually increase option value, which is a key departure from traditional valuation where uncertainty reduces value."
+    },
+    {
+      "chapter": "Chapter 30Valuing Equity in Distressed Firms",
+      "summary": "Chapter 30 examines the valuation of equity in highly leveraged, distressed firms where traditional discounted cash flow models may indicate equity is worthless. The core insight is that equity in a publicly traded firm with limited liability can be viewed as a call option on the firm's assets, where the exercise price is the face value of outstanding debt. Using option pricing models (Black-Scholes), equity can have significant value even when the firm has negative earnings and debt exceeding asset values, particularly when there is high uncertainty (volatility) in the value of the firm's assets. The chapter demonstrates this with a numerical example where a firm with $100 million in assets and $80 million in debt has equity valued at $75.94 million using option pricing, and places this approach within a corporate life cycle framework for understanding when different real options (delay, expand, abandon, liquidate) are most relevant."
+    },
+    {
+      "chapter": "Chapter 31Value Enhancement: A Discounted Cash Flow Valuation Framework",
+      "summary": "This chapter shifts from passive valuation to active value enhancement, using the discounted cash flow framework to identify how managers and investors can increase firm value. Value is created through four levers: increasing cash flows from existing assets (by improving operations or divesting/liquidating underperforming investments), increasing the expected growth rate while maintaining excess returns over cost of capital, extending the duration of the high-growth period, and reducing the cost of capital. The chapter emphasizes that many corporate actions—stock splits, cosmetic accounting changes, name changes to reflect market fads—are value-neutral because they do not affect cash flows, growth, or discount rates, even though they may temporarily affect stock prices. The framework provides a disciplined approach to distinguishing genuine value creation from superficial corporate actions."
+    },
+    {
+      "chapter": "Chapter 32Value Enhancement: Economic Value Added, Cash Flow Return on Investment, and Other Tools",
+      "summary": "Chapter 32 examines value enhancement tools—primarily Economic Value Added (EVA) and Cash Flow Return on Investment (CFROI)—as alternatives to pure discounted cash flow models and stock-price-based compensation for measuring and incentivizing value creation. EVA measures the dollar surplus value created by a firm on its existing investments by computing the difference between the return on capital invested and the cost of capital, multiplied by the capital invested. The chapter emphasizes that proper calculation of EVA requires significant adjustments to book value of capital (converting operating leases to debt, capitalizing R&D, eliminating one-time charges) and to operating income. While these tools are simpler than full DCF models and less noisy than stock prices, the chapter warns that under certain conditions, firms using these approaches to judge performance may end up making decisions that destroy rather than create value."
+    },
+    {
+      "chapter": "Chapter 33Probabilistic Approaches in Valuation: Scenario Analysis, Decision Trees, and Simulations",
+      "summary": "This chapter explores probabilistic approaches to valuation as alternatives to traditional discounted cash flow and relative valuation methods. Rather than encapsulating risk in a single number (such as a discount rate or valuation multiple), the chapter examines three progressively more sophisticated techniques: scenario analysis (including best-case/worst-case and multiple-scenario analysis), decision trees for sequential risk assessment, and Monte Carlo simulations for comprehensive risk evaluation. The core philosophy is that understanding the distribution of possible outcomes for an investment provides more informative and nuanced risk assessment than a single point estimate of value, though the chapter is methodological in nature and does not prescribe specific stock screening thresholds or quantitative filters."
+    },
+    {
+      "chapter": "Chapter 34Overview and Conclusion",
+      "summary": "This chapter provides an overview and conclusion of the valuation models covered throughout the book, organizing them into four broad categories: asset-based valuation (liquidation value and replacement cost), intrinsic/discounted cash flow valuation (equity vs. firm cash flows, dividends vs. free cash flows, with various growth stage assumptions), pricing/multiples approaches (using comparable firms or cross-sectional regressions with metrics like earnings, book value, and sales), and option pricing/contingent claim approaches (for patents, undeveloped reserves, expansion options, and equity as a liquidation option in distressed firms). The chapter emphasizes that choosing the right valuation model is as critical as understanding how to use it, and that the choice depends on asset characteristics such as marketability of assets, cash-flow-generating capacity, and uniqueness of the business, as well as analyst-specific factors."
+    },
+    {
+      "chapter": "References",
+      "summary": "This chapter is a references/bibliography section from Aswath Damodaran's 'Investment Valuation' textbook. It lists academic papers and books that underpin the theoretical and empirical foundations of investment valuation, covering topics such as market efficiency, corporate bankruptcy prediction (Altman Z-score), the small-cap effect (Banz), the value premium associated with low P/E stocks (Basu), real options valuation, earnings quality, risk measurement, cost of capital estimation, M&A analysis, and style investing (value vs. growth). The chapter itself does not present specific stock screening rules or actionable investment criteria, but rather provides the scholarly sources that inform valuation methodologies discussed elsewhere in the book."
+    },
+    {
+      "chapter": "Index",
+      "summary": "This chapter is an index for the book 'Investment Valuation' by Aswath Damodaran. It serves as a reference guide to the topics covered throughout the book, including discounted cash flow (DCF) valuation, relative valuation using multiples, option pricing models applied to real assets, acquisition analysis, and the valuation of special types of firms such as banks, young/start-up companies, distressed firms, and private companies. The index references key valuation concepts such as beta estimation, cost of capital, earnings adjustments, growth rate estimation, margin of safety, and various approaches to firm and equity valuation. As an index, it does not present specific stock screening rules with explicit numeric thresholds, but rather catalogs the broad range of valuation methodologies and analytical frameworks discussed in the full text."
+    }
+  ]
+}

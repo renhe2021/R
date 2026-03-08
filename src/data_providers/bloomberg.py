@@ -190,14 +190,45 @@ class BloombergProvider(DataProvider):
         request.set("endDate", end_date)
         request.set("periodicitySelection", periodicity)
 
+        logger.debug(f"[Bloomberg] BDH 请求: {security}, "
+                     f"fields={fields}, {start_date}~{end_date}, {periodicity}")
         session.sendRequest(request)
 
         rows = []
         while True:
-            event = session.nextEvent(500)
+            event = session.nextEvent(5000)  # 增大超时到 5s，防止大量数据时超时
             for msg in event:
+                # 检查是否有请求级别的错误
+                if msg.hasElement("responseError"):
+                    err = msg.getElement("responseError")
+                    logger.error(f"[Bloomberg] BDH responseError: "
+                                 f"{err.getElementAsString('message')}")
+                    return rows
+
                 if msg.hasElement("securityData"):
                     sec_data = msg.getElement("securityData")
+
+                    # 检查 securityError（如 ticker 无效）
+                    if sec_data.hasElement("securityError"):
+                        sec_err = sec_data.getElement("securityError")
+                        logger.error(
+                            f"[Bloomberg] BDH securityError for '{security}': "
+                            f"{sec_err.getElementAsString('message')} "
+                            f"(category={sec_err.getElementAsString('category')})"
+                        )
+                        return rows
+
+                    # 检查 fieldExceptions（如字段名无效）
+                    if sec_data.hasElement("fieldExceptions"):
+                        fe = sec_data.getElement("fieldExceptions")
+                        for j in range(fe.numValues()):
+                            exc = fe.getValueAsElement(j)
+                            fid = exc.getElementAsString("fieldId") if exc.hasElement("fieldId") else "?"
+                            ei = exc.getElement("errorInfo") if exc.hasElement("errorInfo") else None
+                            emsg = ei.getElementAsString("message") if ei and ei.hasElement("message") else "unknown"
+                            logger.warning(f"[Bloomberg] BDH fieldException: "
+                                           f"field={fid}, error={emsg}")
+
                     if sec_data.hasElement("fieldData"):
                         field_data = sec_data.getElement("fieldData")
                         for i in range(field_data.numValues()):
@@ -215,8 +246,16 @@ class BloombergProvider(DataProvider):
                                         except Exception:
                                             pass
                             rows.append(row)
+                    else:
+                        logger.warning(f"[Bloomberg] BDH 响应中无 fieldData 元素 "
+                                       f"(security={security})")
+
             if event.eventType() == blpapi.Event.RESPONSE:
                 break
+
+        if not rows:
+            logger.warning(f"[Bloomberg] BDH 返回 0 行数据: security={security}, "
+                           f"fields={fields}, range={start_date}~{end_date}")
 
         return rows
 
@@ -234,7 +273,19 @@ class BloombergProvider(DataProvider):
         end_date = datetime.now().strftime("%Y%m%d")
         start_date = (datetime.now() - timedelta(days=365 * 10)).strftime("%Y%m%d")
         hist_data = self._bdh(security, BBG_HISTORICAL_FIELDS, start_date, end_date)
-        logger.info(f"[Bloomberg] BDH 获取 {len(hist_data)} 年历史数据")
+
+        # 如果 BDH 返回空，尝试缩短时间范围重试一次
+        if not hist_data:
+            logger.warning(f"[Bloomberg] BDH 10年数据为空，尝试 5 年范围重试...")
+            start_date_5y = (datetime.now() - timedelta(days=365 * 5)).strftime("%Y%m%d")
+            hist_data = self._bdh(security, BBG_HISTORICAL_FIELDS, start_date_5y, end_date)
+
+        if not hist_data:
+            logger.warning(f"[Bloomberg] BDH 历史数据仍为空! "
+                           f"security={security}, 所有历史衍生指标将为 None。"
+                           f"请确认: 1) ticker 格式正确 2) 该证券确实有年度财务数据")
+        else:
+            logger.info(f"[Bloomberg] BDH 获取 {len(hist_data)} 年历史数据")
 
         # 3. 拉取市场基准数据
         benchmarks = self._fetch_market_benchmarks()
@@ -508,11 +559,14 @@ class BloombergProvider(DataProvider):
 
     def _to_bbg_ticker(self, symbol: str) -> str:
         """将简单 ticker 转换为 Bloomberg 格式"""
-        symbol = symbol.upper().strip()
-        if " Equity" in symbol or " equity" in symbol:
+        symbol = symbol.strip()
+        # 已经是 Bloomberg 格式（包含 Equity/Index），直接返回
+        sym_upper = symbol.upper()
+        if " EQUITY" in sym_upper:
             return symbol
-        if " Index" in symbol or " index" in symbol:
+        if " INDEX" in sym_upper:
             return symbol
+        symbol = sym_upper
         if symbol.isdigit() and len(symbol) <= 5:
             return f"{symbol} HK Equity"
         if symbol.isdigit() and len(symbol) == 6:

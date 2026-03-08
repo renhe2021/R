@@ -1,0 +1,164 @@
+{
+  "book_title": "The Little Book That Still Beats the Market",
+  "book_author": "Joel Greenblatt",
+  "total_chapters_analyzed": 2,
+  "strategies": [
+    {
+      "name": "Magic Formula - High Earnings Yield",
+      "description": "Select stocks with high earnings yield (EBIT/Enterprise Value), which identifies cheap stocks relative to their earnings power. This is one of the two ranking factors in Greenblatt's Magic Formula.",
+      "expression": "earnings_yield > 0",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Option 1:MagicFormulaInvesting.com",
+      "source_book": "The Little Book That Still Beats the Market",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Formula - High Return on Capital",
+      "description": "Select stocks with high return on capital (EBIT/Net Working Capital + Net Fixed Assets), which identifies good businesses that earn high returns on the capital employed. This is the second ranking factor in Greenblatt's Magic Formula.",
+      "expression": "roe > 0",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Option 1:MagicFormulaInvesting.com",
+      "source_book": "The Little Book That Still Beats the Market",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Formula Composite",
+      "description": "The Magic Formula combines ranking stocks by both high earnings yield (cheap stocks) and high return on capital (good businesses), then selects the top-ranked combined scores. The formula seeks stocks that are both good businesses AND available at bargain prices.",
+      "expression": null,
+      "data_fields_required": [
+        "earnings_yield",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Option 1:MagicFormulaInvesting.com",
+      "source_book": "The Little Book That Still Beats the Market",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Formula - High Earnings Yield",
+      "description": "Buy companies that earn a lot relative to the price paid. The formula seeks companies trading at a bargain price by finding high earnings relative to price, adjusted for differences in debt and tax rates (using EBIT/Enterprise Value rather than simple P/E).",
+      "expression": "earnings_yield > 0.10",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "The Magic Formula",
+      "source_book": "The Little Book That Still Beats the Market",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Formula - High Return on Capital",
+      "description": "Buy companies that earn a high return on the capital invested in the business. The formula measures how well a company converts its investment in working capital and fixed assets into earnings (EBIT / (Net Working Capital + Net Fixed Assets)). Higher return on capital indicates a better business.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "The Magic Formula",
+      "source_book": "The Little Book That Still Beats the Market",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Formula - Combined Cheap and Good",
+      "description": "The magic formula ranks all companies by both earnings yield (cheapness) and return on capital (quality), then combines the two rankings. It buys companies that provide the best combination of being both cheap and good - not just the cheapest, and not just the best businesses, but the optimal combination of both.",
+      "expression": "earnings_yield > 0.10 and roe > 0.15",
+      "data_fields_required": [
+        "earnings_yield",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "The Magic Formula",
+      "source_book": "The Little Book That Still Beats the Market",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety - Price Below Value",
+      "description": "Following Ben Graham's principle, figure out what something is worth and pay a lot less. Leave a large spread between the value of a company and the price paid to create a margin of safety.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "The Magic Formula",
+      "source_book": "The Little Book That Still Beats the Market",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Good Business Filter - High Return on Invested Capital",
+      "description": "Following Buffett's improvement on Graham: buy good businesses that can continually invest earnings at a high rate of return, which creates additional value over time and effectively increases the original margin of safety. A good business converts working capital and fixed assets into high earnings.",
+      "expression": "roe > 0.20",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "The Magic Formula",
+      "source_book": "The Little Book That Still Beats the Market",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 8,
+  "strategies_by_category": {
+    "valuation": 3,
+    "profitability": 2,
+    "composite": 2,
+    "quality": 1
+  },
+  "data_fields_required": [
+    "earnings_yield",
+    "margin_of_safety",
+    "roe"
+  ],
+  "data_fields_available": [
+    "earnings_yield",
+    "margin_of_safety",
+    "roe"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "EBIT-based earnings measurement",
+    "Magic Formula",
+    "Mr. Market",
+    "buying good businesses at bargain prices",
+    "combination of cheap and good",
+    "compounding returns on invested capital",
+    "debt and tax rate adjustments",
+    "earnings yield",
+    "emotional market extremes",
+    "enterprise value",
+    "fixed assets",
+    "good business vs. poor business",
+    "margin of safety",
+    "market anomalies",
+    "patience and discipline in investing",
+    "price vs. value disparity",
+    "return on capital",
+    "systematic ranking",
+    "systematic stock screening",
+    "value investing",
+    "working capital"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "Option 1:MagicFormulaInvesting.com",
+      "summary": "This chapter (and surrounding front matter) introduces Joel Greenblatt's 'Magic Formula' investing approach, which systematically ranks stocks based on two factors: earnings yield (a valuation measure using EBIT relative to enterprise value) and return on capital (a quality/profitability measure using EBIT relative to tangible capital employed). The philosophy is to buy good companies at bargain prices through a disciplined, systematic process. The book emphasizes that the formula works over time but requires patience, as it may underperform in shorter periods, which is actually what preserves the opportunity since most investors lack the discipline to stick with it."
+    },
+    {
+      "chapter": "The Magic Formula",
+      "summary": "This afterword to the 2010 edition of 'The Little Book That Still Beats the Market' reaffirms the core principles of the magic formula after five turbulent years including a real estate bubble, deep recession, and partial recovery. The magic formula combines two key investment ideas: Ben Graham's margin of safety principle (buying companies cheaply relative to their earnings, measured by earnings yield adjusted for debt and taxes) and Warren Buffett's insight that buying good businesses at bargain prices is superior to buying poor businesses cheaply (measured by return on capital - how efficiently a company converts working capital and fixed assets into earnings). The formula systematically ranks companies on both dimensions and selects those offering the best combination of cheapness and quality, deliberately removing Mr. Market's emotions from the investment process."
+    }
+  ]
+}

@@ -1,0 +1,1870 @@
+{
+  "book_title": "Value Investing: From Graham to Buffett and Beyond",
+  "book_author": "Bruce Greenwald et al.",
+  "total_chapters_analyzed": 23,
+  "strategies": [
+    {
+      "name": "Graham Bargain Price Rule",
+      "description": "Purchase a security at a bargain price - the proverbial dollar for 50 cents, implying a 50% margin of safety from intrinsic value.",
+      "expression": "margin_of_safety >= 0.50",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Earnings Value Screen",
+      "description": "Mechanical value investing variant using low price-to-earnings ratios to beat market indexes, as referenced in academic studies challenging efficient market hypothesis.",
+      "expression": "pe < market_pe",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Book Value Screen",
+      "description": "Mechanical value investing variant using low price-to-book value ratios to beat market indexes, as referenced in academic studies.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Momentum Screen - 52-Week High Proximity",
+      "description": "Momentum investing variant referenced in academic studies: buy stocks that have gone up (trading near their 52-week highs), as these have been shown to outperform indexes.",
+      "expression": "price >= price_52w_high * 0.90",
+      "data_fields_required": [
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Mean Reversion - Oversold Value Opportunity",
+      "description": "Based on Graham's belief that company performance and share prices revert to a mean over the long run, and that stocks of disappointing companies are driven to extremes, look for stocks trading well below their 52-week highs as potential reversion candidates.",
+      "expression": "price < price_52w_high * 0.60 and pe > 0",
+      "data_fields_required": [
+        "price",
+        "price_52w_high",
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Margin of Safety - Ideal",
+      "description": "Buy securities only when the market price is at most 50% of the calculated intrinsic value (buying a dollar for 50 cents). Graham's ideal margin of safety gap should amount to about one-half of fundamental value.",
+      "expression": "margin_of_safety >= 0.50",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Margin of Safety - Minimum",
+      "description": "At a minimum, the gap between intrinsic value and market price should not be less than one-third of the fundamental value. The price should be no more than two-thirds of intrinsic value.",
+      "expression": "margin_of_safety >= 0.33",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Price Below Intrinsic Value",
+      "description": "A value investor buys a security only when its current market price is significantly below its estimated intrinsic (fundamental) value. This is the core principle of Graham and Dodd value investing.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low P/E Value Screen",
+      "description": "Select stocks with low price-to-earnings ratios, as studies show that value stocks with low share prices relative to earnings outperform glamour stocks.",
+      "expression": "pe < market_pe",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low P/B Value Screen",
+      "description": "Select stocks with low price-to-book value ratios. Studies demonstrate that stocks with low share prices relative to book value outperform glamour stocks.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low P/S Value Screen",
+      "description": "Select stocks with low price-to-sales ratios. Value stocks with low share prices relative to sales have been shown to outperform glamour stocks.",
+      "expression": "ps < 1.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Dividend (High Dividend Yield) Screen",
+      "description": "Select stocks with low share prices relative to dividends (i.e., high dividend yields). Studies show these value stocks outperform glamour stocks.",
+      "expression": "dividend_yield > 0.03",
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Contrarian Low ROE Screen (In Search of Disaster)",
+      "description": "Select stocks of companies with low return on equity, as studies show that portfolios of companies with low fundamental performance metrics (low ROE, narrow margins) have produced higher stock returns than high-performing companies. Based on Michelle Clayman's 'in search of disaster' finding.",
+      "expression": "roe < 0.10",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Contrarian Low Profit Margin Screen",
+      "description": "Select stocks of companies with narrow profit margins, as studies show these lowly companies' stocks have produced higher returns for investors than high-margin glamour companies.",
+      "expression": "profit_margin < 0.05",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "One-Year Relative Strength Momentum Screen",
+      "description": "Select stocks based on strong one-year price momentum (relative strength). From 1952-1994, the top 50 stocks selected on relative strength bested the market by 3.7% per year. Momentum plays out over short periods.",
+      "expression": "price > ma_200d",
+      "data_fields_required": [
+        "price",
+        "ma_200d"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Mean Reversion / 3-Year Loser Screen",
+      "description": "Select stocks that have performed poorly over the prior three years, as reversion to the mean causes prior losers to outperform. The downtrodden arise while high flyers fall back to earth.",
+      "expression": "price < price_52w_high * 0.5",
+      "data_fields_required": [
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Small Market Capitalization Screen",
+      "description": "Select stocks with small market capitalization, as market cap has had a major effect on investor returns, with smaller companies historically producing higher returns.",
+      "expression": "market_cap < 2000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Intrinsic Value Discount Screen",
+      "description": "Select stocks where intrinsic value sells at a discount to market price. The core philosophy is discovering intrinsic value selling at a discount for patient investors.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Earnings Yield Screen",
+      "description": "Select stocks with high earnings yield (inverse of P/E), reflecting low prices relative to earnings. Value stocks with low prices relative to fundamental measures outperform.",
+      "expression": "earnings_yield > 0.08",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety - Price Below Intrinsic Value",
+      "description": "Buy securities only when the current market price deviates significantly below the estimated intrinsic value, providing a margin of safety against estimation errors.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Net Current Asset Value Screen",
+      "description": "Identify stocks trading below their net current asset value per share, a classic Graham approach to finding deeply undervalued securities where the market price is below liquidation value.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Number Valuation Screen",
+      "description": "Buy stocks trading below their Graham Number, which represents a conservative estimate of intrinsic value based on earnings and book value.",
+      "expression": "price < graham_number",
+      "data_fields_required": [
+        "price",
+        "graham_number"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Net-Net (NCAV) Screen",
+      "description": "Benjamin Graham's classic approach: buy stocks trading below their net current asset value (current assets minus total liabilities). The text notes these have virtually disappeared but describes them as the most conservative asset-based valuation approach.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Liquidation Value - Accounts Receivable Discount",
+      "description": "In liquidation analysis, accounts receivable should be valued at approximately 85% of stated book value, as trade debt specialists can recover most but not all of the stated amount.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Liquidation Value - Inventory Discount",
+      "description": "In liquidation analysis, inventory should be valued at approximately 50% of stated book value for typical manufacturing firms. Highly specialized or obsolete inventory should be valued substantially lower.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Liquidation Value - PP&E Discount",
+      "description": "In liquidation analysis, property, plant, and equipment should be valued at approximately 45% of book value as a rough estimate. Generic assets (e.g., office buildings) retain more value relative to book than specialized structures (e.g., chemical plants).",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Liquidation Value - Goodwill Exclusion",
+      "description": "In liquidation analysis, goodwill should be ascribed zero value, as it merely represents the excess over fair market value paid in acquisitions.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Negative Net Worth Companies",
+      "description": "Companies whose retained earnings have declined to the point where net worth (book value) falls below zero are candidates for distressed debt investing only, not traditional equity investment. Avoid stocks with negative book value.",
+      "expression": "book_value > 0",
+      "data_fields_required": [
+        "book_value"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Industry Viability Filter",
+      "description": "Only apply reproduction cost asset valuation (rather than liquidation value) to firms operating in stable or growing industries. Intangible assets are worthless if the industry is in serious decline.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Below Reproduction Cost of Assets",
+      "description": "The core Graham and Dodd first-step valuation: calculate the reproduction cost of a company's assets (what it would cost to replicate them) and buy when market price is below this value. For viable industries, assets should be valued at reproduction cost rather than liquidation value.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Company Filter",
+      "description": "Avoid companies whose profitability has plummeted and that face financial distress (bankruptcy risk). These firms may be worth no more than liquidation value and are not suitable for traditional equity investment.",
+      "expression": "profitable_years >= 1 and net_income > 0",
+      "data_fields_required": [
+        "profitable_years",
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "EPV Equals Asset Value (No Franchise)",
+      "description": "In a competitive commodity business without barriers to entry, earnings power value will converge to asset reproduction cost. When EPV significantly exceeds asset value, competition will erode profits until they equalize. Value investors should be skeptical of companies where EPV greatly exceeds asset value unless clear competitive advantages (franchise) exist.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "EPV-to-Asset Value Gap as Franchise Indicator",
+      "description": "When a company's earnings power value (earnings / cost of capital) significantly exceeds its asset reproduction value, the gap represents a potential franchise value. However, without barriers to entry, this gap will attract competitors and erode. Investors should look for companies where EPV exceeds asset value AND sustainable competitive advantages protect the gap.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Power Value Calculation",
+      "description": "Calculate EPV as normalized earnings divided by the cost of capital (investor's required return). For example, $10 million earnings with a 10% required return yields an EPV of $100 million. Compare this to asset reproduction cost to assess franchise value.",
+      "expression": null,
+      "data_fields_required": [
+        "net_income",
+        "book_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Commodity Businesses Without Moats",
+      "description": "Avoid companies in commodity businesses where products are interchangeable and selected entirely on price, as increased competition will drive profits down to the cost of capital. Look for companies where earnings yield approximates or falls below the required return, suggesting no excess returns.",
+      "expression": "earnings_yield <= 0.10",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Value vs EPV Overvaluation Warning",
+      "description": "When market value significantly exceeds EPV (which itself exceeds asset value), the stock is pricing in growth or franchise value that may not be sustainable. In the example, market value of $150M exceeded EPV of $100M which exceeded asset value of $40M, creating a dangerous valuation gap.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "net_income"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Return on Assets Exceeding Cost of Capital as Competition Magnet",
+      "description": "When a company earns returns on assets significantly above the cost of capital (e.g., 25% ROA vs 10% required return), this attracts competitors who will erode the excess returns. Be cautious of companies with very high ROA in industries without barriers to entry.",
+      "expression": null,
+      "data_fields_required": [
+        "roe",
+        "book_value",
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Operating Margin Filter",
+      "description": "Screen for companies with consistently high operating margins in the 25-30% range, similar to WD-40's demonstrated profitability",
+      "expression": "operating_margin >= 0.25",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Net Income Margin Filter",
+      "description": "Screen for companies with net income margins in the 15-18% range, indicating strong profitability after all expenses",
+      "expression": "profit_margin >= 0.15",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Return on Equity Filter",
+      "description": "Screen for companies with return on equity of 35% or higher, similar to WD-40's consistent 35-42% ROE",
+      "expression": "roe >= 0.35",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High ROE with Low Debt",
+      "description": "Screen for companies achieving high returns on equity (35%+) with virtually no debt, indicating genuine operational profitability rather than leverage-driven returns",
+      "expression": "roe >= 0.35 and debt_to_equity < 0.1",
+      "data_fields_required": [
+        "roe",
+        "debt_to_equity"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Adjusted ROE Excellence",
+      "description": "Screen for companies with extremely high adjusted return on equity (50%+) after removing excess cash and non-operating assets, indicating a capital-light business model",
+      "expression": "roe >= 0.50",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Minimal Debt Filter",
+      "description": "Screen for companies with virtually no debt, as WD-40 achieved exceptional returns without leverage",
+      "expression": "debt_to_equity < 0.05",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Power Value Composite",
+      "description": "Screen for companies with high profitability metrics across multiple dimensions (high operating margin, high net margin, high ROE, low debt) indicating strong earnings power that may be sustainable",
+      "expression": "operating_margin >= 0.25 and profit_margin >= 0.15 and roe >= 0.35 and debt_to_equity < 0.5",
+      "data_fields_required": [
+        "operating_margin",
+        "profit_margin",
+        "roe",
+        "debt_to_equity"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Growth Slowdown Check",
+      "description": "Identify companies where revenue growth has slowed to around 5% or less, which may indicate market saturation but could still represent strong earnings power if margins remain high",
+      "expression": "revenue_growth_rate >= 0.05 and operating_margin >= 0.25",
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "operating_margin"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Capital-Light Business Model",
+      "description": "Screen for companies with very high revenue relative to book value (high asset turnover), similar to WD-40 generating $144M revenue with minimal assets and only 167 employees",
+      "expression": "roe >= 0.35 and profit_margin >= 0.15",
+      "data_fields_required": [
+        "roe",
+        "profit_margin"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Profitability Filter",
+      "description": "Screen for companies that have been profitable consistently over many years, indicating durable earnings power",
+      "expression": "profitable_years >= 10 and roe >= 0.20",
+      "data_fields_required": [
+        "profitable_years",
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Pricing Power Indicator",
+      "description": "Companies with sustained high operating margins (25%+) and high profit margins (15%+) likely possess pricing power, as WD-40 demonstrated by passing on cost increases without losing customers",
+      "expression": "operating_margin >= 0.25 and profit_margin >= 0.15 and profitable_years >= 5",
+      "data_fields_required": [
+        "operating_margin",
+        "profit_margin",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Growth at Zero Price - Pay for Assets/Earnings, Get Growth Free",
+      "description": "The ideal value investment in a growth company is one where you pay full price for current assets or current earnings power and get the growth for free. This means the stock price should be at or below the value implied by current assets or earnings power alone, making the growth component essentially free.",
+      "expression": "price <= intrinsic_value and margin_of_safety > 0",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value",
+        "margin_of_safety"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Franchise Quality - Positive Free Cash Flow While Growing",
+      "description": "A 'good' or 'great' company is one that can pay out cash to its investors even as it funds its growth. The company should generate positive free cash flow, indicating growth within a sustainable franchise rather than growth that consumes all capital.",
+      "expression": "free_cash_flow > 0 and revenue_growth_rate > 0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "revenue_growth_rate"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety for Growth Stocks",
+      "description": "Value investors demand a margin of safety when buying growth stocks, requiring a discount from estimated value large enough to compensate for the greater uncertainty in valuing future growth. A larger margin of safety is needed for growth investments than for asset-based investments.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Growth - Earnings Growth Within Franchise",
+      "description": "Growth only creates value when it takes place within the limits of a strong and sustainable company franchise. The company should demonstrate that its growth is profitable, meaning earnings are actually growing (not just revenue) and profit margins are sustained.",
+      "expression": "eps_growth_rate > 0 and profit_margin > 0 and operating_margin > 0",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "profit_margin",
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Power Exceeds Asset Value",
+      "description": "A franchise exists when the current earnings power value exceeds the reproduction cost of the company's assets. This indicates the company has competitive advantages that generate returns above what the assets alone would justify.",
+      "expression": "earnings_yield > 0 and roe > 0.10",
+      "data_fields_required": [
+        "earnings_yield",
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sustained Profitability Track Record",
+      "description": "Value investors need confidence that earnings power will persist. Companies should demonstrate a consistent track record of profitability over many years, reducing the uncertainty about whether the franchise is durable.",
+      "expression": "profitable_years >= 10",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Significant Price Decline from High - Potential Value Entry",
+      "description": "The chapter notes Intel fell 60% from its high, putting it back in range where value investors might be tempted. A significant decline from 52-week highs can create value opportunities in quality growth companies.",
+      "expression": "price <= price_52w_high * 0.5 and free_cash_flow > 0",
+      "data_fields_required": [
+        "price",
+        "price_52w_high",
+        "free_cash_flow"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety - Below Tangible Book Value",
+      "description": "Buy a company for substantially less than its tangible book value, providing a margin of safety that reduces risk independent of diversification.",
+      "expression": "price < book_value * 0.8",
+      "data_fields_required": [
+        "price",
+        "book_value"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Concentrated Value Portfolio Minimum",
+      "description": "A margin of safety portfolio needs only 10 to 15 positions for adequate diversification, compared to 20-30 for ordinary portfolios, implying each position must meet strict value criteria.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Stable Earnings History Filter",
+      "description": "Value investors prefer companies with a history of steady earnings that can be reliably valued, excluding companies vulnerable to sudden changes in technology or consumer taste.",
+      "expression": "profitable_years >= 10",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Washington Post Margin of Safety",
+      "description": "Buy a company at a significant discount to intrinsic value - Buffett's example was buying at 20% of intrinsic value ($80M vs $400M worth), representing an 80% margin of safety.",
+      "expression": "margin_of_safety >= 0.5",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "No Growth Premium Filter",
+      "description": "Refuse to pay much if anything for the prospects of growth; valuation should be based on current assets and demonstrated earnings power rather than future growth expectations.",
+      "expression": "pe <= market_pe and forward_pe <= pe",
+      "data_fields_required": [
+        "pe",
+        "forward_pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Dual Valuation Check - Assets vs Earnings",
+      "description": "Use asset-based valuation as a check on earnings power valuation. The price should be justified by both the asset value and the earnings power of the company.",
+      "expression": "price < book_value and pe < 15",
+      "data_fields_required": [
+        "price",
+        "book_value",
+        "pe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Well-Tested Earnings Value",
+      "description": "Buy below the well-tested value of earnings, using average earnings over time rather than a single year's results to establish earnings power.",
+      "expression": "price < avg_eps_10y * 15",
+      "data_fields_required": [
+        "price",
+        "avg_eps_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Intrinsic Value Discount",
+      "description": "Buy portions of a business in the stock market at a price below intrinsic value - below what a rational buyer would pay to own the entire establishment.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Above-Average ROE",
+      "description": "Look for businesses with above-average returns on equity, indicating strong franchise value and competitive advantages.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Strong Free Cash Flow Generation",
+      "description": "Seek operations with a relatively small need for capital investment and the capacity to throw off cash - positive and strong free cash flow.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Good Business at Reasonable Price",
+      "description": "Buy good or excellent businesses at a reasonable price rather than mediocre businesses at deep discounts. Implies willingness to pay fair multiples but not excessive ones.",
+      "expression": "roe > 0.15 and pe < market_pe * 1.5",
+      "data_fields_required": [
+        "roe",
+        "pe",
+        "market_pe"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Margin of Safety",
+      "description": "Purchase securities with a margin of safety - the difference between intrinsic value and market price should provide a buffer.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Strong Franchise / Profitability Filter",
+      "description": "Look for companies with strong franchises indicated by high profit margins, above-average ROE, and strong cash generation capacity.",
+      "expression": "roe > 0.15 and profit_margin > 0.10 and free_cash_flow > 0",
+      "data_fields_required": [
+        "roe",
+        "profit_margin",
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Price Below Intrinsic Value (Full Purchase)",
+      "description": "When buying a whole business, pay no more than intrinsic value. For stock purchases, pay below intrinsic value.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Gabelli Net-Net Screen (Graham Foundation)",
+      "description": "Identify companies selling below the value of their net working capital, the classic Graham net-net approach that Gabelli built upon. Companies trading below net current asset value per share represent deep value opportunities.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Private Market Value Discount",
+      "description": "Identify firms selling substantially below their private market value (PMV) - the value an informed industrialist would pay to purchase assets with similar characteristics. PMV equals intrinsic value plus a premium for control. Look for stocks trading at a significant discount to intrinsic value to capture the control premium when an industrial buyer moves on the company.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Below Book Value Screen (Hidden Asset Indicator)",
+      "description": "Screen for companies where market price is below book value, suggesting assets may be undervalued or carried at cost rather than current market value - a 'gap in GAAP' that an informed industrialist would recognize. This serves as a proxy for identifying companies with hidden asset values.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Below Graham Number",
+      "description": "Companies trading below their Graham Number, indicating potential deep value consistent with the Graham tradition that Gabelli was schooled in at Columbia Business School.",
+      "expression": "price < graham_number",
+      "data_fields_required": [
+        "price",
+        "graham_number"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Masked Earnings Power - Low P/E with Positive Cash Flow",
+      "description": "Identify companies where operating income may be masked by unusual financial structures or consolidation of profitable divisions with losing ones (gaps in GAAP). Companies with low price-to-earnings but strong free cash flow may have hidden earnings power that an industrial buyer would unlock.",
+      "expression": "pe < 12 and free_cash_flow > 0 and free_cash_flow > net_income",
+      "data_fields_required": [
+        "pe",
+        "free_cash_flow",
+        "net_income"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Greenberg Concentrated Portfolio - Maximum Holdings",
+      "description": "Maintain a highly concentrated portfolio with very few positions, typically around 8-10 stocks, to ensure deep understanding of each holding. Greenberg and Chieftain Capital practiced extreme concentration rather than diversification.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Extreme P/E Stocks",
+      "description": "Avoid stocks trading at extremely high P/E ratios (such as 100 times earnings), as illustrated by the cautionary tale of Nifty-Fifty stocks like Avon and Polaroid that traded at 100x earnings before the 1973-1974 crash. This implies seeking stocks with reasonable valuations.",
+      "expression": "pe < 100",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Greenberg Deep Understanding Filter",
+      "description": "Only invest in companies where the investor personally understands the business and can articulate clear reasons for holding the shares. This is a qualitative filter emphasizing fundamental analysis and conviction.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Klarman Price-to-Book Value Screen",
+      "description": "Securities should be cheap on price-to-book value as one of multiple margins of safety measures",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Klarman Price-to-Earnings Screen",
+      "description": "Securities should be cheap on price-to-earnings ratio as one of multiple margins of safety measures",
+      "expression": "pe < 10",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Klarman Price-to-Cash-Flow Screen",
+      "description": "Securities should be cheap on price-to-cash-flow basis. Using free cash flow yield as a proxy, the stock should offer a high yield relative to price",
+      "expression": "free_cash_flow / market_cap > 0.10",
+      "data_fields_required": [
+        "free_cash_flow",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Klarman Dividend Yield Screen",
+      "description": "Securities should offer an attractive dividend yield as one measure of cheapness providing downside support",
+      "expression": "dividend_yield > 0.03",
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Klarman Intrinsic Value Margin of Safety",
+      "description": "The intrinsic value of a security must be significantly higher than the market price - the core tenet of value investing that Klarman follows",
+      "expression": "margin_of_safety > 0.30",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Klarman Multiple Margins of Safety Composite",
+      "description": "Klarman prefers securities that are cheap on multiple measures simultaneously - belt of asset value reinforced by suspenders of earnings. Cheap on both asset-based and earnings-based metrics.",
+      "expression": "pb < 1.0 and pe < 12 and dividend_yield > 0.02",
+      "data_fields_required": [
+        "pb",
+        "pe",
+        "dividend_yield"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Klarman Break-Up / Net Asset Value Screen",
+      "description": "Securities should trade below their break-up value, approximated by net current asset value per share exceeding the current price",
+      "expression": "ncav_per_share > price",
+      "data_fields_required": [
+        "ncav_per_share",
+        "price"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Klarman Belt-and-Suspenders: Asset Value Plus Earnings",
+      "description": "Klarman is most comfortable when asset value (cheap on book) is reinforced by earnings power (positive and cheap on earnings), providing dual margin of safety",
+      "expression": "pb < 1.0 and pe > 0 and pe < 12 and earnings_yield > 0.08",
+      "data_fields_required": [
+        "pb",
+        "pe",
+        "earnings_yield"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Value Discount - Buy Below Intrinsic Value",
+      "description": "Michael Price's core approach is to buy securities trading at a significant discount to their intrinsic or fair value, focusing on lowering downside risk first with the expectation that higher returns will follow. Cheap stocks relative to their underlying value proved less vulnerable to bear markets.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Compounded Return Target - 15% Annual",
+      "description": "Price's explicit goal has been to earn compounded returns of 15 percent per year, which implies selecting stocks with sufficient upside potential and margin of safety to achieve this target. This suggests looking for stocks with earnings yield or expected return well above market averages.",
+      "expression": "earnings_yield >= 0.15",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Downside Protection - Low Volatility Value",
+      "description": "Price emphasized that if you don't do too badly during down years, you only need to perform decently during up years to beat the averages. This implies selecting stocks that are cheap relative to book value and have strong balance sheets, providing downside protection.",
+      "expression": "pb < 1.0 and current_ratio > 2.0",
+      "data_fields_required": [
+        "pb",
+        "current_ratio"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Cheap Stock Filter",
+      "description": "The 'cheap stocks' that made up the value portion of the portfolio proved less vulnerable to bear markets. This implies buying stocks trading at low price-to-earnings and price-to-book ratios relative to the market.",
+      "expression": "pe < market_pe and pb < 1.5",
+      "data_fields_required": [
+        "pe",
+        "market_pe",
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Net Asset Value Discount",
+      "description": "Price's approach, rooted in Graham-style value investing through Max Heine, focused on buying securities below their net asset or liquidation value, particularly in bankruptcy and reorganization situations where assets could be acquired cheaply.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Schloss Net Asset Value Screen",
+      "description": "Buy stocks where the market price is less than the value of the company's assets net of all debt (i.e., book value per share exceeds the stock price). This is the primary screen the Schlosses use to identify purchase candidates.",
+      "expression": "pb < 1",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Schloss New Lows Screen - 52-Week Low Proximity",
+      "description": "Look for stocks trading near their 52-week lows. The Schlosses scrutinize the new lows list and are especially interested in stocks at two- or three-year lows. Stocks that have gapped down precipitously in price are particularly attractive.",
+      "expression": "price <= price_52w_low * 1.10",
+      "data_fields_required": [
+        "price",
+        "price_52w_low"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Net Current Asset Value (NCAV) Screen",
+      "description": "Graham's original teaching that Schloss learned: buy stocks for less than the value of current assets after deducting all liabilities (net-net working capital). This is the foundational principle Schloss learned from Graham.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Schloss Contrarian Cheap Stock Composite",
+      "description": "Composite screen combining the Schloss approach: stocks trading below book value that are also near their 52-week lows, indicating a contrarian opportunity where price has fallen significantly relative to asset value.",
+      "expression": "pb < 1 and price <= price_52w_low * 1.15",
+      "data_fields_required": [
+        "pb",
+        "price",
+        "price_52w_low"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sonkin Net-Net Screen",
+      "description": "Look for companies trading below their net current asset value (NCAV), particularly in the small and microcap space. These are Graham-style net-nets where the stock price is below the per-share value of current assets minus all liabilities.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sonkin Cash-Rich Low Enterprise Value Screen",
+      "description": "Find companies where net cash (cash minus all debt) represents a large portion of market cap, making the effective P/E much lower than the headline P/E. Example given: market cap $20M, net cash $15M, earnings $1M yields an effective P/E of ~5 instead of 20. Look for companies where enterprise value (market cap minus net cash) relative to after-tax operating earnings produces a high cap rate.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "ebit",
+        "total_debt"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sonkin Cap Rate Screen",
+      "description": "Calculate the capitalization rate as EBIT × (1 - tax rate) divided by (market value of debt + market value of equity - cash). A high cap rate indicates the company's operating earnings can be acquired cheaply relative to the true enterprise cost. Used as an initial screening test to identify undervalued companies.",
+      "expression": null,
+      "data_fields_required": [
+        "ebit",
+        "market_cap",
+        "total_debt"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sonkin Microcap Focus",
+      "description": "Focus on small and microcap companies where institutional investors managing large pools of money stay away, creating inefficiencies and opportunities for value investors. Microcap stocks are more likely to be overlooked and mispriced.",
+      "expression": "market_cap < 300000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sonkin Price Decline Filter",
+      "description": "Look for stocks that have recently plummeted in price, as a necessary (but not sufficient) condition for a value investment. The current price should be substantially below its 52-week high.",
+      "expression": "price < price_52w_high * 0.6",
+      "data_fields_required": [
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sonkin Low Effective P/E Screen",
+      "description": "After adjusting for net cash on the balance sheet, the effective P/E ratio (enterprise value divided by adjusted earnings) should be very low, around 5 or below, indicating a screaming buy as described in the chapter's example.",
+      "expression": "pe < 5",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sonkin Balance Sheet Value Priority",
+      "description": "Prioritize companies with value concentrated in the highest-quality balance sheet items: cash and accounts receivable. Companies with substantial liquid assets relative to market cap are preferred.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "book_value"
+      ],
+      "category": "financial_health",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Intrinsic Value vs Price Comparison",
+      "description": "Compare the current price to the intrinsic value of the firm based on assets and earnings power, not merely to its former price high. The stock should trade below intrinsic value to provide a margin of safety.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Goodwill Valuation - Zero for Non-Viable Industries",
+      "description": "When valuing companies, goodwill should be assigned a value of zero for companies in non-viable industries, as their highly specialized intangible assets are unlikely to have significant value.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "PPE to Sales Ratio Stability Check",
+      "description": "Calculate the ratio of Plant, Property & Equipment (net of depreciation) to sales for each of the five prior years and find the average. Use this ratio to determine growth capex vs maintenance capex. Companies should have a stable relationship between sales levels and PPE.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Maintenance Capex vs Depreciation Check",
+      "description": "Compare maintenance capital expenditures to depreciation. If maintenance capex significantly exceeds depreciation, the company may not be using its money wisely or faces increasing capital goods costs in its industry.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Debt Capital Structure Preference",
+      "description": "Prefer companies with little debt in their capital structure, as equity values are more stable without significant financial leverage. When debt is insignificant, focus on equity values of assets and earnings power.",
+      "expression": "debt_to_equity < 0.1",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cost of Capital Benchmark (10-12%)",
+      "description": "Goldman Sachs estimated cost of capital for comparable companies at between 10 and 12 percent, which can serve as a discount rate benchmark for earnings power valuation.",
+      "expression": "earnings_yield >= 0.10",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Surplus Asset Identification",
+      "description": "Identify companies where market value of assets (like land or cash) exceeds what is needed to run the business (reproduction cost). Surplus cash or asset value adds to the company's asset value beyond what a new entrant would need to reproduce.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sustainable Competitive Advantage Required",
+      "description": "Without a sustainable competitive advantage, it makes no difference whether a company produces a commodity or differentiated product - the same asset valuations hold. Seek companies with franchise value and barriers to entry such as high search and switching costs.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Modest Dividend Growth Assumption",
+      "description": "For stable franchise companies like WD-40, assume historical dividend growth of approximately 3 percent per year continues, but verify the company does not need significant spending on current or fixed assets to support this growth.",
+      "expression": "dividend_yield > 0 and consecutive_dividend_years > 5",
+      "data_fields_required": [
+        "dividend_yield",
+        "consecutive_dividend_years"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "",
+      "source_book": "Value Investing: From Graham to Buffett and Beyond",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 110,
+  "strategies_by_category": {
+    "valuation": 59,
+    "momentum": 5,
+    "dividend": 3,
+    "quality": 18,
+    "profitability": 9,
+    "financial_health": 4,
+    "composite": 11,
+    "growth": 1
+  },
+  "data_fields_required": [
+    "avg_eps_10y",
+    "book_value",
+    "consecutive_dividend_years",
+    "current_ratio",
+    "debt_to_equity",
+    "dividend_yield",
+    "earnings_yield",
+    "ebit",
+    "eps_growth_rate",
+    "forward_pe",
+    "free_cash_flow",
+    "graham_number",
+    "intrinsic_value",
+    "ma_200d",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "ncav_per_share",
+    "net_income",
+    "operating_margin",
+    "pb",
+    "pe",
+    "price",
+    "price_52w_high",
+    "price_52w_low",
+    "profit_margin",
+    "profitable_years",
+    "ps",
+    "revenue_growth_rate",
+    "roe",
+    "total_debt"
+  ],
+  "data_fields_available": [
+    "avg_eps_10y",
+    "book_value",
+    "consecutive_dividend_years",
+    "current_ratio",
+    "debt_to_equity",
+    "dividend_yield",
+    "earnings_yield",
+    "ebit",
+    "eps_growth_rate",
+    "forward_pe",
+    "free_cash_flow",
+    "graham_number",
+    "intrinsic_value",
+    "ma_200d",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "ncav_per_share",
+    "net_income",
+    "operating_margin",
+    "pb",
+    "pe",
+    "price",
+    "price_52w_high",
+    "price_52w_low",
+    "profit_margin",
+    "profitable_years",
+    "ps",
+    "revenue_growth_rate",
+    "roe",
+    "total_debt"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "EPV-asset value gap",
+    "Graham and Dodd approach",
+    "Graham-and-Doddsville superinvestors",
+    "Mr. Market",
+    "above-average returns on equity",
+    "accounting adjustments to earnings",
+    "activist shareholder approach",
+    "adjusted equity",
+    "arbitrage and special situations",
+    "asset reproduction cost",
+    "asset valuation",
+    "asset value vs. earnings power value",
+    "asset value vs. earnings value (belt and suspenders)",
+    "asset-based valuation",
+    "asset-based valuation as check on earnings power valuation",
+    "assets carried at cost vs. market value",
+    "attention to detail",
+    "avoiding overpaying for growth stocks",
+    "balance sheet analysis",
+    "balance sheet reliability hierarchy",
+    "balance sheet restructuring",
+    "bankruptcy investing",
+    "barriers to entry",
+    "behavioral finance",
+    "book value",
+    "book value vs franchise value",
+    "book-to-market factors",
+    "brand strength without patent protection",
+    "break-up value",
+    "buying a dollar for 50 cents",
+    "buying below book value",
+    "buying below intrinsic value",
+    "buying businesses not stocks",
+    "capital allocation",
+    "capital preservation",
+    "capital-light business model",
+    "capitalization rate (cap rate)",
+    "cash-rich companies",
+    "catalyst-driven investing",
+    "cheap stocks relative to asset value",
+    "circle of competence",
+    "cognitive biases",
+    "commodity business",
+    "competitive advantage",
+    "competitive advantage / fortress brand",
+    "competitive erosion of profits",
+    "compounded annual growth rate outperformance",
+    "compounding returns",
+    "concentrated portfolio",
+    "concentrated portfolios",
+    "concentration vs. diversification",
+    "contrarian investing",
+    "contrarian investing vs value investing",
+    "contrarian investment",
+    "control premium",
+    "conviction investing",
+    "corporate share repurchases as confirmation signal",
+    "correlation of returns",
+    "cost of capital",
+    "current earnings power",
+    "deep fundamental research",
+    "deeply discounted stocks",
+    "depreciation vs. maintenance capex",
+    "discipline and patience",
+    "discount rate for growth uncertainty",
+    "discounted cash flow analysis",
+    "distressed debt investing",
+    "distressed investing",
+    "distressed sellers",
+    "diversification",
+    "dividend yield",
+    "dollar for 50 cents",
+    "downside protection",
+    "dual valuation approach",
+    "earnings growth",
+    "earnings power",
+    "earnings power value",
+    "earnings power value (EPV)",
+    "earnings power value exceeding asset value",
+    "earnings-based valuation",
+    "economic moat",
+    "efficient market hypothesis",
+    "efficient market hypothesis rejection",
+    "eggs in one basket philosophy",
+    "enterprise value",
+    "estimation uncertainty",
+    "event-driven investments",
+    "excess cash on balance sheet",
+    "excess returns",
+    "excessive market reactions",
+    "financial leverage",
+    "flexibility across asset classes",
+    "franchise value",
+    "free cash flow generation",
+    "free cash flow generation during growth",
+    "free entry",
+    "fundamental analysis",
+    "fundamental analysis vs. technical analysis",
+    "fundamental research and investigation",
+    "fundamental value vs. market price",
+    "gaps in GAAP",
+    "generic vs specialized assets",
+    "good business at a reasonable price",
+    "goodwill exclusion",
+    "goodwill valuation",
+    "growth within the franchise",
+    "growth-based valuation",
+    "hidden assets",
+    "holding period considerations",
+    "in search of disaster (contrarian investing)",
+    "independence from Wall Street consensus",
+    "independent research and due diligence",
+    "index investing",
+    "industry viability assessment",
+    "information advantage erosion",
+    "informed industrialist valuation",
+    "insider buying as confirmation signal",
+    "intrinsic value",
+    "investor biases",
+    "liquidation value",
+    "long-term compounding",
+    "long-term value investing outperformance",
+    "loss aversion",
+    "low capital reinvestment needs",
+    "low price-to-book value",
+    "low price-to-earnings",
+    "macrofundamental vs. microfundamental investing",
+    "maintenance capex vs growth capex",
+    "margin of error in asset valuation",
+    "margin of safety",
+    "market capitalization effect",
+    "market inefficiency in small caps",
+    "market mispricing",
+    "market saturation and growth limits",
+    "masked earnings power",
+    "mean reversion",
+    "mechanical stock selection",
+    "microcap investing",
+    "minimalist investment approach",
+    "modern investment theory",
+    "momentum and relative strength",
+    "momentum investing",
+    "momentum investing (as contrast to value investing)",
+    "multiple margins of safety",
+    "multiple-based valuation",
+    "net asset value",
+    "net asset value investing",
+    "net current asset value",
+    "net current asset value (NCAV)",
+    "net current asset value (net-net)",
+    "net current asset value (net-nets)",
+    "net-net investing",
+    "new lows list screening",
+    "one-time charges normalization",
+    "operating earnings vs net income",
+    "operational consolidation",
+    "opportunistic value investing",
+    "opportunity cost of holding fairly-valued securities",
+    "owner-partner mentality",
+    "patience in investing",
+    "paying nothing for growth",
+    "permanent loss of capital vs. volatility as risk",
+    "perpetual growth rate",
+    "portfolio concentration vs. diversification",
+    "portfolio construction",
+    "portfolio construction and diversification",
+    "portfolio volatility reduction",
+    "present value of cash flows",
+    "present value of future cash flows",
+    "price decline as opportunity",
+    "price-to-book ratio",
+    "price-to-cash-flow ratio",
+    "price-to-earnings ratio",
+    "price-to-sales ratio",
+    "price-value divergence",
+    "pricing power",
+    "private market value",
+    "private market value (PMV)",
+    "product differentiation",
+    "profit margins",
+    "published financial statement analysis",
+    "quality of company dimension",
+    "refusing to pay for growth",
+    "reorganization value in bankruptcy",
+    "reproduction cost",
+    "reproduction cost of assets",
+    "reproduction costs",
+    "return on capital",
+    "return on equity",
+    "return on invested capital vs cost of capital",
+    "reversion to the mean",
+    "risk and return relationship",
+    "risk as permanent loss of capital vs. volatility",
+    "risk awareness during euphoria",
+    "risk management",
+    "risk-adjusted returns",
+    "risk-first evaluation",
+    "sales growth",
+    "search and switching costs",
+    "security analysis",
+    "security selection",
+    "sell discipline",
+    "sell-side to buy-side transition",
+    "sensitivity of valuations to assumptions",
+    "shareholder value enhancement",
+    "size effect",
+    "skepticism of prevailing wisdom",
+    "small-cap value investing",
+    "spontaneous liabilities",
+    "superior business investing",
+    "surplus assets",
+    "sustainable competitive advantage",
+    "sustainable profitability",
+    "tangible book value",
+    "tangible vs intangible assets",
+    "terminal value",
+    "three sources of intrinsic value",
+    "time value of money",
+    "understanding the business",
+    "valuable growth vs. value-destroying growth",
+    "value investing",
+    "value investing discipline",
+    "value stocks vs. growth stocks",
+    "value vs. glamour stocks"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "",
+      "summary": "This text is the Table of Contents for 'Value Investing: From Graham to Buffett and Beyond,' which outlines the book's structure covering an introduction to value investing principles, three sources of value (asset-based valuation, earnings power value, and franchise/growth value), portfolio construction considerations, and profiles of eight prominent value investors including Warren Buffett, Mario Gabelli, Glenn Greenberg, Seth Klarman, Michael Price, and Walter Schloss. The book's philosophy centers on identifying securities trading below intrinsic value through rigorous analysis of assets, earnings power, and franchise quality, with emphasis on margin of safety, discipline, patience, and concentration."
+    },
+    {
+      "chapter": "",
+      "summary": "This introductory chapter traces the intellectual history of value investing from Benjamin Graham's foundational work in the 1920s-1930s through his students (Warren Buffett, Walter Schloss, Mario Gabelli) and into the modern era. Graham established security analysis as a discipline, with the core principle of purchasing securities at a significant discount to their intrinsic value. The chapter contrasts value investing with modern portfolio theory and the efficient market hypothesis, noting that academic studies using mechanical value strategies (low P/E, low P/B) have outperformed market indexes, and that behavioral finance research on investor biases and mean reversion supports Graham's original insights about market inefficiency and the tendency of prices to revert to fundamental values."
+    },
+    {
+      "chapter": "",
+      "summary": "This introductory chapter defines value investing as originally conceived by Benjamin Graham and David Dodd, resting on three key characteristics of financial markets: (1) security prices are subject to significant and capricious movements driven by Mr. Market's unpredictable mood swings, (2) many securities have underlying fundamental economic values that are relatively stable and measurable despite price gyrations, and (3) buying securities only when their market prices are significantly below calculated intrinsic value—with a margin of safety ideally around 50% and no less than one-third—will produce superior long-run returns. The chapter distinguishes value investors from technical analysts (who ignore fundamentals and focus on price patterns and momentum) and from macrofundamentalists (who focus on broad economic factors like inflation, interest rates, and GDP growth rather than individual security valuation). The chapter emphasizes that while the central process of value investing is simple—estimate intrinsic value, compare to price, buy with sufficient margin of safety—the legitimate descendants of Graham and Dodd differ in how they select securities, estimate values, determine margins of safety, construct portfolios, and decide when to sell."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter introduces the industrial (mechanical) approach to uncovering value in equity investing. It reviews extensive academic studies that sort stocks by three types of variables: fundamental variables (ROE, earnings growth, sales growth, profit margins), price-based momentum variables (relative strength), and ratio variables that relate price to fundamentals (P/E, P/B, P/S, price-to-cash-flow, price-to-dividends). The central finding is that value stocks—those with low prices relative to fundamentals—consistently outperform glamour stocks. Counterintuitively, companies with poor fundamental performance (low ROE, narrow margins) have produced better stock returns than excellent companies, a phenomenon described as 'in search of disaster.' Momentum works in the short term (one year) but reverts to the mean over longer periods (three years). Market capitalization is also identified as a significant factor affecting returns. The chapter emphasizes that patient investors focused on discovering intrinsic value selling at a discount will be rewarded."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter introduces the foundational philosophy of value investing as practiced by Graham and Dodd disciples: that financial securities have an intrinsic value determinable through careful analysis, and profitable investment opportunities arise when market prices deviate significantly from this intrinsic value. While acknowledging that present value of discounted cash flows is theoretically the correct method for determining intrinsic value, the chapter argues forcefully that DCF analysis is deeply flawed in practice due to the gross uncertainties in estimating future cash flows, growth rates, and costs of capital over extended periods. Small errors in assumptions (even 1 percent) can produce terminal value multiples ranging from 16 to 50—a three-to-one variation—making precise DCF valuations unreliable. The chapter advocates instead for the Graham and Dodd approach, which relies on more observable, current financial data rather than speculative long-term projections, providing significant practical advantages and explaining the historical success of value investing."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter describes the first step in Graham and Dodd valuation: calculating the asset value of a company. The approach requires two key judgments: (1) the strategic viability of the industry—declining industries warrant liquidation-based valuations while stable/growing industries warrant reproduction cost valuations, and (2) the reliability of balance sheet items, with current assets being most reliable and intangibles least reliable. The chapter provides specific discount rates for liquidation analysis (0% for cash, 85% for receivables, 50% for inventory, 45% for PP&E, 0% for goodwill) and notes that Graham's original net-net approach (buying below net current asset value) has become nearly impossible to find, pushing modern value investors to include less reliable balance sheet items like PP&E and intangibles in their valuations."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter illustrates how competitive forces erode excess profits in businesses without sustainable competitive advantages (franchises). Using the hypothetical 'Top Toaster' company, it demonstrates that when a company's earnings power value (EPV) exceeds its asset reproduction cost, the gap attracts new entrants who drive down prices and profits until EPV equals asset value. Neither commodity pricing nor product differentiation can prevent this convergence without genuine barriers to entry. The key insight for value investors is that the gap between EPV and asset value represents franchise value only if protected by sustainable competitive advantages; otherwise, it represents temporary excess profits that will be competed away. Market values that exceed EPV are even more precarious, as they price in growth that competition may prevent from materializing."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter uses WD-40 as a case study to illustrate the concept of Earnings Power Value (EPV), defined as adjusted earnings multiplied by 1/R where R is the cost of capital. WD-40 exemplifies a company with extraordinary and sustained profitability—operating margins of 25-30%, net margins of 15-18%, and ROE of 35-42%—achieved with virtually no debt and no patent protection. The chapter emphasizes that understanding a company's strategic position (competitive advantages such as brand ubiquity, pricing power, and market dominance) is essential to determining whether high earnings power is sustainable. The analysis involves adjusting reported earnings by undoing accounting misrepresentations and reconciling depreciation with actual maintenance capital expenditures, then capitalizing those adjusted earnings to arrive at the firm's earnings power value. The chapter also highlights the importance of distinguishing between asset value and earnings power value as complementary approaches to valuation."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter bridges traditional Graham and Dodd value investing with growth investing by arguing that growth can be a legitimate source of value, but only under two stringent conditions: the growth must occur within a strong and sustainable franchise (meaning the company generates free cash flow even while growing), and the growth must be available at a price that provides an adequate margin of safety given the inherent uncertainty in valuing future earnings. The ideal scenario is paying only for current assets or earnings power and receiving the growth component for free. The chapter uses Intel as a case study to illustrate how value investors evaluate three layers of intrinsic value—reproduction cost of assets, current earnings power of the franchise, and the value of earnings growth within that franchise—with decreasing confidence in each successive layer."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter discusses how value investors approach risk and diversification differently from modern portfolio theory. While modern theory defines risk as volatility and prescribes broad diversification, value investors reject both premises. They believe stock selection matters, that volatility is not the best measure of risk (permanent loss of capital is), and that the margin of safety—buying securities well below intrinsic value based on assets and earnings power—provides a risk reduction mechanism distinct from and potentially more important than diversification. As a result, value investors run more concentrated portfolios (10-15 positions vs. 20-30), operate within their circle of competence by selecting only reliably valued companies with stable earnings, and may further diversify through event-driven investments that are uncorrelated with the broader market."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter serves as an introduction to profiles of eight value investors, ranging from those who buy deeply discounted assets to those who invest in superior businesses for the long term. It describes the spectrum of value investing approaches along dimensions including company quality, portfolio concentration, valuation methodology (assets, earnings, growth), holding period, and company size. The chapter emphasizes that value investing is a professional discipline requiring years of mastery, and cautions individual investors against treating it casually. It situates the profiled investors within a framework organized primarily by company quality, noting that higher-quality companies generally lead to more concentrated portfolios and longer holding periods, while deeply discounted stocks are held until recovery."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter introduces Warren Buffett's investment philosophy as practiced through Berkshire Hathaway. The core thesis is that investing is fundamentally about allocating capital, and Buffett treats stock purchases identically to buying entire businesses. Influenced by Charlie Munger, Buffett evolved beyond Benjamin Graham's strict deep-discount asset-based approach to instead seek excellent businesses with strong franchises, above-average returns on equity, low capital reinvestment needs, and strong cash generation — purchased at reasonable prices below intrinsic value. The chapter emphasizes staying within one's circle of competence, treating shareholders as owner-partners, and maintaining significant personal investment alongside shareholders ('eating your own cooking')."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter introduces Mario Gabelli's concept of Private Market Value (PMV), a modern evolution of Benjamin Graham's net-net approach to value investing. Gabelli, trained in the Graham tradition at Columbia Business School, developed PMV as a response to the challenge that electronic information systems made traditional net-net screening too easy and widely accessible. PMV is defined as the value an informed industrialist would pay to purchase assets with similar characteristics, which equals intrinsic value plus a premium for control. The strategy involves identifying companies trading substantially below their PMV by finding 'gaps in GAAP' - hidden assets not reported on balance sheets or carried at cost rather than market value, and masked earnings power obscured by unusual financial structures or divisional consolidation. The key insight is that an industrial buyer, unlike a passive portfolio investor, can change the underlying business by firing incompetent management, disposing of unproductive assets, restructuring, and consolidating operations, making them willing to pay more than the current market price."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter profiles Glenn Greenberg of Chieftain Capital Management, who achieved a 25% compounded annual growth rate from 1984 through 2000 (vs. 16% for the S&P 500) through a highly concentrated investment approach. Greenberg's philosophy, inspired by Mark Twain's 'put all your eggs in one basket and watch that basket,' emphasizes deep fundamental research into a small number of holdings rather than broad diversification. His formative experience at J.P. Morgan during the 1973-1974 market crash—when institutional investors blindly held Nifty-Fifty stocks at 100x earnings without understanding the underlying businesses—taught him the critical importance of personally understanding every investment, being skeptical of prevailing market wisdom, and paying meticulous attention to detail. The chapter emphasizes that rigorous stock selection is far more important than portfolio monitoring, and that concentration forces the discipline of thorough analysis."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter is a narrative account of Robert Heilbrunn's introduction to value investing through his relationship with Benjamin Graham. It describes how Heilbrunn, after inheriting his father's investment portfolio during the Great Depression, sought Graham's guidance and learned the principles of value investing through practical experience and Graham's Columbia course. The chapter illustrates core value investing concepts through anecdotes—such as selling fairly-priced utility bonds to buy deeply discounted bankrupt Fisk Tire bonds trading at $0.30 on the dollar with an expected recovery of $0.70—and traces Heilbrunn's evolution from leather business manager to independent investment investigator, emphasizing the importance of deep fundamental research, contrarian thinking, and buying securities at substantial discounts to their intrinsic worth."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter profiles Seth Klarman's investment philosophy at The Baupost Group, centered on the concept of multiple margins of safety. Klarman prioritizes risk avoidance over return maximization, evaluating the likelihood and magnitude of possible losses before considering potential gains. He seeks securities that are cheap across numerous measures simultaneously—price to book value, price to earnings, price to cash flow, break-up value, dividend yield, and private market value—so that if one measure disappoints, others provide downside support. He describes this as the 'belt and suspenders' approach, where asset value is reinforced by earnings power. When traditional equity markets fail to offer sufficient bargains, Klarman extends his search into less traditional areas such as distressed debt, real estate, and foreign markets, remaining consistent in his demand for value while being opportunistic in practice."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter profiles Michael Price, a disciplined value investor who learned under Max Heine at Mutual Shares fund. Price's core philosophy centers on lowering risk first, with the conviction that higher returns will follow naturally. By buying cheap stocks and bankruptcy securities at deep discounts to intrinsic value, the fund demonstrated remarkable downside protection—falling only 8.1% in 1973 when the broader market declined 40%—while compounding at approximately 20% annually. Price's explicit target was 15% compounded annual returns, achieved through strict adherence to value principles, patience, and the pragmatic use of large ownership positions to act as a catalyst for unlocking shareholder value. His success grew Mutual Shares from $5 million to over $15 billion in assets without advertising, purely on the strength of performance."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter profiles Walter and Edwin Schloss, minimalist value investors who achieved a 15.3% compounded annual return over 45 years (1956-2000) versus 11.5% for the S&P Industrial Index, with lower downside risk. Their approach is remarkably simple: they buy cheap stocks by comparing price to asset value, focusing almost exclusively on published financial statements—particularly the balance sheet—to find companies trading below their net asset value. Trained by Benjamin Graham, Walter Schloss embodies the purest form of Graham's original value investing philosophy: buying stocks with a margin of safety by paying less than the liquidation value of assets, identifying candidates through new lows lists, and maintaining a contrarian disposition toward stocks that have experienced sharp price declines. They avoid company visits, management conversations, analyst opinions, and momentum investing, instead trusting their own analysis of financial statements."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter profiles Paul Sonkin, a microcap value investor trained in the Benjamin Graham tradition at Columbia Business School. Sonkin focuses on small and microcap stocks where institutional investors are absent, creating pricing inefficiencies. His primary analytical tool is the 'cap rate'—calculated as after-tax operating earnings (EBIT × (1 - tax rate)) divided by enterprise value (market cap + debt - cash)—which he uses as an initial screen to identify companies whose operating earnings can be acquired cheaply. He particularly favors cash-rich companies where large net cash positions make the effective acquisition cost far lower than the headline market capitalization suggests, and he seeks Graham-style net-nets in the microcap space. Sonkin distinguishes true value investing from mere contrarianism by insisting that a price decline is necessary but not sufficient; the investor must compare price to intrinsic value derived from careful analysis of assets and earnings power."
+    },
+    {
+      "chapter": "",
+      "summary": "This text is a bibliography and references section from 'Value Investing: From Graham to Buffett and Beyond,' listing key academic papers, books, and resources that underpin value investing philosophy. It references foundational works by Benjamin Graham, Eugene Fama and Kenneth French's research on value versus growth stocks, behavioral finance literature on cognitive biases, and resources related to prominent value investors including Warren Buffett, Mario Gabelli, and Seth Klarman. The section serves as a guide to further reading rather than presenting specific investment screening criteria or actionable rules."
+    },
+    {
+      "chapter": "",
+      "summary": "This text is an acknowledgments section from the book 'Value Investing: From Graham to Buffett and Beyond.' It thanks contributors to the value investing program at Columbia University Graduate School of Business and individuals who assisted with the book's writing. It contains no investment analysis, screening criteria, or actionable stock selection rules."
+    },
+    {
+      "chapter": "",
+      "summary": "This chapter lays the conceptual groundwork for value investing, focusing on how to assess the fundamental value of a company through asset valuation, earnings power, and franchise value. Key themes include valuing tangible assets at reproduction cost, treating goodwill as zero for companies in non-viable industries, distinguishing between maintenance and growth capital expenditures, understanding spontaneous liabilities, recognizing surplus assets, and the critical importance of sustainable competitive advantages. The chapter references the long-term outperformance of value investors like Tweedy Browne (20.4% annually) versus the S&P 500 (16.1% annually) from 1975-2000 as evidence for the value investing approach, and emphasizes that without a sustainable competitive advantage, even differentiated products do not command premium valuations."
+    }
+  ]
+}

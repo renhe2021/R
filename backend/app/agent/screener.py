@@ -1,0 +1,139 @@
+"""Stage 1 Screener — Multi-school value investing screening.
+
+Upgraded from 5 hardcoded rules to 65+ distilled rules across 7 investment schools.
+No LLM required — pure code evaluation using StockData.
+
+Two modes:
+1. Quick screen (default): Basic Graham-Buffett eliminatory rules for fast filtering
+2. Full screen: All 7 schools evaluated for comprehensive scoring
+"""
+
+import logging
+import asyncio
+from typing import Dict, Any, List, Optional
+
+from app.agent.distilled_rules import (
+    SCHOOLS, ALL_RULES, InvestmentRule,
+    evaluate_stock_against_school, evaluate_stock_all_schools,
+)
+
+logger = logging.getLogger(__name__)
+
+# ── Quick-screen eliminatory rules (used for batch screening) ──
+# These are the absolute minimum bars any stock must clear.
+ELIMINATORY_RULES = [
+    {"name": "PE合理 (PE < 25 且 > 0)", "check": lambda d: d.get("pe") is not None and 0 < d["pe"] < 25},
+    {"name": "正盈利 (EPS > 0)", "check": lambda d: d.get("eps") is not None and d["eps"] > 0},
+    {"name": "负债可控 (D/E < 2.0)", "check": lambda d: d.get("debt_to_equity") is None or d["debt_to_equity"] < 2.0},
+    {"name": "市值 > $5亿", "check": lambda d: d.get("market_cap") is not None and d["market_cap"] >= 5e8},
+    {"name": "ROE > 0", "check": lambda d: d.get("roe") is None or d["roe"] > 0},
+]
+
+
+async def run_screening(
+    stocks: List[str],
+    data_router=None,
+    source_pref: Optional[str] = None,
+    mode: str = "quick",
+) -> Dict[str, Any]:
+    """Screen a list of stocks through value investing criteria.
+
+    Args:
+        stocks: List of ticker symbols
+        data_router: Optional (unused, kept for interface compat)
+        source_pref: Preferred data source (unused)
+        mode: "quick" (eliminatory only) or "full" (all 7 schools)
+
+    Returns:
+        Dict with screening results including school evaluations in full mode.
+    """
+    passed = []
+    eliminated = []
+    school_evaluations = {}
+
+    def _screen_one(symbol: str) -> Dict[str, Any]:
+        try:
+            from src.data_providers.yfinance_provider import YfinanceProvider
+            from src.symbol_resolver import resolve_for_provider, resolve_symbol
+            resolved = resolve_symbol(symbol)
+            yf_symbol = resolve_for_provider(symbol, "yfinance")
+            display = resolved.canonical
+            provider = YfinanceProvider()
+            stock = provider.fetch(yf_symbol)
+
+            if not stock.is_valid():
+                return {"symbol": display, "status": "eliminated", "reason": "无法获取有效数据"}
+
+            data = stock.to_dict()
+
+            # Quick screen: eliminatory rules
+            failures = []
+            for rule in ELIMINATORY_RULES:
+                try:
+                    if not rule["check"](data):
+                        failures.append(rule["name"])
+                except Exception:
+                    pass
+
+            if failures:
+                return {
+                    "symbol": display,
+                    "status": "eliminated",
+                    "reason": "未通过基本面门槛: " + ", ".join(failures),
+                }
+
+            result = {"symbol": display, "status": "passed", "data": data}
+
+            # Full mode: evaluate against all schools
+            if mode == "full":
+                school_eval = evaluate_stock_all_schools(data)
+                result["school_evaluation"] = school_eval
+                result["best_school"] = school_eval.get("best_fit_school")
+                result["strong_schools"] = school_eval.get("strong_pass_schools", [])
+
+                # In full mode, reject if ALL schools reject
+                reject_count = len(school_eval.get("reject_schools", []))
+                if reject_count == len(SCHOOLS):
+                    return {
+                        "symbol": display,
+                        "status": "eliminated",
+                        "reason": "所有7大投资流派均判定不合格",
+                        "school_evaluation": school_eval,
+                    }
+
+            return result
+
+        except Exception as e:
+            return {"symbol": symbol.upper(), "status": "eliminated", "reason": f"数据获取失败: {str(e)[:100]}"}
+
+    loop = asyncio.get_event_loop()
+    results = await asyncio.gather(
+        *[loop.run_in_executor(None, _screen_one, s) for s in stocks]
+    )
+
+    for r in results:
+        if r["status"] == "passed":
+            passed.append(r["symbol"])
+            if "school_evaluation" in r:
+                school_evaluations[r["symbol"]] = r["school_evaluation"]
+        else:
+            eliminated.append(r)
+
+    # Build criteria description
+    if mode == "full":
+        criteria = [f"7大投资流派 ({len(ALL_RULES)} 条规则)"] + [
+            f"{s.name_cn}: {len(s.rules)} 条" for s in SCHOOLS.values()
+        ]
+    else:
+        criteria = [r["name"] for r in ELIMINATORY_RULES]
+
+    return {
+        "passed": passed,
+        "eliminated": eliminated,
+        "totalInput": len(stocks),
+        "totalPassed": len(passed),
+        "totalEliminated": len(eliminated),
+        "criteriaUsed": criteria,
+        "mode": mode,
+        "school_evaluations": school_evaluations if school_evaluations else None,
+    }

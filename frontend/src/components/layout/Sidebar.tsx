@@ -42,7 +42,7 @@ export function Sidebar() {
           <Zap className="w-4 h-4 text-white" />
         </div>
         {!sidebarCollapsed && (
-          <span className="text-lg font-bold text-gradient">R System</span>
+          <span className="text-lg font-bold text-gradient">老查理</span>
         )}
       </div>
 

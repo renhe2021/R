@@ -1,0 +1,2308 @@
+{
+  "book_title": "What Works on Wall Street",
+  "book_author": "James P. O'Shaughnessy",
+  "total_chapters_analyzed": 34,
+  "strategies": [
+    {
+      "name": "Dogs of the Dow",
+      "description": "Select the highest dividend-yielding stocks from the Dow Jones Industrial Average, a strategy mentioned as a case study illustrating disciplined, structured investing approaches.",
+      "expression": null,
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "low",
+      "source_chapter": "Chapter 1",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Small-Cap Stock Selection",
+      "description": "Select stocks with small market capitalizations, as small-cap stocks tend to outperform large-cap stocks over long periods, though with higher volatility.",
+      "expression": "market_cap < 500000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 4",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Filter",
+      "description": "Focus on market-leading stocks, defined as the largest stocks by market capitalization, which serve as a benchmark universe for more stable, large-cap investing strategies.",
+      "expression": "market_cap > 1000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 4",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Small Stocks Universe",
+      "description": "Define the small stocks universe as stocks with market capitalizations below the database average, representing the smaller and potentially higher-returning segment of the market.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 4",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Benchmark",
+      "description": "Use market leaders (large, well-known stocks with above-average market capitalizations) as one of two key benchmarks for evaluating stock selection strategies. Market leaders represent a better investable index than broad market indices.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 4",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Small Stocks Benchmark",
+      "description": "Use small stocks as the second key benchmark, representing the higher-risk, higher-potential-return segment of the market for strategy evaluation.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 4",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low P/E Stock Selection",
+      "description": "Buy stocks with low price-to-earnings ratios, as they tend to outperform the market over time. The chapter demonstrates that low P/E stocks are consistent winners on Wall Street.",
+      "expression": "pe < 15",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 5",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High P/E Stocks",
+      "description": "Avoid stocks with high price-to-earnings ratios as they are described as 'dangerous' and consistently underperform. High P/E stocks represent overvalued expectations that frequently disappoint.",
+      "expression": "pe < 25",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 5",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low P/E Among Large Stocks",
+      "description": "Even among large stocks, low P/E ratios tend to outperform, though the chapter notes that 'large stocks are different' and 'large stocks fare no better' with high P/E ratios. Apply low P/E filtering to large cap stocks.",
+      "expression": "pe < 15 and market_cap > 5000000000",
+      "data_fields_required": [
+        "pe",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 5",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bottom Decile P/E Filter",
+      "description": "Stocks in the lowest decile of P/E ratios (very cheap stocks) tend to produce the best returns according to the decile analysis presented in the chapter.",
+      "expression": "pe < 10",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 5",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Earnings Filter",
+      "description": "Stocks must have positive earnings to have a meaningful P/E ratio for screening purposes. Stocks with negative earnings are excluded from the analysis.",
+      "expression": "eps > 0",
+      "data_fields_required": [
+        "eps"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Chapter 5",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Book Value",
+      "description": "Buy stocks with low price-to-book ratios as a better gauge of value. Low P/B stocks outperform the market over time, as demonstrated by O'Shaughnessy's research.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 6",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High Price-to-Book Stocks",
+      "description": "Avoid stocks with high price-to-book ratios, which provide 'a wild ride to nowhere' — high volatility with poor returns over time.",
+      "expression": "pb < 5.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 6",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Cap Low P/B Filter",
+      "description": "Focus on large capitalization stocks with low price-to-book ratios, as large stocks with low P/B are less volatile and show more consistent base rates of outperformance compared to smaller stocks.",
+      "expression": "pb < 1.0 and market_cap > 5000000000",
+      "data_fields_required": [
+        "pb",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 6",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bottom Decile Price-to-Book",
+      "description": "Select stocks in the lowest decile of price-to-book ratios for maximum value exposure. Decile analysis shows the lowest P/B deciles deliver the strongest long-term returns.",
+      "expression": "pb < 0.5",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 6",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Cashflow Value Screen",
+      "description": "Buy stocks with low price-to-cashflow ratios, as they consistently outperform the market. Low price-to-cashflow stocks represent undervalued companies generating strong cash relative to their price.",
+      "expression": "ps < 5",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 7",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High Price-to-Cashflow Stocks",
+      "description": "Avoid stocks with high price-to-cashflow ratios as they are dangerous and consistently underperform the market, delivering poor returns across all time periods studied.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 7",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Cashflow Large Stocks",
+      "description": "Among large stocks, select those with low price-to-cashflow ratios. Large stocks with low price-to-cashflow ratios offer less volatility while still providing value-based outperformance.",
+      "expression": "market_cap > 1000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 7",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bottom Decile Price-to-Cashflow",
+      "description": "Stocks in the lowest decile (bottom 10%) of price-to-cashflow ratios deliver the strongest returns, suggesting buying the cheapest stocks by cashflow generates the best long-term performance.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 7",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Top Decile Price-to-Cashflow",
+      "description": "Stocks in the highest decile (top 10%) of price-to-cashflow ratios deliver the worst returns and represent the most dangerous investments, with poor worst-case scenarios.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 7",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cash-Based Value over Earnings-Based Value",
+      "description": "Use price-to-cashflow ratios as a value measure because cashflow is harder to manipulate than earnings, making it a more reliable indicator of true company value.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 7",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow Filter",
+      "description": "Screen for companies generating positive cash flow as a fundamental quality indicator, since price-to-cashflow analysis requires meaningful positive cashflow to be valid.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 7",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Sales Value Screen",
+      "description": "Buy stocks with low price-to-sales ratios, as PSR is identified as the 'King of the Value Factors' - the single best value metric for stock screening according to the chapter's core thesis.",
+      "expression": "ps < 1.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 8",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High PSR Stocks (Toxic)",
+      "description": "Avoid stocks with high price-to-sales ratios, which the chapter explicitly labels as 'toxic' - meaning they significantly underperform the market and destroy portfolio value.",
+      "expression": "ps < 5.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 8",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low PSR Large Cap Screen",
+      "description": "Focus on large capitalization stocks with low price-to-sales ratios, as the chapter notes large stocks with low PSR 'do well' and perform 'a little better' than the broader low-PSR universe, likely due to reduced volatility and better risk-adjusted returns.",
+      "expression": "ps < 1.0 and market_cap > 5000000000",
+      "data_fields_required": [
+        "ps",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 8",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bottom Decile PSR Screen",
+      "description": "Select stocks in the lowest decile of price-to-sales ratios, as the chapter's decile analysis shows the best performance comes from the cheapest PSR stocks. Bottom decile PSR stocks historically have PSR well below 0.5.",
+      "expression": "ps < 0.5",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 8",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Top Decile PSR Stocks",
+      "description": "Avoid stocks in the highest decile of price-to-sales ratios, as these represent the most overvalued stocks by this metric and produce the worst returns according to the decile analysis.",
+      "expression": "ps > 10.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 8",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Dividend Yield Screen",
+      "description": "Buy stocks with high dividend yields as an income-oriented strategy. O'Shaughnessy's research shows that high dividend yield stocks from the broader market (All Stocks universe) tend to outperform, suggesting screening for above-average dividend yields.",
+      "expression": "dividend_yield > 0.03",
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "low",
+      "source_chapter": "Chapter 9",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks Dividend Yield Strategy",
+      "description": "Among large stocks, high dividend yield strategies show entirely different (potentially more favorable) results compared to the broader universe, suggesting focusing on large-cap stocks with high dividend yields.",
+      "expression": "dividend_yield > 0.03 and market_cap > 5000000000",
+      "data_fields_required": [
+        "dividend_yield",
+        "market_cap"
+      ],
+      "category": "dividend",
+      "confidence": "low",
+      "source_chapter": "Chapter 9",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Top Decile Dividend Yield",
+      "description": "Stocks in the highest decile of dividend yield tend to show distinct performance characteristics. Screen for stocks with very high dividend yields (top decile typically implies yields well above market average).",
+      "expression": "dividend_yield > 0.05",
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "low",
+      "source_chapter": "Chapter 9",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value Factor Preference - Low P/E",
+      "description": "Favor stocks with low price-to-earnings ratios as a core value factor, as value factors have been shown to outperform over time on Wall Street.",
+      "expression": "pe < 15",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 10",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value Factor Preference - Low P/B",
+      "description": "Favor stocks with low price-to-book ratios as a value factor that has historically worked well.",
+      "expression": "pb < 1.5",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 10",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value Factor Preference - Low P/S",
+      "description": "Favor stocks with low price-to-sales ratios as a value screening criterion.",
+      "expression": "ps < 1.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 10",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value Factor Preference - High Earnings Yield",
+      "description": "Favor stocks with high earnings yield (inverse of P/E) as a value factor.",
+      "expression": "earnings_yield > 0.07",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Chapter 10",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stock Consistency Filter",
+      "description": "Focus on large-cap stocks for more consistent value factor performance, as the chapter notes large stocks provide more consistent results when applying value strategies.",
+      "expression": "market_cap > 5000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 10",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Risk-Adjusted Value Screen",
+      "description": "The chapter emphasizes that risk doesn't always equal reward - seek value stocks that offer favorable risk-reward profiles rather than simply high-risk positions. Combine multiple value factors for consistency.",
+      "expression": "pe < 15 and pb < 2.0 and earnings_yield > 0.06",
+      "data_fields_required": [
+        "pe",
+        "pb",
+        "earnings_yield"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 10",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Dividend Yield as Value Factor",
+      "description": "High dividend yield can serve as a value indicator, consistent with the chapter's emphasis on value factors that work on Wall Street.",
+      "expression": "dividend_yield > 0.03",
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "low",
+      "source_chapter": "Chapter 10",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Annual Earnings Gains - All Stocks",
+      "description": "Buying stocks with the highest annual earnings percentage changes (top decile). The chapter examines whether high earnings gains lead to high future performance and generally finds they do not reliably outperform, particularly for large stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Worst Annual Earnings Changes - All Stocks",
+      "description": "Buying stocks with the worst annual earnings changes (bottom decile/lowest earnings growth). The chapter explores contrarian strategies of buying stocks with the worst earnings changes, finding that for large stocks this approach does better than buying high earnings gainers.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Worst Earnings Changes - Large Stocks Contrarian",
+      "description": "Among large-cap stocks, buying those with the worst earnings changes tends to outperform buying those with the best earnings changes. This is a contrarian approach suggesting that large stocks with poor recent earnings changes may be undervalued and poised for recovery.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High Earnings Gainers in Large Stocks",
+      "description": "Large stocks with the highest earnings gains tend to do worse going forward. Investors should avoid buying large-cap stocks solely on the basis of high recent earnings growth, as this strategy underperforms.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate",
+        "market_cap"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 11",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sales Increases vs Earnings Gains",
+      "description": "The chapter's case study examines whether revenue/sales growth is a better predictor of future performance than earnings growth. This implies screening for high revenue growth rates as a potentially superior growth metric compared to earnings gains.",
+      "expression": null,
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "low",
+      "source_chapter": "Chapter 11",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Profit Margin Filter",
+      "description": "Select stocks with high profit margins, as the chapter suggests investors can profit from companies with strong corporate profitability. Higher profit margin deciles tend to outperform.",
+      "expression": "profit_margin > 0.10",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Chapter 13",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks with High Margins",
+      "description": "The chapter notes that large stocks do better when screening by profit margins, suggesting a combined filter of larger market capitalization companies with strong profit margins.",
+      "expression": "profit_margin > 0.10 and market_cap > 1000000000",
+      "data_fields_required": [
+        "profit_margin",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 13",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Operating Margin Filter",
+      "description": "Screen for companies with strong operating margins as a proxy for corporate profitability, consistent with the chapter's focus on profit margins as a screening factor.",
+      "expression": "operating_margin > 0.15",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Chapter 13",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Relative Price Strength - Top Performers",
+      "description": "Buy stocks with the highest relative price strength (best performing stocks over the prior year), as winners continue to win. Stocks in the top decile of 1-year price performance tend to outperform the market.",
+      "expression": "price > price_52w_low * 1.5",
+      "data_fields_required": [
+        "price",
+        "price_52w_low"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Chapter 15",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Worst Relative Price Strength",
+      "description": "Avoid stocks with the worst relative price strength (worst performing stocks over the prior year), as these stocks continue to underperform. Buying the worst performing stocks leads to poor returns.",
+      "expression": "price > price_52w_low * 1.1",
+      "data_fields_required": [
+        "price",
+        "price_52w_low"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Chapter 15",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Near 52-Week High (Momentum)",
+      "description": "Favor stocks trading near their 52-week high, indicating strong relative price strength and positive momentum. Winners continue to win.",
+      "expression": "price >= price_52w_high * 0.9",
+      "data_fields_required": [
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Chapter 15",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks Momentum Filter",
+      "description": "Apply relative price strength strategy preferentially to large-cap stocks, as large stocks with strong momentum perform better and with less risk than small stocks with strong momentum.",
+      "expression": "market_cap > 5000000000 and price >= price_52w_high * 0.85",
+      "data_fields_required": [
+        "market_cap",
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Chapter 15",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Bottom Decile Performers - Large Stocks",
+      "description": "Even among large stocks, avoid the worst-performing stocks by prior-year price performance, as large stocks with the worst relative strength also underperform significantly.",
+      "expression": "price > price_52w_high * 0.5 and market_cap > 5000000000",
+      "data_fields_required": [
+        "price",
+        "price_52w_high",
+        "market_cap"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Chapter 15",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Above 200-Day Moving Average",
+      "description": "Stocks trading above their 200-day moving average exhibit positive momentum consistent with the relative price strength winners-continue-to-win thesis.",
+      "expression": "price > ma_200d",
+      "data_fields_required": [
+        "price",
+        "ma_200d"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Chapter 15",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Multifactor Value: Low P/E + Low P/B",
+      "description": "Combine multiple value factors such as low price-to-earnings and low price-to-book ratios to improve performance over single-factor value screens. The chapter emphasizes that adding value factors to each other improves base rates and returns.",
+      "expression": "pe < 15 and pb < 1.5",
+      "data_fields_required": [
+        "pe",
+        "pb"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Multifactor Value: Low P/S Screen",
+      "description": "Price-to-sales ratio is highlighted as having similar returns to other value factors and doing well as a standalone or combined factor. Low price-to-sales stocks are favored.",
+      "expression": "ps < 1.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Combined Three Value Strategies: Low P/E + Low P/B + Low P/S",
+      "description": "Combining all three value strategies (low P/E, low P/B, and low P/S) together yields improved performance and better base rates than any single value factor alone.",
+      "expression": "pe < 15 and pb < 1.5 and ps < 1.0",
+      "data_fields_required": [
+        "pe",
+        "pb",
+        "ps"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Growth Factor: High ROE Screen",
+      "description": "Among growth factors tested, return on equity performs better than other growth metrics. High ROE stocks are preferred in multifactor growth models.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Multifactor Value + Growth Composite",
+      "description": "Combining value factors (low P/E, low P/B, low P/S) with the best growth factor (high ROE) creates a comprehensive multifactor model that improves overall performance.",
+      "expression": "pe < 15 and pb < 1.5 and ps < 1.0 and roe > 0.15",
+      "data_fields_required": [
+        "pe",
+        "pb",
+        "ps",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks Value Screen (Reduced Expectations)",
+      "description": "The chapter notes that additional value factors add less incremental improvement when applied to large stocks compared to all stocks. Large-cap value screens still work but with less dramatic results.",
+      "expression": "market_cap > 5000000000 and pe < 15 and pb < 1.5 and ps < 1.0",
+      "data_fields_required": [
+        "market_cap",
+        "pe",
+        "pb",
+        "ps"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks Growth: High ROE (Less Dramatic)",
+      "description": "For large stocks, growth factor models using ROE still outperform but the results are less dramatic than for the broader universe of all stocks.",
+      "expression": "market_cap > 5000000000 and roe > 0.15",
+      "data_fields_required": [
+        "market_cap",
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Chapter 16",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Universe Definition",
+      "description": "Filter stocks to the Market Leaders universe, typically defined in O'Shaughnessy's work as stocks with above-average market capitalizations, strong cash flows, and significant share liquidity - generally large-cap stocks with market caps above the database average.",
+      "expression": "market_cap > 1000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 17",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Multifactor Strategy",
+      "description": "Within the Market Leaders universe, apply multifactor strategies combining valuation ratios to identify the best-performing stocks. O'Shaughnessy found that multifactor strategies also do well within this large-cap universe.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 17",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Small Stocks Universe Definition",
+      "description": "Focus on the small stocks universe, typically defined as stocks with smaller market capitalizations, to identify which valuation and quality ratios add the most value within this segment.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 18",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Original Cornerstone Growth Strategy - Market Cap Filter",
+      "description": "The original Cornerstone Growth strategy requires stocks to have a market capitalization above a certain threshold (typically above inflation-adjusted $200 million) to ensure adequate liquidity and institutional quality.",
+      "expression": "market_cap > 200000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cornerstone Growth - Earnings Persistence",
+      "description": "Stocks must show persistent earnings growth, typically requiring positive earnings per share growth over consecutive years, indicating consistent profitability.",
+      "expression": "eps_growth_rate > 0 and profitable_years >= 5",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "profitable_years"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cornerstone Growth - Price-to-Sales Ratio Filter",
+      "description": "The Cornerstone Growth strategy uses a price-to-sales ratio filter, typically requiring P/S below 1.5, to avoid overpaying for growth stocks and ensure reasonable valuation.",
+      "expression": "ps < 1.5",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cornerstone Growth - Relative Strength / Momentum",
+      "description": "The strategy selects stocks with the strongest relative price strength or momentum, typically ranking by 12-month price appreciation and selecting the top performers from the qualifying universe.",
+      "expression": "price > ma_200d",
+      "data_fields_required": [
+        "price",
+        "ma_200d"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cornerstone Growth - Earnings Growth Requirement",
+      "description": "Stocks must demonstrate earnings growth, with EPS growth rate being positive, as a core requirement of the growth strategy to ensure the company is on an upward earnings trajectory.",
+      "expression": "eps_growth_rate > 0",
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks Cornerstone Growth - Large Cap Filter",
+      "description": "The large stocks version of the Cornerstone Growth strategy applies the same growth and value criteria but restricts the universe to large capitalization stocks, ensuring lower volatility and greater institutional suitability.",
+      "expression": "market_cap > 1000000000 and ps < 1.5 and eps_growth_rate > 0",
+      "data_fields_required": [
+        "market_cap",
+        "ps",
+        "eps_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Improved Cornerstone Growth - Composite Strategy",
+      "description": "The improved version of the Cornerstone Growth strategy combines valuation (low price-to-sales), earnings persistence, and strong price momentum to identify ideal growth stocks with reasonable valuations.",
+      "expression": "ps < 1.5 and eps_growth_rate > 0 and profitable_years >= 5 and price > ma_200d",
+      "data_fields_required": [
+        "ps",
+        "eps_growth_rate",
+        "profitable_years",
+        "price",
+        "ma_200d"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Concentrated Growth - Top Momentum Selection",
+      "description": "More concentrated versions of the growth strategy select fewer stocks (e.g., top 25 or 50) ranked by relative strength from the qualifying universe, potentially increasing returns but also increasing volatility.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Growth Strategy - Avoid Overvalued Growth",
+      "description": "Traditional growth factors like high P/E ratios work but provide lower overall returns. The strategy implicitly avoids stocks with excessively high valuations by using price-to-sales as a valuation anchor.",
+      "expression": "ps < 1.5",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Chapter 20",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Riskiest Strategies",
+      "description": "Never use the riskiest investment strategies; avoid stocks that historically show themselves to be horrible long-term performers (e.g., highly speculative, bubble-era favorites with no fundamental backing).",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 24",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Use Multifactor Models",
+      "description": "Always use more than one strategy and combine multiple factors into multifactor models rather than relying on a single screening criterion.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 24",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Insist on Consistency",
+      "description": "Only use strategies that have demonstrated consistent, persistent returns over long time periods, not just short-term outperformance.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Chapter 24",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Micro-Cap Exclusion Filter",
+      "description": "Exclude micro-cap stocks with market capitalizations below $25 million, as most small-cap strategy returns are driven by these essentially uninvestable stocks.",
+      "expression": "market_cap >= 25000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Preface",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low P/E on Large-Cap Stocks",
+      "description": "Buy low P/E ratio stocks but stick to larger, better-known issues for the most profitable results.",
+      "expression": "pe < 15 and market_cap > 1000000000",
+      "data_fields_required": [
+        "pe",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Sales Ratio",
+      "description": "Use the price-to-sales ratio as the primary value ratio for selecting market-beating stocks, as it is described as the most consistent value ratio.",
+      "expression": "ps < 1.0",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Highest P/E Stocks",
+      "description": "Avoid buying Wall Street's current darlings with the highest P/E ratios, as this is described as one of the worst things an investor can do.",
+      "expression": "pe < 50",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Last Year's Biggest Losers",
+      "description": "Last year's biggest losers are among the worst stocks you can buy. Avoid stocks near their 52-week lows with poor momentum.",
+      "expression": "price > price_52w_low * 1.2",
+      "data_fields_required": [
+        "price",
+        "price_52w_low"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Relative Strength with Value Factors",
+      "description": "Relative strength is the only growth variable that consistently beats the market, but it must always be matched with other value factors to mitigate its high risk levels.",
+      "expression": "price > ma_200d and ps < 1.5",
+      "data_fields_required": [
+        "price",
+        "ma_200d",
+        "ps"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Shareholder Yield on Large Stocks",
+      "description": "Concentrate on large, well-known stocks with high shareholder yield (dividends plus buybacks) to potentially do ten times as well as the S&P 500.",
+      "expression": "market_cap > 1000000000 and dividend_yield > 0.03",
+      "data_fields_required": [
+        "market_cap",
+        "dividend_yield"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Ignore Single-Year Earnings Gains",
+      "description": "Last year's earnings gains alone are worthless when determining if a stock is a good investment. Do not rely solely on one-year EPS growth.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "high",
+      "source_chapter": "Preface",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Filter",
+      "description": "Select stocks classified as 'Market Leaders' - the largest stocks by market capitalization, typically those with market caps above the average of the large stocks universe. Market Leaders showed the best risk-adjusted returns (highest Sharpe ratio of 0.54), lowest downside risk (4.94%), lowest maximum drawdown (-38.98%), and best minimum 10-year compound return (4.39%). O'Shaughnessy defines Market Leaders as stocks with market capitalizations greater than the average market capitalization of the database, typically the top tier of large-cap stocks.",
+      "expression": "market_cap >= 10000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 27",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks Filter",
+      "description": "Select stocks with market capitalizations above the database average, which O'Shaughnessy defines as 'Large Stocks.' These had a geometric average return of 11.71% with a standard deviation of 16.84% and correlation of 0.95 with the S&P 500.",
+      "expression": "market_cap >= 1000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 27",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Small Stocks (Risk-Adjusted)",
+      "description": "Avoid small stocks when seeking better risk-adjusted returns. Small stocks had the highest downside risk (8.00%), highest standard deviation (22.16%), worst maximum peak-to-trough decline (-53.82%), and worst minimum annual return (-31.20%), despite having the highest arithmetic average return (15.66%). The risk-adjusted performance (Sharpe ratio 0.46) was inferior to Market Leaders (0.54).",
+      "expression": "market_cap > 500000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 27",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low PE Large Stocks",
+      "description": "Select the 50 stocks with the lowest P/E ratios from the Large Stocks universe. This strategy grew $10,000 to $11,502,432 from 1951-2003 with a Sharpe ratio of 50, substantially outperforming the Large Stocks universe.",
+      "expression": "market_cap >= 1000000000 and pe > 0 and pe < 15",
+      "data_fields_required": [
+        "pe",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 28",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High PE Large Stocks",
+      "description": "Avoid stocks with the highest P/E ratios from the Large Stocks universe. The 50 highest PE large stocks had a Sharpe ratio of only 24 vs 45 for the universe, and beat the universe only 19% of the time over rolling 10-year periods. They also suffered five declines of more than 30%, including a 74% plunge between August 2000 and September 2002.",
+      "expression": "not (pe > 50 and market_cap >= 1000000000)",
+      "data_fields_required": [
+        "pe",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 28",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low PE All Stocks",
+      "description": "Select stocks with the lowest P/E ratios from the broader All Stocks universe. The 50 lowest PE stocks from All Stocks grew $10,000 to $8,189,182 with a Sharpe ratio of 41. However, the second decile of low PE performs better than the absolute lowest 50, suggesting very low PEs may indicate serious problems.",
+      "expression": "pe > 0 and pe < 12",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 28",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low PE Second Decile Preference",
+      "description": "Rather than buying the absolute lowest PE stocks from All Stocks, focus on the second through fourth lowest PE deciles. The lowest 50 PE stocks may have low PEs indicative of more serious problems. Investors should select more broadly from the four deciles having the lowest PE ratios rather than concentrating on the extreme lowest.",
+      "expression": "pe > 5 and pe < 20",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 28",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High PE All Stocks",
+      "description": "Avoid stocks with the highest P/E ratios from the All Stocks universe. The 50 highest PE All Stocks grew only to $793,558 vs $5,743,706 for the universe, with a Sharpe ratio of 24 vs 46. Deciles 5 through 10 (highest PE) all underperformed the All Stocks universe.",
+      "expression": "not (pe > 50)",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 28",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low PE Lower Volatility Filter",
+      "description": "Low PE stocks exhibit lower risk than high PE stocks. In All Stocks, low PE had standard deviation of 27.39% vs 32.05% for high PE. In Large Stocks, low PE had 21.93% vs 23.20% for high PE. Prefer low PE stocks for better risk-adjusted returns.",
+      "expression": "pe > 0 and pe < 15 and market_cap >= 1000000000",
+      "data_fields_required": [
+        "pe",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 28",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low PSR from All Stocks",
+      "description": "Buy the 50 stocks with the lowest price-to-sales ratios from the All Stocks universe. This strategy produced the highest compound returns (e.g., 20.85% in the 1950s, 19.94% in the 2000s) and consistently outperformed across all decades. The lowest PSR decile from All Stocks compounded at 17.46% annually from 1951-2003.",
+      "expression": null,
+      "data_fields_required": [
+        "ps",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 29",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low PSR from Large Stocks",
+      "description": "Buy the 50 stocks with the lowest price-to-sales ratios from the Large Stocks universe. This strategy outperformed the Large Stocks benchmark in virtually every decade, with compound returns of 16.39% in the 1950s, 20.09% in the 1980s, and 9.86% in the 2000s versus 2.40% for Large Stocks overall.",
+      "expression": null,
+      "data_fields_required": [
+        "ps",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 29",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High PSR Stocks - All Stocks",
+      "description": "Avoid stocks with the highest price-to-sales ratios from the All Stocks universe. The 50 highest PSR stocks from All Stocks had catastrophic returns including -42.37% compound annual return in the 2000s, -2.02% in the 1980s, and a worst 10-year compound return of -20.04%. The highest PSR decile compounded at only 3.12% annually with the highest standard deviation (28.06%).",
+      "expression": null,
+      "data_fields_required": [
+        "ps",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 29",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High PSR Stocks - Large Stocks",
+      "description": "Avoid stocks with the highest price-to-sales ratios from the Large Stocks universe. The 50 highest PSR large stocks had a -36.87% compound annual return in the 2000s, suffered a -93.36% peak-to-trough decline, and had a worst 10-year compound return of -4.91%.",
+      "expression": null,
+      "data_fields_required": [
+        "ps",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 29",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "PSR Bottom Decile Screen",
+      "description": "Select stocks in the lowest decile (bottom 10%) of price-to-sales ratios from the All Stocks universe. This decile turned $10,000 into $43.1 million from 1951-2003 with a 17.46% compound annual return, versus $49,482 for the highest PSR decile. Returns decline monotonically from lowest to highest PSR decile, making PSR the most consistent value factor.",
+      "expression": null,
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 29",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "PSR Bottom Decile Large Stocks Screen",
+      "description": "Select stocks in the lowest decile (bottom 10%) of price-to-sales ratios from the Large Stocks universe. This decile compounded at 14.40% annually, outperforming the Large Stocks benchmark of 11.71%.",
+      "expression": null,
+      "data_fields_required": [
+        "ps",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 29",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Highest Five-Year EPS Growth Stocks (All Stocks)",
+      "description": "Avoid stocks in the top decile (highest 10%) of five-year earnings-per-share growth, as investors consistently overpay for these stocks. In the All Stocks universe, the top decile returned only 11.43% compound annually vs. 13.00% for the full universe (1954-2003). Deciles 2 through 6 performed better.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "high",
+      "source_chapter": "Section 30",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Highest Five-Year EPS Growth Stocks (Large Stocks)",
+      "description": "Avoid large-cap stocks with the highest five-year EPS growth rates. The top decile of Large Stocks by five-year EPS gains returned only 11.08% compound annually vs. 11.71% for the Large Stocks universe, with significantly higher volatility (24.76% vs. 16.84% standard deviation).",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate",
+        "market_cap"
+      ],
+      "category": "growth",
+      "confidence": "high",
+      "source_chapter": "Section 30",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Favor Mid-Decile Five-Year EPS Growth (All Stocks)",
+      "description": "In the All Stocks universe, focus on stocks in deciles 2 through 6 by five-year earnings gains rather than the top decile. Decile 6 had the highest compound return at 14.41%, and deciles 2, 3, and 5 all outperformed the top decile and the overall universe.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "high",
+      "source_chapter": "Section 30",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Top 50 Highest Five-Year EPS Growth (Risk Management)",
+      "description": "Avoid the 50 stocks with the highest five-year EPS growth rates, as they exhibit extreme downside risk. The worst 10-year compound return for the top 50 five-year EPS growth stocks was -10.23% (All Stocks) and -4.58% (Large Stocks), compared to +0.68% and -0.20% for the respective full universes.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "high",
+      "source_chapter": "Section 30",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "O'Shaughnessy ROE + Momentum (All Stocks)",
+      "description": "From the All Stocks universe, select the 50 stocks with return on equity greater than 15% and the best one-year price appreciation (relative strength). This strategy turned $10,000 into $25,681,572 from 1951-2003 and beat All Stocks in 93% of rolling 10-year periods.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 31",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "O'Shaughnessy ROE + Momentum (Large Stocks)",
+      "description": "From the Large Stocks universe, select the 50 stocks with return on equity greater than 15% and the best one-year price appreciation. This strategy achieved a 14.59% compound annual return from 1951-2003, more than three times Large Stocks' return.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 31",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "O'Shaughnessy Value + Momentum (PSR < 1 + Best RS)",
+      "description": "Buy the 50 stocks from the All Stocks universe having price-to-sales ratios below 1 and the best price performance from the previous year. This combination earned $17 million more than simply buying the 50 lowest PSR stocks over 52 years, with a slightly lower standard deviation.",
+      "expression": "ps < 1",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 31",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "ROE Minimum Threshold",
+      "description": "Return on equity above 15% is identified as a helpful growth factor when combined with relative strength/momentum strategies. O'Shaughnessy specifically highlights ROE > 15% as a useful growth screen.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Section 31",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Price-to-Sales Value Screen",
+      "description": "Stocks with price-to-sales ratios below 1 are identified as value stocks. This is used as the value component in multifactor models combining value with momentum.",
+      "expression": "ps < 1",
+      "data_fields_required": [
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 31",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "All-Cap Value Growth 50/50 Split",
+      "description": "Split portfolio equally between a Cornerstone Growth strategy (smaller, high-growth stocks) and a Cornerstone Value strategy (Market Leaders with high shareholder yield) to achieve superior risk-adjusted returns through style diversification.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 32",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "60/40 Value-Growth and Bonds Allocation",
+      "description": "Allocate 60 percent to the combined 100-stock value-growth portfolio and 40 percent to intermediate-term government bonds, rebalancing annually. This achieved a 15.01% compound return with a standard deviation of 13.13% and a Sharpe ratio of 78, versus the S&P 500's 10.61% return, 16.82% standard deviation, and Sharpe ratio of 37.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 32",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cornerstone Value for Conservative/Near-Retirement Investors",
+      "description": "As retirement approaches, increase allocation to the Cornerstone Value strategy, which selects from Market Leaders (large-cap stocks) with high shareholder yield (dividends plus buybacks). This strategy provides more conservative returns and bolsters the portfolio when larger stocks outperform smaller stocks.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 32",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders High Shareholder Yield Filter",
+      "description": "Select stocks from the Market Leaders universe (large-cap, financially strong companies) that have high shareholder yield, which combines dividend yield and share buyback yield. This forms the value component of the combined strategy.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Section 32",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "100-Stock Combined Portfolio Base Rate",
+      "description": "The combined 100-stock portfolio (50 growth + 50 value) beat the combined Market Leaders and All Stocks benchmark in 91% of rolling 12-month periods, 100% of rolling 5-year periods, and 100% of rolling 10-year periods from 1963-2003. This validates the strategy's consistency.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 32",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Maximum Drawdown Threshold for 60/40 Portfolio",
+      "description": "The 60/40 equity-bond version of the strategy had a maximum decline of 22%, a downside risk of 6.55%, and a standard deviation of 13.13%, all significantly below the S&P 500's risk metrics. Investors seeking lower volatility should target these risk parameters.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 32",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cornerstone Value Strategy",
+      "description": "Select stocks from the Cornerstone Value universe (large stocks with above-average dividend yield, market cap, cash flow, and shares outstanding), then pick top 50 stocks by highest shareholder yield or dividend yield combined with 1-year relative strength. This strategy showed one of the lowest maximum declines among equity strategies.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "dividend_yield",
+        "free_cash_flow"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Low PSR Top 50",
+      "description": "From the Market Leaders universe (large, profitable, high-quality stocks), select the 50 stocks with the lowest price-to-sales ratio. Achieved strong geometric returns with relatively controlled maximum drawdowns.",
+      "expression": null,
+      "data_fields_required": [
+        "ps",
+        "market_cap",
+        "profit_margin"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Low PE Top 50",
+      "description": "From the Market Leaders universe, select the 50 stocks with the lowest price-to-earnings ratio.",
+      "expression": null,
+      "data_fields_required": [
+        "pe",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Low P/Book",
+      "description": "From the Market Leaders universe, select the 50 stocks with the lowest price-to-book ratio.",
+      "expression": null,
+      "data_fields_required": [
+        "pb",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Low PCFL Top 50",
+      "description": "From the Market Leaders universe, select the 50 stocks with the lowest price-to-cash-flow ratio.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "free_cash_flow"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders High Shareholder Yield Top 50",
+      "description": "From the Market Leaders universe, select the 50 stocks with the highest shareholder yield (dividends plus buybacks).",
+      "expression": null,
+      "data_fields_required": [
+        "dividend_yield",
+        "market_cap"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders 1-Year Relative Strength Top 50",
+      "description": "From the Market Leaders universe, select the 50 stocks with the best 1-year relative strength (price momentum).",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders PSR and 1-Year Relative Strength",
+      "description": "From the Market Leaders universe, screen for low PSR then select top stocks by 1-year relative strength. Combines value and momentum within high-quality stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "ps",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks PSR Below 1 with Momentum",
+      "description": "From large stocks, select those with price-to-sales ratio below 1, then pick the top 50 by 1-year relative strength.",
+      "expression": "ps < 1",
+      "data_fields_required": [
+        "ps",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks PE Below 20 with High Dividend Yield",
+      "description": "From large stocks, select those with PE below 20, then pick the top 50 by highest dividend yield.",
+      "expression": "pe < 20",
+      "data_fields_required": [
+        "pe",
+        "dividend_yield",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Dow 10 Dogs of the Dow",
+      "description": "Select the 10 stocks from the Dow Jones Industrial Average with the highest dividend yield. This classic strategy showed a maximum decline of approximately -32% and a Sharpe ratio of 0.61.",
+      "expression": null,
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "high",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks High Dividend Yield Top 50",
+      "description": "From the large stock universe, select the 50 stocks with the highest dividend yield.",
+      "expression": null,
+      "data_fields_required": [
+        "dividend_yield",
+        "market_cap"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cornerstone Growth with Price Momentum Filter",
+      "description": "Original Cornerstone Growth strategy selecting top stocks by earnings persistence, margin, and 1-year relative strength, with additional filter requiring positive 3-month and 6-month price change.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate",
+        "profit_margin",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Improved Cornerstone Growth Top 50",
+      "description": "Improved version of the Cornerstone Growth strategy selecting top 50 stocks, incorporating profit margin percentile, 5-year EPS gains, and 1-year relative strength from the Market Leaders universe.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate",
+        "profit_margin",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Improved Cornerstone Growth Top 25",
+      "description": "More concentrated version of the Improved Cornerstone Growth strategy selecting only the top 25 stocks. Achieved higher returns but with greater maximum drawdown.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate",
+        "profit_margin",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Improved Cornerstone Growth Top 10",
+      "description": "Most concentrated version of the Improved Cornerstone Growth strategy selecting only the top 10 stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate",
+        "profit_margin",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Top 100 Profit Margin with Momentum",
+      "description": "From Market Leaders, select the top 100 stocks by profit margin, then pick the top stocks by 1-year relative strength.",
+      "expression": null,
+      "data_fields_required": [
+        "profit_margin",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Worst P/Book Top 50 by Momentum",
+      "description": "From Market Leaders, select the 50 stocks with the worst (highest) price-to-book ratio, then rank by 1-year relative strength. A growth-oriented approach within quality stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "pb",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value-Growth Portfolio 50 Stocks",
+      "description": "A combined portfolio blending value and growth strategies, selecting 50 stocks total. Achieved strong risk-adjusted returns with geometric mean around 18-20%.",
+      "expression": null,
+      "data_fields_required": [
+        "pe",
+        "ps",
+        "market_cap",
+        "eps_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value-Growth Portfolio 100 Stocks",
+      "description": "A combined portfolio blending value and growth strategies, selecting 100 stocks total for greater diversification.",
+      "expression": null,
+      "data_fields_required": [
+        "pe",
+        "ps",
+        "market_cap",
+        "eps_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value Decile Intersection 50 Stocks",
+      "description": "Select 50 stocks that appear in the best value deciles across multiple value factors simultaneously, then rank by 1-year relative strength.",
+      "expression": null,
+      "data_fields_required": [
+        "pe",
+        "ps",
+        "pb",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks EPS Up PE Below 20 with Momentum",
+      "description": "From large stocks, select those with increasing EPS and PE below 20, then pick top stocks by 1-year relative strength.",
+      "expression": "pe < 20 and eps_growth_rate > 0",
+      "data_fields_required": [
+        "pe",
+        "eps_growth_rate",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "All Stocks Good Value with Yield and Price Up",
+      "description": "From all stocks, select those with good value characteristics, positive dividend yield, and positive price momentum.",
+      "expression": null,
+      "data_fields_required": [
+        "dividend_yield",
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks Low PCFL Top 50",
+      "description": "From the large industrial stock universe, select the 50 stocks with the lowest price-to-cash-flow ratio.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "free_cash_flow"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "CSV Top 50 by 1-Year Relative Strength",
+      "description": "From the Cornerstone Value universe, select the top 50 stocks by 1-year relative strength, combining value characteristics with price momentum.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "dividend_yield"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders 5-Year EPS Gain Top 50 by Momentum",
+      "description": "From Market Leaders, select stocks with the best 5-year EPS gains, then pick top 50 by 1-year relative strength.",
+      "expression": null,
+      "data_fields_required": [
+        "earnings_growth_10y",
+        "market_cap"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders 1-Year EPS Gains Top 50 by Momentum",
+      "description": "From Market Leaders, select stocks with the best 1-year EPS gains, then pick top 50 by 1-year relative strength.",
+      "expression": null,
+      "data_fields_required": [
+        "eps_growth_rate",
+        "market_cap"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Stocks Low P/Book Top 50",
+      "description": "From the large stock universe, select the 50 stocks with the lowest price-to-book ratio.",
+      "expression": null,
+      "data_fields_required": [
+        "pb",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Leaders Best 1-Year Relative Strength Top 50",
+      "description": "From Market Leaders, select the 50 stocks with the best 1-year relative price strength for a pure momentum approach within quality stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large CSG with 3/6 Month Price Change Positive",
+      "description": "Large stock Cornerstone Growth strategy requiring both 3-month and 6-month price changes to be positive before selecting by 1-year relative strength. Adds a momentum confirmation filter.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "price"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 34",
+      "source_book": "What Works on Wall Street",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 141,
+  "strategies_by_category": {
+    "dividend": 9,
+    "valuation": 45,
+    "quality": 9,
+    "composite": 48,
+    "profitability": 6,
+    "growth": 13,
+    "momentum": 11
+  },
+  "data_fields_required": [
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "eps",
+    "eps_growth_rate",
+    "free_cash_flow",
+    "ma_200d",
+    "market_cap",
+    "operating_margin",
+    "pb",
+    "pe",
+    "price",
+    "price_52w_high",
+    "price_52w_low",
+    "profit_margin",
+    "profitable_years",
+    "ps",
+    "revenue_growth_rate",
+    "roe"
+  ],
+  "data_fields_available": [
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "eps",
+    "eps_growth_rate",
+    "free_cash_flow",
+    "ma_200d",
+    "market_cap",
+    "operating_margin",
+    "pb",
+    "pe",
+    "price",
+    "price_52w_high",
+    "price_52w_low",
+    "profit_margin",
+    "profitable_years",
+    "ps",
+    "revenue_growth_rate",
+    "roe"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "1-year relative strength (momentum)",
+    "3-month and 6-month price momentum confirmation",
+    "60/40 equity-bond allocation",
+    "All Stocks vs Large Stocks universes",
+    "Annual rebalancing",
+    "Base rates for strategy evaluation",
+    "Best-case and worst-case scenario analysis",
+    "Cornerstone Growth Strategy",
+    "Cornerstone Growth strategy",
+    "Cornerstone Value strategy",
+    "Decile analysis",
+    "Dogs of the Dow",
+    "High PE underperformance",
+    "Large Stocks vs All Stocks universes",
+    "Low PE outperformance",
+    "Market Leaders universe",
+    "Market Leaders universe as quality screen",
+    "P/E ratio as a valuation metric",
+    "Risk-adjusted returns",
+    "Rolling period analysis",
+    "Sharpe ratio",
+    "Sharpe ratio as risk-adjusted return measure",
+    "Sharpe ratio for risk-adjusted returns",
+    "Standard deviation of returns as risk measure",
+    "Value trap risk (extremely low PE indicating serious problems)",
+    "absolute returns",
+    "annual earnings changes as a screening factor",
+    "annual rebalancing",
+    "base rate consistency",
+    "base rate investing",
+    "base rates",
+    "base rates of outperformance",
+    "behavioral biases in investing",
+    "behavioral discipline",
+    "behavioral finance and momentum",
+    "best and worst case return analysis",
+    "best of times worst of times (asymmetric return distribution)",
+    "best- and worst-case return analysis",
+    "best-case and worst-case return analysis",
+    "best-case and worst-case scenario analysis",
+    "best-performing investment strategies",
+    "beta",
+    "blended strategies",
+    "cash vs earnings reliability",
+    "cashflow-based valuation",
+    "catastrophic underperformance of high PSR stocks",
+    "cognitive biases in investing",
+    "combining growth and value strategies",
+    "combining value and growth factors",
+    "combining value and momentum",
+    "combining value and momentum factors",
+    "compound return",
+    "compound return vs. average return distinction",
+    "compound returns over different holding periods",
+    "concentrated portfolio",
+    "concentrated portfolio investing",
+    "concentrated vs. diversified portfolios",
+    "consistency of outperformance",
+    "consistency of returns",
+    "consistency of strategy application",
+    "consistent outperformance of low PSR across decades",
+    "contrarian investing",
+    "corporate profitability and investor returns",
+    "correlation matrix analysis",
+    "decile analysis",
+    "decile analysis of P/E ratios",
+    "decile analysis of profit margins",
+    "deviation from benchmark",
+    "diminishing returns of additional factors for large stocks",
+    "discipline in investing",
+    "discipline in strategy adherence",
+    "dividend yield",
+    "dividend yield as a selection factor",
+    "downside risk",
+    "downside risk of high-growth stocks",
+    "earnings growth does not predict stock performance",
+    "earnings momentum",
+    "earnings persistence",
+    "evidence-based investing",
+    "factor-based investing",
+    "factor-based portfolio construction",
+    "failure of traditional active management",
+    "five-year earnings-per-share growth",
+    "geometric vs arithmetic returns",
+    "geometric vs. arithmetic mean returns",
+    "growth trap",
+    "high P/B underperformance",
+    "high P/E underperformance and danger",
+    "high PSR stocks as toxic investments",
+    "historical performance as guide to future results",
+    "holding period optimization",
+    "human judgment limitations",
+    "ideal value stock strategy",
+    "ignoring short-term noise",
+    "in-sample data randomization",
+    "income investing",
+    "indexing as a benchmark",
+    "indexing as benchmark",
+    "individual vs. group decision-making",
+    "investable index construction",
+    "investor overexcitement about earnings gains",
+    "large cap value premium",
+    "large cap vs all stocks",
+    "large cap vs. all stocks behavior differences",
+    "large cap vs. all stocks universe",
+    "large stock lower volatility",
+    "large stocks vs all stocks universe comparison",
+    "large-cap consistency advantage",
+    "large-cap momentum advantage",
+    "large-cap stock screening",
+    "large-cap vs all-stock universe performance differences",
+    "large-cap vs. all-stock profit margin performance",
+    "large-cap vs. all-stocks performance divergence",
+    "long-term backtesting",
+    "long-term consistency over short-term performance",
+    "long-term investment focus",
+    "longer-term relative strength",
+    "losers continue to lose",
+    "low P/B outperformance",
+    "low P/E outperformance",
+    "market capitalization as a factor",
+    "market capitalization as a ranking factor",
+    "market is not random",
+    "market leaders",
+    "market leaders as benchmark universe",
+    "maximum decline",
+    "maximum decline as risk measure",
+    "maximum drawdown",
+    "maximum peak-to-trough decline",
+    "mean reversion failure in short-term",
+    "mean reversion in valuation",
+    "mean reversion in valuations",
+    "mean reversion of earnings",
+    "mean reversion of earnings growth",
+    "mean reversion of valuations",
+    "micro-cap bias in small-cap returns",
+    "minimum expected return",
+    "model-based investing",
+    "momentum investing",
+    "monotonic decile returns from low to high PSR",
+    "monthly data review",
+    "multi-factor composite screening",
+    "multi-factor composite strategies",
+    "multi-factor stock selection",
+    "multi-factor value investing",
+    "multifactor models",
+    "multifactor strategies",
+    "net profit margins as operating efficiency gauge",
+    "out-of-sample testing",
+    "overpaying for growth",
+    "patience in investing",
+    "personal experience bias",
+    "pinpointing performance drivers",
+    "portfolio concentration effects",
+    "price performance as a predictive factor",
+    "price-to-book ratio",
+    "price-to-book ratio as value gauge",
+    "price-to-cash-flow ratio (PCFL)",
+    "price-to-cashflow ratio",
+    "price-to-earnings ratio (PE)",
+    "price-to-earnings ratio as a valuation metric",
+    "price-to-sales as a value factor",
+    "price-to-sales ratio (PSR)",
+    "price-to-sales ratio as key value metric",
+    "price-to-sales ratio as king of value factors",
+    "price-to-sales ratio as primary value factor",
+    "price-to-sales ratio as valuation anchor",
+    "price-to-sales ratio as value factor",
+    "profit margins as a stock screening factor",
+    "quantitative backtesting",
+    "quantitative investment strategies",
+    "quantitative models vs. human experts",
+    "quantitative stock screening",
+    "quantitative stock selection",
+    "quantitative strategy validation",
+    "random walk refutation",
+    "ratio-based stock screening",
+    "real-time implementability of value strategies",
+    "recovery duration",
+    "recovery duration from drawdowns",
+    "regression to long-term mean",
+    "relative price strength",
+    "relative strength / momentum",
+    "relative strength as growth variable",
+    "return on equity as best growth factor",
+    "return on equity as quality filter",
+    "revenue growth vs earnings growth",
+    "risk avoidance",
+    "risk doesn't always equal reward",
+    "risk-adjusted return",
+    "risk-adjusted returns",
+    "risk-adjusted returns (Sharpe ratio)",
+    "risk-adjusted returns by size",
+    "risk-reward relationship",
+    "robustness testing",
+    "rolling period analysis",
+    "rolling return consistency",
+    "rules-based investing",
+    "seasonal analysis",
+    "sector-specific analysis",
+    "separating winners from losers using valuation",
+    "shareholder value",
+    "shareholder yield",
+    "simple vs. complex models",
+    "size effect",
+    "small stocks as benchmark universe",
+    "small-cap investing",
+    "small-cap premium",
+    "small-cap risk management",
+    "standard deviation as risk measure",
+    "standard deviation of returns",
+    "strategy ranking",
+    "structured/quantitative portfolio construction",
+    "style diversification",
+    "summation models",
+    "systematic equity investing",
+    "systematic investing",
+    "systematic/rules-based investing",
+    "time-tested strategies",
+    "traditional growth factors limitations",
+    "value added by financial ratios in small stocks",
+    "value decile intersection",
+    "value factor stacking",
+    "value factors",
+    "value investing",
+    "value-adding ratios",
+    "value-growth combination portfolios",
+    "volatility and drawdown risk of small caps",
+    "volatility reduction through large caps",
+    "winners continue to win",
+    "worst-case scenario analysis",
+    "worst-case scenario analysis and drawdown risk"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "Section 1",
+      "summary": "This section comprises the front matter of 'What Works on Wall Street' by James P. O'Shaughnessy, including the title page, copyright information, dedication, author biography, and table of contents. It does not contain any substantive investment analysis, screening criteria, or strategy descriptions. The book is described as 'A Guide to the Best-Performing Investment Strategies of All Time,' suggesting that quantitative, evidence-based investment strategies will be covered in subsequent chapters."
+    },
+    {
+      "chapter": "Chapter 1",
+      "summary": "Chapter 1 of 'What Works on Wall Street' introduces the book's core thesis: traditional active management consistently underperforms because managers lack discipline, study the wrong factors, and are overwhelmed by human behavioral biases. The chapter argues that indexing works precisely because it is systematic and consistent, and that structured, quantitative portfolio strategies—applied with unwavering discipline—are the key to superior long-term investment performance. The 'Dogs of the Dow' strategy is presented as a case study illustrating how a simple, rules-based approach can outperform discretionary management."
+    },
+    {
+      "chapter": "Chapter 2",
+      "summary": "Chapter 2 of 'What Works on Wall Street' discusses the limitations of human judgment in investment decision-making and argues that quantitative models consistently outperform human experts. The chapter covers cognitive biases that lead investors astray, including overreliance on personal experience over base rates, preference for complex over simple solutions, and the unreliability of individual expert predictions compared to systematic, model-based approaches. The core philosophy is that disciplined, quantitative screening strategies should replace subjective human judgment to achieve outstanding investment performance."
+    },
+    {
+      "chapter": "Chapter 4",
+      "summary": "Chapter 4 of 'What Works on Wall Street' examines how market capitalization (company size) affects stock returns. The chapter establishes that small-cap stocks tend to outperform large-cap stocks over long time periods, though the margin of outperformance is modest and comes with significantly higher volatility and worse drawdowns ('best of times, worst of times'). The chapter introduces two key benchmark universes—small stocks and market leaders—that will be used throughout the rest of the book to evaluate various quantitative stock selection strategies. O'Shaughnessy argues that these two size-based groupings provide a better framework for indexing and strategy comparison than traditional broad market indices."
+    },
+    {
+      "chapter": "Chapter 5",
+      "summary": "Chapter 5 of 'What Works on Wall Street' examines the relationship between price-to-earnings ratios and subsequent stock returns. The core finding is that stocks with low P/E ratios consistently outperform the market, while stocks with high P/E ratios are 'dangerous' and tend to underperform. This pattern holds across different market capitalizations, though the chapter notes that large stocks behave somewhat differently. A decile analysis reinforces the finding that the cheapest stocks by P/E tend to deliver the best returns, while the most expensive deliver the worst. The chapter emphasizes that this is a strategy that can be followed in real time and has practical implications for portfolio construction."
+    },
+    {
+      "chapter": "Chapter 6",
+      "summary": "Chapter 6 of 'What Works on Wall Street' examines price-to-book ratios as a superior measure of stock value compared to other valuation metrics. O'Shaughnessy's research demonstrates that stocks with low price-to-book ratios consistently outperform the market over time, while high price-to-book stocks deliver poor risk-adjusted returns characterized as 'a wild ride to nowhere.' The chapter further shows that large capitalization stocks with low P/B ratios exhibit less volatility and more consistent outperformance base rates. Decile analysis reinforces that the cheapest stocks by P/B deliver the best long-term results, making price-to-book a reliable and actionable value factor for systematic stock selection."
+    },
+    {
+      "chapter": "Chapter 7",
+      "summary": "Chapter 7 of 'What Works on Wall Street' examines price-to-cashflow ratios as a value metric for stock selection. The core finding is that stocks with low price-to-cashflow ratios consistently outperform the market over long periods, while stocks with high price-to-cashflow ratios are dangerous and significantly underperform. Cashflow is presented as a superior measure of value compared to earnings because it is harder for companies to manipulate. The chapter analyzes results across deciles, showing a clear monotonic relationship between low price-to-cashflow and higher returns. Large stocks with low price-to-cashflow ratios offer a less volatile way to capture this value premium, though the effect is present across all market capitalizations. The worst-case scenarios for high price-to-cashflow stocks are particularly severe, reinforcing the danger of overpaying relative to cash generation."
+    },
+    {
+      "chapter": "Chapter 8",
+      "summary": "Chapter 8 of 'What Works on Wall Street' presents the price-to-sales ratio (PSR) as the single most effective value factor for stock screening, earning it the title 'King of the Value Factors.' The chapter demonstrates through decile analysis that stocks with the lowest PSR consistently outperform the market, while stocks with the highest PSR are described as 'toxic' and dramatically underperform. The effect is robust across market capitalizations, though large-cap stocks with low PSR show particularly attractive risk-adjusted returns. The chapter's best- and worst-case scenario analysis further confirms that low PSR stocks offer superior upside with more limited downside compared to high PSR stocks."
+    },
+    {
+      "chapter": "Chapter 9",
+      "summary": "Chapter 9 of 'What Works on Wall Street' examines dividend yield as a stock selection criterion, focusing on buying stocks for income. The chapter presents results showing how high dividend yield strategies perform across different stock universes, noting that large stocks behave 'entirely differently' from the broader market when sorted by dividend yield. The analysis includes worst-case scenarios and decile breakdowns, suggesting that dividend yield is a meaningful factor in stock selection, particularly among large-cap stocks."
+    },
+    {
+      "chapter": "Chapter 10",
+      "summary": "Chapter 10 of 'What Works on Wall Street' examines the effectiveness of various value factors in stock selection. The core thesis is that value-oriented strategies have historically outperformed, but the chapter cautions that risk does not always equate to reward — investors should not assume that taking on more risk guarantees higher returns. The chapter emphasizes the importance of consistency in strategy performance, noting that large-cap stocks tend to deliver more consistent results when value factors are applied. A key implication is that investors should embrace consistency and maintain a long-term focus rather than chasing short-term performance, as the compounding benefits of disciplined value investing are realized over extended time horizons."
+    },
+    {
+      "chapter": "Chapter 11",
+      "summary": "Chapter 11 of 'What Works on Wall Street' investigates whether stocks with the highest annual earnings gains deliver superior future performance. The evidence suggests that high earnings growth does not reliably predict high future returns, especially among large-cap stocks where high earnings gainers actually tend to underperform. Conversely, a contrarian approach of buying stocks with the worst earnings changes shows better results among large stocks, suggesting that investors overpay for recent earnings momentum. The chapter also includes a case study comparing the effectiveness of sales/revenue increases versus earnings gains as predictors of future stock performance, organized through decile analysis of historical returns across best- and worst-case scenarios."
+    },
+    {
+      "chapter": "Chapter 13",
+      "summary": "Chapter 13 of 'What Works on Wall Street' examines whether investors can benefit from screening stocks based on corporate profit margins. The chapter analyzes the relationship between profit margins and stock returns, finding that large-cap stocks tend to perform better when this metric is used as a screening criterion. The analysis includes decile breakdowns of returns by profit margin levels, as well as best and worst case return scenarios, ultimately exploring the implications of using profitability measures in systematic stock selection strategies."
+    },
+    {
+      "chapter": "Chapter 15",
+      "summary": "Chapter 15 of 'What Works on Wall Street' demonstrates that relative price strength (momentum) is a powerful predictor of future stock returns. Stocks that have been the best performers over the prior year tend to continue outperforming, while the worst performers continue to lag. This 'winners continue to win' effect works across market capitalizations but is particularly effective and less risky among large-cap stocks. The chapter emphasizes that unlike many fundamental measures, price performance itself is a reliable signal, and buying the worst-performing stocks is a losing strategy. The analysis includes decile breakdowns, worst-case scenarios, and an examination of longer-term relative strength, all supporting momentum as a key factor in stock selection."
+    },
+    {
+      "chapter": "Chapter 16",
+      "summary": "Chapter 16 of 'What Works on Wall Street' demonstrates that combining multiple factors into a single screening model significantly improves investment performance compared to using any single factor alone. The chapter shows that layering value factors—price-to-earnings, price-to-book, and price-to-sales—together improves both returns and base rates (consistency of outperformance). Price-to-sales is highlighted as performing particularly well. Among growth factors, return on equity outperforms other growth metrics. The chapter also notes that multifactor improvements are more pronounced for all-stocks universes than for large-cap stocks, where additional factors add less incremental value. The core implication is that investors should use multifactor models rather than relying on any single metric."
+    },
+    {
+      "chapter": "Chapter 17",
+      "summary": "Chapter 17 of 'What Works on Wall Street' dissects the Market Leaders universe—a subset of large, established companies—to determine which valuation and financial ratios add the most value when screening for outperforming stocks. The chapter examines various single-factor and multifactor strategies applied specifically to Market Leaders, analyzes base rates of success and worst-case scenarios, and finds that multifactor approaches also perform well within this large-cap universe. The chapter serves as a bridge to Chapter 19, where the best-performing Market Leaders strategies are presented in full detail."
+    },
+    {
+      "chapter": "Chapter 18",
+      "summary": "Chapter 18 of 'What Works on Wall Street' examines the small-cap stock universe to determine which financial ratios and screening criteria add the most value when applied specifically to smaller companies. The chapter reviews monthly data, analyzes base rates of outperformance, considers worst-case scenarios for various strategies applied to small stocks, and discusses the implications of concentrated small-cap investing. The core philosophy is that certain valuation and quality metrics are particularly effective when applied to the small-cap segment, and understanding which ratios work best in this universe can significantly enhance returns, though concentrated small-cap portfolios carry additional risks that investors must consider."
+    },
+    {
+      "chapter": "Chapter 19",
+      "summary": "Chapter 19 of 'What Works on Wall Street' by James O'Shaughnessy focuses on searching for the ideal value stock investment strategy. Based on the table of contents, the chapter covers topics including downside risk and return analysis, constructing a superior all-stocks value strategy, evaluating market leaders by dividend and shareholder value metrics, improving upon the best-performing strategies, examining more concentrated portfolios, and drawing broader investment implications. However, the actual chapter text was not provided—only the table of contents outline—so no specific screening rules or numeric thresholds can be extracted."
+    },
+    {
+      "chapter": "Chapter 20",
+      "summary": "Chapter 20 of 'What Works on Wall Street' revisits and refines the Cornerstone Growth Strategy, which combines value and momentum factors to identify ideal growth stocks. The original strategy screens for stocks with adequate market capitalization, persistent earnings growth, reasonable price-to-sales ratios (typically below 1.5), and strong relative price strength. The chapter demonstrates that while traditional growth factors (like high earnings growth alone) work, they provide lower overall returns compared to the composite Cornerstone approach. The strategy also works well when applied to large-cap stocks. Improvements to the original strategy and more concentrated portfolio versions (holding fewer top-ranked stocks) are explored, with the finding that concentration can enhance returns but at the cost of higher volatility. Base rates (consistency of outperformance) also improve with the refined methodology."
+    },
+    {
+      "chapter": "Chapter 22",
+      "summary": "Chapter 22 of 'What Works on Wall Street' discusses new research initiatives and methodological approaches for quantitative investing, including seasonal analysis, testing various holding periods, randomization of in-sample data, sector-specific analysis, summation models, correlation matrix analysis, and regression to long-term mean within strategies. The chapter appears to be a brief overview or table of contents for future research directions rather than a presentation of concrete screening rules with specific thresholds. It focuses on improving the robustness and validity of quantitative strategies through advanced statistical and analytical techniques."
+    },
+    {
+      "chapter": "Chapter 23",
+      "summary": "Chapter 23 of 'What Works on Wall Street' appears to be a table of contents or outline page for a chapter focused on ranking various investment strategies by multiple performance dimensions including absolute returns, risk-adjusted returns (Sharpe ratio), downside risk, maximum decline, and blended strategies. The chapter's philosophy centers on evaluating strategies not just by raw returns but also by their risk characteristics, emphasizing that the best strategies balance strong absolute performance with favorable risk-adjusted metrics. The chapter also discusses blended strategies that combine multiple factors for improved outcomes."
+    },
+    {
+      "chapter": "Chapter 24",
+      "summary": "Chapter 24 of 'What Works on Wall Street' serves as a concluding summary and preface restatement of the book's core investment philosophy. It emphasizes that investors should always use systematic, rules-based strategies rather than discretionary judgment; ignore short-term noise and focus on long-term proven results; use multifactor models combining several screening criteria; bet with historical base rates rather than anecdotal evidence; avoid the riskiest strategies; invest consistently over time; and insist on consistency of returns. The chapter reinforces that the stock market is not random and that portfolio returns are essentially determined by the factors that define the portfolio, as demonstrated through comprehensive backtesting using the Compustat database."
+    },
+    {
+      "chapter": "Preface",
+      "summary": "The preface of 'What Works on Wall Street' establishes that most investment strategies are mediocre and fail to beat the S&P 500, particularly those appealing to short-term investors. The book's core thesis, based on 52 years of backtested data, is that stock market returns are not random—they methodically reward certain quantitative strategies while punishing others. The key to outperformance is discipline: consistently applying time-tested, rational, multi-factor stock selection strategies rather than chasing short-term trends. The most effective approaches combine value metrics (especially price-to-sales ratio) with momentum (relative strength), focus on investable larger-cap stocks, and use multiple factors simultaneously to improve long-term performance."
+    },
+    {
+      "chapter": "Section 27",
+      "summary": "This section of 'What Works on Wall Street' by James O'Shaughnessy examines how stock market capitalization (size) affects investment returns and risk over the period 1952-2003. The chapter demonstrates that while small stocks offer the highest raw arithmetic returns (15.66%), Market Leaders (the largest capitalization stocks) deliver the best risk-adjusted returns with a Sharpe ratio of 0.54, the lowest downside risk (4.94%), the shallowest maximum drawdown (-38.98%), and the highest minimum 10-year compound return (4.39%). The key insight is that size matters significantly: Market Leaders provide superior risk-adjusted performance with shorter recovery periods from declines (average 7.36 months vs. 8.93 months for small stocks), making them the preferred universe for building investment strategies. The chapter uses extensive worst-case scenario analysis to show that Market Leaders are more resilient during market downturns."
+    },
+    {
+      "chapter": "Section 28",
+      "summary": "This chapter from 'What Works on Wall Street' demonstrates through extensive backtesting (1951-2003) that stocks with low P/E ratios substantially outperform stocks with high P/E ratios in both the Large Stocks and All Stocks universes. High PE stocks not only underperform their respective universes but do so with higher risk and volatility, producing poor Sharpe ratios. The 50 lowest PE large stocks achieved a Sharpe ratio of 50 versus 24 for the 50 highest PE large stocks. Decile analysis reveals that the lowest four PE deciles outperform while deciles five through ten underperform, though investors should avoid concentrating solely on the absolute lowest PE stocks (which may signal serious fundamental problems) and instead select from the broader bottom four deciles. The chapter emphasizes combining base rates (probability of outperformance) with best- and worst-case scenarios to evaluate strategy suitability."
+    },
+    {
+      "chapter": "Section 29",
+      "summary": "This section of 'What Works on Wall Street' presents price-to-sales ratios (PSR) as the most powerful and consistent single value factor for stock selection. O'Shaughnessy demonstrates through extensive backtesting from 1951-2003 that buying stocks with the lowest PSRs consistently outperforms across all decades and both large-cap and all-stock universes, while buying stocks with the highest PSRs leads to catastrophic underperformance. The decile analysis is particularly compelling, showing a nearly perfect monotonic decline in returns from the lowest PSR decile (17.46% compound annual return) to the highest (3.12%), with the lowest PSR decile turning $10,000 into $43.1 million versus just $49,482 for the highest PSR decile. High PSR stocks also exhibit dramatically worse drawdowns, with peak-to-trough declines exceeding 90% in some periods."
+    },
+    {
+      "chapter": "Section 30",
+      "summary": "This chapter examines whether stocks with the highest five-year earnings-per-share growth rates make good investments. The evidence from 1954-2003 conclusively shows that investors consistently overpay for stocks with outstanding five-year EPS gains. In both the All Stocks and Large Stocks universes, the top decile of five-year EPS growth underperformed the overall universe while exhibiting higher volatility and greater downside risk. The best returns in the All Stocks universe came from deciles 2 through 6 (moderate to above-average earnings growth), not from the highest growth stocks. The top 50 highest five-year EPS growth stocks showed particularly extreme risk, with worst-case 10-year returns deeply negative. The chapter concludes that investors would be better off avoiding the highest five-year EPS growth stocks and either indexing to the broader universe or selecting stocks with moderate earnings growth histories."
+    },
+    {
+      "chapter": "Section 31",
+      "summary": "This section of 'What Works on Wall Street' demonstrates that multifactor models dramatically enhance investment returns compared to single-factor approaches. The key finding is that combining value factors (such as low price-to-sales ratios) or quality factors (such as ROE > 15%) with momentum/relative strength (best one-year price appreciation) produces superior risk-adjusted returns. For All Stocks, the ROE > 15% plus best relative strength strategy beat the universe in 93% of rolling 10-year periods. For Large Stocks, the same strategy beat the benchmark in 88% of rolling 10-year periods. O'Shaughnessy argues that adding relative strength to value portfolios works because it identifies stocks just after investors have recognized them as bargains and begun buying again, while the underlying value characteristics remain intact. Not all growth factors improve momentum strategies—some actually reduce gains—but ROE above 15% is specifically identified as a helpful addition."
+    },
+    {
+      "chapter": "Section 32",
+      "summary": "This chapter argues that the best risk-adjusted investment performance comes from combining growth and value strategies in a single portfolio, typically with a 50/50 split. The combined approach—using 50 stocks from a Cornerstone Growth strategy and 50 stocks from a Cornerstone Value strategy (Market Leaders with high shareholder yield)—delivered vastly higher returns than the S&P 500 with similar or lower risk. The 100-stock combined portfolio beat its benchmark in 100% of rolling 5- and 10-year periods. For more conservative investors, mixing the equity portfolio with intermediate-term government bonds (e.g., a 60/40 split) further reduced volatility and drawdowns while still dramatically outperforming the S&P 500. The chapter emphasizes that style diversification allows investors to both 'eat well and sleep well,' and recommends that younger investors maintain exposure to both growth and value, while those approaching retirement should tilt more heavily toward the conservative Cornerstone Value strategy."
+    },
+    {
+      "chapter": "Section 34",
+      "summary": "This chapter presents a comprehensive comparison of all strategies tested in 'What Works on Wall Street,' sorted by maximum decline from smallest to largest over the period December 31, 1963 to December 31, 2003. The data reveals that combining multiple factors—particularly value metrics (low PSR, low PE, low PCFL, low P/Book) with quality screens (Market Leaders universe) and momentum (1-year relative strength)—produces superior risk-adjusted returns. Conservative strategies like the Cornerstone Value approach and Market Leaders with dividend yield screens showed the smallest maximum drawdowns (around -29% to -35%), while more aggressive multi-factor growth strategies experienced larger drawdowns (-44% to -49%) but often delivered higher absolute returns. The chapter demonstrates that investors must balance return potential against drawdown risk, and that multi-factor composite strategies generally offer the best Sharpe ratios."
+    }
+  ]
+}

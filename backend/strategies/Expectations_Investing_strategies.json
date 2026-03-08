@@ -1,0 +1,1098 @@
+{
+  "book_title": "Expectations Investing",
+  "book_author": "Alfred Rappaport & Michael J. Mauboussin",
+  "total_chapters_analyzed": 22,
+  "strategies": [
+    {
+      "name": "Cash Flow Existence Filter",
+      "description": "Only invest in companies that are expected to produce future cash flows to their owners. Assets without prospect of cash flows are speculative like art collecting or gambling. Companies must demonstrate ability to generate free cash flow.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 4",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Market Expectations Test - Price vs Intrinsic Value",
+      "description": "Compare the market price (which embeds other investors' expectations of future cash flows) against your own estimate of intrinsic value. Buy when market expectations appear too low (price below intrinsic value), sell when they appear too high.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 4",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety from Expectations Gap",
+      "description": "Ensure a margin of safety exists between the market's implied expectations (reflected in price) and your own assessment of the company's future cash flow generating ability.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 4",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Growth Manager Reasonable P/E Filter",
+      "description": "Growth managers look for companies with rapidly growing earnings that trade at reasonable price-earnings multiples, betting the market isn't fully capturing growth prospects.",
+      "expression": "eps_growth_rate > 0.15 and pe < market_pe",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "pe",
+        "market_pe"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 7",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value Manager Low P/E Filter",
+      "description": "Value managers seek quality companies at low price-earnings multiples, betting the market is underestimating the company's value.",
+      "expression": "pe < market_pe and roe > 0.10",
+      "data_fields_required": [
+        "pe",
+        "market_pe",
+        "roe"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 7",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Long-Term Cash Flow Justification",
+      "description": "Companies often need ten years of value-creating cash flows to justify their stock price. For companies with formidable competitive advantages, this period can last as long as thirty years. Investors should assess whether a company's long-term free cash flow prospects justify the current price.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 8",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive NOPAT and Free Cash Flow Generation",
+      "description": "Free cash flow is the pool of cash available to pay claims of debtholders and shareholders. Companies should generate positive free cash flow (NOPAT minus investments in working and fixed capital) to create shareholder value.",
+      "expression": "free_cash_flow > 0 and net_income > 0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 8",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Sole Reliance on Near-Term P/E Multiples",
+      "description": "The chapter warns that near-term earnings and price-earnings multiples are unreliable proxies for long-term cash-flow prospects. Static measures of near-term performance do not capture future performance. Investors should not rely solely on low P/E as a value indicator without assessing long-term cash flow prospects.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 8",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Expectations Investing Price-Implied Expectations Check",
+      "description": "Rather than forecasting cash flows to estimate value, start with the stock price and reverse-engineer the cash-flow expectations implied by that price. Compare implied expectations against your own assessment of the company's prospects to determine buy, sell, or hold decisions.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 8",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Operating Profit Margin Filter",
+      "description": "Sales growth and operating profit margin determine operating profit, which is a key driver of shareholder value. Companies should demonstrate positive operating margins as a prerequisite for generating free cash flow.",
+      "expression": "operating_margin > 0",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 8",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Corporate Value Exceeds Debt (Positive Shareholder Value)",
+      "description": "Shareholder value equals corporate value plus nonoperating assets minus the market value of debt. Companies where total debt is excessive relative to market cap may have impaired shareholder value.",
+      "expression": "market_cap > total_debt",
+      "data_fields_required": [
+        "market_cap",
+        "total_debt"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 8",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Growth as Value Driver",
+      "description": "Sales growth is identified as one of the key operating value drivers that determine operating profit and ultimately shareholder value. Companies with positive revenue growth are more likely to generate increasing free cash flows.",
+      "expression": "revenue_growth_rate > 0",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 8",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sustainable Value Creation Screen",
+      "description": "Identify companies investing at above the cost of capital, which is the signature of competitive advantage. Companies should demonstrate returns on equity meaningfully above typical cost of capital thresholds.",
+      "expression": "roe > 0.12 and earnings_yield > treasury_yield_10y",
+      "data_fields_required": [
+        "roe",
+        "earnings_yield",
+        "treasury_yield_10y"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 10",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Expectations Revision - Historical Variability Check",
+      "description": "Look for companies where current market expectations (reflected in valuation) diverge from historical performance patterns. If the market prices a stock based on past trends but competitive dynamics are shifting, there may be an expectations revision opportunity. Screen for stocks where current PE deviates significantly from historical norms.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Great Company Not Great Stock Filter",
+      "description": "Avoid overpaying for great companies whose future performance is already fully reflected in the stock price. Even high-ROE companies can be poor investments if priced too richly. Screen for high-quality companies that are not excessively valued.",
+      "expression": "roe > 0.15 and pe < market_pe",
+      "data_fields_required": [
+        "roe",
+        "pe",
+        "market_pe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 10",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Industry Stability and Data Availability",
+      "description": "Favor companies in stable industries with long operating histories, where historical performance is a reliable guide to future results. Companies with 10+ years of profitable operations in stable industries are preferred for expectations-based analysis.",
+      "expression": "profitable_years >= 10",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 10",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Growth Momentum as Value Trigger",
+      "description": "Sales growth is identified as a key value trigger. Companies showing positive revenue growth may be benefiting from favorable competitive dynamics such as cost savings passed through as lower prices driving volume growth.",
+      "expression": "revenue_growth_rate > 0",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Yield Above Risk-Free Rate",
+      "description": "Companies should generate returns above the cost of capital. As a basic screen, the earnings yield should exceed the risk-free rate (10-year Treasury yield), indicating the company earns above its opportunity cost.",
+      "expression": "earnings_yield > treasury_yield_10y",
+      "data_fields_required": [
+        "earnings_yield",
+        "treasury_yield_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 10",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price-Implied Expectations (PIE) Reversal",
+      "description": "Instead of forecasting future cash flows and deriving a fair value, start with the current stock price and use a discounted cash-flow model in reverse to extract what the market implies about future sales growth, operating profit margins, and incremental investment rates. Compare these implied expectations against your own analysis to identify mispricings.",
+      "expression": null,
+      "data_fields_required": [
+        "price",
+        "free_cash_flow",
+        "revenue_growth_rate",
+        "operating_margin"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Expectations Revision Anticipation",
+      "description": "Identify stocks where you believe the market's price-implied expectations for future performance (sales growth, operating margins, investment rates) are likely to be revised — either upward or downward — based on your independent analysis of competitive dynamics, management credibility, and industry environment. Superior returns come from correctly anticipating these revisions before they occur.",
+      "expression": null,
+      "data_fields_required": [
+        "price",
+        "revenue_growth_rate",
+        "operating_margin",
+        "free_cash_flow"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Management Credibility Discount Filter",
+      "description": "When management credibility is low, market expectations are often lower than management's publicly stated targets, potentially creating buying opportunities if management can deliver. When management credibility is high, expectations often exceed management's stated goals, creating potential downside risk.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 11",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Historical vs. Implied Performance Divergence",
+      "description": "Review historical value driver performance (sales growth, operating margins, investment rates) and compare against the price-implied expectations. Meaningful differences between past performance and what the market expects going forward may signal opportunities if the divergence is unjustified.",
+      "expression": null,
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "operating_margin",
+        "price"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 11",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Short-Term Earnings Shortcuts",
+      "description": "Do not rely on contemporaneous statistical benchmarks like short-term earnings or P/E multiples as primary valuation tools, as they are not reliably linked to shareholder value. Instead, use long-term discounted cash-flow based expectations analysis.",
+      "expression": null,
+      "data_fields_required": [
+        "pe",
+        "eps"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 11",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Short Market-Implied Forecast Period Signal",
+      "description": "If a company's market-implied forecast period is substantially shorter than its industry peers (while its competitive profile is close to the industry average), this may signal a buying opportunity, suggesting the market is underestimating the duration of value creation.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Long Market-Implied Forecast Period Signal",
+      "description": "If a company's market-implied forecast period is substantially longer than its industry peers (while its competitive profile is close to the industry average), this may signal a selling opportunity, suggesting the market is overestimating the duration of value creation.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sales Growth as Primary Value Trigger",
+      "description": "Focus analysis on companies where the range of plausible sales growth rate scenarios produces the largest variability in shareholder value. Sales revisions are likely to produce the most significant changes in shareholder value, making revenue growth rate the primary screening variable.",
+      "expression": null,
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price-Implied Expectations Mismatch Screen",
+      "description": "Identify stocks where there is a meaningful difference between the expectations implied by the current stock price (price-implied expectations) and your assessment of likely future revisions. This is the core expectations investing approach—look for expectations mismatches rather than traditional valuation metrics.",
+      "expression": null,
+      "data_fields_required": [
+        "price",
+        "revenue_growth_rate",
+        "operating_margin"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Expected Value Mismatch - High Variability Buy",
+      "description": "When the expected value (probability-weighted average of possible outcomes) exceeds the current stock price by approximately 30% or more, the stock represents a buy opportunity even if the consensus scenario has the highest probability. This applies particularly to high-variability stocks with wide ranges of possible outcomes.",
+      "expression": "margin_of_safety >= 0.30",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Variability Insufficient Margin",
+      "description": "For relatively predictable companies with low value variability, an expected value that exceeds the current price by only about 8% is not large enough to be conclusive - the margin of safety is too small to trigger a buy decision.",
+      "expression": "margin_of_safety > 0.08",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Variability Non-Consensus Buy",
+      "description": "For low-variability stocks, when the expected value exceeds the current price by approximately 20% or more due to non-consensus probability assignments (betting against the market consensus), the stock represents a buy opportunity.",
+      "expression": "margin_of_safety >= 0.20",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Start-up Real Options Identifier",
+      "description": "Identify companies where price-implied expectations vastly exceed what existing businesses can deliver via DCF, suggesting significant real-options value. These are typically start-ups with limited operating track records, minimal revenue, and no profitability.",
+      "expression": "net_income < 0 and revenue_growth_rate > 0.20",
+      "data_fields_required": [
+        "net_income",
+        "revenue_growth_rate"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 14",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "DCF-Only Candidate Filter",
+      "description": "For most established businesses, the discounted cash-flow model is sufficient for valuation. These are companies with meaningful revenue streams and profitability where real-options analysis is not needed.",
+      "expression": "net_income > 0 and profitable_years >= 5",
+      "data_fields_required": [
+        "net_income",
+        "profitable_years"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Reinventor Identification Screen",
+      "description": "Identify companies operating in fast-changing sectors that continually start new businesses within their existing organization, where real-options value may be significant. These companies typically show high revenue growth and significant investment spending.",
+      "expression": "revenue_growth_rate > 0.15 and profit_margin < 0.10",
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "profit_margin"
+      ],
+      "category": "growth",
+      "confidence": "low",
+      "source_chapter": "Section 14",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Overoptimistic Expectations Warning",
+      "description": "Flag companies where price-implied expectations are vastly more optimistic than industry norms, indicated by extremely high P/E or P/S ratios, which may require real-options analysis rather than automatic rejection.",
+      "expression": "forward_pe > 50 or ps > 20",
+      "data_fields_required": [
+        "forward_pe",
+        "ps"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 14",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Money-Losing Start-up with Large Market Cap",
+      "description": "Identify money-losing companies with large market capitalizations that cannot be explained by DCF alone, suggesting real-options value is embedded in the stock price.",
+      "expression": "net_income < 0 and market_cap > 1000000000",
+      "data_fields_required": [
+        "net_income",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Zero NPV with Flexibility Value Screen",
+      "description": "Projects or companies with near-zero earnings yield (approximating zero NPV) may still have significant value from real options and flexibility. Screen for companies trading at very low earnings yields but with high growth potential.",
+      "expression": "earnings_yield >= -0.02 and earnings_yield <= 0.02 and revenue_growth_rate > 0.15",
+      "data_fields_required": [
+        "earnings_yield",
+        "revenue_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 14",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Physical Business Capacity Investment Check",
+      "description": "Physical businesses require tangible asset investment to grow, so look for companies where capital expenditure growth aligns with revenue growth, indicating capacity-driven reinvestment. These companies have limited scalability, so investors should expect costs to grow roughly in line with sales.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "growth",
+      "confidence": "low",
+      "source_chapter": "Section 15",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Knowledge Business Scalability Screen",
+      "description": "Knowledge businesses (software, music, pharma) have high scalability because goods are cheap to replicate once developed. Screen for companies where revenue growth significantly outpaces cost growth, indicated by expanding operating margins alongside revenue growth.",
+      "expression": "revenue_growth_rate > 0.10 and operating_margin > 0.20",
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Sole Reliance on P/E Multiples",
+      "description": "Traditional price-earnings multiples may not adequately explain market valuations across all business types. The chapter warns against using P/E as the sole valuation yardstick, especially for knowledge and service businesses where value drivers differ from physical businesses.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 15",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Technology Stock Lower Multiple Expectation (Gates Principle)",
+      "description": "Bill Gates argued that technology stock multiples should be lower than consumer staple multiples due to the risk of complete rule changes and obsolescence. Screen for technology companies trading at P/E multiples lower than consumer staples benchmarks, reflecting appropriate obsolescence risk discount.",
+      "expression": "pe < market_pe",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Service Business Employee Cost Sensitivity",
+      "description": "Service businesses (banks, consulting, advertising, financial services) rely on people as the main source of advantage, with employee costs as a sizable percentage of total costs. Scalability is limited by the need to hire more people. Look for service companies with improving profit margins as a sign of productivity gains.",
+      "expression": "profit_margin > operating_margin * 0.5 and revenue_growth_rate > 0.05",
+      "data_fields_required": [
+        "profit_margin",
+        "operating_margin",
+        "revenue_growth_rate"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Section 15",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Scalability Knowledge Business Screen",
+      "description": "Identify knowledge businesses with high scalability by screening for companies with high profit margins (reflecting low marginal cost of replication) and strong revenue growth, characteristic of nonrival goods producers like software and pharma companies.",
+      "expression": "profit_margin > 0.25 and revenue_growth_rate > 0.10",
+      "data_fields_required": [
+        "profit_margin",
+        "revenue_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Decreasing Returns Physical Business Caution",
+      "description": "Physical businesses (steel, auto, paper, chemicals, retail, restaurants, lodging) face decreasing returns beyond a certain scale as they bid for scarce inputs or face bureaucratic inefficiencies. Be cautious of physical businesses with declining operating margins alongside revenue growth, as this signals decreasing returns.",
+      "expression": "operating_margin < 0.10 and revenue_growth_rate > 0.05",
+      "data_fields_required": [
+        "operating_margin",
+        "revenue_growth_rate"
+      ],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Section 15",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "M&A EPS Accretion Trap Warning",
+      "description": "Avoid assuming value creation simply because an acquisition is EPS accretive. When the acquiring company's P/E multiple is greater than the seller's P/E (including premium), EPS rises mechanically without any operational improvement. This is a mathematical artifact, not a sign of value creation.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 16",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "M&A Value Creation Test",
+      "description": "An acquiring company creates value only when the present value of synergies exceeds the acquisition premium paid. The premium is the amount paid in excess of the seller's stand-alone value. If the present value of synergies minus the acquisition premium is positive, the deal adds value; otherwise it destroys value.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 16",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Acquirer Return vs Cost of Capital",
+      "description": "Acquirers create value in M&A only by investing at a rate of return greater than the cost of capital. Evaluate whether the combined entity's return on invested capital exceeds its weighted average cost of capital.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Section 16",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "P/E Multiple Comparison for M&A Impact",
+      "description": "When an acquiring company's P/E multiple is greater than the target's P/E (including the acquisition premium in the price), the deal will be mechanically EPS accretive. When the acquirer's P/E is lower than the target's adjusted P/E, the deal will be EPS dilutive. Neither outcome indicates value creation or destruction.",
+      "expression": null,
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 16",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Management Synergy Estimate Skepticism Filter",
+      "description": "In many M&A cases, even management's often-optimistic synergy estimates are insufficient to offset the acquisition premium paid. When announced synergies do not exceed the premium, expect a warranted drop in the acquirer's stock price.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buyback Signal - Stock Below Expected Value",
+      "description": "A company should only repurchase its shares when the stock is trading below its expected (intrinsic) value. This is the first part of the 'golden rule' of share buybacks. When price is below value, continuing shareholders benefit from wealth transfer from exiting shareholders.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 17",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buyback Margin of Safety",
+      "description": "The rate of return from a buyback depends on how much the market is undervaluing the stock. The greater the undervaluation (margin of safety), the higher the return for continuing shareholders. Look for companies with meaningful margin of safety when they announce buybacks.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 17",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Negative Buyback Signal - No Growth Opportunities",
+      "description": "A buyback is a negative signal when it indicates management has run out of value-creating projects. If a company would rather return cash than invest in its business, the market's expectations for value-creating opportunities may be too high. Low revenue growth combined with buybacks may indicate this problem.",
+      "expression": "revenue_growth_rate < 0 and free_cash_flow > 0",
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "free_cash_flow"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buyback with Financial Leverage Confidence",
+      "description": "Companies sometimes use share buybacks to increase financial leverage, which signals management confidence in future cash flows. An increase in debt-to-equity through buybacks can be a positive signal when it reflects confidence rather than desperation. Look for companies with manageable leverage that are buying back shares.",
+      "expression": null,
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "low",
+      "source_chapter": "Section 17",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buyback EPS Engineering Warning",
+      "description": "A negative signal occurs when management repurchases stock primarily to achieve announced EPS targets through financial engineering rather than operational performance. Companies where EPS growth significantly exceeds revenue and net income growth may be using buybacks to mask operational shortfalls.",
+      "expression": "eps_growth_rate > revenue_growth_rate * 2 and revenue_growth_rate < 0.05",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "revenue_growth_rate"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Companies with Standard ESO Plans",
+      "description": "Companies using standard (non-indexed) employee stock option plans may reward mediocre performance rather than superior returns. Standard ESOs profit from any increase in share price, even below-market returns, suggesting misaligned incentives that may precede disappointing results.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 18",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Favor Companies with Superior-Return Incentive Alignment",
+      "description": "Look for companies whose incentive compensation is tied to performance that exceeds appropriate benchmarks (e.g., industry peers, S&P 500), rather than absolute stock price increases. Companies with properly designed incentive systems are more likely to deliver results that exceed market expectations.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 18",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Screen for Ill-Conceived Incentive Programs as Negative Signal",
+      "description": "Ill-conceived incentive programs that reward mediocrity are often the precursor to disappointing financial results. Companies that reprice or reissue options after market declines present a heads-I-win, tails-you-lose proposition for shareholders, signaling potential downward expectations revisions.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Expectations Investing",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 56,
+  "strategies_by_category": {
+    "quality": 8,
+    "valuation": 18,
+    "composite": 15,
+    "profitability": 7,
+    "financial_health": 2,
+    "growth": 6
+  },
+  "data_fields_required": [
+    "debt_to_equity",
+    "earnings_yield",
+    "eps",
+    "eps_growth_rate",
+    "forward_pe",
+    "free_cash_flow",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "net_income",
+    "operating_margin",
+    "pe",
+    "price",
+    "profit_margin",
+    "profitable_years",
+    "ps",
+    "revenue_growth_rate",
+    "roe",
+    "total_debt",
+    "treasury_yield_10y"
+  ],
+  "data_fields_available": [
+    "debt_to_equity",
+    "earnings_yield",
+    "eps",
+    "eps_growth_rate",
+    "forward_pe",
+    "free_cash_flow",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "net_income",
+    "operating_margin",
+    "pe",
+    "price",
+    "profit_margin",
+    "profitable_years",
+    "ps",
+    "revenue_growth_rate",
+    "roe",
+    "total_debt",
+    "treasury_yield_10y"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "Black-Scholes equation",
+    "EPS accretion/dilution trap in M&A",
+    "M-C-M' (Marx's capital equation)",
+    "P/E multiple arbitrage in mergers",
+    "Regulation FD and fair disclosure",
+    "accounting changes vs. cash flow changes",
+    "acquisition premium",
+    "active management",
+    "active vs. passive management",
+    "agency costs",
+    "anchoring bias",
+    "bear market penalty for outperformers",
+    "beta",
+    "book value vs. market value",
+    "bull market windfalls",
+    "business categories and value factors",
+    "buy/sell/hold decision framework",
+    "capacity-triggered reinvestment",
+    "capital allocation priorities",
+    "cash flow as the ultimate source of asset value",
+    "cause and effect analysis",
+    "cause and effect in value drivers",
+    "collective wisdom of the market",
+    "competitive advantage",
+    "competitive advantage period",
+    "competitive dynamics shifts",
+    "competitive strategy analysis",
+    "complex systems theory",
+    "compounding and discounting",
+    "confirmation trap",
+    "consensus vs. non-consensus probabilities",
+    "contingent investment decisions",
+    "corporate planning",
+    "corporate strategy",
+    "corporate value",
+    "cost efficiencies",
+    "cost of capital",
+    "cost of capital (WACC)",
+    "cost of capital as hurdle rate",
+    "cost of equity",
+    "cost of equity / CAPM",
+    "credible signal from management",
+    "decreasing returns",
+    "discounted cash flow",
+    "discounted cash flow (DCF)",
+    "discounted cash flow (DCF) valuation",
+    "discounted cash flow model",
+    "discounted cash flow model (DCF)",
+    "discounted cash-flow model",
+    "disruptive technology",
+    "distinction between investing and speculation",
+    "earnings growth",
+    "earnings vs. cash flow distinction",
+    "economies of scale",
+    "economies of scope",
+    "employee stock options",
+    "employee stock options (ESOs) limitations",
+    "entry and exit barriers",
+    "escalation trap",
+    "executive compensation and performance linkage",
+    "expectations infrastructure",
+    "expectations infrastructure for M&A evaluation",
+    "expectations investing",
+    "expectations investing framework",
+    "expectations mismatch",
+    "expectations mismatches",
+    "expectations revision",
+    "expectations revisions",
+    "expected value vs. market price",
+    "expected-value analysis",
+    "false analogy bias",
+    "financial call option analogy",
+    "financial engineering vs. operational performance",
+    "financial leverage as confidence signal",
+    "five forces framework",
+    "flexibility value",
+    "forecast period",
+    "forecast period / forecast horizon",
+    "forecast period clustering",
+    "free cash flow",
+    "fundamental economic principles",
+    "fundamental uncertainty of the future",
+    "golden rule of share buybacks",
+    "great companies vs great stocks",
+    "growth investing vs. value investing",
+    "historical analysis as reality check",
+    "incentive compensation alignment",
+    "incentive compensation as corporate signals",
+    "incremental investment above depreciation",
+    "indexed stock options",
+    "industry attractiveness",
+    "industry stability",
+    "industry structure",
+    "information rules",
+    "information rules framework",
+    "intellectual capital",
+    "investment efficiencies",
+    "investment efficiency",
+    "limitations of P/E multiples",
+    "long-term cash flow prospects",
+    "long-term cash flows as basis for stock market expectations",
+    "long-term market view",
+    "loser's game (difficulty of beating the market)",
+    "management credibility",
+    "management credibility in synergy estimates",
+    "margin between market expectations and likely outcomes",
+    "margin of safety",
+    "margin of safety (implied)",
+    "margin of safety in buybacks",
+    "margin of safety through expectations analysis",
+    "marginal cost of replication",
+    "market characteristics",
+    "market consensus expectations",
+    "market efficiency in reflecting cash flow expectations",
+    "market expectations benchmarking",
+    "market expectations embedded in stock price",
+    "market expectations embedded in stock prices",
+    "market impact costs",
+    "market price as embedded expectations",
+    "market-implied forecast period",
+    "market-risk premium",
+    "mergers and acquisitions",
+    "mergers and acquisitions as corporate signals",
+    "net operating profit after taxes (NOPAT)",
+    "net present value",
+    "nonoperating assets",
+    "operating leverage",
+    "operating profit margin",
+    "operating value drivers",
+    "operating value drivers (sales growth, operating profit margin, incremental investment rate)",
+    "option repricing risk",
+    "option to abandon",
+    "option to expand",
+    "option to extend",
+    "pay-delivery mechanisms vs. true incentives",
+    "pay-for-superior-performance",
+    "performance benchmarking",
+    "performance evaluation",
+    "perpetuity method",
+    "physical vs. service vs. knowledge businesses",
+    "preproduction costs",
+    "present value",
+    "present value of future cash flows",
+    "present value of synergies",
+    "price and mix",
+    "price implies expectations about future cash flows",
+    "price-earnings multiples",
+    "price-implied expectations",
+    "price-implied expectations (PIE)",
+    "principal-agent alignment",
+    "probability-weighted payoffs",
+    "product obsolescence risk",
+    "project volatility",
+    "proxy valuation measures",
+    "publicly available information as sufficient for analysis",
+    "reading market signals from corporate actions (M&A, buybacks, stock options)",
+    "real options",
+    "real options approach for start-up valuation",
+    "recency bias",
+    "reflexivity",
+    "reinventors",
+    "rejection of price-earnings multiple as primary tool",
+    "rejection of short-term earnings focus",
+    "relative vs. absolute performance measurement",
+    "residual value",
+    "residual value / continuing value",
+    "return on market value vs. return on book value",
+    "reverse DCF analysis",
+    "risk assessment",
+    "risk tolerance and diversification",
+    "rival versus nonrival goods",
+    "sales growth",
+    "sales growth as value driver",
+    "sales growth rate scenarios",
+    "sales mix",
+    "scalability",
+    "security analysis",
+    "sensitivity analysis",
+    "share buybacks",
+    "share buybacks as corporate signals",
+    "shareholder value",
+    "shareholder value added",
+    "shareholder value creation",
+    "shareholder value maximization",
+    "shareholder value variability",
+    "short-term earnings as poor proxy for value",
+    "stand-alone value of target company",
+    "start-ups valuation",
+    "stock market signals to managers",
+    "stock vs. cash in M&A transactions",
+    "strategic investment options",
+    "sustainable value creation",
+    "synergies in M&A",
+    "testing market expectations systematically",
+    "time value of money",
+    "turbo trigger",
+    "uncertainty and option value",
+    "value chain analysis",
+    "value creation",
+    "value creation principles",
+    "value driver expectations",
+    "value factors",
+    "value factors (price and mix, operating leverage, economies of scale)",
+    "value triggers",
+    "value triggers (sales, costs, investments)",
+    "value triggers and value drivers",
+    "value variability",
+    "volume",
+    "wealth transfer from exiting to continuing shareholders",
+    "whisper numbers vs. consensus estimates",
+    "zero-sum nature of investment performance"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "Section 2",
+      "summary": "This section contains only the copyright page, publication details, Library of Congress cataloging information, and legal notices for the book 'Expectations Investing' by Alfred Rappaport and Michael J. Mauboussin. It contains no investment analysis content, screening criteria, or actionable stock selection rules."
+    },
+    {
+      "chapter": "Section 3",
+      "summary": "This text is the table of contents for the book 'Expectations Investing,' not the actual content of a specific chapter. The book's core philosophy centers on an expectations-based approach to investing, where investors reverse-engineer the expectations embedded in a stock's current price (price-implied expectations) using discounted cash flow analysis, then identify opportunities where those expectations are likely to be revised. The process involves understanding how the market values stocks through free cash flow, cost of capital, and forecast periods, analyzing competitive strategy, estimating price-implied expectations, identifying expectations opportunities, and making buy/sell/hold decisions using expected-value analysis. The book also covers advanced topics like real options, mergers and acquisitions signals, share buybacks, and incentive compensation as corporate signals."
+    },
+    {
+      "chapter": "Section 4",
+      "summary": "This foreword by Peter Bernstein establishes the philosophical foundation of Expectations Investing: that the value of any financial asset derives entirely from its ability to produce future cash flows to owners (echoing Marx's M-C-M' framework and Jack Welch's emphasis on cash generation). Without the prospect of cash flows, assets are no different from art or gold—priced only by the whims of other investors with no fundamental anchor. The key insight is that market prices are a 'gift of information' revealing what other investors expect about future cash flows, and the investor's task is not to independently forecast those cash flows from scratch, but rather to systematically test whether the market's embedded expectations are reasonable—then buy, sell, or hold accordingly. The fundamental law of investing is the uncertainty of the future, which makes this expectations-based approach particularly powerful."
+    },
+    {
+      "chapter": "Section 5",
+      "summary": "This is the preface and structural overview of 'Expectations Investing,' which introduces the core philosophy that stock prices reflect the market's expectations about a company's future performance. The key to successful investing, according to the authors, is to estimate the level of expected performance already embedded in the current stock price using a discounted cash-flow framework, and then to assess the likelihood of a revision in those expectations. Rather than focusing on traditional short-term earnings and P/E multiples, the expectations investing process uses long-term cash flow analysis, competitive strategy frameworks, and a three-step process (estimate market expectations, identify expectations opportunities, and make buy/sell/hold decisions) to improve the odds of achieving superior investment results. The preface does not contain specific screening rules or numeric thresholds, as it serves as an introduction to the book's structure and philosophy."
+    },
+    {
+      "chapter": "Section 6",
+      "summary": "This section is the acknowledgments page of the book 'Expectations Investing' by Alfred Rappaport and Michael Mauboussin. It thanks various individuals who contributed to the manuscript, including academics, Credit Suisse First Boston employees, L.E.K. Consulting partners, the Harvard Business School Press team, and the authors' families. No investment strategies, screening rules, or analytical frameworks are presented in this section."
+    },
+    {
+      "chapter": "Section 7",
+      "summary": "This chapter introduces the concept of 'expectations investing,' arguing that stock prices embed the collective expectations of investors and that superior returns come from properly reading these price-implied expectations and anticipating their revisions. Rather than forecasting cash flows directly, expectations investing starts by using a discounted cash-flow model in reverse—extracting the expectations already implied by a company's stock price—and then determining whether those expectations are likely to be revised upward or downward. The chapter critiques traditional growth and value investing approaches for focusing on the wrong expectations (particularly short-term earnings) and for failing to benchmark their own expectations against those already embedded in market prices. The authors argue this framework is increasingly important given broader market participation, accelerating innovation, heightened uncertainty, and the persistent underperformance of most active managers relative to passive benchmarks."
+    },
+    {
+      "chapter": "Section 8",
+      "summary": "This chapter establishes the theoretical foundation for expectations investing by arguing that stock prices, like bond and real estate prices, are determined by the discounted present value of expected future cash flows. The core insight is that rather than forecasting cash flows to estimate a stock's intrinsic value (traditional DCF), expectations investing reverses the process: it starts with the observable stock price and reverse-engineers the cash-flow expectations implied by that price. These implied expectations then serve as the benchmark for investment decisions. The chapter criticizes the common reliance on near-term earnings and P/E multiples as inadequate proxies for long-term value, noting that companies often need ten or more years of value-creating cash flows to justify their stock prices. The shareholder-value road map shows how sales growth, operating profit margins, taxes, and capital investments combine to produce free cash flow, which when discounted at the cost of capital determines corporate and ultimately shareholder value."
+    },
+    {
+      "chapter": "Section 9",
+      "summary": "This chapter introduces the 'expectations infrastructure,' a framework for understanding where to look for expectations revisions in stock prices and how to evaluate their impact on shareholder value. The core idea is that changes in operating value drivers (sales growth, operating profit margin, and investment) are the culminating effect, not the fundamental cause, of expectations revisions. The framework identifies three layers: value triggers (sales, operating costs, and investments), value factors (volume, price and mix, operating leverage, economies of scale, cost efficiencies, and investment efficiencies), and operating value drivers. By tracing cause and effect from triggers through factors to drivers, investors can more rigorously anticipate which expectations revisions will occur and calculate their impact on shareholder value using discounted cash flow analysis."
+    },
+    {
+      "chapter": "Section 10",
+      "summary": "This chapter argues that competitive strategy analysis is the core tool for anticipating revisions in market expectations, which is the key to generating superior investment returns. The authors emphasize that great companies are not necessarily great stocks—superior returns come from correctly foreseeing shifts in competitive dynamics that lead to revised outlooks for sales, costs, or investments (the 'value triggers'). The chapter introduces four competitive strategy frameworks (Porter's Five Forces, value chain analysis, disruptive technology, and information rules) and stresses the importance of historical analysis as a reality check, noting that its usefulness depends on data availability and industry stability. The central insight is that investors should use strategic analysis not to identify the best companies, but to identify where market expectations are most likely to be revised."
+    },
+    {
+      "chapter": "Section 11",
+      "summary": "This chapter introduces the concept of price-implied expectations (PIE) as the foundation of the expectations investing process. Rather than attempting to forecast future cash flows — an inherently difficult and bias-prone exercise — expectations investing reverses the traditional discounted cash-flow model by starting with the current stock price and extracting what the market implicitly expects for future sales growth, operating profit margins, incremental investment rates, cost of capital, and forecast horizons. Superior investment returns are earned not by predicting absolute value, but by correctly anticipating revisions to the market's current expectations. The chapter emphasizes that stock price is the best and least-exploited source of information about market expectations, and that investors are often surprised to find the market takes a longer-term view than commonly assumed."
+    },
+    {
+      "chapter": "Section 12",
+      "summary": "This chapter outlines the second step of the expectations investing process: identifying expectations opportunities by finding meaningful differences between price-implied expectations (PIE) and likely future revisions. The framework uses four building blocks—historical performance data, price-implied expectations, the expectations infrastructure, and competitive strategy analysis—to systematically search for mispricings. The key analytical approach is to first estimate high and low scenarios for the sales growth trigger (since sales revisions typically have the greatest impact on shareholder value), then determine whether cost or investment triggers could have an even greater impact, thereby identifying the 'turbo trigger' that matters most. The chapter advises against using interest rate forecasts for stock selection and notes that a company's market-implied forecast period relative to industry peers can signal buying or selling opportunities."
+    },
+    {
+      "chapter": "Section 13",
+      "summary": "This chapter presents the third step of the expectations investing process: making buy, sell, or hold decisions through expected-value analysis. The core method involves calculating probability-weighted average values across multiple scenarios (low, consensus, and high), then comparing this expected value to the current stock price to identify 'expectations mismatches.' The chapter distinguishes between high-variability stocks (where wide outcome ranges can create opportunities even when consensus is most probable) and low-variability stocks (where investors must bet against the consensus to achieve superior returns). The chapter also warns against three cognitive biases in probability estimation: recency bias, false analogy between similar companies, and anchoring to untested assumptions like historical growth rates."
+    },
+    {
+      "chapter": "Section 14",
+      "summary": "This chapter extends the expectations investing framework beyond traditional discounted cash flow (DCF) analysis by introducing real-options valuation for companies whose stock prices cannot be explained by DCF alone. The chapter focuses on two types of companies—start-ups with limited operating histories and reinventors that continually launch new businesses within fast-changing sectors. Real options capture the value of uncertain growth opportunities through three forms: the option to expand commitment if initial investments succeed, the option to extend into related markets using existing platforms, and the option to abandon projects if results are unsatisfactory. The chapter argues that DCF remains relevant for most businesses but must be complemented with real-options analysis for companies fraught with uncertainty, and introduces the concept of reflexivity where stock prices can influence business fundamentals."
+    },
+    {
+      "chapter": "Section 15",
+      "summary": "This chapter argues that fundamental economic principles of value creation apply universally across all business types, rejecting the notion that new valuation rules are needed for different industries. The authors classify businesses into three categories—physical (tangible asset-dependent), service (people-dependent with one-to-one delivery), and knowledge (intellectual capital-dependent with high replication potential)—and analyze how each category's characteristics affect scalability, investment triggers, and the nature of goods produced (rival vs. nonrival). The key insight is that while the market's fundamental valuation model is consistent, the characteristics and properties of businesses vary, requiring investors to understand category-specific value drivers to identify the most likely sources of meaningful expectations revisions."
+    },
+    {
+      "chapter": "Section 16",
+      "summary": "This chapter examines how mergers and acquisitions affect shareholder value, arguing strongly against the common practice of evaluating deals based on their immediate EPS impact. The authors demonstrate that EPS accretion or dilution is a mathematical artifact driven by the relative P/E multiples of acquirer and target, and says nothing about value creation. True value creation in M&A occurs only when the present value of synergies exceeds the acquisition premium paid, which requires the acquirer to invest at returns above the cost of capital. The chapter provides an expectations investing framework for evaluating M&A deals, including assessing synergy realism through management guidance and strategic analysis, reading management signals, anticipating market reactions, and updating analysis post-announcement."
+    },
+    {
+      "chapter": "Section 17",
+      "summary": "This chapter presents a framework for evaluating share buyback programs from an expectations investing perspective. The core thesis is that buybacks can serve as credible signals for investors to revise their expectations about a company's prospects, but only under specific conditions. The authors establish a 'golden rule': a company should repurchase shares only when the stock trades below its expected value and no better investment opportunities are available. When management credibly signals undervaluation through buybacks, expectations investors should revisit value drivers including sales, costs, investments, and capital structure. However, buybacks can also be negative signals—either indicating management has exhausted value-creating investment opportunities or that it is using financial engineering to meet EPS targets rather than delivering genuine operational performance."
+    },
+    {
+      "chapter": "Section 18",
+      "summary": "This chapter examines how incentive compensation arrangements provide important clues about likely upward and downward expectations revisions for a company's stock. The core argument is that most standard employee stock option (ESO) programs fail as true incentive mechanisms because they reward any stock price increase rather than superior performance relative to benchmarks, creating windfalls in bull markets and unfair penalties in bear markets. The chapter advocates that properly designed incentive systems should motivate managers to create value by rewarding them specifically for performance that exceeds market expectations, and that investors should scrutinize whether companies use appropriate performance measures and target appropriate threshold levels of performance across all management levels."
+    },
+    {
+      "chapter": "Section 19",
+      "summary": "This section comprises the endnotes/references for the early chapters of 'Expectations Investing' by Alfred Rappaport and Michael Mauboussin. It outlines the book's core philosophy that stock prices reflect the market's expectations for future cash flows, and that investors should use a discounted cash flow (DCF) framework to read those expectations from current prices. The authors argue that traditional earnings-based metrics like P/E ratios and consensus EPS estimates are inadequate for understanding value, and instead advocate focusing on free cash flow drivers—sales growth, operating margins, and incremental investment—to identify gaps between market expectations and fundamental reality. Key ideas referenced include the difficulty of beating the market (the 'loser's game'), the irrelevance of accounting-only changes to stock prices, the importance of present value calculations, and the use of the capital asset pricing model (CAPM) for estimating cost of equity despite its known limitations."
+    },
+    {
+      "chapter": "Section 20",
+      "summary": "This text is the index section of the book 'Expectations Investing' by Michael Mauboussin and Alfred Rappaport. It does not contain a substantive chapter with investment analysis or screening rules. The book's core philosophy, as reflected in the index entries, centers on expectations-based investing: estimating the expectations implied by current stock prices using discounted cash-flow models, then using competitive strategy analysis and expected-value frameworks to identify mismatches between market expectations and fundamental reality. The approach emphasizes understanding price-implied expectations, analyzing competitive dynamics through frameworks like Porter's five forces and disruptive technology, evaluating real options, and making buy/sell/hold decisions based on expected-value analysis rather than traditional earnings-based metrics."
+    },
+    {
+      "chapter": "Section 21",
+      "summary": "This section provides biographical information about the two authors of 'Expectations Investing': Alfred Rappaport, a professor emeritus at Northwestern University's Kellogg School of Management known for pioneering the shareholder value approach to corporate planning and performance evaluation, and Michael J. Mauboussin, a managing director and chief investment strategist at Credit Suisse First Boston who applies the shareholder value approach to security analysis. The section contains no investment screening criteria or actionable stock selection rules."
+    },
+    {
+      "chapter": "Section 22",
+      "summary": "This section is a bibliography of related materials by the authors Alfred Rappaport and Mark L. Sirower, listing their Harvard Business Review articles on topics such as mergers and acquisitions, executive compensation, corporate strategy, and shareholder value creation. It does not contain any investment screening criteria, stock selection rules, or quantitative thresholds for identifying investment opportunities."
+    }
+  ]
+}

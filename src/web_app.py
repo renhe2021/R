@@ -5,6 +5,7 @@ import json
 import logging
 import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -44,18 +45,137 @@ def static_assets(filename):
     return send_from_directory(STATIC_DIR / "assets", filename)
 
 
+# ─── API: 股票代码搜索/自动补全 ────────────────────────────────
+@app.route("/api/symbol/search", methods=["GET"])
+def api_symbol_search():
+    """自动补全搜索 — 本地别名 + yfinance 在线搜索"""
+    from .symbol_resolver import resolve_symbol, search_symbols
+    query = request.args.get("q", "").strip()
+    if not query or len(query) < 1:
+        return jsonify({"results": []})
+
+    results = []
+    seen = set()
+
+    # 1) 本地别名库快速匹配
+    local = search_symbols(query, limit=5)
+    for c in local:
+        if c.canonical not in seen:
+            seen.add(c.canonical)
+            results.append({
+                "symbol": c.canonical,
+                "name": c.name,
+                "name_cn": c.name_cn,
+                "market": c.market,
+                "exchange": "",
+                "type": "equity",
+                "source": "local",
+            })
+
+    # 2) yfinance 在线搜索（仅当本地结果不足或非中文时尝试）
+    import re
+    is_chinese = bool(re.search(r'[\u4e00-\u9fff]', query))
+    if len(results) < 6 and not is_chinese:
+        try:
+            from yfinance import Search
+            yf_results = Search(query, max_results=8)
+            for q in (yf_results.quotes or []):
+                sym = q.get("symbol", "")
+                if sym and sym not in seen:
+                    seen.add(sym)
+                    results.append({
+                        "symbol": sym,
+                        "name": q.get("longname") or q.get("shortname", ""),
+                        "name_cn": "",
+                        "market": _exchange_to_market(q.get("exchDisp", "")),
+                        "exchange": q.get("exchDisp", ""),
+                        "type": q.get("quoteType", "equity").lower(),
+                        "source": "yfinance",
+                    })
+        except Exception as e:
+            logger.warning(f"[symbol_search] yfinance search failed: {e}")
+
+    # 3) 如果还是空 + 是纯字母，用 resolve 兜底
+    if not results and query.isalpha():
+        r = resolve_symbol(query)
+        results.append({
+            "symbol": r.canonical,
+            "name": r.name,
+            "name_cn": r.name_cn,
+            "market": r.market,
+            "exchange": "",
+            "type": "equity",
+            "source": "resolve",
+        })
+
+    return jsonify({"results": results[:10]})
+
+
+@app.route("/api/symbol/resolve", methods=["GET"])
+def api_symbol_resolve():
+    """解析股票代码 — 精确解析"""
+    from .symbol_resolver import resolve_symbol
+    query = request.args.get("q", "").strip()
+    if not query:
+        return jsonify({"error": "请提供搜索关键词 ?q=..."}), 400
+
+    resolved = resolve_symbol(query)
+    return jsonify({
+        "input": query,
+        "resolved": {
+            "symbol": resolved.canonical,
+            "market": resolved.market,
+            "name": resolved.name,
+            "name_cn": resolved.name_cn,
+            "confidence": resolved.confidence,
+            "source": resolved.source,
+            "formats": {
+                "yfinance": resolved.yfinance,
+                "fmp": resolved.fmp,
+                "finnhub": resolved.finnhub,
+                "bloomberg": resolved.bloomberg,
+            },
+        },
+    })
+
+
+def _exchange_to_market(exchange_name: str) -> str:
+    """将交易所显示名转换为市场标识"""
+    _map = {
+        "NYSE": "US", "NASDAQ": "US", "NMS": "US", "NYQ": "US",
+        "OTC Markets": "US", "AMEX": "US",
+        "Hong Kong": "HK", "HKSE": "HK",
+        "Shanghai": "CN_SH", "Shenzhen": "CN_SZ",
+        "Tokyo Stock Exchange": "JP", "JPX": "JP",
+        "London": "UK", "LSE": "UK",
+        "Toronto": "CA", "TSX": "CA",
+        "Frankfurt": "DE", "FRA": "DE",
+        "SET": "TH", "SGX": "SG", "KRX": "KR",
+    }
+    for key, market in _map.items():
+        if key.lower() in exchange_name.lower():
+            return market
+    return "OTHER"
+
+
 # ─── API: 股票分析 ─────────────────────────────────────────────
 @app.route("/api/analyze", methods=["POST"])
 def api_analyze():
     """分析股票 — 先从多数据源下载 → 交叉验证 → 合并 → 再规则评估"""
     try:
         data = request.get_json()
-        symbol = data.get("symbol", "").strip().upper()
+        raw_symbol = data.get("symbol", "").strip()
         data_source = data.get("data_source", "yfinance")
         book_name = data.get("book", None)
 
-        if not symbol:
+        if not raw_symbol:
             return jsonify({"error": "请输入股票代码"}), 400
+
+        # 智能解析股票代码（支持 700→0700.HK, 腾讯→0700.HK, 600519→600519.SS 等）
+        from .symbol_resolver import resolve_symbol
+        resolved = resolve_symbol(raw_symbol)
+        symbol = resolved.canonical
+        logger.info(f"[analyze] 输入: '{raw_symbol}' → 解析为: {symbol} (市场: {resolved.market}, 置信度: {resolved.confidence})")
 
         config = get_config()
 
@@ -803,16 +923,124 @@ def api_rules(book_name):
         return jsonify({"error": str(e)}), 500
 
 
+# ─── API: 老查理对话 (SSE) ──────────────────────────────────────
+@app.route("/api/chat", methods=["POST"])
+def api_chat():
+    """与老查理对话 — 使用 LLM + 投资知识库语境"""
+    try:
+        data = request.get_json()
+        message = data.get("message", "").strip()
+        history = data.get("history", [])
+
+        if not message:
+            return jsonify({"error": "请输入消息"}), 400
+
+        config = get_config()
+        from .llm import get_llm_provider
+        llm_config = config.llm.model_dump()
+        llm_provider = get_llm_provider(config.llm.default_provider, llm_config)
+
+        system_prompt = (
+            "你是「老查理」，一位严谨的深度价值投资顾问。"
+            "你精通 Graham、Buffett、Damodaran 等价值投资大师的理论体系，"
+            "擅长 Piotroski F-Score、Altman Z-Score、Beneish M-Score 排雷，"
+            "以及 Graham Number、EPV、DCF、DDM、Net-Net、Owner Earnings 七大估值模型。\n\n"
+            "回答规则：\n"
+            "1. 始终从价值投资角度回答，保守稳健\n"
+            "2. 如果用户提到股票代码，给出具体的分析框架建议\n"
+            "3. 用中文回答，语气像一位睿智的老投资者\n"
+            "4. 引用具体的指标和阈值来支撑观点\n"
+            "5. 「宁可错杀一千，不可放过一个」— 这是你的核心原则"
+        )
+
+        messages = [{"role": "system", "content": system_prompt}]
+
+        for h in history[-20:]:
+            role = h.get("role", "user")
+            if role in ("user", "assistant"):
+                messages.append({"role": role, "content": h.get("content", "")})
+
+        messages.append({"role": "user", "content": message})
+
+        reply = llm_provider.chat(messages=messages)
+        return jsonify({"reply": reply})
+
+    except Exception as e:
+        logger.error(f"Chat failed: {traceback.format_exc()}")
+        return jsonify({"error": str(e)}), 500
+
+
+# ─── API: 自选股列表 (服务端持久化) ──────────────────────────────
+_watchlist_file = Path(__file__).parent.parent / "data" / "watchlist.json"
+
+
+def _load_watchlist() -> list:
+    if _watchlist_file.exists():
+        try:
+            return json.loads(_watchlist_file.read_text(encoding="utf-8"))
+        except Exception:
+            return []
+    return []
+
+
+def _save_watchlist(items: list):
+    _watchlist_file.parent.mkdir(parents=True, exist_ok=True)
+    _watchlist_file.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+@app.route("/api/watchlist", methods=["GET"])
+def api_watchlist_get():
+    """获取自选股列表"""
+    return jsonify({"items": _load_watchlist()})
+
+
+@app.route("/api/watchlist", methods=["POST"])
+def api_watchlist_add():
+    """添加自选股"""
+    try:
+        data = request.get_json()
+        symbol = data.get("symbol", "").strip().upper()
+        name = data.get("name", "")
+        note = data.get("note", "")
+
+        if not symbol:
+            return jsonify({"error": "请提供股票代码"}), 400
+
+        items = _load_watchlist()
+        if any(i["symbol"] == symbol for i in items):
+            return jsonify({"error": "已在自选列表中"}), 409
+
+        items.append({
+            "symbol": symbol,
+            "name": name,
+            "note": note,
+            "added_at": datetime.now().isoformat(),
+        })
+        _save_watchlist(items)
+        return jsonify({"ok": True, "items": items})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/watchlist/<symbol>", methods=["DELETE"])
+def api_watchlist_remove(symbol):
+    """移除自选股"""
+    items = _load_watchlist()
+    items = [i for i in items if i["symbol"] != symbol.upper()]
+    _save_watchlist(items)
+    return jsonify({"ok": True, "items": items})
+
+
 def main():
     """启动 Web UI"""
     import argparse
-    parser = argparse.ArgumentParser(description="Book KB Web UI")
+    parser = argparse.ArgumentParser(description="老查理 — 深度价值投资平台")
     parser.add_argument("--host", default="127.0.0.1", help="Host (default: 127.0.0.1)")
     parser.add_argument("--port", type=int, default=5000, help="Port (default: 5000)")
     parser.add_argument("--debug", action="store_true", help="Debug mode")
     args = parser.parse_args()
 
-    print(f"\n  [*] Investment Analysis Panel")
+    print(f"\n  [*] 老查理 — 深度价值投资分析")
     print(f"  http://{args.host}:{args.port}\n")
     app.run(host=args.host, port=args.port, debug=args.debug)
 

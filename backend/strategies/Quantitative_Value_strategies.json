@@ -1,0 +1,1912 @@
+{
+  "book_title": "Quantitative Value",
+  "book_author": "Wesley Gray & Tobias Carlisle",
+  "total_chapters_analyzed": 28,
+  "strategies": [
+    {
+      "name": "Magic Formula P/E Filter",
+      "description": "Greenblatt's Magic Formula combines a quality measure (high return on capital) with a valuation measure (high earnings yield) to select stocks that are both good businesses and cheap. Stocks are ranked on both dimensions and the combined rank is used to select top holdings.",
+      "expression": "earnings_yield > 0 and roe > 0",
+      "data_fields_required": [
+        "earnings_yield",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Manipulation Screen (Accruals)",
+      "description": "Eliminate companies with high accruals relative to assets, which signals potential earnings manipulation. Companies with high accruals are more likely to experience future earnings declines.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Distress Avoidance",
+      "description": "Screen out companies at high risk of financial distress or bankruptcy using distress prediction models. Avoid the 'sick men of the stock market' to protect against permanent loss of capital.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski F_SCORE Quality Filter",
+      "description": "Use Piotroski's F_SCORE (0-9 scale based on profitability, leverage/liquidity, and operating efficiency signals) to identify financially strong companies. Higher scores indicate stronger fundamentals.",
+      "expression": null,
+      "data_fields_required": [
+        "roe",
+        "free_cash_flow",
+        "current_ratio",
+        "debt_to_equity",
+        "profit_margin",
+        "revenue_growth_rate"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Strength Score (FS_SCORE)",
+      "description": "An improved version of Piotroski's F_SCORE developed by the authors to measure financial strength, comparing favorably in backtests to the original F_SCORE.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Franchise Quality Identification",
+      "description": "Identify franchise-quality businesses — companies with durable competitive advantages (economic moats) that generate sustainably high returns on capital, following Buffett's approach to finding wonderful businesses.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Yield Valuation (EBIT/EV)",
+      "description": "Use enterprise-value-based earnings yield (EBIT/EV) as the preferred valuation metric. This measure won the 'horse race' among price ratios as the best single valuation metric for identifying undervalued stocks.",
+      "expression": "earnings_yield > 0",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Glamour Stocks",
+      "description": "Glamour (expensive, high-growth) stocks consistently underperform. Avoid stocks with high valuation multiples as they are always a bad bet on average.",
+      "expression": "pe < market_pe",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Stock Buyback Signal",
+      "description": "Companies actively buying back their own shares send a positive signal about management's view of intrinsic value. Favor companies with active share repurchase programs as a corroborative signal.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Insider Buying Signal",
+      "description": "Follow insider buying activity as insiders (corporate officers, directors) tend to beat the market with their purchases. Insider buying is a bullish corroborative signal.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Net Equity Issuers",
+      "description": "Companies issuing new shares (diluting existing shareholders) tend to underperform. Avoid companies that are net issuers of equity as a negative signal.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Short Interest Avoidance",
+      "description": "High short interest signals that informed 'smart money' traders expect the stock to decline. Avoid stocks with unusually high short interest as a risk management measure.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Normalized Earnings Valuation",
+      "description": "Use normalized (averaged or cyclically-adjusted) earnings rather than single-year earnings to assess valuation, smoothing out cyclical fluctuations for a more reliable price measure.",
+      "expression": null,
+      "data_fields_required": [
+        "avg_eps_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety Universe Scrub",
+      "description": "Before selecting stocks, scrub the investable universe by removing earnings manipulators (high accruals) and financially distressed companies to create a margin of safety against permanent capital loss.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Operations Filter",
+      "description": "Require companies to demonstrate profitability as part of the quality assessment, filtering out unprofitable companies.",
+      "expression": "net_income > 0 and ebit > 0",
+      "data_fields_required": [
+        "net_income",
+        "ebit"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow",
+      "description": "Favor companies generating positive free cash flow as an indicator of financial strength and earnings quality (cash earnings vs. accrual earnings).",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety Filter",
+      "description": "Seek stocks with a significant margin of safety, meaning the stock price is well below the estimated intrinsic value, to protect against downside risk and behavioral mispricing.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 5",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cheapest Stocks Screen",
+      "description": "Identify the cheapest stocks based on fundamental valuation metrics such as low price-to-earnings, low price-to-book, or high earnings yield, as the quantitative value strategy seeks the most undervalued securities.",
+      "expression": "earnings_yield > 0 and pb < 1.5 and pe < 15",
+      "data_fields_required": [
+        "earnings_yield",
+        "pb",
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 5",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Highest Quality Franchise Filter",
+      "description": "Identify the highest-quality businesses by screening for strong profitability metrics such as high return on equity and healthy profit margins, reflecting durable competitive advantages.",
+      "expression": "roe > 0.15 and profit_margin > 0.10",
+      "data_fields_required": [
+        "roe",
+        "profit_margin"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 5",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Health Screen",
+      "description": "Ensure companies have strong balance sheets with manageable debt levels and adequate liquidity, consistent with Graham's emphasis on financial soundness.",
+      "expression": "current_ratio > 2 and debt_to_equity < 0.5",
+      "data_fields_required": [
+        "current_ratio",
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 5",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Fundamental Value Investment Screen",
+      "description": "Treat stocks as part ownership of a business and value them through fundamental financial statement analysis, combining cheapness with quality in a comprehensive quantitative value approach.",
+      "expression": "earnings_yield > 0.05 and roe > 0.10 and margin_of_safety > 0.2",
+      "data_fields_required": [
+        "earnings_yield",
+        "roe",
+        "margin_of_safety"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 5",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Deep Value - Undervalued Securities",
+      "description": "Seek securities that are sufficiently undervalued relative to intrinsic value, following Benjamin Graham's value investing philosophy. Buffett wound up his partnership when he could no longer find sufficiently undervalued securities, implying a margin of safety requirement.",
+      "expression": "margin_of_safety > 0.30",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 8",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Greenblatt Return on Capital (ROC) - Good Business",
+      "description": "Greenblatt's Magic Formula identifies wonderful businesses by measuring Return on Capital (ROC), defined as EBIT divided by tangible capital employed (net property, plant and equipment plus net working capital). Higher ROC indicates more efficient use of capital. Stocks are ranked by ROC and the highest-ranked are preferred.",
+      "expression": null,
+      "data_fields_required": [
+        "ebit"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 9",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Greenblatt Earnings Yield - Bargain Price",
+      "description": "Greenblatt's Magic Formula identifies bargain-priced stocks using earnings yield, which is similar to the inverse of the P/E ratio (EBIT/Enterprise Value). Higher earnings yield indicates a cheaper stock relative to its earnings power.",
+      "expression": null,
+      "data_fields_required": [
+        "earnings_yield",
+        "ebit"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 9",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett High Return on Equity",
+      "description": "Warren Buffett defines a wonderful business as one earning a high return on equity capital. Buffett considers return on equity a more appropriate measure of managerial economic performance than earnings per share growth. A high ROE threshold (commonly above 15%) is implied.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 9",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Formula Composite - Good Business at Bargain Price",
+      "description": "The Magic Formula combines two factors: high Return on Capital (good business) and high earnings yield (bargain price). Stocks are ranked on both dimensions and the combined ranking determines the best candidates. As a screening approximation, look for stocks with high earnings yield and high ROE.",
+      "expression": "earnings_yield > 0.10 and roe > 0.15",
+      "data_fields_required": [
+        "earnings_yield",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 9",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Financial Statement Manipulation",
+      "description": "Remove from the investable universe any stocks showing signs of financial statement manipulation, as manipulated financials undermine the reliability of valuation metrics and signal deeper problems.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Fraud Risk Stocks",
+      "description": "Exclude stocks where there are indicators of outright fraud by management, as fraud leads to incorrect financial statements, capital theft, and eventual financial distress or bankruptcy.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Financial Distress and Bankruptcy Risk",
+      "description": "Remove from the investable universe any stocks at risk of financial distress or bankruptcy, as common stockholders rank last in the capital structure and face permanent loss of capital in such scenarios.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "financial_health",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Permanent Loss of Capital Screen",
+      "description": "As a composite first-step checklist, eliminate all stocks exhibiting any combination of financial statement manipulation, fraud indicators, or financial distress risk before proceeding to valuation analysis. There is no price low enough to justify buying these stocks.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Scaled Total Accruals (STA) Filter",
+      "description": "Eliminate stocks with high scaled total accruals, which indicate early-stage earnings manipulation. High accruals mean earnings significantly exceed cash flows, suggesting management is using accounting discretion to inflate reported earnings.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Scaled Net Operating Assets (SNOA) Filter",
+      "description": "Eliminate stocks with high scaled net operating assets, which capture a management's historical (cumulative) attempts at earnings manipulation. High SNOA indicates accumulated accruals on the balance sheet that have not yet reversed.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Probability of Manipulation (PROBM) Filter",
+      "description": "Eliminate stocks with a high probability of fraud or manipulation as identified by the PROBM model, a comprehensive predictive tool that flags companies likely engaging in financial statement fraud or aggressive earnings manipulation.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cash Flow vs Earnings Consistency Check",
+      "description": "Prefer companies where cash flow from operations is close to or exceeds reported net income. When net income significantly exceeds operating cash flow, it signals high accruals and potential earnings manipulation (as illustrated by the Bernie vs Warren example where $100 reported income vs $80 cash flow indicated $20 in suspicious accruals).",
+      "expression": "free_cash_flow >= net_income * 0.8",
+      "data_fields_required": [
+        "free_cash_flow",
+        "net_income"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Debt-to-Equity Filter",
+      "description": "Benjamin Graham's simple quantitative value strategy required that stocks 'own at least twice what they owe,' meaning they should have a debt-to-equity ratio of no more than 50 percent, to ensure financial health and avoid bankruptcy risk.",
+      "expression": "debt_to_equity <= 0.5",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "high",
+      "source_chapter": "Section 12",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Stocks Near 52-Week Low (Distress Signal)",
+      "description": "Stocks that have fallen dramatically from their highs (e.g., 90% decline as in the WorldCom case) may signal financial distress. Avoid stocks trading near their 52-week lows as a proxy for potential distress.",
+      "expression": "price > price_52w_low * 1.5",
+      "data_fields_required": [
+        "price",
+        "price_52w_low"
+      ],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "Section 12",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow Filter",
+      "description": "The chapter references research showing cash flow-to-debt ratio as the single best predictor of financial health. Stocks should have positive free cash flow to avoid distress risk.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitability Consistency Check",
+      "description": "WorldCom's fraud turned reported profits into massive losses. Screening for companies with consistent profitability over multiple years helps avoid firms masking financial distress. Require profitability in most recent years.",
+      "expression": "profitable_years >= 5",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Net Income Filter",
+      "description": "Avoid companies reporting net losses, as losses can be a sign of financial distress or potential bankruptcy risk. WorldCom's actual results showed massive losses hidden by accounting fraud.",
+      "expression": "net_income > 0",
+      "data_fields_required": [
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High ROE Quality Filter",
+      "description": "Seek firms with exceptional long-term returns on capital, indicating an economic franchise that protects against competitors.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Stable Gross Margin (Pricing Power)",
+      "description": "Identify firms with high, stable gross margins as a manifestation of pricing power and an economic franchise.",
+      "expression": "profit_margin > 0.20",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Strength - Low Debt",
+      "description": "Find companies in rude financial health with strong balance sheets, able to withstand shocks from the business cycle and competitors. Low debt-to-equity indicates superior financial strength.",
+      "expression": "debt_to_equity < 0.5",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Strength - Current Ratio",
+      "description": "Companies with strong current ratios demonstrate financial strength and ability to withstand business cycle shocks.",
+      "expression": "current_ratio > 2.0",
+      "data_fields_required": [
+        "current_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Strength - Interest Coverage",
+      "description": "Firms with high interest coverage ratios demonstrate superior financial strength and resilience to economic shocks.",
+      "expression": "interest_coverage_ratio > 5",
+      "data_fields_required": [
+        "interest_coverage_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Profitability Filter",
+      "description": "Quality firms with economic franchises should demonstrate consistent profitability over many years, reflecting durable competitive advantages.",
+      "expression": "profitable_years >= 8",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Composite Quality Screen",
+      "description": "Combine high returns on capital, strong financial health, and profitability to identify wonderful businesses with economic franchises and financial strength.",
+      "expression": "roe > 0.15 and debt_to_equity < 0.5 and current_ratio > 1.5 and profit_margin > 0.15",
+      "data_fields_required": [
+        "roe",
+        "debt_to_equity",
+        "current_ratio",
+        "profit_margin"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Return on Invested Capital (Franchise Indicator)",
+      "description": "Identify companies with high returns on invested capital, indicating a franchise or sustainable competitive advantage. Buffett's See's Candies example had a 60% return on invested capital. Businesses with returns on invested capital well in excess of their cost of capital are worth more than the capital invested in them.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Return on Capital Exceeds Cost of Capital",
+      "description": "Businesses expected to produce returns on invested capital in excess of market rates of return are worth more than the capital invested in them. The stock's market price should exceed its asset value. Look for companies where ROE significantly exceeds the market's required rate of return.",
+      "expression": "roe > treasury_yield_10y * 2",
+      "data_fields_required": [
+        "roe",
+        "treasury_yield_10y"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Franchise Premium - Price Above Book Value",
+      "description": "Companies with returns on invested capital in excess of market rates should trade above book value (P/B > 1). Companies with returns below market rates should trade below book value. A high P/B combined with high ROE indicates a franchise business.",
+      "expression": "pb > 1 and roe > 0.15",
+      "data_fields_required": [
+        "pb",
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Inherent Permanence of Earning Power",
+      "description": "Graham recommended looking for companies with stable and permanent earning power. This can be quantified by looking for companies that have been profitable consistently over many years, indicating a durable franchise.",
+      "expression": "profitable_years >= 10",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Wonderful Company at Fair Price",
+      "description": "Buffett's philosophy of buying high-quality franchise businesses at fair prices rather than mediocre businesses at bargain prices. Combine high profitability metrics with reasonable valuation.",
+      "expression": "roe > 0.20 and pe < market_pe",
+      "data_fields_required": [
+        "roe",
+        "pe",
+        "market_pe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Profit Margin (Pricing Power Indicator)",
+      "description": "Franchise businesses can 'regularly price their product or service aggressively and thereby earn high rates of return on capital.' High profit margins indicate pricing power, a hallmark of franchise businesses with no close substitutes.",
+      "expression": "profit_margin > 0.15 and operating_margin > 0.15",
+      "data_fields_required": [
+        "profit_margin",
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sustainable High Returns (Franchise Stability)",
+      "description": "A franchise requires not just high returns but sustainable high returns over time. Look for companies with consistently high earnings and positive earnings growth over a 10-year period, indicating permanence of earning power.",
+      "expression": "roe > 0.15 and profitable_years >= 10 and earnings_growth_10y > 0",
+      "data_fields_required": [
+        "roe",
+        "profitable_years",
+        "earnings_growth_10y"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Discount to Intrinsic Value (Margin of Safety on Franchise)",
+      "description": "Even for franchise businesses, Buffett seeks to buy at a discount to intrinsic value. He paid $25 million for See's when estimated intrinsic value was ~$45 million, representing a significant margin of safety.",
+      "expression": "margin_of_safety > 0.25 and roe > 0.20",
+      "data_fields_required": [
+        "margin_of_safety",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 14",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski Low Price-to-Book Filter",
+      "description": "Piotroski defines a 'value stock' as one with a high book value relative to its market price, i.e., a low price-to-book ratio. This is the starting universe for applying the F_SCORE.",
+      "expression": "pb < 1.0",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski F_SCORE Profitability - Positive ROA",
+      "description": "One of the nine F_SCORE signals: the stock's return on assets (net income / total assets) is positive, indicating profitability. If positive, the signal scores 1; otherwise 0.",
+      "expression": "net_income > 0",
+      "data_fields_required": [
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski F_SCORE Profitability - Positive Operating Cash Flow",
+      "description": "One of the nine F_SCORE signals: the stock's operating cash flow (proxied by free cash flow) is positive. If positive, the signal scores 1; otherwise 0.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski F_SCORE Quality - Cash Flow Exceeds Net Income (Accruals)",
+      "description": "One of the nine F_SCORE signals: operating cash flow exceeds net income, indicating earnings quality (low accruals). This signals that earnings are backed by real cash flows.",
+      "expression": "free_cash_flow > net_income",
+      "data_fields_required": [
+        "free_cash_flow",
+        "net_income"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski F_SCORE Financial Leverage - Low Debt-to-Equity",
+      "description": "One of the nine F_SCORE signals relates to financial leverage/liquidity: the company should have manageable debt levels. A lower debt-to-equity ratio signals financial strength.",
+      "expression": "debt_to_equity < 0.5",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski F_SCORE Liquidity - Adequate Current Ratio",
+      "description": "One of the nine F_SCORE signals relates to liquidity: the company should have sufficient current assets to cover current liabilities, indicating ability to meet short-term obligations.",
+      "expression": "current_ratio > 1.0",
+      "data_fields_required": [
+        "current_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski F_SCORE Operating Efficiency - Improving Margins",
+      "description": "One of the nine F_SCORE signals: the company's gross/operating margin is improving year-over-year, indicating better operating efficiency.",
+      "expression": "operating_margin > 0",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski F_SCORE Growth - Improving ROA",
+      "description": "One of the nine F_SCORE signals: the company's return on assets is improving relative to the prior year, indicating improving profitability trends.",
+      "expression": "roe > 0 and eps_growth_rate > 0",
+      "data_fields_required": [
+        "roe",
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski High F_SCORE Composite",
+      "description": "Piotroski's aggregate F_SCORE sums nine binary signals (0 or 1 each) for a total score of 0-9. Stocks scoring 8 or 9 are considered financially strong 'winners.' The strategy buys high F_SCORE stocks and shorts low F_SCORE stocks, generating 23% annual returns from 1976-1996.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Financial Strength Priority",
+      "description": "Buffett prioritizes unquestionable financial strength above all else. Stocks should have strong balance sheets with low debt and high liquidity to weather business cycle downturns.",
+      "expression": "debt_to_equity < 0.5 and current_ratio > 2.0",
+      "data_fields_required": [
+        "debt_to_equity",
+        "current_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Financial Strength and Margin of Safety",
+      "description": "Graham taught that financial strength and margin of safety are intertwined. Companies should be strong enough financially to carry through recession periods unharmed, with earnings history demonstrating resilience.",
+      "expression": "profitable_years >= 8 and current_ratio > 2.0 and debt_to_equity < 0.5",
+      "data_fields_required": [
+        "profitable_years",
+        "current_ratio",
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Piotroski Value + Financial Strength Combined",
+      "description": "Piotroski found that applying fundamental analysis to cheap (low P/B) stocks improved returns by at least 7.5% per year. The combined strategy selects low price-to-book stocks that also pass financial strength tests: positive earnings, positive cash flow, cash flow exceeding earnings, adequate liquidity, and manageable leverage.",
+      "expression": "pb < 1.0 and net_income > 0 and free_cash_flow > 0 and free_cash_flow > net_income and current_ratio > 1.0 and debt_to_equity < 0.5",
+      "data_fields_required": [
+        "pb",
+        "net_income",
+        "free_cash_flow",
+        "current_ratio",
+        "debt_to_equity"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 15",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "EBIT/TEV Value Screen",
+      "description": "Select stocks with high EBIT relative to total enterprise value (EBIT/TEV), which is identified as one of the key price ratios examined for finding bargain-priced stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "ebit",
+        "market_cap",
+        "total_debt"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Free Cash Flow Yield Screen",
+      "description": "Select stocks with high free cash flow yield as one component of a composite price ratio approach to identifying undervalued stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "free_cash_flow",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Gross Profits Yield Screen",
+      "description": "Select stocks with high unadulterated gross profits yield as one component of a composite valuation approach.",
+      "expression": null,
+      "data_fields_required": [
+        "revenue",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Composite Price Ratio Screen",
+      "description": "Use a combination of multiple price ratios (free cash flow yield, gross profits yield, and EBIT/TEV) to identify the cheapest stocks. Stocks should appear cheap on multiple metrics simultaneously, providing a cross-check against unusual accounting that might make a stock look cheap on only one metric but expensive on others.",
+      "expression": null,
+      "data_fields_required": [
+        "free_cash_flow",
+        "ebit",
+        "market_cap",
+        "total_debt",
+        "revenue"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Long-Term Earnings Price Ratio",
+      "description": "Use longer-term (multi-year) average earnings rather than single-year trailing earnings to calculate price ratios, avoiding stocks at the peak of their business cycle whose recent 12-month earnings are unrepresentative of typical earning power. This is analogous to using average earnings over multiple years (similar to Shiller CAPE concept).",
+      "expression": null,
+      "data_fields_required": [
+        "avg_eps_10y",
+        "avg_eps_3y",
+        "price"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Peak Earnings Trap",
+      "description": "Avoid stocks where current single-year earnings are unusually high relative to long-term average earnings, as these may be at the peak of their business cycle with earnings likely to revert downward.",
+      "expression": "eps > avg_eps_10y * 1.5",
+      "data_fields_required": [
+        "eps",
+        "avg_eps_10y"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 16",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Yield (E/M)",
+      "description": "Calculate earnings yield as earnings before extraordinary items (minus preferred dividends, plus deferred taxes) divided by market capitalization. Used as a value metric to identify cheap stocks. Higher earnings yield indicates better value.",
+      "expression": "earnings_yield > 0",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Enterprise Yield (EBITDA/TEV) - Acquirer's Multiple",
+      "description": "Calculate enterprise yield as EBITDA divided by total enterprise value (market cap + total debt - excess cash + preferred stock + minority interests). This is the 'acquirer's multiple' reflecting the true cost of total acquisition. The chapter finds this metric stands 'head-and-shoulders above the rest' as the best-performing price ratio.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap",
+        "total_debt",
+        "ebit"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 17",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Enterprise Yield (EBIT/TEV)",
+      "description": "A variation of the enterprise yield using EBIT instead of EBITDA divided by total enterprise value. Substitutes EBIT for EBITDA to account for depreciation and amortization differently.",
+      "expression": null,
+      "data_fields_required": [
+        "ebit",
+        "market_cap",
+        "total_debt"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 17",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Free Cash Flow Yield",
+      "description": "Calculate free cash flow yield as free cash flow (net income + D&A - working capital change - capex) divided by total enterprise value. Accounts for maintenance capital expenditure needs post-acquisition.",
+      "expression": "free_cash_flow / market_cap > 0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Book-to-Market (Inverse of P/B)",
+      "description": "Use book value to market capitalization ratio to distinguish value from glamour stocks. Fama and French prefer this because book value is more stable over time than earnings or cash flow, keeping portfolio turnover down. Value stocks have higher book-to-market ratios.",
+      "expression": "pb < 1",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Value Stock Selection - Buy Cheap Stocks",
+      "description": "The core strategy of the chapter: buy value (cheap) stocks and avoid glamour (expensive) stocks. Value stocks have beaten both glamour stocks and the market over the long term. Investors should use price ratios to identify cheapness and exploit irrational behavior of investors who extrapolate high historical growth too far into the future.",
+      "expression": "earnings_yield > 0 and pe > 0",
+      "data_fields_required": [
+        "earnings_yield",
+        "pe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Glamour/Story Stocks",
+      "description": "Avoid expensive 'glamour' or 'story' stocks where investors extrapolate high historical earnings growth too far into the future, assume upward price trends, overreact to good news, or conflate exciting technology with good investment opportunity irrespective of price.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 17",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Normalized Earnings (5-10 Year Average)",
+      "description": "Use average earnings over 5 to 10 years instead of single-year earnings to normalize for business cycle effects. Stocks with low price relative to normalized earnings are preferred, as single-year earnings may be at cyclical peaks or troughs.",
+      "expression": "pe < (price / avg_eps_10y) and (price / avg_eps_10y) > 0",
+      "data_fields_required": [
+        "pe",
+        "price",
+        "avg_eps_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Shiller CAPE / Normalized P/E Screen",
+      "description": "Calculate price relative to the long-run (minimum 10-year) inflation-adjusted average earnings, following Shiller and Campbell's recommendation. Prefer stocks where this ratio is low, indicating undervaluation relative to normalized earning power.",
+      "expression": "(price / avg_eps_10y) < 15",
+      "data_fields_required": [
+        "price",
+        "avg_eps_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "EBIT Enterprise Multiple (Best Single Metric)",
+      "description": "The EBIT variation of the enterprise multiple was identified as arguably the best single-year individual price metric. Select stocks that rank cheapest on EBIT/EV (enterprise yield).",
+      "expression": "earnings_yield > 0.10",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Composite Price Ratio Screen",
+      "description": "Use a combined/compound price measure constructed from multiple individual price ratios (free cash flow yield, gross profits yield, and EBIT enterprise multiple) to cross-check valuation. Stocks should appear cheap on multiple metrics simultaneously to avoid unusual accounting distortions.",
+      "expression": "earnings_yield > 0.05 and (free_cash_flow / market_cap) > 0.05 and (revenue * profit_margin / market_cap) > 0.05",
+      "data_fields_required": [
+        "earnings_yield",
+        "free_cash_flow",
+        "market_cap",
+        "revenue",
+        "profit_margin"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Free Cash Flow Yield Component",
+      "description": "Free cash flow yield is one of the recommended components of the composite price measure. Higher free cash flow yield indicates cheaper valuation.",
+      "expression": "(free_cash_flow / market_cap) > 0.05",
+      "data_fields_required": [
+        "free_cash_flow",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Gross Profits Yield Component",
+      "description": "Gross profits yield performed admirably on raw and risk-adjusted return analyses and is recommended as a component of the composite price measure.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Cyclical Peak Earnings Trap",
+      "description": "Avoid stocks where current single-year earnings are significantly above their long-term average, as this suggests the company is at the peak of its business cycle and earnings are likely to revert downward. Current EPS should not be dramatically higher than the 10-year average EPS.",
+      "expression": "eps < (avg_eps_10y * 2)",
+      "data_fields_required": [
+        "eps",
+        "avg_eps_10y"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buy at Cyclical Trough",
+      "description": "Graham suggested buying stocks at low prices occasioned by temporarily reduced earnings. Stocks where current earnings are below long-term average but the company has demonstrated consistent profitability over time may represent cyclical trough opportunities.",
+      "expression": "eps < avg_eps_10y and profitable_years >= 7",
+      "data_fields_required": [
+        "eps",
+        "avg_eps_10y",
+        "profitable_years"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Mean-Reverting Earnings Filter",
+      "description": "Earnings tend to be mean reverting. Prefer stocks where normalized (long-term average) earnings are positive and the stock is cheap relative to those normalized earnings, rather than relying on a single noisy year of data.",
+      "expression": "avg_eps_10y > 0 and (price / avg_eps_10y) < 15",
+      "data_fields_required": [
+        "avg_eps_10y",
+        "price"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 18",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buyback Signal Filter",
+      "description": "Look for companies conducting share buybacks as a corroborative signal that the stock may be undervalued, confirming quality and price analyses.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 19",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Insider Purchasing Signal",
+      "description": "Look for stocks with significant insider purchases as a corroborative signal that insiders believe the stock is undervalued.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 19",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Institutional/Activist Buying Signal",
+      "description": "Monitor buying activity from institutional investment managers, particularly activists and other fund managers, as a corroborative signal of undervaluation.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 19",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Short Seller Activity Warning",
+      "description": "Monitor short selling activity as a potential warning signal to identify problems with a stock, serving as a negative corroborative indicator.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 19",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Share Buyback Signal",
+      "description": "Invest in companies that are actively repurchasing significant amounts of their own shares, as this signals management believes the stock is undervalued and the business is healthy enough to commit capital to buybacks. Companies with the greatest number of shares bought back in any given year tend to outperform the market.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 20",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Share Issuers",
+      "description": "Avoid companies that are issuing new shares, as stock issuance signals that management considers the stock to be at least fairly valued or overvalued, and that the business needs capital. Share-issuing stocks tend to underperform the market.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 20",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Below Intrinsic Value for Buyback Confirmation",
+      "description": "When a company is repurchasing shares, confirm that the market price is well below intrinsic business value, as repurchases at prices well below per-share intrinsic value immediately increase that value in a highly significant way. This follows Buffett's principle that buybacks should occur when wide discrepancies exist between price and value.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 20",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buy Very Good Value",
+      "description": "Following Singleton's philosophy of buying very good value and waiting for the market to recognize it. Focus on stocks trading at significant discounts to intrinsic value, as demonstrated by Singleton's strategy of buying back Teledyne stock at prices ranging from $14-$40 when it was worth far more.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 20",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "EBIT Enterprise Multiple Value Screen",
+      "description": "Select stocks with the lowest EBIT enterprise multiple (enterprise value divided by EBIT), which consistently outperformed the Magic Formula and all quality-enhanced combinations in backtests from 1974 to 2011. The EBIT enterprise multiple captures what you're paying (total enterprise value) versus what you're getting (earnings before interest and taxes).",
+      "expression": null,
+      "data_fields_required": [
+        "ebit",
+        "market_cap",
+        "total_debt"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 23",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Formula (Greenblatt)",
+      "description": "Rank stocks by equally weighting two components: return on capital (ROC = EBIT / (net fixed assets + working capital)) as a quality measure, and the EBIT enterprise multiple as a price measure. Select stocks that rank highest on the combined metric. However, backtesting showed this underperformed the standalone EBIT enterprise multiple because ROC actually detracted from performance.",
+      "expression": null,
+      "data_fields_required": [
+        "ebit",
+        "market_cap",
+        "total_debt",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 23",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Gross Profits to Total Assets (GPA) Quality Screen",
+      "description": "Select stocks with the highest gross profits on total assets (GPA). Among individual quality measures tested (including ROC, profit margins, and others), GPA was the only quality measure that performed well relative to the S&P 500 TR index over the 1974-2011 period.",
+      "expression": null,
+      "data_fields_required": [
+        "revenue",
+        "profit_margin",
+        "book_value"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Section 23",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Quality (EBIT Enterprise Multiple + GPA)",
+      "description": "Combine the best price metric (EBIT enterprise multiple) with the best individual quality metric (gross profits to total assets / GPA) into a composite strategy. This significantly outperformed the original Magic Formula but still underperformed the standalone EBIT enterprise multiple.",
+      "expression": null,
+      "data_fields_required": [
+        "ebit",
+        "market_cap",
+        "total_debt",
+        "revenue",
+        "profit_margin"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Section 23",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Glamour Stocks - Don't Overpay for Quality",
+      "description": "Avoid paying a premium for high-quality stocks. Single-year quality measures like ROC and profit margins are highly mean-reverting, so paying up for current quality that is about to revert to the mean systematically leads to lower returns. Favor cheap stocks over expensive high-quality stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "pe",
+        "pb",
+        "roe",
+        "profit_margin"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 23",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid ROC as Standalone Quality Metric",
+      "description": "Do not use Magic Formula's return on capital (ROC) as a standalone quality screen, as it underperformed even the S&P 500 TR index with lower returns and higher volatility over the 1974-2011 backtest period.",
+      "expression": null,
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Section 23",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "QV Universe - Market Cap Filter",
+      "description": "The Quantitative Value strategy draws stocks from a universe of stocks that are sufficiently large (market-cap weighted universe), implying a minimum market capitalization threshold to avoid micro-caps and illiquid stocks.",
+      "expression": null,
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 24",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "QV Avoid Permanent Capital Loss",
+      "description": "The Quantitative Value strategy screens out stocks at risk of sustaining a permanent loss of capital (e.g., financial manipulation, distress risk) before selecting for value and quality.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 24",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "QV Best Value Selection",
+      "description": "The strategy selects stocks that represent the best value opportunities, using a composite valuation metric to rank stocks by cheapness (as described throughout the book, typically using price-to-earnings or enterprise value based measures).",
+      "expression": null,
+      "data_fields_required": [
+        "pe",
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 24",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "QV High Quality Filter",
+      "description": "The strategy identifies high-quality stocks by screening for quality characteristics such as profitability, financial strength, and earnings quality, combined with the value screen.",
+      "expression": null,
+      "data_fields_required": [
+        "roe",
+        "profit_margin",
+        "operating_margin"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 24",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "QV Composite Strategy - Value Plus Quality",
+      "description": "The Quantitative Value strategy combines a value ranking (cheapness) with a quality ranking (financial strength, profitability, earnings quality) into a cohesive composite score, selecting stocks that rank highest on the combined metric. This generated a CAGR of 17.68% from 1974-2011 with a Sharpe ratio of 0.74.",
+      "expression": null,
+      "data_fields_required": [
+        "earnings_yield",
+        "roe",
+        "profit_margin"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 24",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Magic Formula Benchmark",
+      "description": "The Magic Formula strategy (Joel Greenblatt's approach) combines high earnings yield with high return on capital. Used as a benchmark comparison, it generated 13.94% CAGR vs QV's 17.68%.",
+      "expression": null,
+      "data_fields_required": [
+        "earnings_yield",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 24",
+      "source_book": "Quantitative Value",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 108,
+  "strategies_by_category": {
+    "composite": 19,
+    "quality": 34,
+    "financial_health": 12,
+    "profitability": 11,
+    "valuation": 29,
+    "momentum": 2,
+    "growth": 1
+  },
+  "data_fields_required": [
+    "avg_eps_10y",
+    "avg_eps_3y",
+    "book_value",
+    "current_ratio",
+    "debt_to_equity",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "ebit",
+    "eps",
+    "eps_growth_rate",
+    "free_cash_flow",
+    "interest_coverage_ratio",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "net_income",
+    "operating_margin",
+    "pb",
+    "pe",
+    "price",
+    "price_52w_low",
+    "profit_margin",
+    "profitable_years",
+    "revenue",
+    "revenue_growth_rate",
+    "roe",
+    "total_debt",
+    "treasury_yield_10y"
+  ],
+  "data_fields_available": [
+    "avg_eps_10y",
+    "avg_eps_3y",
+    "book_value",
+    "current_ratio",
+    "debt_to_equity",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "ebit",
+    "eps",
+    "eps_growth_rate",
+    "free_cash_flow",
+    "interest_coverage_ratio",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "net_income",
+    "operating_margin",
+    "pb",
+    "pe",
+    "price",
+    "price_52w_low",
+    "profit_margin",
+    "profitable_years",
+    "revenue",
+    "revenue_growth_rate",
+    "roe",
+    "total_debt",
+    "treasury_yield_10y"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "Altman Z-Score",
+    "Benjamin Graham's Security Analysis",
+    "EBIT",
+    "EBIT enterprise multiple",
+    "EBIT-based profitability measurement",
+    "EBIT/TEV (enterprise value-based valuation)",
+    "EBITDA",
+    "F_SCORE",
+    "Fama-French value premium",
+    "GAAP discretion exploitation",
+    "Magic Formula",
+    "Magic Formula (Greenblatt)",
+    "Magic Formula comparison",
+    "Magic Formula decomposition",
+    "Magic Formula strategy",
+    "O-score",
+    "PROBM model",
+    "Piotroski F_SCORE",
+    "Piotroski Fundamental Score (F_SCORE)",
+    "Quality and Price",
+    "R-squared",
+    "Sharpe ratio",
+    "Shiller CAPE (cyclically adjusted P/E)",
+    "Sortino ratio",
+    "accounting fraud detection",
+    "accounting quality cross-check",
+    "accounts receivable quality",
+    "accruals",
+    "accruals analysis",
+    "accruals quality",
+    "acquisition overvaluation",
+    "active vs. passive investing",
+    "activist investing and cloning",
+    "activist investment strategies",
+    "activist investor signals",
+    "activist investors",
+    "alpha",
+    "alpha generation",
+    "anchoring",
+    "asset impairment write-downs",
+    "asset pricing model robustness",
+    "availability bias",
+    "back-testing",
+    "back-testing methodology",
+    "backtesting pitfalls",
+    "bankruptcy prediction",
+    "bankruptcy risk",
+    "bargain hunting",
+    "bargain price identification",
+    "base rate neglect",
+    "behavioral error",
+    "behavioral errors in investing",
+    "behavioral finance",
+    "big bath accounting",
+    "binary scoring system",
+    "black box transparency",
+    "book value vs market value relationship",
+    "book value-to-market capitalization ratio",
+    "book-to-market ratio",
+    "business cycle adjustment",
+    "business cycle earnings peaks",
+    "business cycle resilience",
+    "buybacks",
+    "capital allocation",
+    "capital efficiency",
+    "capital expense vs operating expense manipulation",
+    "capital preservation",
+    "capital structure neutrality",
+    "capital structure priority (common stockholders rank last)",
+    "cash flow on assets (CFOA)",
+    "cash flow vs earnings divergence",
+    "cash flow-to-debt ratio",
+    "cheapest stocks",
+    "checklist approach to investing",
+    "cigar butt investing",
+    "cloning",
+    "cockroach theory (one problem signals more)",
+    "cockroach theory (where there's one problem, there are likely more)",
+    "cognitive biases",
+    "combined price ratios",
+    "company valuation",
+    "competitive advantage",
+    "competitive advantage through financial strength",
+    "composite price ratios",
+    "composite quality measures",
+    "compound annual growth rate (CAGR)",
+    "compounding returns",
+    "confirmation bias",
+    "confirmation of undervaluation",
+    "contrarian investing",
+    "contrarian investment",
+    "correlation",
+    "corroborative signals",
+    "cost of capital",
+    "cross-checking valuation metrics",
+    "cumulative drawdown",
+    "cyclical peak and trough investing",
+    "data mining",
+    "debt-to-equity ratio",
+    "deep value",
+    "deep value investing",
+    "discounted cash flow analysis",
+    "downside deviation",
+    "downside volatility",
+    "durable competitive advantage",
+    "earning power normalization",
+    "earnings manipulation",
+    "earnings manipulation detection",
+    "earnings smoothing",
+    "earnings yield",
+    "earnings yield (EBIT/EV)",
+    "economic franchise",
+    "economic moat",
+    "economic moat / franchise quality",
+    "economic moats",
+    "economic rationale for investment strategies",
+    "efficient market hypothesis",
+    "enterprise multiple (EBIT/EV)",
+    "enterprise value",
+    "enterprise yield (EBITDA and EBIT variations)",
+    "enterprise yield (acquirer's multiple)",
+    "excess cash adjustment",
+    "extrapolation bias",
+    "financial distress",
+    "financial distress avoidance",
+    "financial distress prediction",
+    "financial leverage and liquidity",
+    "financial statement analysis",
+    "financial statement manipulation",
+    "financial strength",
+    "financial strength score",
+    "financial strength score (FS_SCORE)",
+    "franchise businesses",
+    "franchise value",
+    "fraud detection",
+    "free cash flow yield",
+    "fundamental analysis",
+    "games of imperfect information",
+    "garbage in garbage out (GIGO)",
+    "geometric return on assets",
+    "geometric return on capital",
+    "glamour stock avoidance",
+    "glamour stocks underperformance",
+    "glamour stocks vs. value stocks",
+    "gross margin stability",
+    "gross profits to total assets (GPA)",
+    "gross profits yield",
+    "hindsight bias",
+    "historical returns as poor predictors of future performance",
+    "independent vs. non-independent events",
+    "inflation-adjusted earnings",
+    "informational edge",
+    "informational value of announcements",
+    "insider buying",
+    "insider purchases",
+    "insider purchasing",
+    "insider trading signals",
+    "institutional investor activity",
+    "intrinsic value",
+    "investable universe filtering",
+    "investment checklist",
+    "investment simulation pitfalls",
+    "long-term average earnings vs single-year earnings",
+    "long-term average price ratios",
+    "long-term investment horizon",
+    "look-ahead bias",
+    "maintenance capital expenditure",
+    "man versus machine (systematic vs. discretionary)",
+    "management signaling",
+    "margin of safety",
+    "market capitalization weighting",
+    "market capitalization-weighted index",
+    "market participant behavior analysis",
+    "market-based distress indicators",
+    "maximum drawdown",
+    "mean reversion of earnings",
+    "mean reversion of quality measures",
+    "mechanical investing rules",
+    "minimum acceptable return (MAR)",
+    "model construction and validation",
+    "narrative fallacy",
+    "neglect of the base case",
+    "net working capital",
+    "normalized earning power",
+    "normalized earnings",
+    "normalized earnings power",
+    "operating efficiency",
+    "opportunity-cost-adjusted performance",
+    "overconfidence",
+    "overfitting",
+    "overreaction to good news",
+    "part ownership of a business",
+    "paying too much for quality",
+    "per-share intrinsic value accretion from buybacks",
+    "permanence of earning power",
+    "permanent loss of capital",
+    "permanent loss of capital avoidance",
+    "persistence of excess returns",
+    "price and quality metrics",
+    "price ratio horse race",
+    "price ratios",
+    "price ratios as valuation tools",
+    "price ratios as yield",
+    "price versus intrinsic business value",
+    "price-to-book value",
+    "pricing power",
+    "probability of financial distress (PFD)",
+    "probability of manipulation (PROBM)",
+    "profit margin stability",
+    "profitability signals",
+    "qualitative analysis done quantitatively",
+    "quality and value combination",
+    "quality franchises",
+    "quality investing",
+    "quality-price tradeoff",
+    "quantitative investing",
+    "quantitative investment",
+    "quantitative investment techniques",
+    "quantitative value checklist",
+    "quantitative value investing",
+    "quantitative value investment",
+    "quantitative value model",
+    "quantitative value strategy",
+    "ratio engineering",
+    "regression analysis",
+    "reinvestment and value creation",
+    "replicability of results",
+    "return on capital",
+    "return on capital (ROC)",
+    "return on equity capital",
+    "return on invested capital",
+    "returns on capital",
+    "risk-adjusted investment performance",
+    "risk-adjusted performance",
+    "risk-adjusted returns",
+    "risk-adjusted returns (Sharpe and Sortino ratios)",
+    "robustness testing",
+    "rolling period analysis",
+    "rolling period performance comparison",
+    "scaled net operating assets (SNOA)",
+    "scaled total accruals (STA)",
+    "self-attribution bias",
+    "share buybacks",
+    "share buybacks and issuance",
+    "share buybacks as value signal",
+    "share issuance as overvaluation signal",
+    "shareholder wealth enhancement",
+    "short interest as smart money signal",
+    "short selling as warning signal",
+    "short selling signals",
+    "simple statistical models outperforming experts",
+    "single-year metric limitations",
+    "smart money signals",
+    "special situations investing",
+    "spurious correlation",
+    "standard deviation",
+    "statistical edge",
+    "stock screening",
+    "story stocks",
+    "strategy comparison",
+    "survivorship bias and other back-test biases",
+    "sustainable alpha",
+    "sustainable competitive advantage",
+    "systematic investing",
+    "systematic stock selection",
+    "systematic trading systems",
+    "tactical asset allocation",
+    "tangible capital employed",
+    "the bezzle (inventory of undiscovered fraud)",
+    "total enterprise value",
+    "total return index",
+    "unconventional investing",
+    "universe construction and scrubbing",
+    "value investing",
+    "value phenomenon",
+    "value premium",
+    "value recognition by market",
+    "weak accounting",
+    "wonderful business",
+    "wonderful company at a fair price",
+    "worst drawdown"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "Section 1",
+      "summary": "Quantitative Value presents a systematic, evidence-based approach to value investing that combines insights from Benjamin Graham, Warren Buffett, and Joel Greenblatt with rigorous quantitative methods. The core philosophy involves first establishing a margin of safety by scrubbing the investment universe of earnings manipulators (using accrual analysis) and financially distressed companies (using bankruptcy prediction models), then identifying high-quality franchise businesses using financial strength scores (building on Piotroski's F_SCORE), and finally selecting the cheapest stocks using the best-performing valuation metric (EBIT/EV earnings yield winning the 'horse race' among price ratios). The strategy is enhanced with corroborative signals from insider buying, share buybacks, and short interest data. The quantitative, rules-based approach is designed to protect investors from behavioral biases that cause even knowledgeable investors to underperform, demonstrating that disciplined systematic value investing beats both the market and discretionary approaches."
+    },
+    {
+      "chapter": "Section 2",
+      "summary": "This section is a publisher's informational page for John Wiley & Sons and its Wiley Finance series. It contains no investment philosophy, stock screening criteria, or actionable financial analysis content. It simply describes the publisher's history, global presence, and the scope of topics covered in the Wiley Finance book series."
+    },
+    {
+      "chapter": "Section 3",
+      "summary": "This section contains the copyright page, legal disclaimers, publisher information, and Library of Congress cataloging data for the book 'Quantitative Value' by Wesley R. Gray and Tobias E. Carlisle. It contains no investment content, screening rules, or actionable strategies. It is purely administrative and legal boilerplate material typical of a book's front matter."
+    },
+    {
+      "chapter": "Section 5",
+      "summary": "This preface introduces the book's core philosophy: combining Benjamin Graham's time-tested value investing principles with a systematic, quantitative approach to minimize the cognitive biases that plague human decision-making. The authors argue that the value premium persists because human irrationality endures despite advances in technology and data availability. The quantitative method serves as an antidote to behavioral error, protecting investors from their own biases while exploiting the biases of others. The book's strategy centers on three pillars—enhancing the margin of safety, identifying the highest-quality franchises, and finding the cheapest stocks—combined into a comprehensive, systematic quantitative value investment strategy that aims to outperform traditional active management."
+    },
+    {
+      "chapter": "Section 6",
+      "summary": "This section is the Acknowledgments page of the book 'Quantitative Value' by Wesley Gray and Tobias Carlisle. It thanks colleagues, friends, family members, research assistants, academic institutions, mentors, and the publishing team at Wiley Finance for their contributions to the book. No investment strategies, screening rules, or quantitative criteria are discussed in this section."
+    },
+    {
+      "chapter": "Section 7",
+      "summary": "This section serves as a high-level roadmap for the book 'Quantitative Value,' outlining its six-part structure. It introduces the rationale for quantitative value investing and previews the topics covered: avoiding permanent capital loss through detection of financial manipulation, fraud, and distress; identifying high-quality stocks via economic franchises and financial strength; finding undervalued stocks using various price ratios (including long-term averages and combinations); interpreting market signals from buybacks, insider purchases, short selling, and institutional activity; and finally combining all research into a cohesive, back-tested quantitative value model."
+    },
+    {
+      "chapter": "Section 8",
+      "summary": "This introductory chapter sets the stage for the book's quantitative value approach by recounting the 1968 meeting between Ed Thorp (a quantitative pioneer who applied mathematical and statistical methods to gambling and investing) and Warren Buffett (Benjamin Graham's star pupil and the greatest value investor in history). The chapter draws parallels between card games and investing as 'games of imperfect information,' where gaining an informational or analytical edge—through better data, earlier access, and superior processing—leads to superior outcomes. The core philosophy is that systematic, quantitative approaches to value investing can identify exploitable edges in the stock market, much as card counting exploits statistical edges in blackjack. The chapter introduces the tension between qualitative (Buffett-style) and quantitative (Thorp-style) approaches to investing, suggesting that a disciplined, evidence-based quantitative framework can complement or even improve upon traditional value investing."
+    },
+    {
+      "chapter": "Section 9",
+      "summary": "This chapter examines Joel Greenblatt's Magic Formula, a quantitative translation of Warren Buffett's investment philosophy of buying 'wonderful companies at fair prices.' Greenblatt, who previously achieved 40% annual returns through special situations investing at Gotham Capital, developed the Magic Formula in 2002 by mechanically implementing Buffett's strategy using two key factors: Return on Capital (EBIT divided by tangible capital employed) to identify good businesses, and earnings yield (similar to the inverse of P/E) to identify bargain prices. The strategy was so successful that Greenblatt and his partner abandoned their legendary special situations approach in 2010 to focus entirely on the Magic Formula. The chapter sets up a detailed examination of this systematic, quantitative approach to value investing."
+    },
+    {
+      "chapter": "Section 10",
+      "summary": "This section introduces the concept of 'Margin of Safety' as the first step in a quantitative value investing checklist, focused entirely on avoiding permanent loss of capital. The authors identify three closely related risks—financial statement manipulation, fraud, and financial distress/bankruptcy—that can lead to total capital destruction. Rather than trying to find a price low enough to compensate for these risks, the authors advocate completely removing such stocks from the investable universe. The philosophy is that no valuation discount is sufficient when the underlying financial data cannot be trusted or when the company faces existential financial risk."
+    },
+    {
+      "chapter": "Section 11",
+      "summary": "This chapter addresses the critical problem of earnings manipulation and outright fraud in financial statements, which the authors call the 'bezzle' (borrowing from Galbraith). Since quantitative analysis depends on the accuracy of underlying financial data, the chapter proposes three defensive measures to identify and eliminate manipulators and frauds from a stock universe: Scaled Total Accruals (STA) to detect early-stage earnings manipulation, Scaled Net Operating Assets (SNOA) to capture cumulative historical manipulation, and Probability of Manipulation (PROBM) as a comprehensive fraud detection tool. The core insight is that accruals—the difference between reported earnings and actual cash flows—are the primary vehicle through which managers manipulate earnings, and that high accruals are a reliable red flag for both mild 'fudging' and outright fraud. The chapter uses a simple lawn-mowing business analogy to illustrate how accruals work and how they can distort reported financial performance."
+    },
+    {
+      "chapter": "Section 12",
+      "summary": "This chapter examines the risk of financial distress and bankruptcy, using WorldCom's spectacular collapse as a cautionary tale. It highlights how accounting fraud and 'big bath' accounting can deceive auditors, analysts, and investors alike, turning apparent profits into massive losses. The chapter traces the history of bankruptcy prediction from simple single-variable approaches (such as Graham's debt-to-equity ratio of no more than 50% and cash flow-to-debt ratios) to more comprehensive multi-factor models like Altman's Z-Score. The core philosophy is that quantitative financial statement analysis, combined with market-based indicators, can help investors identify and avoid 'sick men of the stock market'—companies at high risk of financial distress that could result in permanent loss of capital."
+    },
+    {
+      "chapter": "Section 13",
+      "summary": "This introductory section to Part Three of Quantitative Value outlines the book's framework for identifying high-quality stocks. After Part Two focused on avoiding permanent capital loss through manipulation and financial distress detection, Part Three shifts to finding 'wonderful businesses' characterized by two key attributes: (1) an economic franchise with exceptional long-term returns on capital and pricing power evidenced by high, stable gross margins, and (2) superior financial strength that enables firms to withstand business cycle shocks and competitive pressures. The authors distinguish between screening out distressed firms (Part Two) and screening in financially robust firms (Part Three), emphasizing that quality provides a margin of safety by protecting returns against competitors."
+    },
+    {
+      "chapter": "Section 14",
+      "summary": "This chapter explores Warren Buffett's concept of 'franchise' businesses—companies that earn sustainably high returns on invested capital due to durable competitive advantages. The chapter traces Buffett's evolution from Graham's 'cigar butt' deep value approach to preferring 'wonderful companies at fair prices,' using See's Candies as the prototypical example of a franchise with 60% returns on invested capital. The core principle is that businesses generating returns on invested capital in excess of their cost of capital are worth more than their book value, and the higher the spread between return on capital and cost of capital, the more valuable the business. The authors propose to identify franchise characteristics quantitatively rather than qualitatively, seeking simple metrics that capture sustainable competitive advantages and high returns on capital."
+    },
+    {
+      "chapter": "Section 15",
+      "summary": "This chapter argues that financial strength is a foundational element of successful value investing, drawing on Warren Buffett's emphasis on unquestionable financial strength and Benjamin Graham's teaching that financial strength and margin of safety are inextricably linked. The chapter introduces Joseph Piotroski's F_SCORE, a quantitative method that uses nine binary accounting-based signals across three dimensions—profitability, financial leverage/liquidity, and operating efficiency—to separate financially healthy cheap stocks from distressed ones. Piotroski demonstrated that applying this fundamental analysis to low price-to-book portfolios improved annual returns by at least 7.5%, and a long-short strategy based on F_SCORE generated 23% annual returns from 1976 to 1996. The core philosophy is that while cheap stocks tend to outperform on average, the majority actually underperform, and systematic financial strength analysis can eliminate the worst performers to dramatically improve portfolio outcomes."
+    },
+    {
+      "chapter": "Section 16",
+      "summary": "This section introduces Part Four of Quantitative Value, which focuses on identifying the best price ratios for finding bargain-priced stocks. The authors conduct a rigorous horse race among various single-year price ratios (examining absolute returns, risk-adjusted returns, and rolling performance consistency), then explore improvements through longer-term multi-year price ratios to avoid selecting stocks at cyclical earnings peaks. They also investigate composite price ratios—combining metrics like free cash flow yield, gross profits yield, and EBIT/TEV—as a more robust approach that provides cross-checks against accounting anomalies and reduces the risk of any single metric underperforming for extended periods."
+    },
+    {
+      "chapter": "Section 17",
+      "summary": "This chapter conducts a comprehensive horse race between various price ratios used to identify value stocks, including earnings yield (E/M), enterprise yield (EBITDA/TEV and EBIT/TEV), free cash flow yield, gross profits yield, and book-to-market ratio. The core thesis is that value stocks consistently outperform glamour stocks and the market because they exploit suboptimal investor behavior—specifically, investors' tendency to extrapolate past growth, overreact to narratives, and conflate exciting ideas with good investments. Contrary to Fama and French's assertion that all price ratios are roughly equivalent, the authors find economically and statistically significant differences between metrics, with one price ratio (implied to be the enterprise yield/acquirer's multiple using EBITDA/TEV or EBIT/TEV) standing 'head-and-shoulders above the rest.' All ratios are expressed in yield format for comparability."
+    },
+    {
+      "chapter": "Section 18",
+      "summary": "This chapter argues that single-year price metrics (like trailing P/E) are unreliable because they can be distorted by cyclical peaks and troughs in earnings, leading investors to buy at the wrong time. Following Benjamin Graham's and Robert Shiller's recommendations, the chapter advocates for normalizing earnings by averaging them over 5 to 10 years (with Shiller recommending inflation-adjusted 10-year minimums) to smooth business cycle effects. Additionally, the chapter explores composite price measures that combine multiple valuation ratios—such as free cash flow yield, gross profits yield, and the EBIT enterprise multiple—to provide cross-checks against accounting anomalies and to deliver better risk-adjusted returns than any single metric alone. The EBIT enterprise multiple was identified as the best single-year metric, but the composite approach may offer superior and more robust performance."
+    },
+    {
+      "chapter": "Section 19",
+      "summary": "This introductory section to Part Five of Quantitative Value outlines the concept of corroborative signals—external market participant behaviors that can be used to confirm or challenge a quantitative value investor's assessment of a stock. The authors propose examining buybacks, insider purchases, institutional and activist investor buying and selling, and short seller activity as supplementary data points. The core philosophy is that these signals from informed market participants can corroborate quality and price analyses, either confirming that a stock is undervalued or flagging potential problems that quantitative screens alone might miss."
+    },
+    {
+      "chapter": "Section 20",
+      "summary": "This chapter examines signals from 'smart money' participants—corporate insiders, institutional investors, and short sellers—that can predict future stock returns. The central thesis is that stock buybacks, particularly when management identifies undervaluation as the primary reason, are powerful predictors of market-beating returns, while share issuance signals overvaluation and future underperformance. Using the example of Henry Singleton's Teledyne, which returned over 6,500% (32% annually) following aggressive buybacks in the 1970s, the chapter demonstrates that insider actions carry significant informational value. These signals can be used either as confirmation of a fundamental quality-and-price analysis or as standalone indicators to identify candidates for further research."
+    },
+    {
+      "chapter": "Section 21",
+      "summary": "This section introduces Part Six of the book, which focuses on building and testing a quantitative value investment model. The chapter outlines the philosophy for conducting investment simulations, discusses potential pitfalls in interpreting back-test results, and emphasizes the importance of scrutinizing both back-tested and real historical results to ensure they are genuine and replicable. It previews subsequent chapters that will examine the Magic Formula and F_SCORE to find better model structures, and will back-test the resulting quantitative value model against benchmarks including the Magic Formula and legendary investors' performance."
+    },
+    {
+      "chapter": "Section 22",
+      "summary": "This chapter warns against the dangers of data mining in quantitative investing, using the humorous example of Bangladeshi butter production spuriously predicting S&P 500 returns with 75% R-squared accuracy. The chapter establishes a framework for evaluating whether backtested investment strategies are genuinely predictive or merely the result of overfitting to historical data. It emphasizes that finding amazing simulated investment results is easy, but finding measures that lead to solid future real-world performance is equivalently difficult. The core message is that any quantitative value strategy must make economic sense and not be built on spurious correlations, setting the stage for the book's later development of a robust quantitative value investment strategy combining price and quality metrics."
+    },
+    {
+      "chapter": "Section 23",
+      "summary": "This chapter critically examines Greenblatt's Magic Formula by decomposing it into its two constituent parts: the EBIT enterprise multiple (price metric) and return on capital (quality metric). Through extensive backtesting from 1974 to 2011, the authors demonstrate that the EBIT enterprise multiple alone consistently outperforms the complete Magic Formula, because the ROC quality metric actually detracts from performance. Even when substituting superior quality metrics—gross profits to total assets (GPA) or a full suite of quality measures—the combined strategies still underperform the standalone EBIT enterprise multiple. The chapter argues that single-year quality measures are highly mean-reverting, making it counterproductive to pay a premium for current quality that will soon revert to the mean. The core insight is that cheap stocks (low enterprise multiple) systematically outperform, and adding quality overlays that cause investors to pay more for quality tends to reduce returns rather than enhance them."
+    },
+    {
+      "chapter": "Section 24",
+      "summary": "This chapter presents the backtested results of the Quantitative Value (QV) investment strategy from 1974 to 2011, demonstrating that a systematic approach combining avoidance of permanent capital loss, deep value selection, and high-quality stock identification significantly outperforms both the Magic Formula and broad market benchmarks. The QV strategy achieved a 17.68% CAGR with a Sharpe ratio of 0.74 and a Sortino ratio of 1.18, while experiencing lower volatility and smaller maximum drawdowns than competing approaches. The chapter emphasizes transparency of the quantitative rules, robustness testing through rolling returns and multiple asset pricing models, and the unconventional nature of long-term value investing as described by Keynes—that successful contrarian strategies will appear eccentric and face criticism in the short run."
+    },
+    {
+      "chapter": "Section 25",
+      "summary": "This appendix section serves as a reference legend for the back-testing analysis used throughout the book. It defines key performance metrics and symbols used to evaluate the Quantitative Value (QV) strategy, the Magic Formula (MF) strategy, and benchmark indices (S&P 500 TR and a market-cap-weighted index). The definitions cover standard portfolio performance measures including CAGR, standard deviation, downside deviation, Sharpe ratio, Sortino ratio, drawdown metrics, and rolling period win rates. No specific stock screening rules or thresholds are presented in this section."
+    },
+    {
+      "chapter": "Section 26",
+      "summary": "This section is an 'About the Authors' biographical page for Wesley R. Gray and Tobias E. Carlisle, the authors of Quantitative Value. It describes their professional backgrounds, academic credentials, and areas of expertise including systematic trading systems, value investing, behavioral finance, deep value strategies, contrarian investing, and activist investment. No investment screening rules or quantitative criteria are presented in this section."
+    },
+    {
+      "chapter": "Section 27",
+      "summary": "This section describes the companion website for the book 'Quantitative Value,' which provides practical tools for implementing the book's investment strategies. The website includes a stock screening tool based on the book's model, a tactical asset allocation implementation tool, a back-testing tool for comparing investment strategies, and a blog covering recent developments in quantitative value investing. The section is purely informational about supplementary resources and does not contain specific screening criteria or investment rules."
+    },
+    {
+      "chapter": "Section 28",
+      "summary": "This section is the index of the book 'Quantitative Value' and does not contain substantive investment analysis or screening rules. It serves as a reference guide listing key topics, authors, concepts, and models discussed throughout the book, including price ratios (earnings yield, enterprise yield, free cash flow yield, gross profits yield, book-to-market), financial strength scores (Piotroski F_SCORE, FS_SCORE), earnings manipulation detection (accruals, PROBM model), bankruptcy prediction (Altman, O-score, PFD model), Greenblatt's Magic Formula, cognitive biases in investing, and the authors' Quantitative Value strategy that combines Quality and Price metrics to improve upon traditional value investing approaches."
+    }
+  ]
+}

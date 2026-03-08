@@ -34,6 +34,14 @@ class AnalyzeRequest(BaseModel):
     dataSource: Optional[str] = None
 
 
+class PipelineRequest(BaseModel):
+    """Request for the unified 8-stage pipeline."""
+    stocks: list[str] = Field(default_factory=list, max_length=100)
+    universe: Optional[str] = None  # Preset universe name
+    strategy: str = Field(default="balanced")
+    enableLlm: bool = Field(default=True)
+
+
 async def _sse_generator(async_gen):
     """Convert async generator to SSE format."""
     try:
@@ -134,6 +142,61 @@ async def agent_analyze(
             "X-Accel-Buffering": "no",
         },
     )
+
+
+@router.post("/pipeline")
+async def agent_pipeline(req: PipelineRequest):
+    """Run the unified 8-stage R-System pipeline (SSE stream).
+
+    This is the main analysis endpoint — replaces the legacy /analyze endpoint.
+    Supports: single/multi stock analysis, preset universes, strategy templates.
+    """
+    from app.agent.unified_pipeline import UnifiedPipeline
+
+    stocks = [s.upper().strip() for s in req.stocks if s.strip()]
+    if not stocks and not req.universe:
+        raise HTTPException(status_code=422, detail="Provide stocks or a universe name")
+
+    pipeline = UnifiedPipeline()
+
+    async def _run():
+        try:
+            async for event in pipeline.run(
+                symbols=stocks,
+                strategy=req.strategy,
+                universe=req.universe,
+                enable_llm=req.enableLlm,
+            ):
+                data = json.dumps(event, default=str, ensure_ascii=False)
+                yield f"data: {data}\n\n"
+        except Exception as e:
+            logger.error(f"Pipeline SSE error: {e}", exc_info=True)
+            error_event = json.dumps({
+                "event": "error",
+                "stage": "pipeline",
+                "message": f"管线执行出错: {str(e)[:500]}",
+            }, ensure_ascii=False)
+            yield f"data: {error_event}\n\n"
+
+    return StreamingResponse(
+        _run(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+@router.get("/pipeline/strategies")
+async def get_strategies():
+    """Get available strategy templates and preset universes."""
+    from app.agent.unified_pipeline import STRATEGY_TEMPLATES, PRESET_UNIVERSES
+    return {
+        "strategies": {k: {"name": v.get("name", k)} for k, v in STRATEGY_TEMPLATES.items()},
+        "universes": {k: {"count": len(v)} for k, v in PRESET_UNIVERSES.items()},
+    }
 
 
 @router.get("/sessions")

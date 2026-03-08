@@ -1,0 +1,742 @@
+{
+  "book_title": "The Warren Buffett Way",
+  "book_author": "Robert G. Hagstrom",
+  "total_chapters_analyzed": 17,
+  "strategies": [
+    {
+      "name": "Buffett Margin of Safety",
+      "description": "Demand a margin of safety between the purchase price and the company's long-term intrinsic value. Only buy when the current price is significantly below estimated long-term value.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Bill Miller: Foreword to the Second Edition",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Circle of Competence Filter",
+      "description": "Invest only in what you can understand and analyze — implies sticking to businesses with transparent, analyzable financials and consistent earnings.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Bill Miller: Foreword to the Second Edition",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Focused Low-Turnover Portfolio",
+      "description": "Construct a concentrated portfolio with low turnover, implying conviction-weighted positions held for long periods rather than frequent trading.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Bill Miller: Foreword to the Second Edition",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Fractional Business Ownership Mindset",
+      "description": "Think of buying stocks as buying fractional interests in whole businesses, implying focus on business fundamentals such as profitability, earnings consistency, and financial health rather than price momentum.",
+      "expression": "profitable_years >= 5 and roe > 0.10",
+      "data_fields_required": [
+        "profitable_years",
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Bill Miller: Foreword to the Second Edition",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Intrinsic Value Bargain",
+      "description": "Determine the intrinsic value of a business and pay a fair or bargain price relative to that intrinsic value, ensuring a margin of safety.",
+      "expression": "price < intrinsic_value and margin_of_safety > 0",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value",
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Peter S. Lynch: Foreword to the First Edition",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Risk Minimization - Low Downside, High Upside",
+      "description": "Seek investments where the odds of total loss are low and upside rewards are substantial. This implies financial stability and strong fundamentals.",
+      "expression": "debt_to_equity < 0.5 and profit_margin > 0.10 and earnings_yield > 0.05",
+      "data_fields_required": [
+        "debt_to_equity",
+        "profit_margin",
+        "earnings_yield"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Peter S. Lynch: Foreword to the First Edition",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Legg Mason Value Screen - Low P/E",
+      "description": "Select stocks with a low price-to-earnings ratio, as emphasized by the classic value investing approach at Legg Mason, following Graham and Dodd principles.",
+      "expression": "pe < 15",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Legg Mason Value Screen - Low P/B",
+      "description": "Select stocks with a low price-to-book ratio, a core attribute of the value investing approach described in the training program.",
+      "expression": "pb < 1.5",
+      "data_fields_required": [
+        "pb"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Legg Mason Value Screen - High Dividend Yield",
+      "description": "Select stocks with a high dividend yield, one of the key attributes the veteran brokers looked for in their favorite stocks.",
+      "expression": "dividend_yield > 0.03",
+      "data_fields_required": [
+        "dividend_yield"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Legg Mason Classic Value Composite",
+      "description": "Composite screen combining all three attributes the veteran brokers at Legg Mason emphasized: low P/E, low P/B, and high dividend yield, for stocks that are deeply out of favor with the market.",
+      "expression": "pe < 15 and pb < 1.5 and dividend_yield > 0.03",
+      "data_fields_required": [
+        "pe",
+        "pb",
+        "dividend_yield"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Preface",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Out-of-Favor Stock Screen",
+      "description": "Identify stocks that have underperformed the market over a long period and are trading well below their 52-week high, indicating they are deeply out of favor.",
+      "expression": "price < price_52w_high * 0.7",
+      "data_fields_required": [
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "Preface",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Intrinsic Value Exceeds Book Value",
+      "description": "Buffett's concept that a company's intrinsic value can exceed its book value through economic goodwill — look for companies where intrinsic value is meaningfully above book value, indicating strong franchise value.",
+      "expression": "intrinsic_value > book_value",
+      "data_fields_required": [
+        "intrinsic_value",
+        "book_value"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Preface",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Net Current Asset Value (NCAV) Screen",
+      "description": "Graham noted that a stock with a per-share price that is less than its net current assets should not be considered speculative — implying such stocks represent investment opportunities trading below liquidation value.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "2 The Education of Warren Buffett",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Reasonable Price Diversified Portfolio",
+      "description": "Graham's core thesis from Security Analysis: a well-chosen diversified portfolio of common stocks based on reasonable prices can be a sound investment. This implies buying stocks that are not overvalued relative to earnings.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "2 The Education of Warren Buffett",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett High ROE Focus",
+      "description": "Focus on return on equity rather than earnings per share. Buffett looks for companies with consistently high return on equity as a key financial tenet.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett High Profit Margins",
+      "description": "Look for companies with high profit margins. Buffett considers high profit margins a critical financial characteristic of quality businesses.",
+      "expression": "profit_margin > 0.15",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Consistent Operating History",
+      "description": "Invest in companies that have a consistent operating history - companies that have been profitable over many years rather than turnarounds or companies fundamentally changing direction.",
+      "expression": "profitable_years >= 10",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Dollar-for-Dollar Value Creation",
+      "description": "For every dollar retained by the company, make sure the company has created at least one dollar of market value. This tests whether management is effectively allocating capital.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Significant Discount to Intrinsic Value",
+      "description": "The business must be purchased at a significant discount to its intrinsic value - a margin of safety. Buffett looks for stocks trading well below their calculated intrinsic value.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Favorable Long-Term Prospects",
+      "description": "Invest in businesses with favorable long-term prospects, implying consistent earnings growth over extended periods.",
+      "expression": "earnings_growth_10y > 0",
+      "data_fields_required": [
+        "earnings_growth_10y"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Owner Earnings Focus",
+      "description": "Calculate owner earnings (approximated by free cash flow) and look for companies generating positive and substantial free cash flow relative to their market capitalization.",
+      "expression": "free_cash_flow > 0 and (free_cash_flow / market_cap) > 0.05",
+      "data_fields_required": [
+        "free_cash_flow",
+        "market_cap"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Price Below Intrinsic Value",
+      "description": "What is the value of the business, and can it be purchased at a significant discount? The stock price should be below the calculated intrinsic value.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Business Tenet - Simple and Understandable",
+      "description": "Invest in businesses that are simple, understandable, and have a consistent operating history. Buffett chose companies like Washington Post, GEICO, Coca-Cola, and Wells Fargo because he understood their business models thoroughly.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "4 Common Stock Purchases: Nine Case Studies",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Market Tenet - Buy Below Intrinsic Value",
+      "description": "Purchase stocks when the market price is significantly below the intrinsic value of the business, as Buffett did when buying Washington Post shares when the stock dropped from $38 to $23 despite the underlying business remaining strong.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "4 Common Stock Purchases: Nine Case Studies",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Management Tenet - Capable and Honest Management",
+      "description": "Invest in companies led by capable, honest, and shareholder-oriented management. Buffett was impressed by Katharine Graham's decision-making ability and willingness to confront difficult business issues at the Washington Post.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "4 Common Stock Purchases: Nine Case Studies",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Contrarian Buying - Buy During Market Declines",
+      "description": "Buy quality stocks when the broader market is declining and sentiment is gloomy, as Buffett purchased Washington Post shares in 1973 when the Dow Jones was sliding and the stock had dropped significantly from its highs.",
+      "expression": "price < price_52w_high * 0.70",
+      "data_fields_required": [
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "4 Common Stock Purchases: Nine Case Studies",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Margin of Safety - Buy Signal",
+      "description": "Buy great businesses when the current stock price is far below intrinsic value, indicating a large margin of safety.",
+      "expression": "margin_of_safety > 0.3",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "5 Portfolio Management: The Mathematics of Investing",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Margin of Safety - Sell Signal",
+      "description": "Sell stocks when the price is significantly higher than intrinsic value, meaning the margin of safety has disappeared or turned negative.",
+      "expression": "margin_of_safety < 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "5 Portfolio Management: The Mathematics of Investing",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Focus Investing - Concentrated Portfolio",
+      "description": "Buffett advocates a focus investing approach with a select few outstanding companies rather than broad diversification across hundreds of stocks. This is a portfolio construction principle rather than a screening rule per se, but implies selecting only the highest-conviction ideas.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "5 Portfolio Management: The Mathematics of Investing",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Below Intrinsic Value",
+      "description": "Compare today's stock price to its intrinsic value; only consider stocks where price is below intrinsic value.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "5 Portfolio Management: The Mathematics of Investing",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety Principle",
+      "description": "Buy stocks only when the current price is significantly below the estimated intrinsic value, providing a competitive edge and buffer against errors in analysis.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "6 The Psychology of Investing",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Long-Term Holding Period",
+      "description": "Invest with a long time horizon (5+ years) to capture larger returns from mispriced securities, as long-horizon arbitrage yields greater returns than short-horizon speculation.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "7 The Value of Patience",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Five-Year Doubling Potential",
+      "description": "Select stocks with the potential to double in price over five years, equating to approximately 14.9% average annual compounded return. Historically, about 30% of S&P 500 stocks doubled over rolling five-year periods.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "7 The Value of Patience",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Minimum Annual Return Target",
+      "description": "Buffett set a minimum objective of generating at least a 6 percent annual return for his partnership investors, implying a baseline threshold for acceptable investment performance.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "8 The World’s Greatest Investor",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Outperformance Target",
+      "description": "Buffett aimed to beat the benchmark index (Dow Jones Industrial Average) by at least 10 percentage points per year, suggesting investors should seek strategies that significantly outperform the market.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "8 The World’s Greatest Investor",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Long-Duration Outperformance Filter",
+      "description": "True investment skill is demonstrated by relative outperformance sustained over long periods of time, not short-term results which may be attributable to luck. Investors should evaluate track records spanning many years (decades) rather than short periods.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "8 The World’s Greatest Investor",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Overvalued Markets",
+      "description": "Buffett shut down his partnership when stocks had become 'grossly overvalued,' implying investors should avoid or reduce exposure when broad market valuations are excessively high.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "8 The World’s Greatest Investor",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Profitability Screen",
+      "description": "Berkshire Hathaway posted only two negative years in 48 years, while the S&P 500 lost money 11 years. This implies a preference for investments that demonstrate consistent profitability and downside protection, losing money infrequently.",
+      "expression": "profitable_years >= 8",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "8 The World’s Greatest Investor",
+      "source_book": "The Warren Buffett Way",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 38,
+  "strategies_by_category": {
+    "valuation": 15,
+    "quality": 8,
+    "composite": 8,
+    "dividend": 1,
+    "momentum": 2,
+    "profitability": 2,
+    "growth": 2
+  },
+  "data_fields_required": [
+    "book_value",
+    "debt_to_equity",
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "free_cash_flow",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "ncav_per_share",
+    "pb",
+    "pe",
+    "price",
+    "price_52w_high",
+    "profit_margin",
+    "profitable_years",
+    "roe"
+  ],
+  "data_fields_available": [
+    "book_value",
+    "debt_to_equity",
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "free_cash_flow",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "ncav_per_share",
+    "pb",
+    "pe",
+    "price",
+    "price_52w_high",
+    "profit_margin",
+    "profitable_years",
+    "roe"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "Benjamin Graham and David Dodd",
+    "Benjamin Graham lineage",
+    "Efficient Market Hypothesis",
+    "Graham-and-Doddsville",
+    "Mr. Market allegory",
+    "Security Analysis",
+    "The Intelligent Investor",
+    "active portfolio management",
+    "analytical discipline",
+    "associating with people of integrity and skill",
+    "avoiding overvalued markets",
+    "behavioral finance",
+    "benchmark comparison",
+    "book value",
+    "book value per share growth",
+    "business analyst mindset",
+    "business tenets",
+    "business-oriented thinking",
+    "buy and hold strategy",
+    "buy-and-hold strategy",
+    "buying a business",
+    "buying during market declines",
+    "capable management",
+    "capital allocation",
+    "character assessment in investing",
+    "circle of competence",
+    "common stocks and uncommon profits",
+    "competitive advantages",
+    "compound annual returns",
+    "compound interest",
+    "compounding returns",
+    "concentrated portfolio",
+    "conservative investing",
+    "consistency of returns",
+    "consistent operating history",
+    "continuous learning and adaptation",
+    "contrarian investing",
+    "corporate information transparency",
+    "cost basis versus market value appreciation",
+    "cost of arbitrage (time capital is invested)",
+    "decisiveness",
+    "delegation to superior operators",
+    "discipline and patience",
+    "diversification vs. concentration",
+    "diversified portfolio of common stocks",
+    "dividend yield",
+    "dollar-for-dollar value creation",
+    "downside protection",
+    "duration of track record",
+    "economic goodwill",
+    "emotional discipline",
+    "emotional discipline in investing",
+    "favorable long-term prospects",
+    "financial tenets",
+    "five-sigma event",
+    "focus investing",
+    "focused decision-making on key data points",
+    "focused portfolio",
+    "fractional business ownership",
+    "high profit margins",
+    "ignoring market quotations when unattractive",
+    "ignoring short-term market movements",
+    "index investing",
+    "information gathering through trusted networks",
+    "institutional imperative",
+    "intrinsic value",
+    "investment philosophy",
+    "investment philosophy consistency",
+    "investment vs. speculation",
+    "investor temperament over intellect",
+    "knowing what you don't know",
+    "long-horizon vs short-horizon arbitrage",
+    "long-term holding",
+    "long-term holding period",
+    "long-term holding periods",
+    "long-term investing",
+    "long-term investing horizon",
+    "long-term relationship building",
+    "long-term track record as evidence of skill",
+    "long-term wealth creation",
+    "low portfolio turnover",
+    "luck versus skill in investing",
+    "management autonomy (don't tell .400 hitters how to swing)",
+    "management rationality and candor",
+    "management tenets",
+    "management trust and autonomy",
+    "margin of safety",
+    "market outperformance through skill vs. chance",
+    "market tenets",
+    "media and insurance company investments",
+    "mispricing equilibrium",
+    "mispricing of securities",
+    "net current asset value (NCAV)",
+    "out-of-favor stocks",
+    "ovarian lottery / role of circumstance in success",
+    "owner earnings",
+    "owner-operator management",
+    "patience as competitive advantage",
+    "patience in investing",
+    "paying a fair or bargain price",
+    "portfolio construction",
+    "portfolio management strategy",
+    "price-to-book ratio",
+    "price-to-earnings ratio",
+    "probability and odds assessment",
+    "psychology of misjudgment",
+    "qualitative business analysis",
+    "qualitative judgment of business management",
+    "quality of management",
+    "rationality",
+    "rationality in decision-making",
+    "reasonable price",
+    "relative outperformance",
+    "return on equity over EPS",
+    "risk minimization",
+    "risk-reward ratio",
+    "security analysis",
+    "security analysis over market analysis",
+    "short-term price fluctuations vs. intrinsic value",
+    "simple and understandable businesses",
+    "speculation vs investing",
+    "stock selection process",
+    "stocks as businesses",
+    "superinvestors of Graham-and-Doddsville",
+    "synthesis of investment philosophies",
+    "thinking in years not quarters",
+    "time horizon as controlling variable",
+    "timeless investment principles",
+    "true investor attitude",
+    "twelve immutable tenets",
+    "understanding the business",
+    "value investing"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "The Warren Buffett Way",
+      "summary": "This text consists of the front matter (title page, copyright page, and table of contents) of 'The Warren Buffett Way' Third Edition by Robert G. Hagstrom. It outlines the book's structure covering Buffett's personal history, his intellectual influences (Graham, Fisher, Munger), his twelve immutable tenets for buying businesses (organized into business, management, financial, and market tenets), case studies of major stock purchases, portfolio management mathematics, investing psychology, and the value of patience. No specific screening rules or numeric thresholds are presented in this excerpt."
+    },
+    {
+      "chapter": "Howard Marks: Foreword: The Exception",
+      "summary": "This foreword by Howard Marks explores what accounts for Warren Buffett's exceptional investment success, framing it against the Efficient Market Hypothesis taught at the University of Chicago. Marks argues that Buffett and a few other legendary investors have outperformed markets by sufficient margins, over long enough periods, to demonstrate that skill—not chance—drives their returns. Marks attributes Buffett's success to key qualities: superior analytical intelligence combined with business savvy, an overarching and consistent investment philosophy, deep knowledge of his circle of competence, fierce analytical discipline, quick decision-making focused on the data points that matter most, and the wisdom to stick with what he knows while leaving the rest to others. The chapter is philosophical in nature and does not prescribe specific quantitative screening rules."
+    },
+    {
+      "chapter": "Bill Miller: Foreword to the Second Edition",
+      "summary": "This foreword by Bill Miller introduces the second edition of The Warren Buffett Way, emphasizing that Buffett's investment principles are timeless and unchanged through bull and bear markets alike. The core philosophy centers on four key tenets: treating stock purchases as fractional ownership of real businesses, maintaining a focused low-turnover portfolio, investing only within one's circle of competence, and always demanding a margin of safety between purchase price and long-term intrinsic value. Miller places Buffett in the intellectual lineage of Benjamin Graham and argues that faithfully applying these principles, while not guaranteeing riches, will reliably prevent poor outcomes and make one a better investor."
+    },
+    {
+      "chapter": "Peter S. Lynch: Foreword to the First Edition",
+      "summary": "This foreword by Peter Lynch recounts his personal interactions with Warren Buffett and describes Buffett's key personal and investment qualities. Lynch emphasizes that Buffett's success stems from his discipline, patience, courage, confidence, and decisiveness as an investor. Buffett focuses on determining the intrinsic value of a business and paying a fair or bargain price, while minimizing risk and ignoring short-term market fluctuations. He is described as a great student of business who reads voraciously, makes rapid yet well-informed decisions, and manages his investments with a hands-off, trust-based approach. The chapter is primarily biographical and philosophical rather than prescriptive, offering few concrete screening rules but establishing the foundational principles of Buffett's investment approach."
+    },
+    {
+      "chapter": "Kenneth L. Fisher: Introduction",
+      "summary": "This introduction by Kenneth L. Fisher is a personal memoir about the relationship between his father, Philip A. Fisher, and Warren Buffett. It recounts how Philip Fisher, known for his qualitative judgment of business management and his emphasis on associating with people of integrity and skill, recognized Buffett's exceptional talent early in his career. The chapter focuses on the personal dynamics of their relationship rather than presenting specific investment screening criteria or quantitative rules. The core philosophy touched upon is the importance of qualitative assessment of management, associating with people of high integrity and competence, and allowing talented managers autonomy."
+    },
+    {
+      "chapter": "Preface",
+      "summary": "This preface recounts the author's transformation from a numbers-focused trainee at Legg Mason into a Buffett-inspired investor. The Legg Mason training program emphasized classic Benjamin Graham value investing — screening for low P/E ratios, low P/B ratios, and high dividend yields among out-of-favor stocks. However, reading Buffett's 1983 Berkshire Hathaway annual report revealed a deeper approach: understanding the businesses behind the numbers, the quality of management, competitive advantages (such as those at See's Candies and Nebraska Furniture Mart), the economics of specific industries, and the concept that intrinsic value can exceed book value through economic goodwill. The chapter establishes the book's core thesis that successful investing requires going beyond quantitative screens to understand businesses qualitatively."
+    },
+    {
+      "chapter": "1 A Five-Sigma Event: The World's Greatest Investor",
+      "summary": "Chapter 1 of 'The Warren Buffett Way' introduces Warren Buffett as the world's greatest investor by recounting his landmark 2006 philanthropic pledge of over $30 billion in Berkshire Hathaway stock to the Bill and Melinda Gates Foundation. The chapter emphasizes Buffett's rationality, humility, and recognition that his extraordinary wealth was generated through his unparalleled ability to detect mispriced securities, compounded over decades in a capitalist economy. It sets the stage for the book by highlighting that Buffett's philanthropic impact was made possible by his investing skill, tracing back to his initial $100 investment in the Buffett Partnership."
+    },
+    {
+      "chapter": "2 The Education of Warren Buffett",
+      "summary": "This chapter traces the intellectual foundations of Warren Buffett's investment education, identifying three key mentors: Benjamin Graham, Philip Fisher, and Charlie Munger. The chapter focuses heavily on Benjamin Graham's background, including his financial ruin during the 1929 crash and subsequent development of the foundational text 'Security Analysis' with David Dodd. Graham's core philosophy centered on distinguishing investment from speculation, advocating for well-chosen diversified portfolios purchased at reasonable prices, and emphasizing the analysis of securities themselves rather than market movements. The chapter establishes that Buffett's approach is a synthesis of multiple philosophies rather than purely Graham's value investing framework."
+    },
+    {
+      "chapter": "3 Buying a Business: The Twelve Immutable Tenets",
+      "summary": "Chapter 3 of The Warren Buffett Way outlines Buffett's twelve immutable tenets for buying businesses, organized into four categories: Business Tenets (simple and understandable, consistent operating history, favorable long-term prospects), Management Tenets (rational management, candid with shareholders, resists institutional imperative), Financial Tenets (focus on return on equity not EPS, calculate owner earnings, seek high profit margins, ensure each retained dollar creates at least one dollar of market value), and Market Tenets (determine intrinsic value of the business, purchase at a significant discount to that value). Buffett views himself as a business analyst rather than a market or security analyst, and approaches stock purchases with the same rigor as buying an entire business, staying within his circle of competence and avoiding complex turnarounds."
+    },
+    {
+      "chapter": "4 Common Stock Purchases: Nine Case Studies",
+      "summary": "This chapter introduces nine case studies of Buffett's major common stock purchases—Washington Post, GEICO, Capital Cities, Coca-Cola, Wells Fargo, General Dynamics, American Express, IBM, and Heinz—as vehicles for understanding his investment philosophy in action. The chapter emphasizes that while each investment had unique circumstances, they all share the common trait of demonstrating Buffett's business, management, financial, and market tenets. The Washington Post case study illustrates Buffett's approach of buying an excellent, understandable business with strong management at a significant discount to intrinsic value during a period of market pessimism, and then holding for the long term as the business continues to prosper."
+    },
+    {
+      "chapter": "5 Portfolio Management: The Mathematics of Investing",
+      "summary": "This chapter introduces Warren Buffett's approach to portfolio management, centered on the concept of 'focus investing'—concentrating a portfolio in a select few outstanding companies rather than broadly diversifying across hundreds of stocks. Buffett's portfolio management rests on three pillars: building a portfolio for long-term growth, using an alternative measuring stick for judging portfolio progress (not short-term market benchmarks), and coping with the emotional challenges of investing. The chapter contrasts focus investing with both active portfolio management and index investing, arguing that excessive diversification leads to mediocre results. The margin of safety—the gap between a stock's current price and its intrinsic value—serves as the primary decision tool for buying, holding, and selling. Buffett thinks in years rather than quarters, ignoring short-term market fluctuations in favor of long-term business value."
+    },
+    {
+      "chapter": "6 The Psychology of Investing",
+      "summary": "This chapter explores the intersection of psychology and investing, drawing on Ben Graham's teachings about Mr. Market and the field of behavioral finance. The core philosophy is that an investor's worst enemy is not the stock market but their own emotions. Warren Buffett learned early that patience is essential and that short-term price fluctuations, while emotionally distressing, often have little to do with underlying business value. Graham's three key principles—viewing stocks as businesses, employing a margin of safety, and maintaining a true investor's attitude toward market fluctuations—provide the psychological framework needed to avoid the irrational behaviors that plague most market participants. The chapter emphasizes that understanding the psychology of misjudgment is as valuable as analyzing financial statements."
+    },
+    {
+      "chapter": "7 The Value of Patience",
+      "summary": "This chapter emphasizes that patience and a long time horizon are the most powerful tools available to investors, drawing on the academic work of Shleifer and Vishny to demonstrate that long-horizon investing, while requiring more capital commitment and tolerance for uncertainty, produces substantially greater returns than short-term speculation. Using historical S&P 500 data from 1970 to 2012, the chapter shows that approximately 30% of stocks doubled over rolling five-year periods (a 14.9% annualized return), compared to only 1.8% doubling in any single year. The chapter argues that investors who apply sound stock selection principles and maintain patience will be well-positioned to capture these outsized long-term returns, and that the epidemic of short-term trading driven by greed, overconfidence in predicting market psychology, and loss of faith in long-term investing after bear markets is fundamentally misguided."
+    },
+    {
+      "chapter": "8 The World’s Greatest Investor",
+      "summary": "This chapter establishes Warren Buffett's claim as the world's greatest investor by examining two key variables: relative outperformance and duration. It traces Buffett's career from the Buffett Investment Partnership (1956-1969), where he achieved a 29.5% compound annual return versus the Dow's much lower returns, through his management of Berkshire Hathaway (1965-2012), where book value compounded at 19.7% annually versus the S&P 500's 9.4%. The chapter emphasizes that short-term outperformance can be attributed to luck, but sustained outperformance over decades demonstrates genuine skill. Buffett's discipline in avoiding overvalued markets and his remarkable consistency—posting losses in only 2 of 48 years at Berkshire—are highlighted as distinguishing characteristics of his investment approach."
+    },
+    {
+      "chapter": "Appendix",
+      "summary": "This appendix presents the historical common stock portfolios of Berkshire Hathaway from 1977 through 1982, listing the specific holdings, number of shares, cost basis, and market values for each year. The data illustrates Warren Buffett's concentrated portfolio approach, with large positions in a relatively small number of companies such as GEICO, The Washington Post, General Foods, and other media, insurance, and industrial companies. The appendix serves as a factual reference documenting Buffett's actual investment decisions and portfolio composition over this period, rather than prescribing specific screening rules or quantitative criteria."
+    },
+    {
+      "chapter": "Notes",
+      "summary": "This chapter consists entirely of bibliographic endnotes and source citations for 'The Warren Buffett Way,' referencing chapters on Buffett's biography, his intellectual influences (Benjamin Graham, Philip Fisher, Charlie Munger), and his 'Twelve Immutable Tenets' for buying a business. The notes point to primary sources including Berkshire Hathaway annual reports, biographies, and financial publications, but contain no substantive investment criteria or screening rules themselves."
+    },
+    {
+      "chapter": "Acknowledgments",
+      "summary": "This chapter is the Acknowledgments section of 'The Warren Buffett Way' by Robert G. Hagstrom. It contains expressions of gratitude to Warren Buffett, Charlie Munger, Carol Loomis, and numerous other individuals who contributed to the book's creation and success over its 20-year history. The chapter does not contain any investment strategies, stock screening criteria, or quantitative rules."
+    }
+  ]
+}

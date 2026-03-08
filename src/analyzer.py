@@ -212,6 +212,7 @@ VARIABLE_MAP = {
     "PE": "pe", "P/E": "pe", "pe": "pe", "trailing_pe": "pe", "PE_RATIO": "pe",
     "forward_pe": "forward_pe", "FORWARD_PE": "forward_pe",
     "PB": "pb", "P/B": "pb", "pb": "pb", "price_to_book": "pb", "price_to_book_value": "pb",
+    "PRICE_TO_BOOK": "pb", "Price_to_Book": "pb",
     "PS": "ps", "P/S": "ps",
     "EARNINGS_YIELD": "earnings_yield", "earnings_yield": "earnings_yield",
     "E/P": "earnings_yield",
@@ -227,63 +228,91 @@ VARIABLE_MAP = {
     "profit_margin": "profit_margin", "PROFIT_MARGIN": "profit_margin",
     "net_profit_margin": "profit_margin",
     "operating_margin": "operating_margin", "OPERATING_MARGIN": "operating_margin",
+    "EARNINGS_TO_BOOK_VALUE": "roe",
     # === 财务健康 ===
     "current_ratio": "current_ratio", "CURRENT_RATIO": "current_ratio",
     "debt_to_equity": "debt_to_equity", "DE_RATIO": "debt_to_equity",
     "DEBT_TO_EQUITY": "debt_to_equity", "D/E": "debt_to_equity",
     "total_debt": "total_debt", "TOTAL_DEBT": "total_debt", "DEBT": "total_debt",
     "total_cash": "total_cash",
-    "market_cap": "market_cap", "MARKET_CAP": "market_cap",
+    "market_cap": "market_cap", "MARKET_CAP": "market_cap", "MARKET_CAP_USD": "market_cap",
     "book_value": "book_value", "BOOK_VALUE": "book_value",
     "BOOK_VALUE_PER_SHARE": "book_value", "BookValue": "book_value", "Book_Value": "book_value",
     "book_value_per_share": "book_value",
     "tangible_book_value_per_share": "tangible_book_value",
     "TANGIBLE_BV_PER_SH": "tangible_book_value",
+    "NetTangibleAssetPerShare": "tangible_book_value",
+    "NET_TANGIBLE_ASSETS_PER_SHARE": "tangible_book_value",
+    "TangibleBookValue": "tangible_book_value",
     "working_capital": "working_capital", "WORKING_CAPITAL": "working_capital",
     "total_assets": "total_assets", "TOTAL_ASSETS": "total_assets",
     "total_equity": "total_equity", "TOTAL_EQUITY": "total_equity",
     "shareholders_equity": "total_equity", "stock_equity": "total_equity",
-    "book_value_equity": "total_equity",
+    "book_value_equity": "total_equity", "tangible_equity": "total_equity",
     "total_capital": "total_assets",
     "current_assets": "current_assets", "CURRENT_ASSETS": "current_assets",
     "current_liabilities": "current_liabilities", "CURRENT_LIABILITIES": "current_liabilities",
     "long_term_debt": "long_term_debt", "LONG_TERM_DEBT": "long_term_debt",
+    "bonded_debt": "long_term_debt",
     "total_liabilities": "total_liabilities", "TOTAL_LIABILITIES": "total_liabilities",
-    "shares_outstanding": "shares_outstanding",
+    "shares_outstanding": "shares_outstanding", "SharesOutstanding": "shares_outstanding",
+    "SHARES_OUTSTANDING": "shares_outstanding",
     "interest_coverage_ratio": "interest_coverage_ratio",
     "interest_coverage": "interest_coverage_ratio",
     "INTEREST_COVERAGE": "interest_coverage_ratio",
     "interest_coverage_before_tax": "interest_coverage_ratio",
+    "interest_coverage_after_tax": "interest_coverage_ratio",
+    "interest_charges": "interest_coverage_ratio",  # 近似: 利息覆盖率
     "free_cash_flow": "free_cash_flow", "FCF": "free_cash_flow",
+    "net_current_asset_value_per_share": "ncav_per_share",
+    "NET_CURRENT_ASSET_VALUE_PER_SHARE": "ncav_per_share",
+    "NetCurrentAssetValuePerShare": "ncav_per_share",
+    "PRICE_NET_CURRENT_ASSET_VALUE": "ncav_per_share",
     # === 股息 ===
     "dividend_yield": "dividend_yield", "DIVIDEND_YIELD": "dividend_yield",
     "DividendYield": "dividend_yield", "stock_dividend_yield": "dividend_yield",
     "DIVIDEND_PAYOUT_RATIO": "dividend_payout_ratio",
     "Dividend_Payout_Ratio": "dividend_payout_ratio",
-    "dividend_per_share": "dividend_per_share",
+    "dividend_payout_ratio": "dividend_payout_ratio",
+    "dividend_per_share": "dividend_per_share", "dividend": "dividend_per_share",
+    "MARGIN_OF_SAFETY": "margin_of_safety",
+    "earned_per_share": "eps",  # 近似
+    "earnings_growth_yoy": "eps_growth_rate",  # 近似
+    "EARNINGS_GROWTH_RATE_PRETAX": "eps_growth_rate",  # 近似
     "CONSECUTIVE_DIVIDEND_YEARS": "consecutive_dividend_years",
     "consecutive_dividend_years": "consecutive_dividend_years",
     "DIVIDEND_CONTINUITY_YEARS": "consecutive_dividend_years",
     "DIVIDEND_PAYOUT_YEARS": "consecutive_dividend_years",
     "CONTINUOUS_DIVIDEND_RECORD": "consecutive_dividend_years",
+    "DIVIDEND_GROWTH_RATE": "dividend_yield",  # 近似
     # === 价格 ===
     "price": "price", "PRICE": "price", "CURRENT_PRICE": "price",
     "Price": "price", "market_price": "price", "MARKET_PRICE": "price",
     "price_current": "price", "stock_price": "price", "PX_LAST": "price",
     "Common_Stock_Price": "price", "price_per_share": "price",
+    "Market_Price_Per_Share": "price",
+    "price_52w_high": "price_52w_high", "HIGH_52WEEK": "price_52w_high",
+    "price_52w_low": "price_52w_low", "LOW_52WEEK": "price_52w_low",
     # === 收入/增长 ===
     "annual_revenue": "revenue", "REVENUE": "revenue", "revenue": "revenue",
-    "revenues": "revenue", "annual_sales": "annual_sales",
+    "revenues": "revenue", "annual_sales": "revenue",
     "revenue_growth_rate": "revenue_growth_rate", "SALES_GROWTH": "revenue_growth_rate",
     "EARNINGS_GROWTH_RATE": "eps_growth_rate", "EPS_GROWTH": "eps_growth_rate",
+    "earnings_growth_rate": "eps_growth_rate",
     "EPS_ANNUAL_GROWTH_RATE_5Y": "eps_growth_5y",
+    "debt_growth_rate": "revenue_growth_rate",  # 近似
     # === 历史衍生 ===
     "AVG_EPS_10Y": "avg_eps_10y", "avg_EPS_10Y": "avg_eps_10y",
     "AvgEPS_3Y": "avg_eps_3y", "AVG_EARNINGS_3Y": "avg_eps_3y",
     "AvgEarnings_5Y": "avg_eps_3y",
     "EPS_3yr_avg": "avg_eps_3y", "EPS_recent_3yr_avg": "avg_eps_3y",
+    "avg_earnings_3yr": "avg_eps_3y", "AVG_EARNINGS_3Y_RECENT": "avg_eps_3y",
+    "PRICE_AVG_EARNINGS_3Y": "avg_eps_3y",
     "EPS_earliest_3yr_avg": "avg_eps_first_3y",
+    "THREE_YEAR_AVG_GROWTH_OVER_DECADE": "earnings_growth_10y",  # 近似
     "EARNINGS_GROWTH_10Y": "earnings_growth_10y", "CAGR_10Y": "earnings_growth_10y",
+    "earnings_growth_10yr": "earnings_growth_10y",
+    "TOTAL_GROWTH_10Y": "earnings_growth_10y",
     "profitable_years_in_last_5": "profitable_years",
     "EARNINGS_STABILITY": "profitable_years",
     "DJIA_MAX_EPS_DECLINE": "max_eps_decline",
@@ -291,7 +320,9 @@ VARIABLE_MAP = {
     "min_annual_EPS_last_5_years": "min_annual_eps_5y",
     "MIN_EPS_10Y": "min_annual_eps_10y",
     "consecutive_profitable_years": "consecutive_profitable_years",
-    "EPS_5_years_ago": "eps_5y_ago",  # 需要动态计算
+    "annual_deficit_count_last_10_years": "consecutive_profitable_years",  # 近似: 盈利年数
+    "NO_ANNUAL_DEFICIT_IN_10Y": "min_annual_eps_10y",  # min EPS > 0 即无亏损
+    "EPS_5_years_ago": "eps_5y_ago",
     # === 计算衍生 ===
     "intrinsic_value": "intrinsic_value", "INTRINSIC_VALUE": "intrinsic_value",
     "graham_number": "graham_number", "Graham_Number": "graham_number",
@@ -301,10 +332,11 @@ VARIABLE_MAP = {
     # === 信用评级 / 质量 ===
     "SP_RATING": "sp_rating", "credit_rating": "sp_rating",
     "BOND_RATING": "sp_rating", "bond_rating": "sp_rating",
-    "SP_Ranking": "sp_quality_ranking",
+    "SP_Ranking": "sp_quality_ranking", "SP_RANKING": "sp_quality_ranking",
     # === 负债比率 ===
     "TOT_DEBT_TO_TOT_ASSET": "debt_to_assets",
     "debt_to_assets": "debt_to_assets",
+    "TOTAL_DEBT_TOTAL_ASSETS": "debt_to_assets",
     # === 技术指标 ===
     "RSI": "rsi_14d", "RSI_14D": "rsi_14d", "rsi": "rsi_14d",
     "MACD_LINE": "macd_line", "MACD": "macd_line",
@@ -313,10 +345,11 @@ VARIABLE_MAP = {
     "MA_200": "ma_200d", "MA_200D": "ma_200d", "SMA_200": "ma_200d",
     # === 市场基准 ===
     "MARKET_PE": "market_pe", "market_PE": "market_pe",
+    "MARKET_AVERAGE_PE": "market_pe", "MARKET_AVG_PE": "market_pe",
     "INDUSTRY_AVG_PE": "industry_avg_pe", "industry_average_PE": "industry_avg_pe",
     "industry_average": "industry_avg_pe",
     "AA_corporate_bond_yield": "aa_bond_yield", "AA_BOND_YIELD": "aa_bond_yield",
-    "bond_yield": "aa_bond_yield",
+    "bond_yield": "aa_bond_yield", "BOND_YIELD": "aa_bond_yield",
     "treasury_yield": "treasury_yield_10y", "TREASURY_YIELD": "treasury_yield_10y",
     # === 行业/板块 (字符串) ===
     "sector": "sector", "SECTOR": "sector",
@@ -326,6 +359,92 @@ VARIABLE_MAP = {
     "WORST_YEAR_PRETAX_INTEREST_COVERAGE": "worst_year_pretax_interest_coverage",
     "AVG_7Y_AFTERTAX_INTEREST_COVERAGE": "avg_7y_pretax_interest_coverage",
     "WORST_YEAR_AFTERTAX_INTEREST_COVERAGE": "worst_year_pretax_interest_coverage",
+    # === 操作比率 ===
+    "operating_ratio": "operating_margin",  # 近似
+    "market_capitalization": "market_cap",
+    "IntrinsicValue": "intrinsic_value",
+    "INDUSTRY_AVERAGE": "industry_avg_pe",  # 近似
+}
+
+# 不应作为个股评估的规则 — 这些是资产配置/组合管理/债券/基金/并购规则
+_NON_STOCK_KEYWORDS = {
+    # 资产配置
+    "stock_allocation", "bond_allocation", "equity_allocation",
+    "INDEX_FUND_ALLOCATION", "INDIVIDUAL_STOCK_ALLOCATION",
+    "STOCK_ALLOCATION", "BOND_ALLOCATION",
+    "portfolio_stock_count", "DIVERSIFIED_GROUP_COUNT",
+    # 债券/基金
+    "convertible_bond", "CONVERTIBLE_BOND", "convertible_issues",
+    "closed_end_fund", "closed_end_fund_price",
+    "expense_ratio", "bond_fund",
+    "CONVERSION_PREMIUM", "bond_face_value", "bond_market_price",
+    "par_value", "PAR_VALUE", "bond_price", "bond_type",
+    "bond_price_pct_of_par", "BOND_PRICE",
+    "convertible_bond_fund_annual_expense_ratio",
+    # 并购/特殊事件
+    "ACQUISITION_OFFER_PRICE", "DEAL_SUCCESS_PROBABILITY",
+    "acquisition_driven_revenue_growth_pct",
+    "investment_amount", "use_convertible_bond_fund",
+    "alternative_bond", "current_bond",
+    "alternative_bond_interest_coverage",
+    "SUFFICIENT_NUMBER",
+    # 公式定义（不是筛选条件）
+    "Corrected_Stock_Price", "True_Market_Price",
+    "Warrant_Value_Per_Share", "Total_Warrant_Market_Value",
+    "real_tangible_equity", "dubious_assets", "omitted_equity_items",
+    "warrants_market_value", "acquirer_total_market_cap",
+    "BANK_LOAN_GROWTH_YOY",
+    # 不可量化的定性变量
+    "PROXY_STATEMENT_REVIEWED", "YEARS_OF_FINANCIAL_DATA",
+    "FinancialCondition", "IS_NEW_ISSUE", "QUALITY",
+    "interest_coverage_trend", "price_difference_minimal",
+    "industry_peer_transportation_ratio", "transportation_ratio",
+    "capital_deficit", "net_assets",
+    "LIQUID_ASSETS_RATIO",
+    "INCOME_TAX_PAID", "INCOME_TAX_EXPENSE",
+    "company_results",
+    # 债券具体属性
+    "BondPrice", "ParValue", "ACCUMULATED_DIVIDENDS",
+    "investment_grade", "bond_coupon_rate",
+    # 并购/特殊事件具体属性
+    "implied_value_per_share_via_parent", "direct_purchase_price_per_share",
+    "acquisition_funded_by_stock", "stock_overvaluation_flag",
+    "intrinsic_value_under_competent_management",
+    "reinvestment_return", "shareholder_alternative_return",
+    "market_average_growth",
+    "PROFITABILITY_RANK_IN_INDUSTRY", "COMPETITIVENESS_RANK_IN_INDUSTRY",
+    "profitability_forecast",
+    "DIVERSIFIED_PORTFOLIO", "industry_peer_PE",
+    # 公式中的中间变量
+    "book_value_of_common", "debt_types_count",
+    "special_items_impact", "deficit_count_last_5_years",
+    "moderate_threshold",
+    # 税务/资本利得/特殊主题
+    "ANNUAL_CAPITAL_LOSS_DEDUCTION", "HOLDING_PERIOD",
+    "capital_gains_tax_rate", "INSIDER_CONFLICT_OF_INTEREST",
+    "COMPANY_PROFITABILITY", "stock_options_dilution_pct",
+    "TOTAL_FIXED_CHARGES", "SAFE_BOND_ISSUANCE_CAPACITY",
+    "LARGE_CAP_THRESHOLD", "PORTFOLIO_STOCK_COUNT",
+    "business_value",
+}
+
+# 这些 token 是字符串字面量/常量/Python关键字，不应被当作变量
+_LITERAL_TOKENS = {
+    "true", "false", "TRUE", "FALSE", "True", "False",
+    "IN", "FOR", "for", "implies", "REJECT",
+    # 字符串比较中的字面值
+    "industrial", "utility", "utilities", "financial", "technology",
+    "strong", "weak", "declining", "high", "low", "moderate",
+    "unsatisfactory", "satisfactory",
+    # S&P 评级字面量
+    "Aaa", "Aa", "Baa",
+    # 数学/聚合函数
+    "MIN", "MAX", "AVG", "MEDIAN", "SUM",
+    # 自然语言动词/形容词（LLM生成的伪代码中常见）
+    "PREFER", "IS", "REASONABLE", "INVESTIGATE",
+    # 其它常量
+    "RED_FLAG", "FAIL", "PASS",
+    "never", "profitable",
 }
 
 
@@ -362,53 +481,130 @@ def _evaluate_single(expression: str, stock_data: dict, description: str) -> Rul
     result = RuleResult(description=description, expression=expression)
 
     try:
-        # 跳过伪代码/非表达式规则
+        # ── 第 0 步: 含中文的伪表达式直接跳过 ──
+        if re.search(r'[\u4e00-\u9fff]', expression):
+            result.passed = None
+            result.reason = "含中文描述的非标准表达式"
+            return result
+
+        # ── 第 0.5 步: 含 => 箭头、% 符号、≈ 等非 Python 语法 → 跳过 ──
+        if '=>' in expression or '\u2248' in expression or '\u2265' in expression or '\u2264' in expression:
+            result.passed = None
+            result.reason = "非标准表达式语法"
+            return result
+        # 含括号注释如 "(substantial margin required)" → 跳过
+        if re.search(r'\([a-z]+\s+[a-z]+\s+[a-z]+', expression):
+            result.passed = None
+            result.reason = "含自然语言注释的表达式"
+            return result
+        # EARNINGS_STABILITY = 100% → 跳过
+        if '%' in expression:
+            result.passed = None
+            result.reason = "含百分号的非标准表达式"
+            return result
+
+        # ── 第 1 步: 跳过伪代码/策略型规则 ──
         skip_keywords = {"THEN", "IF", "WHEN", "WHERE", "AVOID", "BUY", "SELL",
-                         "EXCLUDE", "WARNING", "HIGH_RISK", "UNIVERSE", "RANK"}
-        expr_tokens_set = set(re.findall(r'[A-Za-z_][A-Za-z0-9_]*', expression))
-        if expr_tokens_set & skip_keywords:
+                         "EXCLUDE", "WARNING", "HIGH_RISK", "UNIVERSE", "RANK",
+                         "INVESTIGATE", "REJECT"}
+        all_tokens_set = set(re.findall(r'[A-Za-z_][A-Za-z0-9_]*', expression))
+        if all_tokens_set & skip_keywords:
             result.passed = None
             result.reason = "非数值表达式 (策略/指令型规则)"
             return result
 
-        # 构建安全的变量空间
+        # ── 第 2 步: 跳过非个股规则（资产配置/债券/基金） ──
+        if all_tokens_set & _NON_STOCK_KEYWORDS:
+            result.passed = None
+            result.reason = "非个股规则 (资产配置/债券/基金类)"
+            return result
+
+        # ── 第 2.5 步: 跳过含 "抽象占位符" 的规则 ──
+        _placeholder_tokens = {
+            "threshold", "large_cap_threshold", "conservative_threshold",
+            "reasonable_threshold", "high_threshold", "LowMultiplier",
+            "moderate_level", "margin_of_safety_threshold",
+            "SUFFICIENT_NUMBER", "required_coverage_ratio",
+        }
+        if all_tokens_set & _placeholder_tokens:
+            result.passed = None
+            result.reason = "含抽象占位符的规则 (需人工判断)"
+            return result
+
+        # ── 第 3 步: 表达式预处理/标准化 ──
+        work_expr = expression
+
+        # 3a. 布尔变量 = TRUE/true 的规则重写
+        work_expr = re.sub(r'NO_ANNUAL_DEFICIT_IN_10Y\s*[==]+\s*(TRUE|true|True)',
+                           'min_annual_earnings_last_10_years > 0', work_expr)
+        work_expr = re.sub(r'CONTINUOUS_DIVIDEND_RECORD\s*[==]+\s*(TRUE|true|True)',
+                           'consecutive_dividend_years > 0', work_expr)
+
+        # 3b. P/B 和 P/E 是特殊的复合变量名，替换为单一 token
+        work_expr = re.sub(r'\bP/B\b', '_PB_', work_expr)
+        work_expr = re.sub(r'\bP/E\b', '_PE_', work_expr)
+        work_expr = re.sub(r'\bP/S\b', '_PS_', work_expr)
+        work_expr = re.sub(r'\bD/E\b', '_DE_', work_expr)
+        work_expr = re.sub(r'\bE/P\b', '_EP_', work_expr)
+
+        # 3b. 函数调用 AVG(...), MIN(...) 替换为已有变量
+        work_expr = re.sub(r'MIN\s*\(EPS[^)]*10[^)]*\)', 'min_annual_earnings_last_10_years', work_expr)
+        work_expr = re.sub(r'MIN\s*\(EPS[^)]*5[^)]*\)', 'min_annual_EPS_last_5_years', work_expr)
+        work_expr = re.sub(r'AVG\s*\(EPS[^)]*last_3[^)]*\)', 'EPS_recent_3yr_avg', work_expr)
+        work_expr = re.sub(r'AVG\s*\(EPS[^)]*first_3[^)]*\)', 'EPS_earliest_3yr_avg', work_expr)
+        work_expr = re.sub(r'AVG\s*\(EPS,\s*3Y?\)', 'EPS_3yr_avg', work_expr)
+        work_expr = re.sub(r'Price\s*/\s*AVG\s*\(EPS,\s*3Y?\)', 'price / EPS_3yr_avg', work_expr)
+        work_expr = re.sub(r'PRICE\s*/\s*AVG_EARNINGS_3Y', 'price / avg_earnings_3yr', work_expr)
+
+        # 3c. "IN (...)" 语法转 Python "in (...)"
+        work_expr = re.sub(r'\bIN\s*\(', ' in (', work_expr)
+
+        # ── 第 4 步: 先移除引号内的字符串字面量，避免被提取为变量 ──
+        expr_no_strings = re.sub(r"'[^']*'", "''", work_expr)
+        expr_no_strings = re.sub(r'"[^"]*"', '""', expr_no_strings)
+
+        # ── 第 5 步: 提取变量 token ──
+        tokens = re.findall(r'[A-Za-z_][A-Za-z0-9_/]*', expr_no_strings)
+
+        # 过滤掉关键字、字面量、函数名
+        _builtin_names = {"AND", "OR", "NOT", "and", "or", "not", "in",
+                          "sqrt", "abs", "max", "min", "len", "sum"}
+        tokens = [t for t in tokens if t not in _builtin_names and t not in _LITERAL_TOKENS]
+
+        # ── 第 6 步: 变量解析 ──
+        _internal_aliases = {
+            "_PB_": "pb", "_PE_": "pe", "_PS_": "ps",
+            "_DE_": "debt_to_equity", "_EP_": "earnings_yield",
+        }
+
         safe_vars = {}
         used_vars = {}
-
-        # 提取表达式中的变量名
-        tokens = re.findall(r'[A-Za-z_][A-Za-z0-9_/]*', expression)
-        tokens = [t for t in tokens if t not in (
-            "AND", "OR", "NOT", "and", "or", "not",
-            "True", "False", "true", "false",
-            "sqrt", "abs", "max", "min", "len", "sum",
-        )]
-
         missing = []
+
         for token in tokens:
-            mapped = VARIABLE_MAP.get(token)
+            mapped = _internal_aliases.get(token) or VARIABLE_MAP.get(token)
             if mapped and mapped in stock_data:
                 val = stock_data[mapped]
-                # None = 数据未获取到 → 缺失
-                # 0/0.0 = 真实值为零 → 有效数据，允许参与计算
-                # "" / [] = 空值 → 缺失
                 if val is None or val == '' or val == []:
                     missing.append(token)
                 else:
                     safe_vars[token] = val
                     used_vars[token] = val
-            else:
+            elif token not in _LITERAL_TOKENS:
                 missing.append(token)
 
         if missing:
             result.passed = None
-            result.reason = f"缺少数据: {', '.join(set(missing))}"
+            result.reason = f"缺少数据: {', '.join(sorted(set(missing)))}"
             result.values_used = used_vars
             return result
 
-        # 替换 AND/OR 为 Python 语法
-        py_expr = expression.replace(" AND ", " and ").replace(" OR ", " or ").replace(" NOT ", " not ")
+        # ── 第 7 步: 表达式转 Python 并执行 ──
+        py_expr = work_expr
+        py_expr = py_expr.replace(" AND ", " and ").replace(" OR ", " or ").replace(" NOT ", " not ")
+        # = (赋值) → == (比较)，但保留 >=, <=, !=, ==
+        py_expr = re.sub(r'(?<![<>!=])=(?!=)', '==', py_expr)
 
-        # 提供数学函数
         import math
         safe_builtins = {
             "__builtins__": {},
@@ -418,16 +614,14 @@ def _evaluate_single(expression: str, stock_data: dict, description: str) -> Rul
             "min": min,
             "len": len,
             "sum": sum,
+            "True": True,
+            "False": False,
         }
         safe_builtins.update(safe_vars)
 
-        # 安全执行
         result.passed = bool(eval(py_expr, {"__builtins__": {}}, safe_builtins))
         result.values_used = used_vars
-        if result.passed:
-            result.reason = "✓ 通过"
-        else:
-            result.reason = "✗ 不通过"
+        result.reason = "\u2713 通过" if result.passed else "\u2717 不通过"
 
     except Exception as e:
         result.passed = None

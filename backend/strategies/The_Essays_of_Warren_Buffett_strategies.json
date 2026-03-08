@@ -1,0 +1,1209 @@
+{
+  "book_title": "The Essays of Warren Buffett",
+  "book_author": "Warren E. Buffett & Lawrence A. Cunningham",
+  "total_chapters_analyzed": 20,
+  "strategies": [
+    {
+      "name": "Buffett Intrinsic Value Margin of Safety",
+      "description": "Buy businesses when the market price is well below intrinsic value, following the Graham-Dodd principle of margin of safety. Buffett buys less than 100% of businesses on the open market at a pro-rata price well below what it would take to buy 100%.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 6",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Above-Average Returns (ROE)",
+      "description": "Focus on businesses that generate above-average returns on capital. Buffett's goal is owning businesses that generate cash and above-average returns.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 6",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Positive Free Cash Flow",
+      "description": "Invest in businesses that generate cash. Buffett emphasizes owning businesses that generate cash and retains businesses so long as they generate some cash.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 6",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Conservative Debt Usage",
+      "description": "Berkshire uses debt sparingly. Prefer companies with low leverage, reflecting Buffett's principle of conservative financial management.",
+      "expression": "debt_to_equity < 0.5",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Section 6",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Long-Term Book Value Growth",
+      "description": "Seek companies that compound book value per share at high rates over time. Berkshire achieved approximately 20% compound annual growth in book value per share.",
+      "expression": "roe >= 0.20",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 6",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Earnings Retention Value Creation",
+      "description": "Retained earnings should deliver at least proportional increases in per share market value. Earnings yield should exceed what shareholders could earn elsewhere, implying earnings yield above bond yields.",
+      "expression": "earnings_yield > treasury_yield_10y",
+      "data_fields_required": [
+        "earnings_yield",
+        "treasury_yield_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 6",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Consistent Profitability",
+      "description": "Invest in businesses with excellent economic characteristics, implying a long track record of profitability across business cycles.",
+      "expression": "profitable_years >= 10",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 6",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Positive Operating Earnings",
+      "description": "Focus on companies with strong and positive operating earnings, reflecting real economic earnings beyond accounting conventions.",
+      "expression": "ebit > 0 and profit_margin > 0.10",
+      "data_fields_required": [
+        "ebit",
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 6",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid EBITDA-Reliant Companies",
+      "description": "Buffett is deeply suspicious of companies that emphasize EBITDA as a key metric, as it ignores real capital expenditure costs. Prefer companies that focus on true earnings after all expenses including depreciation and amortization.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 8",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Skepticism of High Long-Term EPS Growth Predictions",
+      "description": "Buffett warns that very few large companies can sustain 15% annual EPS growth over long periods. Fewer than 10 of the 200 most profitable companies in 2000 would achieve 15% annual EPS growth over 20 years. Be skeptical of companies projecting such growth rates, as they may engage in accounting manipulation to meet targets.",
+      "expression": "eps_growth_rate < 0.15",
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 8",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Transparent Accounting and Reporting",
+      "description": "Avoid companies with vague or unclear accounting methodology, as this often means management wishes to hide something. Prefer companies whose CEOs explain operations in their own words with full financial details.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 8",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Equal Shareholder Treatment (No Selective Disclosure)",
+      "description": "Favor companies that treat all shareholders equally by releasing information simultaneously rather than providing selective guidance to analysts or large institutional holders.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 8",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Large Discount to Intrinsic Value",
+      "description": "Purchase shares when market price is at a large discount from underlying business value. Buffett bought Washington Post at no more than one-fourth (25%) of per-share business value, implying a 75% margin of safety.",
+      "expression": "margin_of_safety >= 0.75",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 9",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Minimum Discount to Intrinsic Value",
+      "description": "Buy shares in good businesses when market prices are at a large discount from underlying business values. At minimum, price should be significantly below intrinsic value (at least 50% margin of safety implied by the 'large discount' language).",
+      "expression": "margin_of_safety >= 0.50",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 9",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Satisfactory Intrinsic Value Growth",
+      "description": "Hold a stock indefinitely so long as the business is expected to increase in intrinsic value at a satisfactory rate. This implies looking for businesses with consistent earnings growth over long periods.",
+      "expression": "earnings_growth_10y > 0 and eps_growth_rate > 0",
+      "data_fields_required": [
+        "earnings_growth_10y",
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 9",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Good Business Quality Filter",
+      "description": "Focus on businesses with favorable economic prospects - good businesses with strong profitability characteristics, not just cheap stocks.",
+      "expression": "roe > 0.12 and profit_margin > 0.10 and profitable_years >= 10",
+      "data_fields_required": [
+        "roe",
+        "profit_margin",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 9",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Price Below Business Value",
+      "description": "Following Ben Graham's teaching, purchase shares when market price is below calculated intrinsic/business value. The price/value ratio should be well below 1.0.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 9",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Graham Net-Net Opportunistic Buy",
+      "description": "Graham-style deep value investing where price is below net current asset value, representing the most extreme form of buying below business value as described in the chapter.",
+      "expression": "price < ncav_per_share",
+      "data_fields_required": [
+        "price",
+        "ncav_per_share"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 9",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett After-Tax Return Maximization",
+      "description": "Continuously search among all investment categories for the highest after-tax returns as measured by mathematical expectation, focusing on investments you understand. Goal is to maximize eventual net worth, not immediately reportable earnings.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Inflation-Adjusted Bond Return Filter",
+      "description": "Currency-based investments (bonds, money-market funds, bank deposits) must offer returns that exceed the inflation rate plus taxes to provide real income. A tax-free institution needs at least 4.3% annually just to maintain purchasing power. Avoid bonds when interest rates do not compensate for inflation risk.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 10",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Non-Productive Assets",
+      "description": "Avoid assets that will never produce anything (like gold) and are purchased solely in the hope that someone else will pay more in the future. Prefer assets that are productive - that generate earnings, cash flow, or dividends.",
+      "expression": "free_cash_flow > 0 or net_income > 0 or dividend_yield > 0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "net_income",
+        "dividend_yield"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 10",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Liquidity Preference",
+      "description": "Maintain ample liquidity at all times. Berkshire maintains at least $20 billion working liquidity and $10 billion absolute minimum. For individual investors, this translates to always holding sufficient liquid reserves before making equity investments.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "financial_health",
+      "confidence": "high",
+      "source_chapter": "Section 10",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Mispriced Credit Opportunity Filter",
+      "description": "Purchase currency-related securities only when they offer the possibility of unusual gain - either because a particular credit is mispriced (as in junk-bond debacles) or because rates rise to a level offering substantial capital gains potential when rates fall.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Circle of Competence Filter",
+      "description": "Limit investments to alternatives you think you understand. Do not invest in businesses or instruments outside your area of competence regardless of apparent attractiveness.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 10",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Productive Asset Preference",
+      "description": "Prefer investments in productive assets (businesses that generate earnings and cash flows) over currency-based investments or non-productive assets like gold. Companies should have positive earnings and free cash flow generation.",
+      "expression": "net_income > 0 and free_cash_flow > 0",
+      "data_fields_required": [
+        "net_income",
+        "free_cash_flow"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 10",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Anti-Euphoria Contrarian Filter",
+      "description": "Be greedy when others are fearful - buy when the market is significantly below historical averages, indicating widespread fear. Be fearful when others are greedy - avoid buying when market valuations are at euphoric levels.",
+      "expression": "market_pe < 15",
+      "data_fields_required": [
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Business Earnings Power - ROE Benchmark",
+      "description": "Buffett notes American business in aggregate earns about 12% on equity annually. Investors should seek companies that at least match or exceed this benchmark return on equity.",
+      "expression": "roe >= 0.12",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Section 11",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Stock Performance Anchored to Business Performance",
+      "description": "Stocks cannot outperform businesses indefinitely. Avoid stocks whose price appreciation has become 'gloriously uncoupled' from underlying business performance - look for stocks where price growth is supported by earnings growth.",
+      "expression": "pe < 25 and eps_growth_rate > 0",
+      "data_fields_required": [
+        "pe",
+        "eps_growth_rate"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Transaction Cost / Buy-and-Hold Filter",
+      "description": "Minimize frictional costs by selecting high-quality businesses meant to be held long-term rather than traded frequently. Focus on profitable, established companies worth holding indefinitely.",
+      "expression": "roe >= 0.12 and profitable_years >= 10",
+      "data_fields_required": [
+        "roe",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Yield vs Market Return",
+      "description": "Since owners in aggregate can only earn what their businesses earn, investors should ensure the earnings yield of a stock is attractive relative to alternatives. Earnings yield should exceed what the market broadly offers.",
+      "expression": "earnings_yield > 0.07",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 11",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Fair Price for Wonderful Business",
+      "description": "Buy good/wonderful businesses at fair prices rather than fair businesses at good prices. Prefer to buy 10% of a wonderful business at market price X rather than 100% at 2X (a takeover premium). This implies avoiding overpaying even for quality companies.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Excellent Economic Characteristics - Pricing Power",
+      "description": "Seek businesses with the ability to increase prices easily, even when product demand is flat and capacity is not fully utilized, without fear of significant loss of market share or unit volume. This is a hallmark of businesses with economic moats that perform well in inflationary environments.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Capital-Light Growth Filter",
+      "description": "Seek businesses that can accommodate large dollar volume increases in business with only minor additional investment of capital. High returns on incremental capital employed, suggesting strong free cash flow generation relative to revenue growth.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitability Over Size",
+      "description": "Focus on profitability metrics rather than size metrics (revenue). Buffett criticizes managers who rank themselves by sales rather than profitability. Screen for companies with strong profit margins and ROE rather than just large revenue.",
+      "expression": "roe > 0.15 and profit_margin > 0.10",
+      "data_fields_required": [
+        "roe",
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Overpaying - No Takeover Premium",
+      "description": "Prefer buying at market price (X) rather than at a takeover premium (2X). This implies seeking stocks trading at or below intrinsic value with a margin of safety, rather than paying premiums.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 12",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Economic Substance Over Accounting Appearance",
+      "description": "Acquisition and investment decisions should maximize real economic benefits. Focus on real earnings power and free cash flow rather than reported accounting numbers that may be manipulated.",
+      "expression": "free_cash_flow > 0 and earnings_yield > 0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "earnings_yield"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 12",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Chronic Acquirers with Restructuring Charges",
+      "description": "Avoid companies whose management engages in frequent acquisitions at high premiums followed by restructuring charges. This signals poor capital allocation and value destruction for shareholders.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 12",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Significant Position Size Filter",
+      "description": "Buffett avoids small commitments - 'If something's not worth doing at all, it's not worth doing well.' Focus on companies with sufficient market capitalization to allow meaningful position sizes.",
+      "expression": "market_cap > 1000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 12",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Discounted Cash Flow Valuation",
+      "description": "Value all assets based on the amount and timing of future cash flows discounted at the risk-free interest rate (long-term U.S. bond yield). A stock is attractive only when conservative estimates of future cash flows reveal the price is startlingly low relative to intrinsic value.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Speculative Valuations",
+      "description": "Avoid companies with gigantic valuations relative to the cash they are likely to generate in the future. Focus on what an asset will produce, not on what the next fellow will pay for it.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 13",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cash Flow Over Growth",
+      "description": "Growth can destroy value if early cash inputs exceed the discounted value of future cash flows. Prioritize businesses where free cash flow is positive and growth does not require excessive capital reinvestment that destroys value.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Reasonable Return Expectations",
+      "description": "Buffett noted that expecting 19% annual returns for American business as a whole was irrational. Avoid stocks priced to deliver returns that are several multiples of probable returns, implying earnings yield should be reasonable relative to bond yields.",
+      "expression": "earnings_yield > treasury_yield_10y",
+      "data_fields_required": [
+        "earnings_yield",
+        "treasury_yield_10y"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Businesses with Uncertain Cash Flows",
+      "description": "Avoid new businesses and rapidly changing industries where even a very broad range of estimates cannot produce conviction about future cash generation. Stick to businesses with predictable, estimable cash flows.",
+      "expression": "profitable_years >= 5",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Conservative Intrinsic Value Screen (Inefficient Bush Theory)",
+      "description": "Look for situations where even very conservative estimates about future cash flows reveal that the current price is startlingly low relative to value — the Inefficient Bush Theory (IBT). This implies a significant margin of safety.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 13",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Smoothing Detection - Steady Upward Earnings",
+      "description": "Be skeptical of companies whose reported earnings march steadily upward without interruption, as this may indicate accounting manipulation rather than genuine business performance. Avoid companies with suspiciously smooth earnings trajectories.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 14",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Fancy Valuations on Smooth Earnings",
+      "description": "Avoid placing high valuations (high P/E multiples) on companies whose primary appeal is steadily rising reported earnings, as managers and promoters may exploit GAAP to produce such numbers regardless of underlying truth.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 14",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Plant Asset Write-Down Red Flag",
+      "description": "Be wary of companies that aggressively write down fixed assets to trivial amounts, as this eliminates depreciation charges and artificially inflates future reported earnings. Look for book values that seem unreasonably low relative to the company's actual physical assets.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 14",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Transparency Quality Filter",
+      "description": "Favor companies whose management provides extra-GAAP disclosures that help answer three key questions: (1) How much is the company worth? (2) Can it meet future obligations? (3) How good a job are managers doing? Companies that go beyond minimum GAAP reporting demonstrate management integrity.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 14",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Strong Franchise Tax Beneficiary",
+      "description": "Invest in unregulated businesses with strong business franchises, as these companies and their shareholders are the major beneficiaries of corporate tax cuts rather than passing benefits to customers. Strong franchises have pricing power that allows them to retain tax savings.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 16",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Retained Earnings / Low Payout Investees",
+      "description": "Buffett favors companies that retain a very high percentage of their earnings rather than paying them out as dividends, expecting those retained earnings to eventually deliver capital gains. His three major holdings delivered only ~$9M in income on $1.7B in market value (~0.5% yield) because they retained most earnings.",
+      "expression": "dividend_payout_ratio < 0.15",
+      "data_fields_required": [
+        "dividend_payout_ratio"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Price-Competitive Weak Franchise Businesses",
+      "description": "Avoid companies in price-competitive industries with very weak business franchises, where after-tax profits are effectively regulated by the free market and tax benefits pass through to customers rather than accruing to shareholders.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 16",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Large Unrealized Gains / High Market Value to Income Ratio",
+      "description": "Buffett's major holdings had market value representing ~75% of Berkshire's net worth but delivered minimal current income (~0.5%), indicating the value was in capital appreciation and retained earnings. Look for companies where the business value growth comes primarily through capital gains rather than distributed income.",
+      "expression": "dividend_yield < 0.01 and roe > 0.15",
+      "data_fields_required": [
+        "dividend_yield",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Strong Pricing Power (Franchise Strength)",
+      "description": "Invest in companies with strong business franchises that have pricing power analogous to a top specialist in their field. These companies can maintain or increase prices regardless of external tax or cost changes, indicating durable competitive advantages.",
+      "expression": "operating_margin > 0.20 and profit_margin > 0.15",
+      "data_fields_required": [
+        "operating_margin",
+        "profit_margin"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 16",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Intrinsic Value Buy",
+      "description": "Purchase businesses at sensible prices relative to their intrinsic business value, seeking a margin of safety between price and intrinsic value.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Exceptional Intrinsic Value Growth",
+      "description": "Focus on portfolio companies that achieve exceptional gains in intrinsic value over time, indicating strong underlying business performance and quality.",
+      "expression": "roe > 0.15 and earnings_growth_10y > 0.10",
+      "data_fields_required": [
+        "roe",
+        "earnings_growth_10y"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Minimum Position Size Filter",
+      "description": "Only consider securities where at least $100 million can be deployed, implying sufficient market capitalization and liquidity for large institutional investors.",
+      "expression": "market_cap > 1000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett High Standards / Happy Zone Filter",
+      "description": "Maintain strict standards and only invest when opportunities are clearly within one's circle of competence and valuation comfort zone — analogous to Ted Williams only swinging at pitches in his happy zone. Implies buying only when valuation is clearly attractive.",
+      "expression": "pe < market_pe and margin_of_safety > 0.20",
+      "data_fields_required": [
+        "pe",
+        "market_pe",
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Fear-Based Contrarian Buying",
+      "description": "Make purchases when apprehensions about macro events are at a peak — buy when fear is high. A contrarian approach where depressed prices relative to 52-week highs may signal opportunity.",
+      "expression": "price < price_52w_high * 0.75",
+      "data_fields_required": [
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Sustainable Growth Anchor",
+      "description": "Be wary of companies with unsustainably high growth rates, especially those with large bases. High growth rates must self-destruct in a finite world. Prefer companies with steady, sustainable growth rather than explosive growth from a large base.",
+      "expression": "revenue_growth_rate > 0.05 and revenue_growth_rate < 0.30",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "low",
+      "source_chapter": "Section 17",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Fine Business Quality Filter",
+      "description": "Identify fine businesses similar to past successful purchases — companies that generate extraordinary results, implying high profitability and consistent earnings.",
+      "expression": "roe > 0.15 and profit_margin > 0.10 and profitable_years >= 10",
+      "data_fields_required": [
+        "roe",
+        "profit_margin",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buffett Satisfactory Value Increase",
+      "description": "Own businesses that will continue to increase in value at a satisfactory rate over time, implying consistent earnings growth and profitability.",
+      "expression": "eps_growth_rate > 0.05 and profitable_years >= 7",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "profitable_years"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 17",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety Filter",
+      "description": "Do not purchase a security unless the price being paid is substantially lower than the intrinsic value being delivered. Buffett calls this probably the single most important principle of sound and successful investing, attributed to Ben Graham.",
+      "expression": "margin_of_safety > 0.25",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 19",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Cigar Butt Investing",
+      "description": "Avoid purchasing stocks solely because they are cheap (low price relative to some measure of value) if the business's long-term performance is likely to be terrible. This implies screening for businesses with sustainable quality, not just low valuations.",
+      "expression": "roe > 0.10 and profit_margin > 0.05",
+      "data_fields_required": [
+        "roe",
+        "profit_margin"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Section 19",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Dividend Retention Test",
+      "description": "Retention of earnings is only justified if each dollar retained produces at least a one dollar increase in per share market value. This implies that companies retaining earnings should demonstrate that reinvested capital generates adequate returns, suggesting ROE should exceed the earnings yield or cost of equity.",
+      "expression": "roe > earnings_yield",
+      "data_fields_required": [
+        "roe",
+        "earnings_yield"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Section 19",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Intrinsic Value Discount",
+      "description": "Only buy when the market price is below the estimated intrinsic value (discounted present value of future cash flows). The stock price should be below the calculated intrinsic value.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Section 19",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Owner Earnings",
+      "description": "Prefer companies with positive owner earnings, defined as operating earnings plus depreciation and non-cash charges minus required reinvestment capital expenditures. Free cash flow serves as a proxy for owner earnings.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Section 19",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sustainable Business Quality",
+      "description": "Invest within your circle of competence in businesses you can understand with predictable, consistent economics. Consistent profitability over many years serves as a proxy for understandable, durable businesses.",
+      "expression": "profitable_years >= 10",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 19",
+      "source_book": "The Essays of Warren Buffett",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 67,
+  "strategies_by_category": {
+    "valuation": 22,
+    "profitability": 7,
+    "financial_health": 2,
+    "growth": 5,
+    "quality": 23,
+    "composite": 5,
+    "dividend": 2,
+    "momentum": 1
+  },
+  "data_fields_required": [
+    "debt_to_equity",
+    "dividend_payout_ratio",
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "ebit",
+    "eps_growth_rate",
+    "free_cash_flow",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "ncav_per_share",
+    "net_income",
+    "operating_margin",
+    "pe",
+    "price",
+    "price_52w_high",
+    "profit_margin",
+    "profitable_years",
+    "revenue_growth_rate",
+    "roe",
+    "treasury_yield_10y"
+  ],
+  "data_fields_available": [
+    "debt_to_equity",
+    "dividend_payout_ratio",
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "ebit",
+    "eps_growth_rate",
+    "free_cash_flow",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "ncav_per_share",
+    "net_income",
+    "operating_margin",
+    "pe",
+    "price",
+    "price_52w_high",
+    "profit_margin",
+    "profitable_years",
+    "revenue_growth_rate",
+    "roe",
+    "treasury_yield_10y"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "12% return on equity as American business benchmark",
+    "Aggregate owner returns equal aggregate business earnings minus costs",
+    "Ben Graham's investment principles",
+    "Black-Scholes formula",
+    "Bull markets obscure but cannot repeal mathematical laws",
+    "Buy and hold philosophy",
+    "CEO behavioral incentives and earnings manipulation",
+    "Contrarian investing - be fearful when others are greedy",
+    "EBITDA limitations",
+    "EBITDA skepticism",
+    "Fear and greed cycles",
+    "Frictional costs / transaction costs",
+    "GAAP accounting",
+    "GAAP limitations",
+    "Gotrocks allegory - layers of financial intermediaries",
+    "Graham and Dodd principles",
+    "Inefficient Bush Theory (IBT)",
+    "Long-term compounding",
+    "Market euphoria as a warning signal",
+    "Mr. Market",
+    "Mr. Market allegory",
+    "Phil Fisher's restaurant analogy",
+    "Self-inflicted wounds from excessive activity",
+    "Stocks cannot outperform businesses indefinitely",
+    "Zero-sum nature of trading among investors",
+    "above-average returns on capital",
+    "accounting goodwill",
+    "accounting manipulation and fraud",
+    "accounting transparency",
+    "acquisition philosophy",
+    "acquisition structuring based on real shareholder consequences",
+    "after-tax returns",
+    "after-tax shareholder returns",
+    "alignment of interests between management and shareholders",
+    "arbitrage",
+    "asset intensity",
+    "avoiding overpayment in acquisitions",
+    "avoiding short-term market focus",
+    "bargain purchases",
+    "big bath accounting",
+    "boards of directors",
+    "book value",
+    "book value per share growth",
+    "business analyst mindset",
+    "business franchise strength",
+    "business value vs. market price",
+    "buy and hold indefinitely",
+    "capital allocation",
+    "capital expenditure reality",
+    "capital gains vs. current income",
+    "capital-light business model",
+    "cash flow",
+    "cash flow fallacy",
+    "cash flow timing and certainty",
+    "cigar butt investing",
+    "cigar butts",
+    "circle of competence",
+    "circle of competence (happy zone)",
+    "clarity of communication",
+    "company as conduit for shareholder ownership",
+    "competitive advantages",
+    "concentrated capital allocation",
+    "concentration of investments",
+    "concentration vs. diversification",
+    "conservative use of debt",
+    "consolidated financial statements limitations",
+    "contingency reserves as earnings management tool",
+    "contrarian buying during peak fear",
+    "contrarian investing",
+    "corporate governance",
+    "corporate governance and candor",
+    "corporate philanthropy",
+    "corporate tax incidence",
+    "currency-based investment risk",
+    "deferred tax liabilities",
+    "depreciation",
+    "depreciation as reflection of true economic decline",
+    "derivatives",
+    "direct CEO communication to shareholders",
+    "discipline and patience in acquisitions",
+    "discounted cash flow valuation",
+    "discounted present value of future cash flows",
+    "diversification",
+    "dividend policy",
+    "dividend retention test",
+    "double-barreled acquisition style",
+    "double-barreled approach",
+    "double-dip returns (business value gains + valuation correction)",
+    "earnings guidance risks",
+    "earnings retention and reinvestment",
+    "earnings smoothing",
+    "economic goodwill",
+    "economic goodwill vs accounting goodwill",
+    "economic moat",
+    "economic reality vs. reported earnings",
+    "economic substance over accounting appearance",
+    "efficient market theory",
+    "efficient market theory (rejected)",
+    "emotional discipline in investing",
+    "empire building as value destruction",
+    "equal treatment of shareholders",
+    "excellent economic characteristics",
+    "executive compensation",
+    "executive pay",
+    "fair value recording of acquisitions",
+    "financial literacy for investors",
+    "fiscal sustainability",
+    "float",
+    "focused investing",
+    "full and fair disclosure",
+    "fundamental business analysis",
+    "fundamentalist vs. faddist investing",
+    "gin rummy trading behavior",
+    "goodwill",
+    "goodwill amortization",
+    "goodwill impairment",
+    "greater fool theory",
+    "growth can destroy value",
+    "ignore macroeconomic forecasts",
+    "index funds",
+    "inflation impact on returns",
+    "inflation tax",
+    "inflation-resistant businesses",
+    "institutional imperative",
+    "intelligent investing",
+    "intrinsic business value",
+    "intrinsic value",
+    "intrinsic value vs. market price",
+    "inventory valuation manipulation",
+    "investment vs. speculation",
+    "irrational exuberance",
+    "junk bonds",
+    "leverage and debt management",
+    "leveraged buyouts",
+    "limits of growth / growth self-destruction",
+    "liquidity management",
+    "long-term compounding",
+    "long-term economic characteristics of business",
+    "long-term holding philosophy",
+    "long-term investment horizon",
+    "look-through earnings",
+    "low portfolio turnover",
+    "management obligation to shareholders",
+    "management quality and trust",
+    "management transparency and candor",
+    "management transparency and integrity",
+    "manager as owner mentality",
+    "margin of safety",
+    "market as servant not guide",
+    "market price",
+    "mathematical expectation",
+    "maximize eventual net worth",
+    "mergers of equals",
+    "non-productive assets",
+    "operating results over price quotations",
+    "option valuation",
+    "owner alignment (skin in the game)",
+    "owner earnings",
+    "owner earnings vs. reported earnings",
+    "owner-partner mentality",
+    "owner-related business principles",
+    "per share intrinsic value maximization",
+    "plain language over complexity",
+    "price versus value divergence",
+    "price-competitive industries",
+    "price/value ratio",
+    "pricing power",
+    "productive assets",
+    "purchase accounting vs pooling accounting",
+    "purchasing power risk",
+    "quality businesses at sensible prices",
+    "range of estimates over precise numbers",
+    "real economic earnings vs. accounting earnings",
+    "real vs nominal returns",
+    "regulated vs. unregulated businesses",
+    "restructuring charges",
+    "retained earnings as source of capital gains",
+    "return-free risk",
+    "risk and reputation",
+    "risk-free interest rate as discount rate",
+    "segment data reporting",
+    "selective disclosure (condemned)",
+    "share repurchases",
+    "shareholder as business owner",
+    "shareholder constituency alignment",
+    "shareholder value maximization",
+    "sincerity and directness in writing",
+    "sound acquisition policies",
+    "sound business and investment philosophy",
+    "stewardship of capital",
+    "stock option compensation as hidden expense",
+    "stock options",
+    "sustainable earnings growth rates",
+    "tax pass-through vs. tax absorption",
+    "transaction costs",
+    "value and growth are not contrasting styles",
+    "value investing",
+    "voting machine vs. weighing machine",
+    "wonderful business at fair price vs. fair business at good price",
+    "write-downs and depreciation manipulation"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "Section 2",
+      "summary": "This section contains the Library of Congress cataloging-in-publication data, copyright information, and publishing details for 'The Essays of Warren Buffett: Lessons for Corporate America' edited by Lawrence A. Cunningham. It is purely bibliographic and administrative in nature, containing no investment philosophy, stock screening criteria, or actionable financial guidance."
+    },
+    {
+      "chapter": "Section 3",
+      "summary": "This section serves as an epigraphic or introductory passage to The Essays of Warren Buffett, featuring quotations from Michel de Montaigne and Ralph Waldo Emerson that celebrate clear, direct, and sincere communication. The quotes emphasize the value of natural, unadorned prose that conveys genuine substance—a philosophy Buffett himself embodies in his shareholder letters. This section does not contain any investment strategies, stock screening criteria, or financial metrics."
+    },
+    {
+      "chapter": "Section 4",
+      "summary": "This text is the Table of Contents for 'The Essays of Warren Buffett' edited by Lawrence Cunningham. It outlines the structure of the book across nine major sections covering corporate governance, finance and investing, investment alternatives, common stock, mergers and acquisitions, valuation and accounting, accounting shenanigans, accounting policy, and tax matters. The table of contents itself does not contain substantive investment analysis, screening criteria, or specific numerical thresholds for stock selection. It serves as a navigational guide to the book's chapters, which collectively present Buffett's investment philosophy emphasizing intrinsic value, owner earnings, margin of safety, intelligent investing, sound acquisition policies, and skepticism toward market speculation and accounting manipulation."
+    },
+    {
+      "chapter": "Section 5",
+      "summary": "This section is the preface to 'The Essays of Warren Buffett: Lessons for Corporate America,' written by editor Lawrence A. Cunningham. It describes the origins of the book as a centerpiece of a symposium at the Cardozo School of Law, its adoption as a textbook at various law and business schools, and the rationale for updated editions. The preface contains no investment analysis, stock screening criteria, or discussion of specific financial metrics—it is purely an acknowledgment and contextual introduction to the collection of Buffett's shareholder letters, noting that the book weaves those letters into a coherent narrative of sound business and investment philosophy."
+    },
+    {
+      "chapter": "Section 6",
+      "summary": "This introductory chapter to The Essays of Warren Buffett outlines Buffett's core investment and business philosophy, rooted in the fundamental business analysis principles of Ben Graham and David Dodd. Buffett views himself as a steward of shareholder capital, seeking to maximize Berkshire Hathaway's per share intrinsic value by owning diversified businesses with excellent economic characteristics, run by outstanding managers, that generate cash and above-average returns. He employs a 'double-barreled approach' of acquiring whole businesses at fair prices or buying partial interests at prices well below intrinsic value. Key financial principles include using debt sparingly, retaining earnings only when they create proportional value, penetrating accounting conventions to understand real economic earnings, and maintaining a long-term investment horizon with focused capital allocation rather than expansion for its own sake."
+    },
+    {
+      "chapter": "Section 7",
+      "summary": "This chapter outlines Warren Buffett's 'Owner-Related Business Principles' at Berkshire Hathaway, emphasizing a partnership mentality between management and shareholders. The core philosophy centers on treating shareholders as long-term owner-partners rather than short-term traders, providing candid and direct communication from the CEO, attracting a stable shareholder base aligned with long-term value creation, and viewing stock ownership as partial ownership of a real business rather than a tradeable piece of paper. The chapter draws on Phil Fisher's analogy of a restaurant cultivating a consistent clientele to argue that companies should seek shareholders whose investment horizons and expectations match the company's long-term orientation."
+    },
+    {
+      "chapter": "Section 8",
+      "summary": "This chapter from Warren Buffett's essays focuses on corporate governance principles, particularly full and fair disclosure. Buffett advocates for transparent, simultaneous reporting to all shareholders, criticizes the practice of selective disclosure to analysts and large holders, and warns against CEOs making aggressive long-term earnings growth predictions (especially 15%+ annual EPS growth), as such targets are rarely achievable for large companies and often lead to destructive behavior including accounting manipulation. He expresses deep skepticism of EBITDA as a performance metric and of vague accounting methodologies, preferring straightforward CEO communication with complete financial details that enable shareholders to properly evaluate the business."
+    },
+    {
+      "chapter": "Section 9",
+      "summary": "This chapter articulates Buffett's core investment philosophy, rooted in Ben Graham's teachings, that successful investing requires purchasing shares in good businesses when market prices are at a large discount from underlying intrinsic business values. Using the Washington Post Company as a case study (bought at 25% of intrinsic value), Buffett emphasizes that investors should view themselves as business analysts rather than market, macroeconomic, or security analysts. The chapter introduces Graham's Mr. Market allegory to illustrate that market quotations should serve the investor, not guide them—investors should exploit Mr. Market's emotional swings rather than be influenced by them. Buffett rejects efficient market theory and academic market esoterica, arguing that investment success comes from coupling good business judgment with emotional discipline, and that operating results (not price quotations) should be the measure of investment success."
+    },
+    {
+      "chapter": "Section 10",
+      "summary": "Buffett surveys three major categories of investments: currency-based instruments (bonds, money-market funds, bank deposits), non-productive assets (gold, tulips), and productive assets (businesses, farmland, real estate). He argues that currency-based investments are far more dangerous than commonly believed because inflation and taxes erode their real returns—the dollar lost 86% of its value from 1965 to 2012. Non-productive assets like gold are criticized because they generate nothing and rely solely on finding a greater fool willing to pay more. Buffett's core philosophy is to seek the highest after-tax returns measured by mathematical expectation across all investment categories, limiting choices to those he understands, with the goal of maximizing long-term net worth rather than short-term reported earnings. He emphasizes that ample liquidity must never be compromised regardless of low rates."
+    },
+    {
+      "chapter": "Section 11",
+      "summary": "This chapter from Buffett's essays focuses on the fundamental truth that stockholders as a whole can only earn what their businesses earn in aggregate, and that transaction costs (commissions, management fees, consulting fees, and performance incentives) represent a significant and growing drag on investor returns. Buffett uses the 'Gotrocks' family allegory to illustrate how layers of financial intermediaries—brokers, fund managers, consultants, and hyper-helpers—progressively erode the wealth that businesses generate for their owners. The core philosophy is to minimize frictional costs, avoid market timing, practice contrarian investing (be fearful when others are greedy and greedy when others are fearful), and recognize that stock prices must ultimately be tethered to underlying business performance. American businesses earning roughly 12% on equity provide the baseline, but investors inevitably earn less due to self-inflicted wounds from excessive trading and intermediary costs."
+    },
+    {
+      "chapter": "Section 12",
+      "summary": "This chapter from Buffett's essays on mergers and acquisitions argues that most corporate acquisitions destroy shareholder value because they are driven by managerial ego, empire-building desires, and misplaced optimism rather than sound economic logic. Buffett advocates buying wonderful businesses at fair prices rather than fair businesses at good prices, and emphasizes that investors should focus on real economic benefits rather than accounting appearances. He identifies two types of successful acquisitions: those targeting businesses with pricing power and capital-light growth characteristics (inflation-resistant businesses), and those led by rare managerial superstars who can identify undervalued companies. The core message is patience, discipline, and a refusal to overpay, even for quality businesses."
+    },
+    {
+      "chapter": "Section 13",
+      "summary": "Buffett articulates that all asset valuation reduces to a single timeless principle: estimating the amount and timing of future cash flows and discounting them at the risk-free rate (long-term U.S. bond yields). Common metrics like P/E, P/B, dividend yield, and growth rates are only useful insofar as they provide clues to future cash flows. Growth itself can destroy value if it requires more capital than the discounted value of future cash it generates. Buffett distinguishes investment (focused on what an asset will produce) from speculation (focused on what someone else will pay), warns against irrational exuberance and gigantic valuations relative to probable cash generation, and advocates for acting only when conservative estimates reveal prices startlingly low relative to intrinsic value — what he calls the Inefficient Bush Theory."
+    },
+    {
+      "chapter": "Section 14",
+      "summary": "This chapter focuses on the limitations and potential for abuse of Generally Accepted Accounting Principles (GAAP). Buffett argues that while GAAP is imperfect, the real danger lies in managements that use accounting rules as obstacles to overcome rather than standards to meet. He identifies a spectrum of accounting manipulation—from well-intentioned 'white lies' like earnings smoothing and 'big bath' quarters, to outright fraud where managers exploit GAAP to create economic illusions. Buffett emphasizes that good managers should treat GAAP as a starting point and provide additional disclosures that help investors determine company value, ability to meet obligations, and management quality. The chapter includes a satirical piece illustrating how absurd accounting manipulations—such as writing down assets to negative values, paying wages in option warrants, and carrying inventories at $1—can transform terrible operating results into impressive reported earnings, highlighting the disconnect between accounting numbers and economic reality."
+    },
+    {
+      "chapter": "Section 15",
+      "summary": "This chapter discusses Warren Buffett's views on accounting policies related to mergers and acquisitions, specifically the debate between purchase and pooling accounting methods, the treatment of goodwill amortization, and the importance of segment data reporting. Buffett argues that mandatory goodwill amortization is often fictitious since economic goodwill frequently grows over time rather than diminishes, and he advocates for recording acquisitions at fair value with goodwill left on the books unless impaired. He also emphasizes that consolidated financial statements can obscure the true economics of diverse business operations, making segmented data essential for investors to properly evaluate companies."
+    },
+    {
+      "chapter": "Section 16",
+      "summary": "This chapter discusses how the Tax Reform Act of 1986 affected Berkshire Hathaway and its holdings, with Buffett analyzing who truly bears the burden of corporate taxes. Buffett's key insight is that the impact of corporate tax changes depends on the strength of a company's business franchise: regulated utilities and price-competitive weak-franchise businesses pass tax changes through to customers via price adjustments, while unregulated companies with strong franchises retain the benefits of tax cuts (or bear the burden of tax increases) for themselves and their shareholders. Buffett also notes his preference for companies that retain high percentages of earnings to generate capital gains rather than distributing income, and expresses skepticism that the 1986 tax rates would prove sustainable, predicting either higher taxes or higher inflation within five years."
+    },
+    {
+      "chapter": "Section 17",
+      "summary": "This epilogue from Warren Buffett's essays articulates Berkshire Hathaway's long-term investment philosophy: hold great businesses indefinitely regardless of short-term price fluctuations, purchase fine businesses at sensible prices with a margin of safety, maintain strict quality standards (only 'swinging at pitches in the happy zone'), ignore macroeconomic and political forecasts, and embrace fear-driven market dislocations as buying opportunities. Buffett acknowledges that high growth rates are unsustainable as a company's base grows larger, and emphasizes that the fundamentals of Ben Graham's investment principles remain sound through all manner of external shocks. The chapter stresses alignment of interests between management and shareholders, concentration of personal wealth alongside investors, and reliance on exceptional operating managers running quality businesses."
+    },
+    {
+      "chapter": "Section 18",
+      "summary": "This section is the index of 'The Essays of Warren Buffett,' providing an alphabetical listing of topics, people, companies, and concepts discussed throughout the book. It does not contain substantive investment analysis or specific screening rules, but rather serves as a reference guide to locate discussions of key Buffett investment principles such as intrinsic value, margin of safety, circle of competence, efficient market theory, owner earnings, goodwill, competitive advantages, concentration of investments, and acquisition philosophy across the book's chapters."
+    },
+    {
+      "chapter": "Section 19",
+      "summary": "This concept glossary from Buffett's essays distills the core principles of his investment philosophy. Central themes include the margin of safety as the most important investing principle, intrinsic value as the true measure of business worth (defined as discounted future cash flows), and owner earnings as a superior measure of economic performance over GAAP earnings or cash flow. Buffett warns against cigar butt investing—buying cheap stocks in poor businesses—and emphasizes staying within one's circle of competence. He introduces the dividend retention test requiring that each dollar retained must create at least one dollar of market value, and cautions against the institutional imperative that drives irrational corporate behavior. The Mr. Market allegory reminds investors that price and value frequently diverge, creating opportunities for disciplined, intelligent investors."
+    },
+    {
+      "chapter": "Section 20",
+      "summary": "This section is a disposition table and organizational guide for The Essays of Warren Buffett, showing where excerpts from various annual letters (1979-2011) can be found across the collection's parts and sub-headings. It contains no investment analysis, stock screening criteria, or actionable investment rules, serving purely as a navigational reference for readers of the book."
+    }
+  ]
+}

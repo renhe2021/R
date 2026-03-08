@@ -1,9 +1,10 @@
 """
-Book Indexer Service — Three-Layer Knowledge Architecture
+Book Indexer Service — Four-Layer Knowledge Architecture
 
 Layer 1: Book summaries (existing inject_deep_knowledge.py data)
 Layer 2: Chapter-level documents (chapter title + full text as one doc)
-Layer 3: Paragraph-level chunks (RecursiveCharacterTextSplitter within chapters)
+Layer 3: Paragraph-level chunks (fine-grained, chunk_size=500, overlap=80)
+Layer 4: Investment strategy extraction (structured screening logic per book)
 
 Supports PDF (with TOC/outline) and EPUB (with spine/TOC).
 Stores all layers in a dedicated ChromaDB collection: r_system_books_fulltext
@@ -12,6 +13,7 @@ Stores all layers in a dedicated ChromaDB collection: r_system_books_fulltext
 import os
 import re
 import hashlib
+import json
 import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
@@ -286,14 +288,74 @@ def _parse_epub_with_chapters(file_path: str) -> BookDocument:
 #  Text Splitting — RecursiveCharacterTextSplitter
 # ═══════════════════════════════════════════════════════════════
 
+def _clean_book_text(text: str, book_title: str = "") -> str:
+    """Deep clean book text: remove headers/footers, page numbers, OCR artifacts."""
+    # Remove page header patterns: "62 The Warren Buffett Way", "Chapter 3 Rules of the Game 31"
+    text = re.sub(r"\n\d{1,4}\s+[A-Z][a-zA-Z\s]{5,40}\n", "\n", text)
+    text = re.sub(r"\n[A-Z][a-z]+ [A-Z][a-z]+\s+\d{1,4}\n", "\n", text)
+    # Remove "O'Shaughnessy 00  4/26/05  6:09 PM  Page xxx" PDF artifacts
+    text = re.sub(r"O'Shaughnessy.*?Page\s+\w+", "", text)
+    # Remove standalone page numbers
+    text = re.sub(r"\n\s*\d{1,4}\s*\n", "\n", text)
+    # Remove "This page intentionally left blank"
+    text = re.sub(r"This page intentionally left blank\.?", "", text, flags=re.IGNORECASE)
+    # Remove excessive whitespace
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    text = re.sub(r"[ \t]{3,}", " ", text)
+    return text.strip()
+
+
+def _detect_section_boundaries(text: str) -> List[Tuple[str, str]]:
+    """Detect sub-section boundaries within a chapter for semantic splitting.
+
+    Returns list of (section_heading, section_text) tuples.
+    """
+    # Match ALL-CAPS headings, numbered sections, or bold-style headings
+    heading_pattern = re.compile(
+        r"\n\s*"
+        r"("
+        r"[A-Z][A-Z\s:—\-']{8,80}"           # ALL CAPS heading
+        r"|(?:CHAPTER|PART|SECTION)\s+\d+"     # CHAPTER N
+        r"|\d+\.\s+[A-Z][A-Za-z\s]{5,60}"     # 1. Title Case
+        r"|[A-Z][a-z]+(?:\s+[A-Z][a-z]+){2,}" # Title Case Multi Word (3+ words)
+        r")"
+        r"\s*\n",
+        re.MULTILINE,
+    )
+    sections = []
+    matches = list(heading_pattern.finditer(text))
+
+    if not matches:
+        return [("", text)]
+
+    # If there's text before the first heading
+    if matches[0].start() > 50:
+        sections.append(("", text[:matches[0].start()].strip()))
+
+    for i, match in enumerate(matches):
+        heading = match.group(1).strip()
+        start = match.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        body = text[start:end].strip()
+        if body and len(body) > 30:
+            sections.append((heading, body))
+
+    return sections if sections else [("", text)]
+
+
 def _split_chapter_into_chunks(
     chapter: Chapter,
     book_title: str,
     book_author: str,
-    chunk_size: int = 1500,
-    chunk_overlap: int = 200,
+    chunk_size: int = 500,
+    chunk_overlap: int = 80,
 ) -> List[Dict[str, Any]]:
-    """Split a chapter into paragraph-level chunks with rich metadata.
+    """Split a chapter into fine-grained paragraph-level chunks with rich metadata.
+
+    Uses semantic-aware splitting:
+    1. First detects sub-section boundaries (ALL CAPS headings, etc.)
+    2. Then splits each section into smaller chunks at sentence boundaries
+    3. Tags each chunk with section_heading for better retrieval context
 
     Returns list of {text, metadata} dicts ready for ChromaDB upsert.
     """
@@ -302,50 +364,53 @@ def _split_chapter_into_chunks(
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
-        separators=["\n\n", "\n", ". ", "? ", "! ", "; ", ", ", " "],
+        separators=["\n\n", "\n", ". ", "? ", "! ", "; ", " "],
         length_function=len,
     )
 
-    # Clean up text: normalize whitespace, remove page headers/footers
-    text = chapter.text
-    # Remove common page header patterns like "62 The Warren Buffett Way"
-    text = re.sub(r"\n\d{1,3}\s+The Warren Buffett Way\n", "\n", text)
-    text = re.sub(r"\n[A-Z][a-z]+ [A-Z][a-z]+\s+\d{1,3}\n", "\n", text)
-    # Collapse excessive whitespace
-    text = re.sub(r"\n{3,}", "\n\n", text)
+    text = _clean_book_text(chapter.text, book_title)
 
-    chunks = splitter.split_text(text)
+    # Step 1: Detect sub-sections
+    sections = _detect_section_boundaries(text)
 
     results = []
-    for i, chunk_text in enumerate(chunks):
-        chunk_text = chunk_text.strip()
-        if not chunk_text or len(chunk_text) < 50:
-            continue
+    global_idx = 0
 
-        doc_id = hashlib.md5(
-            f"fulltext_chunk:{book_title}:{chapter.title}:idx{i}".encode()
-        ).hexdigest()
+    for section_heading, section_text in sections:
+        # Step 2: Fine-grained splitting within each section
+        chunks = splitter.split_text(section_text)
 
-        metadata = {
-            "source": f"book:{book_title}",
-            "doc_type": "book_fulltext_chunk",
-            "book_title": book_title,
-            "book_author": book_author,
-            "chapter_title": chapter.title,
-            "chapter_number": chapter.chapter_number,
-            "chunk_index": i,
-            "total_chunks_in_chapter": len(chunks),
-            "layer": "paragraph",  # Layer 3
-        }
-        if chapter.start_page >= 0:
-            metadata["start_page"] = chapter.start_page
-            metadata["end_page"] = chapter.end_page
+        for i, chunk_text in enumerate(chunks):
+            chunk_text = chunk_text.strip()
+            if not chunk_text or len(chunk_text) < 40:
+                continue
 
-        results.append({
-            "id": doc_id,
-            "text": chunk_text,
-            "metadata": metadata,
-        })
+            doc_id = hashlib.md5(
+                f"v2_chunk:{book_title}:{chapter.title}:{section_heading}:idx{global_idx}".encode()
+            ).hexdigest()
+
+            metadata = {
+                "source": f"book:{book_title}",
+                "doc_type": "book_fulltext_chunk",
+                "book_title": book_title,
+                "book_author": book_author,
+                "chapter_title": chapter.title,
+                "chapter_number": chapter.chapter_number,
+                "section_heading": section_heading or "",
+                "chunk_index": global_idx,
+                "section_chunk_index": i,
+                "layer": "paragraph",  # Layer 3
+            }
+            if chapter.start_page >= 0:
+                metadata["start_page"] = chapter.start_page
+                metadata["end_page"] = chapter.end_page
+
+            results.append({
+                "id": doc_id,
+                "text": chunk_text,
+                "metadata": metadata,
+            })
+            global_idx += 1
 
     return results
 
@@ -437,8 +502,8 @@ class BookIndexer:
     def index_book(
         self,
         file_path: str,
-        chunk_size: int = 1500,
-        chunk_overlap: int = 200,
+        chunk_size: int = 500,
+        chunk_overlap: int = 80,
         force_reindex: bool = False,
     ) -> Dict[str, Any]:
         """Parse and index a book into ChromaDB (Layer 2 + Layer 3).
@@ -553,8 +618,8 @@ class BookIndexer:
     def index_all_books(
         self,
         docs_dir: Optional[str] = None,
-        chunk_size: int = 1500,
-        chunk_overlap: int = 200,
+        chunk_size: int = 500,
+        chunk_overlap: int = 80,
         force_reindex: bool = False,
     ) -> List[Dict[str, Any]]:
         """Index all PDF and EPUB books in the user_docs directory."""
@@ -688,3 +753,246 @@ class BookIndexer:
             "documents_removed": count,
             "collection_total": self._collection.count(),
         }
+
+    def get_all_chunks_for_book(self, book_title: str) -> List[Dict[str, Any]]:
+        """Get all chunks for a specific book, ordered by chapter/chunk index."""
+        self._ensure_chroma()
+        results = self._collection.get(
+            where={"$and": [{"book_title": book_title}, {"layer": "paragraph"}]},
+            include=["documents", "metadatas"],
+        )
+        if not results or not results["ids"]:
+            return []
+        chunks = []
+        for doc, meta in zip(results["documents"], results["metadatas"]):
+            chunks.append({"text": doc, "metadata": meta})
+        chunks.sort(key=lambda x: (
+            x["metadata"].get("chapter_number", 0),
+            x["metadata"].get("chunk_index", 0),
+        ))
+        return chunks
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Strategy Extractor — Extract structured screening logic from books
+# ═══════════════════════════════════════════════════════════════
+
+# Known data fields in StockData (from src/analyzer.py)
+AVAILABLE_DATA_FIELDS = {
+    # 估值
+    "pe", "forward_pe", "pb", "ps", "earnings_yield", "enterprise_value",
+    # 盈利
+    "roe", "eps", "revenue", "net_income", "ebit", "pretax_income",
+    "profit_margin", "operating_margin",
+    # 财务健康
+    "current_ratio", "debt_to_equity", "debt_to_assets", "total_debt",
+    "total_cash", "market_cap", "book_value", "tangible_book_value",
+    "working_capital", "total_assets", "total_equity", "enterprise_value",
+    "shares_outstanding", "current_assets", "current_liabilities",
+    "long_term_debt", "total_liabilities", "interest_coverage_ratio",
+    "free_cash_flow", "capex",
+    # 股息
+    "dividend_yield", "dividend_payout_ratio", "dividend_per_share",
+    # 价格
+    "price", "price_52w_high", "price_52w_low",
+    # 增长
+    "revenue_growth_rate", "eps_growth_rate", "eps_growth_5y",
+    # 信用评级
+    "sp_rating", "moody_rating", "sp_quality_ranking",
+    # 技术
+    "rsi_14d", "macd_line", "macd_signal", "macd_hist", "ma_200d",
+    # 基准
+    "market_pe", "industry_avg_pe", "aa_bond_yield", "treasury_yield_10y",
+    # 历史
+    "avg_eps_10y", "avg_eps_3y", "avg_eps_first_3y", "earnings_growth_10y",
+    "profitable_years", "min_annual_eps_10y", "min_annual_eps_5y",
+    "max_eps_decline", "consecutive_dividend_years",
+    "consecutive_profitable_years", "revenue_cagr_10y",
+    # 衍生
+    "graham_number", "ncav_per_share", "intrinsic_value", "margin_of_safety",
+    "net_current_assets", "book_value_equity", "eps_3yr_avg_to_price",
+}
+
+STRATEGY_EXTRACTION_PROMPT = """You are a quantitative investment analyst. Analyze the following book chapter text and extract ALL concrete, actionable stock screening rules.
+
+For EACH rule, provide:
+1. "name": Short rule name (e.g., "Graham P/E Filter", "Buffett ROE Threshold")
+2. "description": Clear natural-language description
+3. "expression": Python-style condition using these available variables:
+   pe, forward_pe, pb, ps, earnings_yield, roe, eps, revenue, net_income, ebit,
+   profit_margin, operating_margin, current_ratio, debt_to_equity, total_debt,
+   market_cap, book_value, free_cash_flow, dividend_yield, dividend_payout_ratio,
+   price, price_52w_high, price_52w_low, revenue_growth_rate, eps_growth_rate,
+   interest_coverage_ratio, graham_number, intrinsic_value, margin_of_safety,
+   avg_eps_10y, avg_eps_3y, earnings_growth_10y, profitable_years,
+   consecutive_dividend_years, market_pe, aa_bond_yield, treasury_yield_10y,
+   ncav_per_share, ma_200d, rsi_14d
+   
+   Use Python operators: <, >, <=, >=, ==, and, or, not
+   Example: "pe < 15 and roe > 0.15 and debt_to_equity < 0.5"
+   If a rule cannot be expressed with available variables, set expression to null.
+
+4. "data_fields_required": List of variable names used in the expression
+5. "category": One of ["valuation", "profitability", "financial_health", "growth", "dividend", "quality", "momentum", "composite"]
+6. "confidence": "high" (explicit numeric threshold in text) / "medium" (qualitative with implied threshold) / "low" (general principle)
+
+Also extract:
+- "chapter_summary": One paragraph summarizing the chapter's core investment philosophy
+- "key_concepts": List of key investment concepts mentioned (e.g., "margin of safety", "economic moat")
+
+Return ONLY valid JSON:
+{
+  "strategies": [...],
+  "chapter_summary": "...",
+  "key_concepts": ["..."]
+}
+
+Be thorough. Extract ALL screening criteria, even if mentioned in passing. Include both explicit thresholds (like "P/E below 15") and implicit ones (like "strong balance sheet" → current_ratio > 2)."""
+
+
+def _extract_strategies_from_text(
+    text: str,
+    chapter_title: str,
+    book_title: str,
+    llm_chat_fn,
+) -> Optional[Dict[str, Any]]:
+    """Use LLM to extract structured strategies from a chunk of text."""
+    user_msg = f"Book: {book_title}\nChapter: {chapter_title}\n\nText:\n{text[:6000]}"
+    try:
+        response = llm_chat_fn(
+            messages=[{"role": "user", "content": user_msg}],
+            system_prompt=STRATEGY_EXTRACTION_PROMPT,
+        )
+        return _parse_strategy_json(response)
+    except Exception as e:
+        logger.warning(f"Strategy extraction failed for '{chapter_title}': {e}")
+        return None
+
+
+def _parse_strategy_json(text: str) -> Optional[Dict[str, Any]]:
+    """Parse LLM response into structured strategy dict."""
+    text = text.strip()
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1] if "\n" in text else text[3:]
+    if text.endswith("```"):
+        text = text[:-3]
+    text = text.strip()
+
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        start = text.find("{")
+        end = text.rfind("}") + 1
+        if start >= 0 and end > start:
+            try:
+                return json.loads(text[start:end])
+            except json.JSONDecodeError:
+                return None
+    return None
+
+
+def extract_book_strategies(
+    book: BookDocument,
+    llm_chat_fn,
+    output_dir: str = "",
+) -> Dict[str, Any]:
+    """Extract all investment strategies from a parsed book.
+
+    Args:
+        book: Parsed BookDocument
+        llm_chat_fn: Callable that takes (messages, system_prompt) kwargs
+        output_dir: Directory to save the JSON output
+
+    Returns:
+        Structured dict with all strategies, data requirements, and summaries
+    """
+    all_strategies = []
+    all_concepts = set()
+    chapter_summaries = []
+    data_fields_used = set()
+
+    for i, chapter in enumerate(book.chapters):
+        if not chapter.text.strip() or len(chapter.text.strip()) < 200:
+            continue
+
+        logger.info(f"  [{i+1}/{len(book.chapters)}] Extracting from: {chapter.title}")
+
+        result = _extract_strategies_from_text(
+            chapter.text,
+            chapter.title,
+            book.title,
+            llm_chat_fn,
+        )
+        if not result:
+            continue
+
+        # Collect strategies
+        for s in result.get("strategies", []):
+            s["source_chapter"] = chapter.title
+            s["source_book"] = book.title
+            # Validate data fields
+            fields = s.get("data_fields_required", [])
+            valid_fields = [f for f in fields if f in AVAILABLE_DATA_FIELDS]
+            s["data_fields_required"] = valid_fields
+            s["data_fields_missing"] = [f for f in fields if f not in AVAILABLE_DATA_FIELDS]
+            data_fields_used.update(valid_fields)
+            all_strategies.append(s)
+
+        # Collect concepts
+        for c in result.get("key_concepts", []):
+            all_concepts.add(c)
+
+        # Collect chapter summary
+        summary = result.get("chapter_summary", "")
+        if summary:
+            chapter_summaries.append({
+                "chapter": chapter.title,
+                "summary": summary,
+            })
+
+    # Deduplicate strategies by name + expression
+    seen = set()
+    unique_strategies = []
+    for s in all_strategies:
+        key = (s.get("name", ""), s.get("expression", ""))
+        if key not in seen:
+            seen.add(key)
+            unique_strategies.append(s)
+
+    # Build final report
+    report = {
+        "book_title": book.title,
+        "book_author": book.author,
+        "total_chapters_analyzed": len(book.chapters),
+        "strategies": unique_strategies,
+        "strategies_count": len(unique_strategies),
+        "strategies_by_category": _group_by_category(unique_strategies),
+        "data_fields_required": sorted(data_fields_used),
+        "data_fields_available": sorted(data_fields_used & AVAILABLE_DATA_FIELDS),
+        "data_fields_not_available": sorted(
+            data_fields_used - AVAILABLE_DATA_FIELDS
+        ),
+        "key_concepts": sorted(all_concepts),
+        "chapter_summaries": chapter_summaries,
+    }
+
+    # Save to file
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+        safe_name = re.sub(r"[^\w\s-]", "", book.title).strip().replace(" ", "_")
+        out_path = os.path.join(output_dir, f"{safe_name}_strategies.json")
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2, ensure_ascii=False)
+        logger.info(f"Strategies saved to {out_path}")
+        report["output_file"] = out_path
+
+    return report
+
+
+def _group_by_category(strategies: List[Dict]) -> Dict[str, int]:
+    """Group strategy count by category."""
+    groups = {}
+    for s in strategies:
+        cat = s.get("category", "unknown")
+        groups[cat] = groups.get(cat, 0) + 1
+    return groups

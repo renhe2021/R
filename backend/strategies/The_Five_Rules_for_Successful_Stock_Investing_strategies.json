@@ -1,0 +1,2979 @@
+{
+  "book_title": "The Five Rules for Successful Stock Investing",
+  "book_author": "Pat Dorsey",
+  "total_chapters_analyzed": 36,
+  "strategies": [
+    {
+      "name": "Minimum ROE Hurdle",
+      "description": "Returns on equity should consistently be above 10 percent, with reasonable leverage, as part of the 10-minute quality test.",
+      "expression": "roe > 0.10",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Operating Profit",
+      "description": "The company should have made an operating profit at some point, as a minimum quality hurdle.",
+      "expression": "ebit > 0",
+      "data_fields_required": [
+        "ebit"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Cash Flow from Operations",
+      "description": "The company should generate consistent cash flow from operations as part of the quality screening test.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Free Cash Flow Generation",
+      "description": "The firm should generate positive free cash flow as a quality indicator.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Clean Balance Sheet",
+      "description": "The balance sheet should be clean, implying low leverage and manageable debt levels.",
+      "expression": "debt_to_equity < 0.5 and current_ratio > 1.5",
+      "data_fields_required": [
+        "debt_to_equity",
+        "current_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "low",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Reasonable Leverage with ROE",
+      "description": "High ROE should be achieved with reasonable leverage, not excessive debt.",
+      "expression": "roe > 0.10 and debt_to_equity < 1.0",
+      "data_fields_required": [
+        "roe",
+        "debt_to_equity"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Share Dilution Check",
+      "description": "The number of shares outstanding should not have increased markedly over the past several years, indicating dilution.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety",
+      "description": "Buy stocks with a margin of safety — purchase price should be meaningfully below estimated intrinsic value.",
+      "expression": "margin_of_safety > 0.20",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Earnings Growth",
+      "description": "Earnings growth should be consistent rather than erratic, indicating business stability.",
+      "expression": "profitable_years >= 8",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Overpaying - Valuation Discipline",
+      "description": "Paying up rarely pays off — avoid stocks with excessive valuations. Don't ignore valuation.",
+      "expression": "pe < 25 and forward_pe < 20",
+      "data_fields_required": [
+        "pe",
+        "forward_pe"
+      ],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Section 1",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Overvalued Great Companies",
+      "description": "Avoid buying stocks at extremely high P/E ratios even if the company is considered great. The text uses Cisco at 100 times earnings as an example of a great company that was a terrible stock.",
+      "expression": "pe < 100",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "It’s the Business that Matters",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Reasonable Price for Wonderful Business",
+      "description": "Find wonderful businesses and purchase them at reasonable prices. The goal is to buy quality companies that are not overvalued, implying a moderate P/E ratio and strong profitability.",
+      "expression": "pe > 0 and roe > 0.10 and free_cash_flow > 0",
+      "data_fields_required": [
+        "pe",
+        "roe",
+        "free_cash_flow"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "It’s the Business that Matters",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow Focus",
+      "description": "Focus on companies that generate positive free cash flow, as the text emphasizes free cash flow as one of the things that truly matters when evaluating a business.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "It’s the Business that Matters",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Business Filter",
+      "description": "Avoid money-losing ventures. The text warns against companies that have 'not a prayer of turning a profit' being accorded high valuations. Filter for companies with positive earnings.",
+      "expression": "net_income > 0 and eps > 0",
+      "data_fields_required": [
+        "net_income",
+        "eps"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "It’s the Business that Matters",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Undervalued Stock Screen",
+      "description": "Exceptional money managers focus on finding undervalued stocks. Look for stocks trading below intrinsic value with a margin of safety.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "It’s the Business that Matters",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Margin of Safety - Avoid Overvalued Stocks",
+      "description": "Buy stocks only when they are trading for substantially less than the estimate of intrinsic value. The example given is that paying 50 times earnings for Coca-Cola led to poor returns, implying investors should avoid extremely high P/E ratios and seek a meaningful discount to intrinsic value.",
+      "expression": "margin_of_safety > 0 and pe < 50",
+      "data_fields_required": [
+        "margin_of_safety",
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Do Your Homework",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Economic Moat - Sustained Above-Average Profitability",
+      "description": "Seek companies that retain above-average levels of profitability for many years, indicating a durable competitive advantage (economic moat). Companies with consistently high ROE relative to the market demonstrate this trait.",
+      "expression": "roe > 0.15 and profitable_years >= 10",
+      "data_fields_required": [
+        "roe",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Do Your Homework",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Profitability Filter",
+      "description": "The chapter emphasizes that longer periods of excess profitability lead to better long-term stock performance. Companies should demonstrate a track record of sustained profitability across many years.",
+      "expression": "profitable_years >= 10",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Do Your Homework",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Below Intrinsic Value",
+      "description": "Buy stocks for less than they're really worth. The margin of safety is the difference between the market's price and the estimate of intrinsic value. Stocks should trade at a meaningful discount to estimated intrinsic value.",
+      "expression": "price < intrinsic_value and margin_of_safety > 0.20",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value",
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Do Your Homework",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Extreme P/E Ratios",
+      "description": "The chapter uses Coca-Cola at 50 times earnings as an example of overpaying. Even great companies purchased at extreme valuations lead to disappointing returns. Avoid stocks with excessively high P/E ratios.",
+      "expression": "pe < 40",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Do Your Homework",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Small Growth Stocks",
+      "description": "Avoid small-cap growth stocks as they have historically underperformed the S&P 500 (9.3% vs 10.7% annually since 1927). Prefer larger, established companies with proven track records over speculative small firms.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Economic Moat Requirement",
+      "description": "Focus on buying great companies with strong economic moats rather than loading up on risky, all-or-nothing stocks. Companies should have durable competitive advantages.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Stocks Down 50%+ Without Recovery Potential",
+      "description": "Be wary of large losses because a stock that drops 50% needs to double (100% gain) just to break even. Avoid highly speculative positions that risk catastrophic loss.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Attractive Business Economics Filter",
+      "description": "Only invest in companies with attractive business economics - healthy profit margins and manageable competition. Avoid industries with thin margins and intense competition regardless of product quality.",
+      "expression": "profit_margin > 0.10 and operating_margin > 0.10",
+      "data_fields_required": [
+        "profit_margin",
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Profitability Requirement",
+      "description": "Avoid companies that cannot generate consistent profits. Companies should have a track record of profitability rather than recurring losses, as even great products don't guarantee great profits.",
+      "expression": "profitable_years >= 5",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Don't Ignore Valuation",
+      "description": "Never ignore valuation when purchasing stocks. Ensure stocks are bought at reasonable prices relative to their fundamentals rather than at any price.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buy During Market Pessimism",
+      "description": "Stocks are most attractive when others are avoiding them. Look for opportunities when the market is down and sentiment is negative, following Templeton's principle that maximum pessimism is the best time to buy.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Cyclical Stocks at Peak Earnings",
+      "description": "Be skeptical when cyclical industries (semiconductors, energy) are projected to grow earnings at high rates (e.g., 20%+ annually). Avoid buying cyclical stocks when earnings and sentiment are at peaks.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Don't Rely on Earnings Alone",
+      "description": "Earnings do not tell the whole story of a company's financial health. Look beyond reported earnings to understand the full financial picture including cash flows and balance sheet strength.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Delisting Risk - Nasdaq Survival Filter",
+      "description": "Avoid very small or financially weak firms at risk of delisting. Between 1997-2002, 8% of Nasdaq firms were delisted annually. Prefer companies with sufficient market cap and financial stability.",
+      "expression": "market_cap > 500000000 and net_income > 0",
+      "data_fields_required": [
+        "market_cap",
+        "net_income"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Swinging for the Fences",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Free Cash Flow to Sales Threshold",
+      "description": "A firm's free cash flow as a percentage of sales (revenues) should be around 5 percent or better, indicating the firm is a 'cash machine' with an economic moat. As of mid-2003, only half of the S&P 500 passed this test.",
+      "expression": "(free_cash_flow / revenue) >= 0.05",
+      "data_fields_required": [
+        "free_cash_flow",
+        "revenue"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Evaluating Profitability",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Net Margin Above 15%",
+      "description": "Firms that can post net margins above 15 percent are 'doing something right' — indicating strong profitability and a potential economic moat.",
+      "expression": "profit_margin > 0.15",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Evaluating Profitability",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent ROE Above 15%",
+      "description": "Firms that are able to consistently post return on equity above 15 percent are generating solid returns on shareholders' money and likely have economic moats.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Evaluating Profitability",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow Generation",
+      "description": "Firms that generate positive free cash flow (cash flow from operations minus capital expenditures) have money left over after reinvesting to keep their businesses running, which is a sign of an economic moat.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Evaluating Profitability",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Combined Profitability Moat Screen",
+      "description": "Use all profitability metrics together to identify firms with economic moats: free cash flow to sales >= 5%, net margin > 15%, and ROE > 15%. The chapter emphasizes these measures work best when used together.",
+      "expression": "(free_cash_flow / revenue) >= 0.05 and profit_margin > 0.15 and roe > 0.15",
+      "data_fields_required": [
+        "free_cash_flow",
+        "revenue",
+        "profit_margin",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Evaluating Profitability",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Returns on Assets Screen",
+      "description": "Return on assets (net income as a percentage of total assets) is used as an additional profitability measure to assess economic moats. The chapter introduces ROA as a key metric though the specific threshold is cut off in the text.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "Evaluating Profitability",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Historical Profitability Consistency",
+      "description": "Evaluate whether the firm has been able to generate solid returns on assets and shareholders' equity consistently over time, not just in a single period. Consistent profitability is the 'true litmus test' of an economic moat.",
+      "expression": "profitable_years >= 10 and roe > 0.15",
+      "data_fields_required": [
+        "profitable_years",
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Evaluating Profitability",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Accounts Receivable vs Sales Growth Check",
+      "description": "Accounts receivable should not be growing much faster than revenue/sales. If accounts receivable are rising much faster than sales, the firm may be offering looser credit terms and may have difficulty collecting cash owed. This is a warning sign of potential trouble.",
+      "expression": null,
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "The Balance Sheet",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Current Assets Liquidity Check",
+      "description": "A company should have sufficient current assets (cash, short-term investments, accounts receivable, inventories) relative to current liabilities to meet short-term obligations. The balance sheet must balance, and current assets should adequately cover current liabilities.",
+      "expression": "current_ratio > 1",
+      "data_fields_required": [
+        "current_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "The Balance Sheet",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Stockholders' Equity",
+      "description": "A company's assets should exceed its liabilities, resulting in positive stockholders' equity. This indicates the company has more value in assets than it owes in debts, similar to having positive equity in a home after subtracting the mortgage.",
+      "expression": "book_value > 0",
+      "data_fields_required": [
+        "book_value"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "The Balance Sheet",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Growth Over Earnings Growth",
+      "description": "Prioritize companies where sales/revenue growth is driving earnings growth, rather than earnings growing faster than sales (which may indicate unsustainable cost-cutting or accounting tricks). Revenue growth should be positive and ideally close to or exceeding earnings growth.",
+      "expression": "revenue_growth_rate > 0 and revenue_growth_rate >= eps_growth_rate * 0.5",
+      "data_fields_required": [
+        "revenue_growth_rate",
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Growth",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Sustainable Earnings Growth Check",
+      "description": "Be skeptical of companies with very high earnings growth rates that significantly outpace revenue growth, as this suggests growth from cost-cutting or financial engineering rather than genuine business expansion, which is not sustainable long-term.",
+      "expression": "eps_growth_rate > 0 and revenue_growth_rate > 0 and eps_growth_rate < revenue_growth_rate * 3",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Growth",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Revenue Growth Filter",
+      "description": "Look for companies with positive revenue/sales growth as the foundation of sustainable earnings growth. Sales growth is the primary long-run driver of earnings growth.",
+      "expression": "revenue_growth_rate > 0",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "high",
+      "source_chapter": "Growth",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Profitability Filter",
+      "description": "Favor companies that have been consistently profitable over multiple years, as the chapter emphasizes evaluating company quality and sustainability of growth.",
+      "expression": "profitable_years >= 5",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Growth",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Growth Persistence Skepticism",
+      "description": "Be cautious of companies with very high historical earnings growth (above 15% for 5+ years) as academic research shows strong earnings growth is not very persistent. Apply extra scrutiny to high-growth companies.",
+      "expression": "earnings_growth_10y <= 0.25",
+      "data_fields_required": [
+        "earnings_growth_10y"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Growth",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bonus-Heavy Compensation Structure",
+      "description": "Prefer companies where executive compensation is weighted toward bonuses rather than high base salaries, indicating pay is at risk and tied to performance.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Compensation",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Restricted Stock Over Options",
+      "description": "Prefer companies that grant restricted stock to executives rather than generous option packages, since restricted stock means executives lose money if share price declines, aligning interests with shareholders.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Compensation",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Reasonable Executive Compensation",
+      "description": "Avoid companies where executive cash compensation appears excessive relative to company size and financial performance. If the amount makes you cringe, it's probably too much.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Compensation",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Pay Tied to Operational Performance",
+      "description": "Favor companies where executive pay is explicitly tied to the firm's operational performance with transparent, predetermined targets that are not frequently changed or moved.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Compensation",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Transparent Compensation Targets",
+      "description": "Avoid companies that refuse to disclose specific performance targets for executive bonuses, as nondisclosure on the compensation front is a bad sign for management quality.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Compensation",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "No Bonuses for Empire Building",
+      "description": "Avoid companies that reward executives with bonuses simply for completing acquisitions rather than for the acquisition generating adequate returns over time. Paying for deal completion encourages dubious deals.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Compensation",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Stable Performance Goalposts",
+      "description": "Avoid companies where the board of directors reduces or changes executive performance targets while keeping potential rewards the same, as this indicates the board is unwilling to hold management accountable.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Compensation",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Declining Cash Flow Red Flag",
+      "description": "Avoid companies where cash flow from operations is declining while net income is increasing, or where cash flow from operations grows much more slowly than net income. This suggests the company is generating sales without collecting cash, which is a recipe for a future blowup.",
+      "expression": null,
+      "data_fields_required": [
+        "free_cash_flow",
+        "net_income"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Six Red Flags",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Accounts Receivable to Sales Growth Red Flag",
+      "description": "Watch for accounts receivable growing as a percentage of sales. In the Lucent example, A/R ballooned from 20% to 27% of sales, signaling the firm was having trouble collecting money owed. Rapidly growing A/R relative to revenue is a warning sign of aggressive revenue recognition.",
+      "expression": null,
+      "data_fields_required": [
+        "revenue"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Six Red Flags",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cash Flow Tracks Net Income Quality Check",
+      "description": "Over time, increases in cash flow from operations should roughly track increases in net income. Companies where these diverge significantly should be avoided. As a proxy, free cash flow should be positive and not dramatically below net income.",
+      "expression": "free_cash_flow > 0 and free_cash_flow > net_income * 0.5",
+      "data_fields_required": [
+        "free_cash_flow",
+        "net_income"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Six Red Flags",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Cash Flow from Operations",
+      "description": "At minimum, cash flow from operations should be positive. Negative operating cash flow, especially when net income is positive, is a major red flag (as illustrated by Lucent's negative $276 million cash flow while reporting $3.5 billion net income).",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "high",
+      "source_chapter": "Six Red Flags",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Operations Consistency",
+      "description": "Companies should demonstrate consistent profitability over multiple years. Firms with frequent restructuring charges, write-downs, and one-time items that muddy historical financials should be avoided.",
+      "expression": "profitable_years >= 5",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Six Red Flags",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Serial Acquirers",
+      "description": "Be wary of firms that make numerous acquisitions, as their financials have been restated and rejiggered so many times that it's difficult to assess true performance. Acquisitive firms also increase the risk of nasty surprises due to insufficient due diligence on targets.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Six Red Flags",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "CFO/Auditor Stability Check",
+      "description": "Avoid companies where the CFO has left for unexplained reasons or where the company has changed auditors frequently. These are warning signs of potential accounting problems or fraud.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Six Red Flags",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Net Income Positive Check",
+      "description": "Companies should have positive net income. Firms reporting positive net income but negative cash flow are especially suspect and should be avoided.",
+      "expression": "net_income > 0",
+      "data_fields_required": [
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Six Red Flags",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid High P/E Stocks",
+      "description": "Avoid stocks with high P/E ratios to minimize speculative risk. The chapter demonstrates that a P/E decline from 20 to 15 can reduce annualized returns from 9.3% to 4.1%, even with solid earnings growth. Buying at lower P/E ratios provides insulation against P/E compression.",
+      "expression": "pe < 20",
+      "data_fields_required": [
+        "pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Paying Up Rarely Pays Off",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Discount to Reasonable Valuation",
+      "description": "Purchase stocks only at a discount to a reasonable valuation estimate, ensuring a margin of safety against market emotion and P/E compression.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Paying Up Rarely Pays Off",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Investment Return Components",
+      "description": "Focus on stocks with meaningful dividend yield and earnings growth, as these investment return components drive long-term returns. Bogle's analysis showed dividends (5%) and earnings growth (4.8%) accounted for nearly all of the 10.4% long-term market return.",
+      "expression": "dividend_yield > 0 and eps_growth_rate > 0",
+      "data_fields_required": [
+        "dividend_yield",
+        "eps_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Paying Up Rarely Pays Off",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Earnings Yield Attractiveness",
+      "description": "Stocks should offer an attractive earnings yield (inverse of P/E) to ensure the investment return component is sufficient to deliver good returns even if the P/E ratio contracts.",
+      "expression": "earnings_yield > 0.05",
+      "data_fields_required": [
+        "earnings_yield"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Paying Up Rarely Pays Off",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Speculative P/E Levels",
+      "description": "Avoid stocks trading at P/E ratios significantly above the market average, as the speculative return from P/E expansion is unreliable and P/E compression can devastate returns. The chapter's example uses P/E of 20 as a starting point that is vulnerable to compression.",
+      "expression": "pe <= market_pe",
+      "data_fields_required": [
+        "pe",
+        "market_pe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Paying Up Rarely Pays Off",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Earnings Growth",
+      "description": "Seek companies with reliable earnings growth, as the chapter emphasizes that investment returns depend on earnings growth and dividends. The example assumes 6% annual earnings growth as a reasonable baseline.",
+      "expression": "eps_growth_rate >= 0.06",
+      "data_fields_required": [
+        "eps_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Paying Up Rarely Pays Off",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Company Filter",
+      "description": "Only invest in companies that are consistently profitable, as the investment return framework depends on positive earnings that can grow over time.",
+      "expression": "eps > 0 and net_income > 0",
+      "data_fields_required": [
+        "eps",
+        "net_income"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Paying Up Rarely Pays Off",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Discount to Intrinsic Value",
+      "description": "Stocks should be purchased because they are trading at some discount to their intrinsic value, not simply because they are priced at a higher or lower point than similar companies.",
+      "expression": "margin_of_safety > 0",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Cash Flow, Present Value, and Discount Rates",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Free Cash Flow",
+      "description": "Companies should generate positive free cash flow, as this is the amount of money that could be taken out of the business each year without harming its operations. Free cash flows are what give the firm its investment value.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Cash Flow, Present Value, and Discount Rates",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Price Below Intrinsic Value",
+      "description": "The value of a stock is equal to the present value of its future cash flows. Investors should buy stocks when the current price is below the estimated intrinsic value.",
+      "expression": "price < intrinsic_value",
+      "data_fields_required": [
+        "price",
+        "intrinsic_value"
+      ],
+      "category": "valuation",
+      "confidence": "high",
+      "source_chapter": "Cash Flow, Present Value, and Discount Rates",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Economic Moat - Consistent Free Cash Flow",
+      "description": "Companies should demonstrate a consistent history of generating positive free cash flow. AMD's spotty free cash flow history (negative for many years) was cited as evidence of lacking an economic moat.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Economic Moat - Consistent Profitability",
+      "description": "Companies should be profitable in most years. AMD lost money in 6 of 10 years, which was a red flag. Look for companies that have been profitable in the majority of recent years.",
+      "expression": "profitable_years >= 8",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Strong ROE Indicator",
+      "description": "ROE in the high teens (roughly 17-19%) was described as 'pretty good' for AMD's industry. Companies with consistently strong ROE suggest an economic moat.",
+      "expression": "roe >= 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Operating Margins",
+      "description": "Companies should have positive operating margins consistently. AMD's negative operating margins in 6 of 10 years indicated lack of competitive advantage.",
+      "expression": "operating_margin > 0",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive Net Margins",
+      "description": "Companies should have positive net margins. AMD's frequent negative net margins were a sign of poor profitability and lack of moat.",
+      "expression": "profit_margin > 0",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Financial Leverage / Debt Check",
+      "description": "Gradually increasing financial leverage (more debt) was flagged as a negative signal for AMD. Companies with lower debt-to-equity are preferred.",
+      "expression": "debt_to_equity < 1.0",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Big Margin of Safety for No-Moat Companies",
+      "description": "For companies without an economic moat, a large margin of safety is required before investing. The text states no-moat companies can be decent investments only if the stock is cheap enough.",
+      "expression": "margin_of_safety > 0.30",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Revenue Growth Adequacy",
+      "description": "AMD's 6% average annual revenue growth over a decade was described as 'nothing to crow about' during a period of strong industry demand. Look for companies with meaningfully higher revenue growth.",
+      "expression": "revenue_growth_rate > 0.10",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Positive EPS Growth",
+      "description": "AMD's earnings were too volatile to assess meaningful growth, with large losses interspersed with profitable years. Consistent positive EPS growth is preferred.",
+      "expression": "eps_growth_rate > 0 and eps > 0",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "eps"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Advanced Micro Devices",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Minimum Market Cap Filter",
+      "description": "Avoid companies with minuscule market capitalizations. Filter out very small companies that are more likely to be low-quality investments.",
+      "expression": "market_cap > 100000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Operating Profitability Test",
+      "description": "The company must have demonstrated it can earn an operating profit. Avoid firms that have never made an operating profit, as they are high-risk speculative investments akin to lottery tickets.",
+      "expression": "ebit > 0",
+      "data_fields_required": [
+        "ebit"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Minimum ROE Hurdle (Non-Financial Firms)",
+      "description": "Non-financial firms should consistently post Return on Equity above 10 percent. Use 10% as the minimum hurdle — if a firm can't achieve this four years out of every five, it's likely not worth your time.",
+      "expression": "roe > 0.10",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Minimum ROE Hurdle (Financial Firms)",
+      "description": "Financial firms should have a higher ROE bar of at least 12 percent, reflecting the leveraged nature of their business models.",
+      "expression": "roe > 0.12",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Reasonable Leverage - Debt-to-Equity Filter",
+      "description": "For non-bank firms, a debt-to-equity ratio over 1.0 signals a highly leveraged balance sheet that requires extra scrutiny. Prefer firms with debt-to-equity at or below 1.0.",
+      "expression": "debt_to_equity <= 1.0",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "high",
+      "source_chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "ROE with Reasonable Leverage Composite",
+      "description": "A 15% ROE generated with minimal leverage is much higher quality than one generated with lots of leverage. Prefer firms with strong ROE and low debt-to-equity.",
+      "expression": "roe > 0.15 and debt_to_equity < 0.5",
+      "data_fields_required": [
+        "roe",
+        "debt_to_equity"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Financial Leverage Ratio Filter",
+      "description": "If a non-bank firm has a financial leverage ratio above about 4 (roughly equivalent to debt-to-equity over 1.0), the capital structure is overly complicated and risky. Avoid such firms unless in stable industries.",
+      "expression": "debt_to_equity < 1.0",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "high",
+      "source_chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Comprehensive 10-Minute Quality Screen",
+      "description": "Composite screen combining the key quality hurdles: operating profitability, ROE above 10%, reasonable leverage (D/E under 1.0), and positive free cash flow generation.",
+      "expression": "ebit > 0 and roe > 0.10 and debt_to_equity <= 1.0 and free_cash_flow > 0",
+      "data_fields_required": [
+        "ebit",
+        "roe",
+        "debt_to_equity",
+        "free_cash_flow"
+      ],
+      "category": "composite",
+      "confidence": "high",
+      "source_chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Wide-Moat Financial Services Focus",
+      "description": "Focus on banks and financial services firms that act as middlemen for money, paying low rates to depositors while lending at substantially higher rates, generating strong fee income and cross-selling financial products. These firms often have confusing financial statements that deter other investors, creating opportunity.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Where to Look",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Niche Business Services Dominators",
+      "description": "Look for business services firms that dominate a niche corner of the economy, are self-funding (don't need investment banking services), and fly beneath Wall Street's radar due to limited analyst coverage. These firms tend to be highly profitable and receive less institutional attention, creating pricing opportunities.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Where to Look",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Profitable Health Care with Moats",
+      "description": "Focus on health care companies that are highly profitable with strong long-term demand outlook and lasting economic moats, but avoid single-product biotech firms and managed-care firms heavily exposed to regulatory risk from Medicare rule changes.",
+      "expression": "profit_margin > 0.15",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Where to Look",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Media Oligopoly/Monopoly Screen",
+      "description": "Look for media companies that benefit from natural oligopolies or monopolies and subscription-based revenue models where customers pay upfront before product delivery, creating favorable cash flow dynamics.",
+      "expression": "free_cash_flow > 0 and operating_margin > 0.15",
+      "data_fields_required": [
+        "free_cash_flow",
+        "operating_margin"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Where to Look",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Under-Covered Niche Firm Screen",
+      "description": "Seek out companies that receive less Wall Street analyst attention, often because they are self-funding and don't need investment banking services, and don't fit neatly into standard industry coverage lists. These tend to be smaller firms dominating niche markets.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Where to Look",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Profitability Filter for Moat Industries",
+      "description": "Focus on companies in industries that lend themselves to economic moat creation (financial services, business services, health care, media), filtering for high profitability as evidence of competitive advantage.",
+      "expression": "profit_margin > 0.15 and roe > 0.15",
+      "data_fields_required": [
+        "profit_margin",
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Where to Look",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Self-Funding Business Filter",
+      "description": "Identify companies that are self-funding and do not need external capital (investment banking services), suggesting strong internal cash generation and financial independence.",
+      "expression": "free_cash_flow > 0 and debt_to_equity < 0.5",
+      "data_fields_required": [
+        "free_cash_flow",
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Where to Look",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Health Care High ROE Filter",
+      "description": "Health care firms have averaged 23% market-weighted return on equity over the last five years. Screen for health care companies with ROE at or above this sector average to identify firms with strong economic moats.",
+      "expression": "roe >= 0.23",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Top-Notch Pharma ROIC Filter",
+      "description": "Most global pharmaceutical companies have returns on invested capital (ROICs) in the mid-20s, with top-notch companies like Pfizer often in the 30s. Screen for pharma companies with ROIC of 25% or higher as a quality threshold.",
+      "expression": "roe >= 0.25",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Elite Pharma ROIC Filter",
+      "description": "Top-notch pharmaceutical companies like Pfizer often have ROICs in the 30s. Screen for elite pharma companies with ROIC at or above 30%.",
+      "expression": "roe >= 0.30",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Pharma Gross Margin Filter",
+      "description": "Branded pharmaceutical companies typically have gross margins near 80%, often surpassing 75% to 85%. Screen for pharma companies with gross margins at or above 75%.",
+      "expression": "profit_margin > 0 and operating_margin >= 0.25",
+      "data_fields_required": [
+        "profit_margin",
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Pharma Operating Margin Filter",
+      "description": "Drug companies typically have operating margins between 25% and 35%. Screen for pharmaceutical companies with operating margins of at least 25%.",
+      "expression": "operating_margin >= 0.25",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Pharma Premium Operating Margin",
+      "description": "The best drug companies have operating margins at the high end of the 25-35% range. Screen for companies with operating margins of 35% or higher to identify the most profitable pharma firms.",
+      "expression": "operating_margin >= 0.35",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Pharma Debt-Free Balance Sheet",
+      "description": "Drug companies typically offer virtually debt-free balance sheets. Screen for health care companies with very low debt-to-equity ratios.",
+      "expression": "debt_to_equity < 0.1",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Health Care Strong Free Cash Flow",
+      "description": "Health care companies, especially pharma, are described as having plentiful free cash flow and strong free cash flow generation. Screen for positive and substantial free cash flow.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Health Care Defensive Quality Screen",
+      "description": "Health care is described as a defensive safe haven with consistent demand. Screen for health care companies with strong profitability, low debt, and positive free cash flow as a composite quality filter.",
+      "expression": "roe >= 0.20 and debt_to_equity < 0.5 and free_cash_flow > 0 and profit_margin > 0.15",
+      "data_fields_required": [
+        "roe",
+        "debt_to_equity",
+        "free_cash_flow",
+        "profit_margin"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Health Care Valuation Caution",
+      "description": "The chapter warns that investors often get swept away by heady growth rates in pharma and medical devices, leading to steep valuations. Avoid overpaying by screening for reasonable P/E ratios relative to the market.",
+      "expression": "pe < market_pe * 1.5 and roe >= 0.20",
+      "data_fields_required": [
+        "pe",
+        "market_pe",
+        "roe"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Health Care Revenue Growth Filter",
+      "description": "Health care spending is estimated to grow at 5% annually over the next decade. Screen for health care companies growing revenue at or above the sector's expected growth rate.",
+      "expression": "revenue_growth_rate >= 0.05",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "high",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Health Care Low Debt Quality Screen",
+      "description": "Health care companies with economic moats typically have strong balance sheets. Screen for low leverage as an indicator of financial health in the sector.",
+      "expression": "debt_to_equity < 0.5 and free_cash_flow > 0",
+      "data_fields_required": [
+        "debt_to_equity",
+        "free_cash_flow"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Economic Moats in Health Care",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Retail Economic Moat - Economies of Scale",
+      "description": "Focus on consumer service firms that have established vast economies of scale and distinctive store prototypes that make it tough for competitors to earn consistent profits. Examples include Home Depot, Lowe's, Walgreen's, and Wal-Mart.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Companies We See Every Day",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buy Quality Retailers During Periodic Sell-offs",
+      "description": "Buy high-quality specialty and clothing retailers when the industry experiences one of its periodic sell-offs, though these are generally not great long-term holdings.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "Companies We See Every Day",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Restaurant Aggressive Growth Stage - Per Unit Profitability",
+      "description": "Restaurant chains in the aggressive growth stage must be profitable on a per-unit basis to support opening new stores. Look for restaurants with positive and consistent earnings, not just strong sales growth.",
+      "expression": "net_income > 0 and revenue_growth_rate > 0",
+      "data_fields_required": [
+        "net_income",
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Companies We See Every Day",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Speculative Growth Restaurants",
+      "description": "Avoid restaurant chains in the speculative growth stage that report negative or inconsistent earnings, even if they show strong sales growth. These concepts frequently fail.",
+      "expression": "net_income > 0 and profitable_years >= 3",
+      "data_fields_required": [
+        "net_income",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Companies We See Every Day",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consumer Services - Buy at the Right Price",
+      "description": "Even firms with wide economic moats in consumer services must be purchased at the right price. Identifying great firms is only half the battle; valuation discipline is essential.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "valuation",
+      "confidence": "low",
+      "source_chapter": "Companies We See Every Day",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Wide-Moat Business Services Value Buy",
+      "description": "Look for business services companies with wide economic moats (scale economies, high barriers to entry, strong brands) trading at attractive valuations. These firms have historically generated above-average long-term returns (e.g., 14.2% vs 9.7% for S&P 500 over 10 years).",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Outsourcing Trend",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Scale-Advantaged Business Services Profitability",
+      "description": "Favor business services companies that have achieved critical mass and scale economies, evidenced by strong profitability metrics. Size allows leveraging fixed-cost networks to lower unit costs and achieve greater profitability, suggesting above-average operating and profit margins.",
+      "expression": "operating_margin > 0.15 and profit_margin > 0.10",
+      "data_fields_required": [
+        "operating_margin",
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Outsourcing Trend",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Technology-Based Business Services Long-Term Returns",
+      "description": "Technology-based business services companies (data processors, database providers) with sizable and defensible competitive advantages have generated better-than-average long-term returns. Look for consistent earnings growth and strong ROE as indicators of these advantages.",
+      "expression": "roe > 0.15 and earnings_growth_10y > 0.10",
+      "data_fields_required": [
+        "roe",
+        "earnings_growth_10y"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Outsourcing Trend",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Business Services Revenue Growth Screen",
+      "description": "Business-to-business services have been a growing sector (from 3.5% to 5.4% of GDP over roughly a decade). Favor companies in this space showing solid revenue growth, indicating they are capturing the outsourcing trend.",
+      "expression": "revenue_growth_rate > 0.05",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Outsourcing Trend",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Barrier-to-Entry Business Services Screen",
+      "description": "Favor business services firms with significant barriers to entry (infrastructure requirements, established processing networks, brand recognition). These characteristics are reflected in consistently high profitability and strong returns on equity over time.",
+      "expression": "roe > 0.15 and profitable_years >= 10",
+      "data_fields_required": [
+        "roe",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Outsourcing Trend",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Buy Wide-Moat Business Services at Right Price",
+      "description": "The chapter emphasizes buying wonderful, wide-moat businesses at the right price and holding as long-term investments. This implies seeking a margin of safety when purchasing high-quality business services companies.",
+      "expression": "margin_of_safety > 0.20 and roe > 0.15",
+      "data_fields_required": [
+        "margin_of_safety",
+        "roe"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Outsourcing Trend",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bank Credit Quality - Nonperforming Loans",
+      "description": "Evaluate a bank's credit quality by examining trends in nonperforming loans (loans on which borrowers aren't paying). Lower nonperforming loan ratios indicate better credit risk management.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "It’s All about Risk",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bank Credit Quality - Charge-Off Rates",
+      "description": "Assess a bank's credit quality by examining charge-off rates, which measure the percentage of loans the bank doesn't think will ever be repaid. Lower charge-off rates indicate better lending practices.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "It’s All about Risk",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bank Net Interest Spread",
+      "description": "Banks profit from the spread between borrowing costs and lending rates. A healthy spread (net interest income) indicates competitive advantage. The chapter uses a 2 percent spread as an illustrative example (borrowing at 4%, lending at 6%).",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "It’s All about Risk",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bank Attractive Returns on Spread",
+      "description": "Banks with low cost of borrowing (e.g., strong deposit base) combined with lending advantages can earn attractive returns. Look for banks that attract low-cost deposits like Wells Fargo, which translates to higher ROE.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "It’s All about Risk",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bank Loan Portfolio Diversity",
+      "description": "Prefer banks that manage credit risk through portfolio diversity - lending across many companies, industries, and geographies. Wide geographic reach (like Citigroup) helps diversify risk exposure.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "It’s All about Risk",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bank Economic Moat - Low Cost Deposits",
+      "description": "Banks with strong deposit-gathering capabilities have a competitive advantage through lower cost of funds. This is a key differentiator since money is a commodity and financial products are generic.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "It’s All about Risk",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bank Cost Efficiency Focus",
+      "description": "Banks with a sharp focus on costs (like Fifth Third) combined with low-risk loan philosophy and aggressive sales culture tend to outperform. Look for banks with strong operating margins relative to peers.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "profitability",
+      "confidence": "low",
+      "source_chapter": "It’s All about Risk",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Bank Revenue Diversification",
+      "description": "Prefer banks with diversified revenue streams combining both net interest income and noninterest income (fees and services), as this reduces dependence on spread alone.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "It’s All about Risk",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Asset Manager Operating Margin",
+      "description": "Asset managers typically have stellar operating margins in the 30% to 40% range, which is a hallmark of the industry's favorable economics. Look for asset managers with operating margins in this range or higher as evidence of strong business quality.",
+      "expression": "operating_margin >= 0.30",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "high",
+      "source_chapter": "Asset Management",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Contrarian Approach to Asset Managers",
+      "description": "Asset management stocks are closely tied to market sentiment and often reflect oversized optimism or pessimism. A contrarian approach—buying when prices are depressed relative to intrinsic value—pays off. Look for asset managers trading well below their 52-week highs, suggesting pessimism may be priced in.",
+      "expression": "price < price_52w_high * 0.70",
+      "data_fields_required": [
+        "price",
+        "price_52w_high"
+      ],
+      "category": "momentum",
+      "confidence": "medium",
+      "source_chapter": "Asset Management",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Asset Manager High Profit Margin Filter",
+      "description": "Asset management is incredibly lucrative with excellent economies of scale. Even poorly managed asset managers post stellar financial results. Screen for companies with profit margins well above average, consistent with the asset management business model.",
+      "expression": "profit_margin >= 0.25",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Asset Management",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Asset Manager Low Capital Intensity",
+      "description": "Asset management requires very little capital investment, meaning firms should have low debt levels and strong balance sheets since the real assets are people, not physical capital.",
+      "expression": "debt_to_equity < 0.5",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Asset Management",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Asset Manager Scale Advantage",
+      "description": "Attaining scale in asset management is evidence of a solid economic moat. Large, established asset managers with at least $10 billion in AUM have a huge advantage over upstarts. Use market cap as a proxy for scale, screening for larger firms.",
+      "expression": "market_cap > 5000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Asset Management",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Asset Manager Margin of Safety",
+      "description": "The best asset managers present outstanding investment opportunities when selling at the right price. Apply a margin of safety to ensure you're buying at a discount to intrinsic value.",
+      "expression": "margin_of_safety > 0.20",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Asset Management",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Software Operating Margin Excellence",
+      "description": "Successful software companies can generate operating margins in excess of 40 percent, indicating a strong competitive position and scalable business model. Look for established software companies with very high operating margins.",
+      "expression": "operating_margin > 0.40",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Segments of the Software Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Software Free Cash Flow Generation",
+      "description": "Established software companies are cash cows with low capital requirements, low inventory, and low accounts receivable, generating substantial free cash flow. Screen for software companies with positive and strong free cash flow.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Segments of the Software Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Software Industry Leader Filter",
+      "description": "Software markets tend to be oligopolies where technology buyers prefer industry leaders. Favor companies with large market capitalizations that dominate their segments, as customers avoid buying from vendors that might go out of business.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Segments of the Software Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Niche Software Monopoly Preference",
+      "description": "Companies that dominate a smaller niche (like Intuit in tax preparation or Adobe in graphic design) are often more attractive investments than household names serving larger markets. Look for dominant niche players with high profit margins.",
+      "expression": "profit_margin > 0.20 and operating_margin > 0.25",
+      "data_fields_required": [
+        "profit_margin",
+        "operating_margin"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "Segments of the Software Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Hardware Sector Economic Moat Screen",
+      "description": "In the hardware sector, seek companies with sustainable competitive advantages (economic moats), as technological advances and price competition make it extremely difficult to maintain profitability. Look for companies with consistently high returns on equity indicating a durable moat.",
+      "expression": "roe > 0.15 and profitable_years >= 8",
+      "data_fields_required": [
+        "roe",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "What Drives the Hardware Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Hardware Cyclicality Financial Health Filter",
+      "description": "Hardware companies face intense cyclicality in demand driven by corporate and consumer spending cycles. Companies need strong balance sheets to survive downturns, implying low debt and strong current ratios to weather periods when business dries up.",
+      "expression": "current_ratio > 2 and debt_to_equity < 0.5",
+      "data_fields_required": [
+        "current_ratio",
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "What Drives the Hardware Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Hardware Sector Revenue Growth Screen",
+      "description": "The chapter notes that demand for hardware should grow faster than the economy as a whole due to Moore's Law and the shift toward services. Screen for hardware companies demonstrating above-economy revenue growth rates.",
+      "expression": "revenue_growth_rate > 0.05",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "What Drives the Hardware Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Hardware Survivor Profitability Filter",
+      "description": "The chapter emphasizes that most hardware companies fail (Commodore, AST, Packard Bell, Transmeta, Cyrix) while only a few succeed. Screen for companies with consistent profitability and positive profit margins to identify survivors rather than one-hit wonders.",
+      "expression": "profit_margin > 0.10 and profitable_years >= 5 and free_cash_flow > 0",
+      "data_fields_required": [
+        "profit_margin",
+        "profitable_years",
+        "free_cash_flow"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "What Drives the Hardware Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Hardware Avoid Overleveraged Cyclicals",
+      "description": "Given the intense cyclicality and competition in hardware, avoid companies with high debt that may not survive downturns. Companies should have strong interest coverage to handle revenue volatility.",
+      "expression": "interest_coverage_ratio > 5 and debt_to_equity < 1.0",
+      "data_fields_required": [
+        "interest_coverage_ratio",
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "What Drives the Hardware Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Hardware Focused Economic Model Screen",
+      "description": "The chapter stresses the importance of a focused economic model in hardware. Companies with strong operating margins demonstrate pricing power and efficiency despite the industry's tendency to pass benefits to consumers.",
+      "expression": "operating_margin > 0.15 and roe > 0.15",
+      "data_fields_required": [
+        "operating_margin",
+        "roe"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "What Drives the Hardware Industry",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Media Economic Moat Screen",
+      "description": "Identify media companies with economic moats (competitive advantages such as economies of scale, monopolies, or geographic/niche dominance) that can sustain excess profits for long periods. The chapter notes that nearly all followed media companies had some economic moat, with about 20% having wide moats.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "How Media Companies Make Money",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consistent Growth and Cash Generation",
+      "description": "Focus on media companies that grow consistently and generate strong, sustainable free cash flow over many years. Differentiated and focused products in unique geographic areas or niche categories normally translate into strong and sustainable free cash flow.",
+      "expression": "free_cash_flow > 0 and revenue_growth_rate > 0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "revenue_growth_rate"
+      ],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "How Media Companies Make Money",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Subscription-Based Revenue Preference",
+      "description": "Prefer media companies with subscription-based business models over one-time user fee models, as subscriptions provide predictable revenue, upfront cash, less sensitivity to economic downturns, and operating leverage that drives margin expansion with market share gains.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "How Media Companies Make Money",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Volatile One-Time Fee Dependence",
+      "description": "Be cautious of media companies heavily dependent on one-time user fees (film studios, book publishers, music labels) as they suffer volatile cash flows, narrow profit margins due to talent costs, and difficulty forecasting future earnings.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "How Media Companies Make Money",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Capital-Intensive Media Companies",
+      "description": "Avoid media companies requiring large, ongoing capital expenditures (e.g., cable and satellite TV) where system upgrades consume the vast majority of operating cash flow, leaving little free cash flow despite theoretical future cash generation.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "How Media Companies Make Money",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "High Operating Leverage Benefit",
+      "description": "Favor media companies with high operating leverage (high fixed costs, low variable costs) such as newspapers, magazines, and advertising-based businesses, where revenue gains translate into disproportionately large profit margin increases.",
+      "expression": "operating_margin > 0.15",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "How Media Companies Make Money",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Strong Free Cash Flow Generation",
+      "description": "Seek media companies that dominate a geographic area or niche category, as this dominance normally translates into strong and sustainable free cash flow.",
+      "expression": "free_cash_flow > 0 and profit_margin > 0",
+      "data_fields_required": [
+        "free_cash_flow",
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "How Media Companies Make Money",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Telecom Large Margin of Safety",
+      "description": "Because the telecom sector is fraught with risk due to mediocre/declining returns on capital, deteriorating moats, regulatory uncertainty, and heavy capital expenditure requirements, investors should require a large margin of safety before considering any telecom stock. A margin of safety of at least 30-40% is implied for such high-risk sectors.",
+      "expression": "margin_of_safety >= 0.30",
+      "data_fields_required": [
+        "margin_of_safety"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "Telecom Economics",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Declining ROE Telecom",
+      "description": "Telecom companies earn mediocre and declining returns on capital. Investors should screen for telecom companies that at least maintain reasonable returns on equity, avoiding those with poor profitability.",
+      "expression": "roe > 0.10",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "Telecom Economics",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Telecom Dividend Sustainability Check",
+      "description": "Declining lines in service threatens local phone companies' ability to pay dividends. Investors should check that dividend payout ratios are sustainable and that free cash flow adequately covers dividends.",
+      "expression": "dividend_payout_ratio < 0.75 and free_cash_flow > 0",
+      "data_fields_required": [
+        "dividend_payout_ratio",
+        "free_cash_flow"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "Telecom Economics",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Favor Rural Carriers with Regulatory Moats",
+      "description": "Rural telecom carriers benefit from subsidies, guaranteed returns on investment, and natural monopoly positions in less densely populated areas, giving them the strongest competitive advantages in the telecom industry. These companies tend to have more stable revenue and stronger moats than urban-focused peers.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Telecom Economics",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Commodity Wireless Carriers",
+      "description": "Wireless phone service is a commodity with little opportunity to develop a moat. With six nationwide carriers and cutthroat pricing (airtime prices fell 80%+ over a decade), wireless carriers should generally be avoided or require exceptionally low valuations.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Telecom Economics",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Telecom Debt Caution",
+      "description": "Telecom companies constantly spend boatloads of money on capital expenditures just to stay in place. Companies with excessive debt relative to equity are especially risky given the capital-intensive nature and declining revenue trends in the sector.",
+      "expression": "debt_to_equity < 1.5",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Telecom Economics",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Telecom Revenue Decline Warning",
+      "description": "The number of phone lines in service has been declining, threatening revenue for local phone companies. Investors should be cautious of telecom firms with negative revenue growth, as this signals structural decline.",
+      "expression": "revenue_growth_rate > 0",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "Telecom Economics",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Telecom Interest Coverage Safety",
+      "description": "Given the capital-intensive nature of telecom and heavy debt loads, companies should have adequate interest coverage to weather competitive and regulatory pressures.",
+      "expression": "interest_coverage_ratio > 3",
+      "data_fields_required": [
+        "interest_coverage_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "Telecom Economics",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consumer Goods Defensive Haven",
+      "description": "Consumer goods companies tend to be solidly profitable and steady performers, making them good defensive holdings. Look for companies in food, beverages, household/personal products, and tobacco sectors with consistent profitability.",
+      "expression": "profit_margin > 0 and profitable_years >= 8",
+      "data_fields_required": [
+        "profit_margin",
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "How Companies Make Money in Consumer Goods",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consumer Goods Revenue Growth Ceiling",
+      "description": "Leading consumer goods firms typically post no better than mid-single-digit revenue growth. Companies growing significantly faster may be taking excessive risks or making expensive acquisitions, while those at or near this range are performing well for the sector.",
+      "expression": "revenue_growth_rate > 0 and revenue_growth_rate <= 0.07",
+      "data_fields_required": [
+        "revenue_growth_rate"
+      ],
+      "category": "growth",
+      "confidence": "medium",
+      "source_chapter": "How Companies Make Money in Consumer Goods",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consumer Goods Earnings Growth via Cost Efficiency",
+      "description": "Since top-line growth for consumer goods companies is limited to roughly GDP growth, earnings growth must rely on streamlined operating structures. Look for companies where earnings growth exceeds revenue growth, indicating improving operating efficiency.",
+      "expression": "eps_growth_rate > revenue_growth_rate and operating_margin > 0.10",
+      "data_fields_required": [
+        "eps_growth_rate",
+        "revenue_growth_rate",
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "How Companies Make Money in Consumer Goods",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consumer Goods Market Dominance Filter",
+      "description": "Consumer goods industries are dominated by a handful of huge companies that account for the majority of category volume and sales. Favor large-cap consumer goods companies that are likely market leaders with dominant share positions.",
+      "expression": "market_cap > 10000000000 and profit_margin > 0.08",
+      "data_fields_required": [
+        "market_cap",
+        "profit_margin"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "How Companies Make Money in Consumer Goods",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consumer Goods Steady Profitability",
+      "description": "Consumer goods stocks tend to be solidly profitable and fairly steady performers suitable as long-term holdings. Screen for consistent profitability over many years.",
+      "expression": "profitable_years >= 10 and profit_margin > 0.05",
+      "data_fields_required": [
+        "profitable_years",
+        "profit_margin"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "How Companies Make Money in Consumer Goods",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Consumer Goods Operating Margin Efficiency",
+      "description": "Because revenue growth is limited in consumer goods, companies must rely on operating cost reductions to drive earnings growth. Higher operating margins indicate a streamlined cost structure, which is critical in this sector.",
+      "expression": "operating_margin > 0.15",
+      "data_fields_required": [
+        "operating_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "How Companies Make Money in Consumer Goods",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cyclical Profit Margin Filter",
+      "description": "Industrial materials companies typically have very slim profit margins around 5 percent on average. Companies with margins significantly above this level may have competitive advantages or value-added products, while those below may be vulnerable in downturns.",
+      "expression": "profit_margin > 0.05",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "The Problem with Cyclicality",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low Debt for Cyclical Companies",
+      "description": "Cyclical industrial materials companies with high fixed costs face survival threats during downturns. Low debt-to-equity ratios indicate better ability to weather economic cycles, as high interest payments combined with falling demand can be devastating.",
+      "expression": "debt_to_equity < 0.5",
+      "data_fields_required": [
+        "debt_to_equity"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "The Problem with Cyclicality",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Interest Coverage for Cyclicals",
+      "description": "In cyclical industries where rising interest rates coincide with expansion and falling revenues follow, strong interest coverage is essential for surviving downturns. Companies should have ample coverage to handle periods when revenues plummet.",
+      "expression": "interest_coverage_ratio > 5",
+      "data_fields_required": [
+        "interest_coverage_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "The Problem with Cyclicality",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Asset Turnover Efficiency (High Revenue to Book Value)",
+      "description": "The chapter emphasizes that asset turnover is a key textbook indicator for industrial materials companies. High asset turnover relative to book value indicates efficient use of capital-intensive facilities, which is critical for commodity producers who must be the low-cost producer to have a moat.",
+      "expression": "revenue / book_value > 1.5",
+      "data_fields_required": [
+        "revenue",
+        "book_value"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "The Problem with Cyclicality",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Negative Earnings Cyclicals",
+      "description": "Only the most efficient producers with the lowest fixed cost base can remain profitable through a downturn. Companies that maintain profitability across cycles demonstrate operational superiority.",
+      "expression": "profitable_years >= 8",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "The Problem with Cyclicality",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low-Growth Cyclical Valuation Filter",
+      "description": "Demand growth in many industrial materials segments is in the low single digits at best, and shares tend to create little value for buy-and-hold investors between cycle peaks. Investors should demand low valuations to compensate for poor long-term growth prospects.",
+      "expression": "pe < 15 and revenue_growth_rate < 0.05",
+      "data_fields_required": [
+        "pe",
+        "revenue_growth_rate"
+      ],
+      "category": "valuation",
+      "confidence": "medium",
+      "source_chapter": "The Problem with Cyclicality",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Cyclical Buy Near Trough (Price Near 52-Week Low)",
+      "description": "Since cyclical companies' shares move dramatically with the economic cycle, buying near cyclical lows (when the stock is near its 52-week low) rather than at peaks can improve returns. The chapter warns that most firms create little value between cycle peaks.",
+      "expression": "price < price_52w_low * 1.2",
+      "data_fields_required": [
+        "price",
+        "price_52w_low"
+      ],
+      "category": "momentum",
+      "confidence": "low",
+      "source_chapter": "The Problem with Cyclicality",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Economies of Scale Moat (Large Market Cap)",
+      "description": "Some commodity-producing companies achieve low-cost position by increasing size and attaining economies of scale, reducing production cost per unit. Larger companies in basic materials are more likely to have sustainable competitive advantages.",
+      "expression": "market_cap > 10000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "The Problem with Cyclicality",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Pipeline Steady Cash Flow Filter",
+      "description": "Pipeline companies tend to generate positive cash flow consistently and are least sensitive to commodity prices, making them attractive for stable income. Look for pipeline companies with positive free cash flow.",
+      "expression": "free_cash_flow > 0",
+      "data_fields_required": [
+        "free_cash_flow"
+      ],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "From the Ground",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Oil Services - Low Economic Moat",
+      "description": "Oil services firms have difficulty earning above their cost of capital due to high competition and lack of economic moats. Avoid oil services companies that fail to earn above cost of capital, indicated by low or mediocre ROE.",
+      "expression": "roe > 0.15",
+      "data_fields_required": [
+        "roe"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "From the Ground",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Prefer Major Integrated Over Pure E&P",
+      "description": "Major integrated energy companies have diverse assets across upstream, midstream, and downstream, reducing profit volatility compared to pure exploration and production firms. Favor larger, diversified energy companies with larger market caps as a proxy for integration.",
+      "expression": "market_cap > 50000000000",
+      "data_fields_required": [
+        "market_cap"
+      ],
+      "category": "quality",
+      "confidence": "low",
+      "source_chapter": "From the Ground",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Energy Sector Profitability Consistency",
+      "description": "Due to wildly variable profits in E&P companies from commodity price swings, favor energy companies that have demonstrated consistent profitability over many years.",
+      "expression": "profitable_years >= 8",
+      "data_fields_required": [
+        "profitable_years"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "From the Ground",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Pipeline Dividend Yield Screen",
+      "description": "Pipeline companies generate steady cash flows with limited revenue growth, making them suitable dividend-paying investments. Screen for pipeline-type energy companies with meaningful dividend yields.",
+      "expression": "dividend_yield > 0.03 and free_cash_flow > 0",
+      "data_fields_required": [
+        "dividend_yield",
+        "free_cash_flow"
+      ],
+      "category": "dividend",
+      "confidence": "medium",
+      "source_chapter": "From the Ground",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Upstream Profitability Benefiting from OPEC",
+      "description": "Oil producers benefit from OPEC's price support, leading to higher long-term profitability than refiners or services companies. Favor upstream/integrated energy companies with above-average profit margins.",
+      "expression": "profit_margin > 0.10",
+      "data_fields_required": [
+        "profit_margin"
+      ],
+      "category": "profitability",
+      "confidence": "medium",
+      "source_chapter": "From the Ground",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Commodity-Sensitive Fixed Cost Companies",
+      "description": "Pure E&P companies have largely fixed cost structures against volatile commodity prices, creating wildly variable profits. Screen for manageable debt levels to survive downturns.",
+      "expression": "debt_to_equity < 0.5 and interest_coverage_ratio > 5",
+      "data_fields_required": [
+        "debt_to_equity",
+        "interest_coverage_ratio"
+      ],
+      "category": "financial_health",
+      "confidence": "medium",
+      "source_chapter": "From the Ground",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Utility Economic Moat - Distribution Focus",
+      "description": "Prefer utility companies focused on distribution operations (the 'final mile') as they tend to have the widest economic moats due to natural monopoly positions with essentially no alternatives, even in deregulated states.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Electricity Primer",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Utility Transmission Moat Filter",
+      "description": "Transmission utilities have fairly wide economic moats due to huge barriers to entry (large upfront costs and NIMBY effect), but regulated returns cap upside. Consider as moderate-moat investments.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Electricity Primer",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Avoid Pure Generation Utilities",
+      "description": "Avoid or underweight utility companies focused primarily on electricity generation, as this segment faces the greatest competition (electricity is a pure commodity), lowest barriers to entry, and falling profitability due to advanced deregulation.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Electricity Primer",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Utility Sector Caution - Diminished Attractiveness",
+      "description": "The overall investment attractiveness of the utility sector has diminished due to deregulation transforming regulated monopolies with guaranteed returns into competitive commodity markets with high fixed costs. Apply extra scrutiny to utility investments.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "medium",
+      "source_chapter": "Electricity Primer",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Regulated Utility Preference",
+      "description": "Prefer utilities operating in states that have not deregulated, as they still operate as integrated entities with regulated monopoly characteristics and more predictable returns.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Electricity Primer",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Wide Economic Moat Filter",
+      "description": "Invest in companies with strong competitive advantages (wide economic moats) that are likely to keep competitors at bay for years to come. These are high-quality companies suitable for long-term, low-turnover portfolios.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "quality",
+      "confidence": "medium",
+      "source_chapter": "Section 31",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    },
+    {
+      "name": "Low-Cost Investing via Infrequent Trading",
+      "description": "Minimize trading frequency by selecting companies with durable competitive advantages that can stay in a portfolio for a long time, reducing transaction costs and improving net returns.",
+      "expression": null,
+      "data_fields_required": [],
+      "category": "composite",
+      "confidence": "low",
+      "source_chapter": "Section 31",
+      "source_book": "The Five Rules for Successful Stock Investing",
+      "data_fields_missing": []
+    }
+  ],
+  "strategies_count": 184,
+  "strategies_by_category": {
+    "profitability": 45,
+    "quality": 66,
+    "financial_health": 19,
+    "composite": 14,
+    "valuation": 20,
+    "growth": 14,
+    "momentum": 4,
+    "dividend": 2
+  },
+  "data_fields_required": [
+    "book_value",
+    "current_ratio",
+    "debt_to_equity",
+    "dividend_payout_ratio",
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "ebit",
+    "eps",
+    "eps_growth_rate",
+    "forward_pe",
+    "free_cash_flow",
+    "interest_coverage_ratio",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "net_income",
+    "operating_margin",
+    "pe",
+    "price",
+    "price_52w_high",
+    "price_52w_low",
+    "profit_margin",
+    "profitable_years",
+    "revenue",
+    "revenue_growth_rate",
+    "roe"
+  ],
+  "data_fields_available": [
+    "book_value",
+    "current_ratio",
+    "debt_to_equity",
+    "dividend_payout_ratio",
+    "dividend_yield",
+    "earnings_growth_10y",
+    "earnings_yield",
+    "ebit",
+    "eps",
+    "eps_growth_rate",
+    "forward_pe",
+    "free_cash_flow",
+    "interest_coverage_ratio",
+    "intrinsic_value",
+    "margin_of_safety",
+    "market_cap",
+    "market_pe",
+    "net_income",
+    "operating_margin",
+    "pe",
+    "price",
+    "price_52w_high",
+    "price_52w_low",
+    "profit_margin",
+    "profitable_years",
+    "revenue",
+    "revenue_growth_rate",
+    "roe"
+  ],
+  "data_fields_not_available": [],
+  "key_concepts": [
+    "10-K and 10-Q filings",
+    "10-minute quality test",
+    "10-minute screening test",
+    "Ben Graham and Warren Buffett school of investing",
+    "CFO and auditor departures as warning signs",
+    "EBIT",
+    "EBITDA",
+    "FDIC insurance subsidy",
+    "GDP-linked growth ceiling",
+    "IPO avoidance",
+    "Moore's Law",
+    "Mr. Market",
+    "NIMBY effect",
+    "OPEC cartel price support",
+    "P/E ratio compression risk",
+    "Wall Street coverage gap",
+    "above-average profitability",
+    "accounting fraud detection",
+    "accounting literacy",
+    "accounting tricks as unsustainable growth source",
+    "accounts receivable",
+    "accounts receivable as percentage of sales",
+    "accounts receivable growth vs sales growth",
+    "accounts receivable quality",
+    "accrual accounting",
+    "acquisition synergies",
+    "acquisition-driven growth skepticism",
+    "advertising-based revenue model",
+    "advisor-sold vs direct-sold funds",
+    "aggressive accounting",
+    "aggressive growth stage",
+    "analyst recommendations",
+    "asset stickiness",
+    "asset turnover",
+    "assets under management (AUM)",
+    "assets vs. liabilities",
+    "asymmetric loss recovery (50% loss requires 100% gain)",
+    "avoiding betting on new technology",
+    "avoiding market timing",
+    "balance sheet",
+    "balance sheet cleanliness",
+    "balance sheet equation (Assets = Liabilities + Equity)",
+    "barriers to entry",
+    "behavioral finance",
+    "benefits passed to consumers",
+    "board independence from CEO",
+    "bonus structure over base salary",
+    "book value",
+    "bottom-up investment analysis",
+    "brand recognition in B2B",
+    "branded vs. generic pharmaceuticals",
+    "bullwhip effect",
+    "business cycle",
+    "business fundamentals drive stock prices",
+    "business life cycle",
+    "business quality assessment",
+    "buy and sell decisions",
+    "buy what you know",
+    "buy-and-hold risk in cyclicals",
+    "buying a piece of a business",
+    "buying at the right price",
+    "capital expenditure (capex)",
+    "capital expenditure intensity",
+    "capital expenditures",
+    "capital intensity",
+    "capital seeking highest returns",
+    "capital spending intensity",
+    "capital structure complexity",
+    "cash and equivalents",
+    "cash conversion cycle",
+    "cash flow from operations",
+    "cash flow from operations vs net income divergence",
+    "cash flow vs. accounting profit",
+    "charge-off rates",
+    "circle of competence",
+    "clinical track records",
+    "commodity competition",
+    "commodity market competition",
+    "commodity price sensitivity",
+    "commodity pricing",
+    "company quality vs. stock valuation distinction",
+    "compensation transparency",
+    "competition eroding profits",
+    "competitive advantage",
+    "competitive advantage period",
+    "competitive advantage through scale",
+    "competitive differentiation",
+    "competitive dynamics eroding high growth",
+    "competitive local exchange carriers (CLECs)",
+    "competitive strategy analysis",
+    "complexity discount",
+    "comprehensive financial data analysis",
+    "conservative underwriting",
+    "consistent earnings growth",
+    "consolidation trends",
+    "content creation and distribution",
+    "contrarian investing",
+    "contrarian investing / buying during pessimism",
+    "cooling-off period",
+    "corporate IT spending cycles",
+    "cost of capital",
+    "cost-cutting as unsustainable growth source",
+    "credit risk",
+    "credit sales vs. cash sales",
+    "credit terms and revenue recognition",
+    "critical mass through acquisition",
+    "current assets",
+    "current assets and liabilities",
+    "customer lock-in",
+    "cyclical firms",
+    "cyclical industry awareness",
+    "cyclicality",
+    "cyclicality of retail stocks",
+    "days sales outstanding",
+    "death of equities contrarianism",
+    "debt ratios",
+    "debt to equity",
+    "debt-to-equity ratio",
+    "decision-making biases",
+    "defensive sector",
+    "defensive stocks",
+    "delisting risk",
+    "demand volatility",
+    "deposit gathering advantage",
+    "deregulation",
+    "discount rate",
+    "discount rates",
+    "discount rates and present value",
+    "discount to intrinsic value",
+    "discount to intrinsic worth",
+    "discounted cash flow (DCF)",
+    "discretionary vs. non-discretionary spending",
+    "distribution channel strategy",
+    "diversification",
+    "diversification of products and customers",
+    "dividend payout",
+    "dividend sustainability",
+    "dividend yield as return component",
+    "durable competitive positioning",
+    "earnings growth",
+    "earnings growth as return component",
+    "earnings growth through cost reduction rather than revenue growth",
+    "earnings per share",
+    "earnings quality",
+    "economic moat",
+    "economic moats",
+    "economies of scale",
+    "empire building risk",
+    "excess capacity",
+    "excess returns",
+    "exploration and production volatility",
+    "fee income and cross-selling",
+    "fee-based revenue model",
+    "financial fakery / red flags",
+    "financial fraud detection",
+    "financial health / balance sheet quality",
+    "financial leverage",
+    "financial speculation and manias",
+    "financial statement analysis",
+    "financing subsidiaries",
+    "fixed asset turnover",
+    "fixed cost structure",
+    "fixed costs burden",
+    "fixed costs vs variable costs",
+    "fixed-cost network leverage",
+    "focused economic model",
+    "forward P/E",
+    "four sources of growth: volume, pricing, new products, acquisitions",
+    "free cash flow",
+    "free cash flow analysis",
+    "free cash flow as percentage of sales",
+    "free cash flow generation",
+    "fundamental analysis",
+    "generation vs transmission vs distribution",
+    "geographic dominance",
+    "goodwill",
+    "great company vs. great investment distinction",
+    "greater fool theory",
+    "gross margins",
+    "growth by acquisition strategy",
+    "growth sustainability",
+    "guaranteed return on investment",
+    "hard-asset-based business services",
+    "high fixed costs",
+    "high start-up costs",
+    "high switching costs",
+    "high-quality companies",
+    "identifying great companies",
+    "income statement",
+    "industry analysis",
+    "industry analysis importance",
+    "industry competitive structure",
+    "industry consolidation",
+    "industry economics",
+    "industry leader preference",
+    "infrequent trading",
+    "institutional vs retail assets",
+    "integrated utility vs focused operations",
+    "interest coverage ratio",
+    "interest rate risk",
+    "intrinsic value",
+    "inventories",
+    "inventory buildup warning",
+    "inventory turnover",
+    "investment philosophy",
+    "investment research resources",
+    "investment return vs. speculative return",
+    "investor vs. speculator distinction",
+    "latticework of mental models",
+    "lender of last resort",
+    "liquidity",
+    "liquidity risk",
+    "long-term equity investing",
+    "long-term holding",
+    "long-term investing",
+    "long-term price deflation",
+    "low capital intensity",
+    "low portfolio turnover",
+    "low portfolio turnover advantage",
+    "low price as competitive advantage",
+    "low-cost funding advantage",
+    "low-cost investing",
+    "low-cost producer advantage",
+    "major integrated energy companies",
+    "management character",
+    "management compensation",
+    "management quality",
+    "management quality assessment",
+    "margin of safety",
+    "margin of safety through moat analysis",
+    "market correlation",
+    "market cycles and mean reversion",
+    "market share dominance",
+    "market share growth",
+    "market timing avoidance",
+    "market timing ineffectiveness",
+    "mature industry dynamics",
+    "maximum pessimism as buying opportunity (Templeton)",
+    "mean reversion of earnings growth",
+    "middleman business model",
+    "minimizing transaction costs and taxes",
+    "minimum quality hurdle",
+    "moat deterioration",
+    "monopoly advantages",
+    "narrow moat vs. wide moat",
+    "natural monopoly",
+    "natural oligopoly/monopoly",
+    "near-zero marginal production costs",
+    "net interest income",
+    "net margin",
+    "net margins",
+    "network effects",
+    "new product innovation costs",
+    "niche category dominance",
+    "niche dominance",
+    "niche market dominance",
+    "no-moat investing requires cheap valuation",
+    "noncash pension gains inflating income",
+    "noninterest income",
+    "nonperforming loans",
+    "oil services competitive dynamics",
+    "oligopolistic market structure",
+    "one-time user fee model",
+    "operating cost efficiency",
+    "operating income",
+    "operating leverage",
+    "operating margin excellence",
+    "operating margins",
+    "operating profitability",
+    "opportunity cost",
+    "outsourcing trend",
+    "patent protection",
+    "patience and discipline",
+    "pay for performance",
+    "paying up rarely pays off",
+    "people-based business services",
+    "per-unit profitability",
+    "performance target integrity",
+    "periodic industry sell-offs as buying opportunities",
+    "pipeline cash flow stability",
+    "portfolio diversity",
+    "portfolio management",
+    "predictable revenue streams",
+    "present value",
+    "price competition",
+    "price insensitivity in health care",
+    "price multiples",
+    "price versus value distinction",
+    "pricing power",
+    "pricing power erosion",
+    "pricing power through product innovation",
+    "product cycles",
+    "product differentiation",
+    "product diversification",
+    "product quality vs. business economics",
+    "profit margin compression from talent costs",
+    "profitability consistency",
+    "proven reserves",
+    "provider networks",
+    "proxy statement analysis",
+    "quality of growth vs. quantity of growth",
+    "rate regulation",
+    "reasonable price for quality business",
+    "red flags in accounting",
+    "refining margin cyclicality",
+    "regression to the mean",
+    "regulated returns",
+    "regulatory environment",
+    "regulatory environment for pipelines",
+    "regulatory risk",
+    "regulatory subsidies",
+    "replacement demand in mature industries",
+    "restricted stock vs. stock options",
+    "restructuring charges and one-time write-downs",
+    "retained earnings",
+    "return on assets (ROA)",
+    "return on capital",
+    "return on equity",
+    "return on equity (ROE)",
+    "return on invested capital (ROIC)",
+    "returns on capital",
+    "revenue diversification",
+    "revenue growth analysis",
+    "revenue per customer expansion",
+    "revenue recognition",
+    "revenue recognition quality",
+    "rigorous equity analysis",
+    "risk management",
+    "risk premium",
+    "rural carrier advantage",
+    "sales growth as the driver of earnings growth",
+    "scalable business model",
+    "scale economies",
+    "sector diversification",
+    "self-funding businesses",
+    "serial acquisitions risk",
+    "share dilution",
+    "shareholder alignment",
+    "shareholder dilution",
+    "shareholder value creation",
+    "shelf space competition",
+    "short-cycle vs long-cycle businesses",
+    "short-term investments",
+    "small growth stock underperformance",
+    "speculative growth stage",
+    "speculative risk minimization",
+    "spinoff opportunities",
+    "spread",
+    "statement of cash flows",
+    "stock as business ownership",
+    "stockholders equity",
+    "stockholders vs. bondholders",
+    "stockholders' equity",
+    "subscription-based revenue model",
+    "subscription-based revenue models",
+    "survivor bias in technology investing",
+    "sustainable competitive advantage",
+    "sustainable free cash flow",
+    "synergy trap in acquisitions",
+    "systematic company analysis framework",
+    "technological obsolescence",
+    "technological superiority as least sustainable moat source",
+    "technology obsolescence risk",
+    "technology-based business services",
+    "time value of money",
+    "top-down vs. bottom-up investing",
+    "under-followed stocks",
+    "unforced errors in investing",
+    "unique products as competitive advantage",
+    "unit cost reduction through volume",
+    "upfront cash collection",
+    "upstream vs downstream profitability",
+    "valuation discipline",
+    "value investing",
+    "value-added vs commodity products",
+    "watchlist construction",
+    "wide economic moat",
+    "wide moat",
+    "wide-moat companies",
+    "working capital",
+    "working capital efficiency"
+  ],
+  "chapter_summaries": [
+    {
+      "chapter": "Section 1",
+      "summary": "The Five Rules for Successful Stock Investing by Pat Dorsey (Morningstar) outlines a disciplined, business-focused investment framework built on five core rules: do thorough homework before investing, seek companies with durable economic moats (competitive advantages), always demand a margin of safety when purchasing, hold investments for the long term, and know when to sell. The book emphasizes avoiding common mistakes such as ignoring valuation, panicking during downturns, trying to time the market, and relying solely on earnings. It provides a comprehensive approach covering financial statement analysis, company quality assessment (the 10-minute test), valuation techniques including intrinsic value calculation, and sector-by-sector analysis across the entire market. The philosophy centers on understanding the underlying business, its competitive position, and paying a fair price relative to intrinsic value."
+    },
+    {
+      "chapter": "Section 2",
+      "summary": "This foreword by Morningstar's founder describes his personal journey from business school through equity analysis to founding Morningstar. He explains how Warren Buffett's approach inspired him, how Morningstar grew from compiling mutual fund data into a comprehensive investment research firm, and how the firm's equity analysis philosophy builds on the Ben Graham and Warren Buffett school of investing. The chapter emphasizes the importance of fundamental, bottom-up analysis focused on finding companies selling at a discount to their true worth, and encourages investors to read widely to build mental models for analyzing companies."
+    },
+    {
+      "chapter": "Section 3",
+      "summary": "This section is the Acknowledgments page of 'The Five Rules for Successful Stock Investing' by Pat Dorsey. It credits the team members, editors, analysts, and family who contributed to the book's creation, including staff at Morningstar and John Wiley & Sons. No investment strategies, screening criteria, or financial analysis concepts are discussed in this section."
+    },
+    {
+      "chapter": "It’s the Business that Matters",
+      "summary": "This introductory chapter establishes the core philosophy that successful stock investing requires treating stocks as ownership stakes in businesses rather than as trading instruments. The key message is that company fundamentals directly drive long-term share prices, so investors should focus on understanding a company's financial performance—particularly free cash flow—rather than short-term price movements, analyst upgrades, or chart patterns. The chapter advocates finding wonderful businesses at reasonable prices, taking a long-term approach to minimize taxes and transaction costs, and having the courage to invest against the crowd. It warns against confusing great companies with great investments, noting that even excellent businesses can be terrible stocks when purchased at excessive valuations."
+    },
+    {
+      "chapter": "Do Your Homework",
+      "summary": "This chapter introduces the five foundational rules for successful stock investing: do your homework, find economic moats, have a margin of safety, hold for the long haul, and know when to sell. The core philosophy emphasizes that investors must develop a consistent investment framework and stick to it. Thorough research—including reading annual reports, analyzing financial statements, and understanding industry competitors—is essential before purchasing any stock. The chapter stresses that great companies alone do not make great investments; valuation discipline through a margin of safety is equally critical. Economic moats (durable competitive advantages) allow certain companies to sustain above-average profitability over long periods, making them superior long-term investments. The chapter warns against overpaying even for excellent businesses, using Coca-Cola at 50 times earnings in the late 1990s as a cautionary example."
+    },
+    {
+      "chapter": "Swinging for the Fences",
+      "summary": "This chapter outlines seven common investing mistakes to avoid, emphasizing that successful investing is more about minimizing errors than finding spectacular winners. The core philosophy is to avoid speculative 'swing for the fences' bets on risky small growth stocks, instead focusing on companies with strong economic moats and attractive business economics. Key warnings include not falling in love with products without examining underlying profitability, not panicking during market downturns (which actually present buying opportunities), avoiding the belief that 'it's different this time' with cyclical industries, never ignoring valuation, and not relying solely on earnings to assess a company. The math of investing makes avoiding large losses paramount, as recovery from significant drawdowns requires disproportionately large gains."
+    },
+    {
+      "chapter": "Evaluating Profitability",
+      "summary": "This chapter introduces the concept of economic moats — sustainable competitive advantages that allow firms to maintain profitability over time despite competitive pressures. The core philosophy is that high profits attract competition, so investors must identify companies with durable advantages rather than simply chasing past performance. The chapter outlines a four-step framework for analyzing moats: (1) evaluate historical profitability using metrics like free cash flow to sales, net margins, ROE, and ROA; (2) identify the sources of competitive advantage; (3) estimate how long the advantage can persist; and (4) analyze the industry's competitive structure. Key quantitative thresholds include free cash flow to sales of at least 5%, net margins above 15%, and ROE consistently above 15%, with the emphasis that these metrics work best when used in combination rather than in isolation."
+    },
+    {
+      "chapter": "The Basics",
+      "summary": "This chapter introduces the three fundamental financial statements—the balance sheet, income statement, and statement of cash flows—and explains how they fit together to provide a window into corporate performance. It covers the concept of accrual accounting, explaining why both an income statement and a cash flow statement are necessary, and traces how money flows from investors through a company's operations and back. The chapter is foundational and educational, focused on building financial literacy rather than prescribing specific stock screening criteria or investment thresholds."
+    },
+    {
+      "chapter": "The Balance Sheet",
+      "summary": "This chapter provides a detailed walkthrough of the balance sheet, one of the three main financial statements, explaining how it reflects what a company owns (assets), what it owes (liabilities), and the residual value belonging to shareholders (equity). The fundamental equation Assets = Liabilities + Equity must always balance. The chapter emphasizes understanding current assets—including cash, accounts receivable, and inventories—and highlights the importance of monitoring the relationship between accounts receivable growth and sales growth as a key indicator of financial health and earnings quality. Using real-world examples from Dell and Hewlett-Packard, the chapter illustrates how to read and interpret balance sheet line items to assess a company's financial condition."
+    },
+    {
+      "chapter": "Growth",
+      "summary": "This chapter introduces a five-part framework for analyzing companies: growth, profitability, financial health, risks/bear case, and management. The growth section emphasizes that while high growth rates are alluring, academic research shows that strong earnings growth is not very persistent over time because high profits attract intense competition. The key insight is that sustainable growth must be driven by sales growth (from selling more goods, raising prices, selling new products, or acquisitions) rather than cost-cutting or accounting manipulation. Investors should decompose a company's growth into its component sources to assess quality and sustainability, and should be skeptical of growth that significantly outpaces revenue growth. The chapter also cautions that even high-quality companies can be poor investments if purchased at too high a price."
+    },
+    {
+      "chapter": "Compensation",
+      "summary": "This chapter focuses on assessing company management through three lenses—compensation, character, and operations—with this section dedicated to compensation analysis. The core philosophy is that investors should seek management teams that think and act like shareholders, with compensation structures that align executive incentives with shareholder interests. Key red flags include excessive base salaries, opaque or easily-changed performance targets, generous option packages instead of restricted stock, and bonuses paid for empire-building activities like acquisitions rather than genuine value creation. The primary source for this analysis is the company's proxy statement (DEF14A), which details executive pay, bonuses, and perks."
+    },
+    {
+      "chapter": "Six Red Flags",
+      "summary": "This chapter focuses on identifying accounting red flags that signal potential aggressive accounting or outright fraud. The six major red flags are: (1) declining cash flow from operations even as net income rises, (2) frequent one-time restructuring charges ('serial chargers') that muddy financials and can hide bad decisions, (3) serial acquisitions that make financial statements difficult to interpret and increase surprise risk, (4) unexplained departures of CFOs or changes in auditors, and two additional flags from the chapter title not fully covered in the provided text. The core philosophy is that investors don't need to be CPAs to spot warning signs—watching cash flow relative to net income is the single most important defensive measure, and avoiding companies that bristle with red flags will protect investors from catastrophic losses when regulators eventually investigate."
+    },
+    {
+      "chapter": "Paying Up Rarely Pays Off",
+      "summary": "This chapter argues that even the best companies are poor investments if purchased at too high a price. Stock returns consist of two components: investment return (dividends plus earnings growth) and speculative return (changes in P/E ratio). Over the long term, investment returns dominate, but over shorter periods, P/E changes can dramatically help or hurt returns. The chapter demonstrates through detailed examples that a P/E decline from 20 to 15 can reduce a 9.3% annualized return to just 4.1%, even with solid 6% earnings growth. The core message is that careful attention to valuation minimizes speculative risk—the unknowable future sentiment of other investors—and that investors should buy great companies only at a discount to reasonable valuation estimates to insulate themselves against market emotion."
+    },
+    {
+      "chapter": "Cash Flow, Present Value, and Discount Rates",
+      "summary": "This chapter introduces the concept of intrinsic value as a superior alternative to ratio-based valuation. The core philosophy is that a stock's true worth equals the present value of its future free cash flows, and investors should purchase stocks only when they trade at a discount to this intrinsic value. The chapter explains the mechanics of discounted cash flow analysis, including the time value of money, risk premiums, and discount rates. It emphasizes that focusing on intrinsic value keeps investors anchored to the underlying business fundamentals—particularly cash flow generation and return on capital—rather than being swayed by relative pricing metrics like P/E ratios, which cannot tell you whether a stock is truly overvalued or undervalued without understanding the business's cash flow characteristics and risk profile."
+    },
+    {
+      "chapter": "Advanced Micro Devices",
+      "summary": "This chapter applies the book's investment framework to a real-world analysis of Advanced Micro Devices (AMD), demonstrating how to systematically evaluate a company. The analysis begins by searching for evidence of an economic moat through free cash flow, margins, ROE, and ROA, finding AMD's historical financials spotty and inconsistent. AMD's one period of strong performance (2000) was driven by temporary technological superiority—the least sustainable source of competitive advantage—which Intel quickly neutralized using its superior scale and resources. The chapter emphasizes that companies without economic moats require a large margin of safety, and that investors should examine growth, profitability, financial health, risks, and management before making investment decisions. The key lesson is that even companies in important industries (like microprocessors) can be poor investments if they lack durable competitive advantages."
+    },
+    {
+      "chapter": "Does the Firm Pass a Minimum Quality Hurdle?",
+      "summary": "This chapter presents a rapid '10-minute test' designed to quickly eliminate low-quality stocks from consideration before conducting detailed fundamental analysis. The core philosophy is that investors should first filter out junk — companies with tiny market caps, no operating profits, negative cash flows, weak returns on equity, erratic earnings, overleveraged balance sheets, and no free cash flow generation. By applying these minimum quality hurdles (including ROE consistently above 10% for non-financial firms and 12% for financial firms, debt-to-equity below 1.0, positive operating cash flow, and demonstrated profitability), investors can eliminate at least half of all stocks from consideration, freeing up time to deeply analyze and value the truly promising investments that remain."
+    },
+    {
+      "chapter": "Where to Look",
+      "summary": "This chapter serves as a guided tour of the stock market, arguing that some industries have inherently superior economics and are more conducive to building economic moats than others. Rather than advocating a top-down investment strategy, the author recommends that time-constrained investors focus disproportionately on four attractive areas: banks and financial services (which profit as money middlemen with confusing financials that deter competitors), business services (niche-dominating firms that fly under Wall Street's radar), health care (highly profitable with strong long-term demand, though biotechs and managed care require caution), and media (natural oligopolies/monopolies with favorable subscription-based cash flow dynamics). The core philosophy is that understanding industry economics and identifying wide-moat companies within attractive industries gives individual investors an edge, especially in less-followed corners of the market."
+    },
+    {
+      "chapter": "Economic Moats in Health Care",
+      "summary": "This chapter explores economic moats in the health care sector, arguing that health care companies—particularly branded pharmaceutical firms and medical device makers—often possess wide economic moats due to patent protection, high start-up costs, significant product differentiation, economies of scale, and large salesforce requirements. These moats translate into exceptional financial characteristics: ROEs averaging 23%, ROICs in the mid-20s to 30s for top pharma companies, gross margins of 75-85%, operating margins of 25-35%, plentiful free cash flow, and virtually debt-free balance sheets. The sector benefits from consistent demand regardless of economic conditions, making it a defensive safe haven. However, the chapter cautions that investors frequently overpay for these high-quality companies due to their attractive growth rates, and notes the complex dynamics of health care pricing where consumers are often not the ones paying for services."
+    },
+    {
+      "chapter": "Companies We See Every Day",
+      "summary": "This chapter examines the consumer services sector, including retailers, drugstores, discount stores, and restaurants. The core thesis is that economic moats are extremely rare and narrow in retail and consumer services, with only a handful of firms (like Wal-Mart, Home Depot, Lowe's, and Walgreen's) achieving wide moats through vast economies of scale and distinctive store formats. The best long-term investment approach is to identify these rare moat-possessing firms and buy them at the right price, while recognizing that most specialty and clothing retailers make poor long-term holdings despite potential short-term opportunities during industry sell-offs. The chapter also discusses the restaurant industry life cycle, noting that investors should distinguish between speculative growth concepts (which frequently fail) and aggressive growth chains that have proven per-unit profitability."
+    },
+    {
+      "chapter": "Outsourcing Trend",
+      "summary": "This chapter introduces the business services sector, which despite operating in relative obscurity contains many wide-moat businesses ideal for long-term investors. The sector is divided into technology-based, people-based, and hard-asset-based subsectors. A major growth driver is the outsourcing trend, where companies offload noncore tasks to specialized third parties to save time and money. Economic moats in this sector derive primarily from scale advantages (leveraging fixed-cost networks across many clients to lower unit costs), strong brand recognition that builds trust in outsourcing relationships, and significant barriers to entry requiring substantial infrastructure investment. Technology-based business services firms in particular have demonstrated superior long-term returns compared to the broader market, making them attractive investments when purchased at the right price."
+    },
+    {
+      "chapter": "It’s All about Risk",
+      "summary": "This chapter explains that banking is fundamentally about risk management—specifically credit risk, liquidity risk, and interest rate risk. Banks earn profits from the spread between borrowing and lending rates (net interest income) plus fees (noninterest income). While the banking industry enjoys structural advantages including FDIC insurance subsidies, Federal Reserve backstop, and portfolio diversification capabilities that create economic moats, few banks have truly wide moats because money is a commodity. The key differentiators among banks are their ability to attract low-cost deposits, manage credit risk through portfolio diversity and conservative underwriting, maintain cost discipline, and diversify revenue streams. Investors should evaluate banks by examining credit quality indicators such as nonperforming loans and charge-off rates, though these measures are inherently backward-looking."
+    },
+    {
+      "chapter": "Asset Management",
+      "summary": "This chapter covers asset management and insurance companies, emphasizing that asset managers are perennial profit machines with stellar operating margins (typically 30-40%), excellent economies of scale, and strong economic moats built through diversification of products and customer stickiness. The key metric for asset managers is assets under management (AUM), and unlike banks or insurers, asset managers bear minimal risk from portfolio losses since those are borne by customers. The chapter advocates a contrarian approach to investing in asset managers, as their stock prices tend to be highly correlated with market sentiment, creating opportunities to buy excellent businesses at depressed prices. Insurance, by contrast, is extremely competitive with limited moat-building potential."
+    },
+    {
+      "chapter": "Segments of the Software Industry",
+      "summary": "The software industry features exceptional economics due to near-zero marginal production costs, leading to very high operating margins (40%+) for successful companies and strong free cash flow generation. Most software segments are oligopolies where a few dominant players control the majority of sales, as conservative technology buyers prefer established vendors. Key segments include operating systems (dominated by Microsoft), databases (Oracle, IBM, Microsoft), ERP (SAP, PeopleSoft, Oracle), CRM (Siebel Systems), security (Check Point, Symantec), and video games (Electronic Arts). While wide economic moats are difficult to build due to low barriers to entry and rapid technological change, companies that dominate smaller niches often make more attractive investments than those competing in larger, more contested markets. Investors should focus on companies with high switching costs, dominant market positions, and the ability to sustain competitive advantages beyond just superior technology."
+    },
+    {
+      "chapter": "What Drives the Hardware Industry",
+      "summary": "The hardware sector—encompassing semiconductors, PCs, and telecom equipment—is driven by Moore's Law (doubling of transistor density every couple of years with plummeting per-unit costs), the shift of advanced economies toward services requiring more IT investment, and the symbiotic relationship between hardware and software. However, these same forces make it extremely difficult for hardware companies to build sustainable competitive advantages because most innovation benefits are passed to consumers through lower prices. The industry is intensely cyclical, with corporate and consumer spending on technology swinging dramatically with economic conditions. Most hardware companies ultimately fail in the face of relentless competition and technological change, so investors should focus on the fundamentals that matter in every sector: solid management, a focused economic model, and a durable economic moat, rather than getting caught up in technical minutiae or betting on new technology."
+    },
+    {
+      "chapter": "How Media Companies Make Money",
+      "summary": "Media companies generate revenue through user fees, subscriptions, and advertising, each with distinct economic characteristics. Subscription-based models are generally the most attractive due to predictable revenue, upfront cash collection, and operating leverage, while one-time user fee businesses suffer from volatile cash flows and narrow margins due to talent costs. The key to successful media investing is identifying companies with durable competitive advantages—such as economies of scale, geographic monopolies, or niche dominance—that can consistently grow and generate strong free cash flow over long periods. Investors should be cautious of capital-intensive media businesses where ongoing upgrade cycles consume operating cash flow, and should favor companies with high operating leverage where revenue growth translates into outsized profit margin expansion."
+    },
+    {
+      "chapter": "Telecom Economics",
+      "summary": "The telecom sector is characterized by mediocre and declining returns on capital, deteriorating economic moats, heavy regulatory influence, and enormous ongoing capital expenditure requirements. The industry evolved from AT&T's monopoly through the 1984 breakup and the 1996 Telecom Act, which opened local phone markets to competition. Local phone companies (regional Bells) retain some competitive advantage from controlling access networks, but face increasing threats from wireless carriers, cable companies, and regulatory-mandated network sharing. Wireless carriers operate in a commodity market with cutthroat pricing and no meaningful differentiation. The one bright spot is rural carriers, which benefit from natural monopoly positions in less populated areas, regulatory subsidies, and guaranteed returns on investment. Due to the sector's many risks, the authors recommend requiring a large margin of safety before investing in any telecom stock."
+    },
+    {
+      "chapter": "How Companies Make Money in Consumer Goods",
+      "summary": "The consumer goods sector—comprising food, beverages, household/personal products, and tobacco—is characterized by mature, slow-growing markets that typically grow no faster than GDP. These industries are dominated by a few large companies with significant market share. Growth strategies include stealing market share through new product introductions (which is costly and has a high failure rate), acquiring other companies (which is hit-or-miss depending on strategic fit and price paid), and reducing operating costs. Because top-line growth is inherently limited, earnings growth must come primarily from operational efficiency and cost streamlining. Despite slow growth, consumer goods companies tend to be solidly profitable and steady performers, making them excellent defensive long-term holdings since demand for their products persists even during economic downturns."
+    },
+    {
+      "chapter": "The Problem with Cyclicality",
+      "summary": "The industrial materials sector encompasses commodity producers and value-added goods manufacturers, all closely tied to the economic cycle. These companies face a 'bullwhip effect' where small changes in GDP cause large swings in their revenues and profits. With slim profit margins averaging around 5 percent, high fixed costs from capital-intensive operations, and often commodity-like products with no pricing power, most industrial materials firms create little long-term value for buy-and-hold investors. Economic moats are rare in basic materials, achievable primarily through becoming the lowest-cost producer via economies of scale. Companies attempt to mitigate cyclicality through product diversification, financing subsidiaries, and mixing long-cycle and short-cycle businesses. Investors should focus on financial health metrics like debt ratios and asset turnover, recognize the destructive effects of long-term price deflation from low-cost competition and excess capacity, and be cautious about buying at cycle peaks."
+    },
+    {
+      "chapter": "From the Ground",
+      "summary": "This chapter examines the energy sector's value chain from exploration and production (upstream) through pipelines (midstream) to refining and marketing (downstream), plus oil services. The key insight is that not all energy businesses are created equal: major integrated oil companies benefit from diversification and OPEC's price support, making them more consistently profitable. Pipelines offer stable, commodity-insensitive cash flows. Refining is less profitable than upstream due to the absence of a cartel, and oil services is the toughest segment, with firms struggling to earn above their cost of capital due to intense competition and lack of economic moats. Investors should favor companies with durable competitive advantages, particularly integrated majors and pipeline operators, while being cautious about pure E&P volatility and the poor economics of oil services."
+    },
+    {
+      "chapter": "Electricity Primer",
+      "summary": "This chapter provides a primer on the electric utility industry, explaining its three core segments—generation, transmission, and distribution—and how deregulation has fundamentally transformed the sector from a safe, conservative investment with guaranteed returns into a competitive, volatile commodity market. Distribution operations retain the widest economic moats due to natural monopoly positions, while generation faces the most competition and lowest barriers to entry. However, even where moats exist, heavy regulation caps returns on investment, making it difficult for utilities to create excess shareholder value. The chapter emphasizes that regulation at the state and federal levels is the single most important factor shaping utility investment attractiveness, analogous to location in real estate."
+    },
+    {
+      "chapter": "Section 31",
+      "summary": "This appendix from Morningstar's 'The Five Rules for Successful Stock Investing' presents the firm's philosophy of low-cost, long-term investing centered on identifying companies with wide economic moats—strong, durable competitive advantages that protect them from competitors for years. Rather than providing quantitative screening thresholds, the chapter offers a curated list of companies across sectors (Health Care, Consumer Services, Business Services, Financial Services, Software, Hardware, Media, Consumer Goods, Industrial Materials, and Energy) that Morningstar analysts have identified as possessing wide moats, serving as a starting watchlist for quality-focused investors. Notably, the Telecommunications and Utilities sectors had no companies qualifying as wide-moat at the time of publication."
+    },
+    {
+      "chapter": "Section 32",
+      "summary": "This section is a recommended readings list for investors, curating essential books across topics including value investing (Graham, Buffett, Fisher, Greenwald), financial statement analysis (Finkler, Higgins, Schilit), behavioral finance (Thaler, Belsky & Gilovich, Russo & Schoemaker), market history and speculation (Malkiel, Siegel, Chancellor, Lowenstein), and investor biographies (Lowenstein on Buffett, Train, Lowe on Munger). The chapter does not present any specific stock screening rules or quantitative investment criteria, but rather serves as a guide to further education for serious investors seeking to deepen their understanding of valuation, accounting, behavioral biases, and long-term investing principles."
+    },
+    {
+      "chapter": "Section 33",
+      "summary": "This section serves as a promotional resource guide for Morningstar's various investment products and services, including the StockInvestor newsletter, Buy/Sell Report, Morningstar.com website, and the Stocks 500 annual reference book. It does not present any specific stock screening criteria, valuation thresholds, or quantitative investment rules, but rather directs readers to additional resources for further research and analysis."
+    },
+    {
+      "chapter": "",
+      "summary": "This text is the index of 'The Five Rules for Successful Stock Investing' by Pat Dorsey. It lists the key topics, companies, and concepts covered throughout the book, including economic moats, financial statement analysis, valuation techniques, industry-specific analysis frameworks, management evaluation, and common investing pitfalls. The book's core philosophy centers on understanding a company's competitive advantages (economic moats), evaluating financial health through rigorous analysis of financial statements, determining intrinsic value through discounted cash flow analysis, maintaining a margin of safety, and avoiding common behavioral mistakes in investing."
+    },
+    {
+      "chapter": "Section 35",
+      "summary": "This section consists entirely of endnotes and bibliographic references for the book 'The Five Rules for Successful Stock Investing.' It cites sources ranging from academic research on market timing and industry analysis to publications on insurance fraud, banking statistics, and investment philosophy. The references support arguments made throughout the book regarding low portfolio turnover, long-term equity investing, the dangers of market timing, the importance of industry analysis, and skepticism toward acquisition synergies."
+    },
+    {
+      "chapter": "Section 36",
+      "summary": "This section contains the copyright page, legal disclaimers, liability limitations, and publication information for 'The Five Rules for Successful Stock Investing' by Pat Dorsey, published by John Wiley & Sons in 2004. It includes standard legal language regarding reproduction rights, warranty disclaimers, and data attribution to Mergent, Inc. No investment strategies, screening criteria, or substantive financial content is presented in this section."
+    }
+  ]
+}
