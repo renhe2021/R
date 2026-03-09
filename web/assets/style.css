@@ -2647,3 +2647,234 @@ body {
 .data-source-badge.ds-fallback .ds-dot {
     background: var(--yellow);
 }
+
+/* ═══════════════════════════════════════════════════════════
+   投委会辩论可视化 (Committee Debate)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Final Verdict Banner */
+.committee-verdict-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-input);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.cvb-left { flex-shrink: 0; }
+.cvb-verdict { font-size: 28px; font-weight: 800; }
+.cvb-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+.cvb-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+.cvb-stat { text-align: center; min-width: 60px; }
+.cvb-stat-value { font-size: 20px; font-weight: 700; }
+.cvb-stat-label { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+/* Section titles */
+.committee-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-light);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Vote Tally Bar */
+.committee-vote-section { margin-bottom: 24px; }
+.vote-tally-bar {
+    display: flex;
+    height: 36px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.vote-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.6s ease;
+    min-width: 24px;
+    position: relative;
+}
+.vote-seg-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+.vote-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.vote-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-dim);
+}
+.vote-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Veto Alert */
+.committee-veto-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--red-bg);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    animation: pulseRed 2s infinite;
+}
+@keyframes pulseRed {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.1); }
+    50% { box-shadow: 0 0 12px 4px rgba(255, 107, 107, 0.15); }
+}
+.veto-icon { font-size: 28px; flex-shrink: 0; }
+.veto-title { font-size: 15px; font-weight: 700; color: var(--red); margin-bottom: 4px; }
+.veto-reason { font-size: 13px; color: var(--text); line-height: 1.6; }
+.veto-triggers { font-size: 11px; color: var(--text-dim); margin-top: 6px; font-family: monospace; }
+
+/* Agent Opinions Grid */
+.committee-agents-section { margin-bottom: 28px; }
+.agent-opinions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+}
+.agent-opinion-card {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.agent-opinion-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* Card Header */
+.aoc-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.aoc-icon { font-size: 22px; flex-shrink: 0; }
+.aoc-name-wrap { flex: 1; min-width: 0; }
+.aoc-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.aoc-type { font-size: 10px; color: var(--text-dim); }
+.aoc-stance {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Confidence Bar */
+.aoc-confidence {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.aoc-conf-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.aoc-conf-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+}
+.aoc-conf-text { font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+
+/* Reasons & Risks */
+.aoc-reasons, .aoc-risks { margin-top: 8px; }
+.aoc-reasons-title { font-size: 11px; font-weight: 600; color: var(--green); margin-bottom: 4px; }
+.aoc-risks-title { font-size: 11px; font-weight: 600; color: var(--yellow); margin-bottom: 4px; }
+.aoc-reason-item, .aoc-risk-item {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    padding-left: 4px;
+}
+.aoc-risk-item { color: var(--yellow); }
+
+/* Veto Badge */
+.aoc-veto-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 10px;
+    background: var(--red-bg);
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+/* Dissent Section */
+.committee-dissent-section { margin-bottom: 24px; }
+.dissent-list {
+    list-style: none;
+    padding: 0;
+}
+.dissent-item {
+    padding: 10px 16px;
+    background: var(--bg-input);
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Debate Narrative */
+.committee-debate-narrative, .committee-pm-reasoning { margin-bottom: 24px; }
+.debate-narrative-content, .pm-reasoning-content {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+}
+.pm-summary-quote {
+    margin-top: 12px;
+    padding: 14px 20px;
+    background: rgba(108, 92, 231, 0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--accent-light);
+    line-height: 1.6;
+}

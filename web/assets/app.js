@@ -403,6 +403,8 @@ function resetPipelineUI() {
     window._backtestResults = {};
     window._positionAdvice = {};
     window._timingData = {};
+    window._committeeDebates = {};
+    window._pipelineDataSource = '';
 
     document.querySelectorAll('.pipeline-stage').forEach(s => {
         s.classList.remove('running', 'completed', 'skipped');
@@ -598,6 +600,7 @@ function updateStageUI(stageId, status, nameCn, data) {
 function processStageData(stageId, data) {
     // Stage 2: Show data source used
     if (stageId === 2 && data.data_source) {
+        window._pipelineDataSource = data.data_source;
         const sourceNames = {
             bloomberg: 'Bloomberg', yfinance: 'Yahoo Finance',
             fmp: 'FMP', finnhub: 'Finnhub', yahoo_direct: 'Yahoo Direct', auto: 'Auto',
@@ -739,6 +742,9 @@ function onPipelineComplete(event) {
     if (report.positionAdvice) {
         window._positionAdvice = report.positionAdvice;
     }
+    if (report.committeeDebates) {
+        window._committeeDebates = report.committeeDebates;
+    }
 
     renderResultCards();
     renderFunnel(report.funnel);
@@ -753,8 +759,14 @@ function onPipelineComplete(event) {
         document.getElementById('llm-report-content').innerHTML = formatMarkdown(report.llmAnalysis);
     }
 
-    document.getElementById('pipeline-status').textContent =
-        `分析完成 — 输入 ${report.totalInput} 只, 存活 ${report.totalAlive} 只, 淘汰 ${report.totalEliminated} 只`;
+    // Show final status with data source info
+    const sourceNames = { bloomberg: 'Bloomberg', yfinance: 'Yahoo Finance', fmp: 'FMP', finnhub: 'Finnhub', auto: 'Auto' };
+    const ds = report.dataSource || window._pipelineDataSource || '';
+    const dsLabel = ds ? ` | 数据源: ${sourceNames[ds] || ds}` : '';
+    const statusEl = document.getElementById('pipeline-status');
+    const debateCount = Object.keys(report.committeeDebates || {}).length;
+    const debateInfo = debateCount > 0 ? ` | 投委会辩论: ${debateCount} 只` : '';
+    statusEl.innerHTML = `分析完成 — 输入 ${report.totalInput} 只, 存活 ${report.totalAlive} 只, 淘汰 ${report.totalEliminated} 只${debateInfo}${dsLabel}`;
 }
 
 function renderResultCards() {
@@ -917,6 +929,8 @@ function renderDetailTab(tabName, stock) {
         content.innerHTML = renderBacktestDetail(stock);
     } else if (tabName === 'position') {
         content.innerHTML = renderPositionDetail(stock);
+    } else if (tabName === 'committee') {
+        content.innerHTML = renderCommitteeDebateDetail(stock);
     } else if (tabName === 'ai-analysis') {
         content.innerHTML = renderDeepAnalysisDetail(stock);
     }
@@ -1240,6 +1254,200 @@ function renderForensicsDetail(s) {
                         <span>${f.detail || ''}</span>
                     </li>`).join('')}
             </ul>` : '<p style="color:var(--green)">未发现红旗警告</p>'}
+        </div>`;
+}
+
+function renderCommitteeDebateDetail(s) {
+    const debates = window._committeeDebates || {};
+    const debate = debates[s.symbol];
+    if (!debate) return '<p style="color:var(--text-muted)">暂无投委会辩论数据 — 管线完成 Stage 7d 后将显示完整辩论过程</p>';
+
+    const opinions = debate.round1_opinions || [];
+    const schoolOps = opinions.filter(o => o.agent_type === 'school');
+    const roleOps = opinions.filter(o => o.agent_type === 'role');
+    const voteTally = debate.vote_tally || {};
+    const veto = debate.veto || {};
+    const totalAgents = opinions.length || 1;
+
+    const stanceColors = {
+        'STRONG_BUY': 'var(--green)', 'BUY': '#74b9ff',
+        'HOLD': 'var(--yellow)', 'AVOID': '#e17055', 'REJECT': 'var(--red)',
+    };
+    const stanceCn = {
+        'STRONG_BUY': '强力买入', 'BUY': '买入', 'HOLD': '持有', 'AVOID': '回避', 'REJECT': '拒绝',
+    };
+    const agentIcons = {
+        'Graham 深度价值': '📐', 'Buffett 护城河': '🏰', '量化价值': '📊',
+        '品质投资': '💎', 'Damodaran 估值': '🧮', '逆向价值': '🔄', 'GARP 成长价值': '📈',
+        'Research Analyst': '🔬', 'Quant Analyst': '📉', 'Risk Manager': '🛡️',
+        'Macro Strategist': '🌍', 'Sector Specialist': '🏭',
+    };
+
+    // ── 1. Final Verdict Banner
+    const verdictColor = stanceColors[debate.final_verdict] || 'var(--accent)';
+    const confidence = (debate.final_confidence || 0);
+    const consensusRatio = totalAgents > 0 ? (Math.max(...Object.values(voteTally)) / totalAgents * 100) : 0;
+
+    let html = `
+        <div class="detail-section">
+            <h4>投资委员会辩论 — ${s.symbol} (${debate.stock_name || s.name || ''})</h4>
+            <p style="font-size:12px;color:var(--text-dim);margin-bottom:16px">
+                12 位 AI 分析师（7流派 + 5角色）独立分析 → 结构化辩论 → Portfolio Manager 最终裁决
+            </p>
+
+            <!-- Final Verdict Banner -->
+            <div class="committee-verdict-banner" style="border-left:4px solid ${verdictColor}">
+                <div class="cvb-left">
+                    <div class="cvb-verdict" style="color:${verdictColor}">${stanceCn[debate.final_verdict] || debate.final_verdict}</div>
+                    <div class="cvb-sub">投委会最终裁决</div>
+                </div>
+                <div class="cvb-stats">
+                    <div class="cvb-stat">
+                        <div class="cvb-stat-value" style="color:${verdictColor}">${(confidence * 100).toFixed(0)}%</div>
+                        <div class="cvb-stat-label">置信度</div>
+                    </div>
+                    <div class="cvb-stat">
+                        <div class="cvb-stat-value">${consensusRatio.toFixed(0)}%</div>
+                        <div class="cvb-stat-label">共识度</div>
+                    </div>
+                    <div class="cvb-stat">
+                        <div class="cvb-stat-value">${totalAgents}</div>
+                        <div class="cvb-stat-label">参与分析师</div>
+                    </div>
+                    <div class="cvb-stat">
+                        <div class="cvb-stat-value" style="color:${veto.triggered ? 'var(--red)' : 'var(--green)'}">${veto.triggered ? '⚡ 是' : '✓ 否'}</div>
+                        <div class="cvb-stat-label">否决触发</div>
+                    </div>
+                </div>
+            </div>`;
+
+    // ── 2. Vote Tally Bar
+    const tallyEntries = Object.entries(voteTally).sort((a, b) => b[1] - a[1]);
+    html += `
+            <div class="committee-vote-section">
+                <h4 class="committee-section-title">投票分布</h4>
+                <div class="vote-tally-bar">
+                    ${tallyEntries.map(([stance, count]) => {
+                        const pct = (count / totalAgents * 100).toFixed(0);
+                        return `<div class="vote-segment" style="width:${pct}%;background:${stanceColors[stance] || 'var(--accent)'}" title="${stanceCn[stance] || stance}: ${count}票 (${pct}%)">
+                            <span class="vote-seg-label">${stanceCn[stance] || stance} ${count}</span>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div class="vote-legend">
+                    ${tallyEntries.map(([stance, count]) => `
+                        <span class="vote-legend-item">
+                            <span class="vote-legend-dot" style="background:${stanceColors[stance] || 'var(--accent)'}"></span>
+                            ${stanceCn[stance] || stance}: ${count}票
+                        </span>
+                    `).join('')}
+                </div>
+            </div>`;
+
+    // ── 3. Veto Section
+    if (veto.triggered) {
+        html += `
+            <div class="committee-veto-alert">
+                <div class="veto-icon">⚡</div>
+                <div class="veto-info">
+                    <div class="veto-title">Risk Manager 否决已触发</div>
+                    <div class="veto-reason">${veto.reason || ''}</div>
+                    ${(veto.quantitative_triggers || []).length > 0 ? `
+                        <div class="veto-triggers">
+                            量化触发: ${veto.quantitative_triggers.join(' | ')}
+                        </div>` : ''}
+                </div>
+            </div>`;
+    }
+
+    // ── 4. School Agents Round Table
+    html += `
+            <div class="committee-agents-section">
+                <h4 class="committee-section-title">Round 1 · 七大投资流派独立意见</h4>
+                <div class="agent-opinions-grid">
+                    ${schoolOps.map(op => renderAgentOpinionCard(op, stanceColors, stanceCn, agentIcons)).join('')}
+                </div>
+            </div>`;
+
+    // ── 5. Role Agents
+    html += `
+            <div class="committee-agents-section">
+                <h4 class="committee-section-title">Round 1 · 五角色专业分析</h4>
+                <div class="agent-opinions-grid">
+                    ${roleOps.map(op => renderAgentOpinionCard(op, stanceColors, stanceCn, agentIcons)).join('')}
+                </div>
+            </div>`;
+
+    // ── 6. Dissent Points
+    const dissent = debate.dissent_points || [];
+    if (dissent.length > 0) {
+        html += `
+            <div class="committee-dissent-section">
+                <h4 class="committee-section-title">关键分歧点</h4>
+                <ul class="dissent-list">
+                    ${dissent.map(d => `<li class="dissent-item">${d}</li>`).join('')}
+                </ul>
+            </div>`;
+    }
+
+    // ── 7. Debate Summary (PM Round 2)
+    if (debate.debate_summary) {
+        html += `
+            <div class="committee-debate-narrative">
+                <h4 class="committee-section-title">Round 2 · 投委会辩论纪要</h4>
+                <div class="debate-narrative-content">${formatMarkdown(debate.debate_summary)}</div>
+            </div>`;
+    }
+
+    // ── 8. PM Final Reasoning
+    if (debate.final_reasoning) {
+        html += `
+            <div class="committee-pm-reasoning">
+                <h4 class="committee-section-title">Portfolio Manager 最终判断</h4>
+                <div class="pm-reasoning-content">${formatMarkdown(debate.final_reasoning)}</div>
+                ${debate.portfolio_manager_summary ? `
+                    <div class="pm-summary-quote">"${debate.portfolio_manager_summary}"</div>` : ''}
+            </div>`;
+    }
+
+    html += `</div>`;
+    return html;
+}
+
+function renderAgentOpinionCard(op, stanceColors, stanceCn, agentIcons) {
+    const color = stanceColors[op.stance] || 'var(--accent)';
+    const icon = agentIcons[op.agent_name] || '🤖';
+    const confPct = ((op.confidence || 0) * 100).toFixed(0);
+
+    return `
+        <div class="agent-opinion-card" style="border-top:3px solid ${color}">
+            <div class="aoc-header">
+                <span class="aoc-icon">${icon}</span>
+                <div class="aoc-name-wrap">
+                    <span class="aoc-name">${op.agent_name}</span>
+                    <span class="aoc-type">${op.agent_type === 'school' ? '流派' : '角色'}</span>
+                </div>
+                <span class="aoc-stance" style="background:${color}20;color:${color};border:1px solid ${color}40">
+                    ${stanceCn[op.stance] || op.stance}
+                </span>
+            </div>
+            <div class="aoc-confidence">
+                <div class="aoc-conf-bar-wrap">
+                    <div class="aoc-conf-bar" style="width:${confPct}%;background:${color}"></div>
+                </div>
+                <span class="aoc-conf-text">置信度 ${confPct}%</span>
+            </div>
+            ${(op.key_reasons || []).length > 0 ? `
+            <div class="aoc-reasons">
+                <div class="aoc-reasons-title">核心理由</div>
+                ${op.key_reasons.slice(0, 3).map(r => `<div class="aoc-reason-item">• ${r}</div>`).join('')}
+            </div>` : ''}
+            ${(op.risks || []).length > 0 ? `
+            <div class="aoc-risks">
+                <div class="aoc-risks-title">风险警告</div>
+                ${op.risks.slice(0, 2).map(r => `<div class="aoc-risk-item">⚠ ${r}</div>`).join('')}
+            </div>` : ''}
+            ${op.veto ? '<div class="aoc-veto-badge">⚡ 否决</div>' : ''}
         </div>`;
 }
 

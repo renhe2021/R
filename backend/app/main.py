@@ -47,6 +47,18 @@ async def startup():
     """Initialize DB tables on startup."""
     import app.models  # noqa: F401 — ensure all ORM models registered before create_all
     init_db()
+    # Verify critical tables exist, force-create if missing (handles pre-existing DBs)
+    from app.database import engine, Base
+    from sqlalchemy import inspect
+    inspector = inspect(engine)
+    existing_tables = set(inspector.get_table_names())
+    required = {"agent_verdicts", "agent_sessions", "agent_messages", "backtest_runs"}
+    missing = required - existing_tables
+    if missing:
+        logger.warning(f"Missing tables detected: {missing} — creating them now")
+        Base.metadata.create_all(bind=engine, tables=[
+            Base.metadata.tables[t] for t in missing if t in Base.metadata.tables
+        ])
     logger.info("Database tables created/verified.")
     llm_status = "configured" if settings.effective_api_key else "NOT configured"
     logger.info(f"LLM status: API_KEY {llm_status}")

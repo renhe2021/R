@@ -591,6 +591,12 @@ class BloombergProvider(DataProvider):
         if " INDEX" in sym_upper:
             return symbol
         symbol = sym_upper
+
+        # Bloomberg 使用 '/' 而非 '-' 作为 share class 分隔符
+        # 例如 BRK-B → BRK/B US Equity, BF-B → BF/B US Equity
+        if "-" in symbol and not symbol.isdigit():
+            symbol = symbol.replace("-", "/")
+
         if symbol.isdigit() and len(symbol) <= 5:
             return f"{symbol} HK Equity"
         if symbol.isdigit() and len(symbol) == 6:

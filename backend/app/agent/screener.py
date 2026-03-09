@@ -60,13 +60,18 @@ async def run_screening(
 
     def _screen_one(symbol: str) -> Dict[str, Any]:
         try:
-            from src.data_providers.yfinance_provider import YfinanceProvider
+            from src.data_providers.factory import get_data_provider
             from src.symbol_resolver import resolve_for_provider, resolve_symbol
+            from app.agent.tools import get_active_data_source
+
             resolved = resolve_symbol(symbol)
-            yf_symbol = resolve_for_provider(symbol, "yfinance")
             display = resolved.canonical
-            provider = YfinanceProvider()
-            stock = provider.fetch(yf_symbol)
+
+            # Use the active data source (Bloomberg if available, else auto)
+            active_source = get_active_data_source()
+            provider = get_data_provider(active_source)
+            provider_symbol = resolve_for_provider(symbol, provider.name)
+            stock = provider.fetch(provider_symbol)
 
             if not stock.is_valid():
                 return {"symbol": display, "status": "eliminated", "reason": "无法获取有效数据"}
