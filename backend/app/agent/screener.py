@@ -16,18 +16,25 @@ from app.agent.distilled_rules import (
     SCHOOLS, ALL_RULES, InvestmentRule,
     evaluate_stock_against_school, evaluate_stock_all_schools,
 )
+from app.agent.investment_params import params as _P
 
 logger = logging.getLogger(__name__)
 
-# ── Quick-screen eliminatory rules (used for batch screening) ──
-# These are the absolute minimum bars any stock must clear.
-ELIMINATORY_RULES = [
-    {"name": "PE合理 (PE < 25 且 > 0)", "check": lambda d: d.get("pe") is not None and 0 < d["pe"] < 25},
-    {"name": "正盈利 (EPS > 0)", "check": lambda d: d.get("eps") is not None and d["eps"] > 0},
-    {"name": "负债可控 (D/E < 2.0)", "check": lambda d: d.get("debt_to_equity") is None or d["debt_to_equity"] < 2.0},
-    {"name": "市值 > $5亿", "check": lambda d: d.get("market_cap") is not None and d["market_cap"] >= 5e8},
-    {"name": "ROE > 0", "check": lambda d: d.get("roe") is None or d["roe"] > 0},
-]
+
+def _build_eliminatory_rules():
+    """Build eliminatory rules dynamically from current params."""
+    return [
+        {"name": f"PE合理 (PE < {_P.get('screener.pe_max', 25)} 且 > 0)",
+         "check": lambda d, _mx=_P.get("screener.pe_max", 25): d.get("pe") is not None and 0 < d["pe"] < _mx},
+        {"name": "正盈利 (EPS > 0)",
+         "check": lambda d: d.get("eps") is not None and d["eps"] > 0},
+        {"name": f"负债可控 (D/E < {_P.get('screener.debt_to_equity_max', 2.0)})",
+         "check": lambda d, _mx=_P.get("screener.debt_to_equity_max", 2.0): d.get("debt_to_equity") is None or d["debt_to_equity"] < _mx},
+        {"name": f"市值 > ${_P.get('screener.market_cap_min', 5e8)/1e8:.0f}亿",
+         "check": lambda d, _mn=_P.get("screener.market_cap_min", 5e8): d.get("market_cap") is not None and d["market_cap"] >= _mn},
+        {"name": "ROE > 0",
+         "check": lambda d: d.get("roe") is None or d["roe"] > 0},
+    ]
 
 
 async def run_screening(
@@ -67,6 +74,7 @@ async def run_screening(
             data = stock.to_dict()
 
             # Quick screen: eliminatory rules
+            ELIMINATORY_RULES = _build_eliminatory_rules()
             failures = []
             for rule in ELIMINATORY_RULES:
                 try:
@@ -125,7 +133,7 @@ async def run_screening(
             f"{s.name_cn}: {len(s.rules)} 条" for s in SCHOOLS.values()
         ]
     else:
-        criteria = [r["name"] for r in ELIMINATORY_RULES]
+        criteria = [r["name"] for r in _build_eliminatory_rules()]
 
     return {
         "passed": passed,

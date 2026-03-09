@@ -1,4 +1,4 @@
-"""Agent API routes — Old Charlie chat, analyze, advisor, sessions, verdicts."""
+"""Agent API routes — Old Charlie chat, analyze, advisor, sessions, verdicts, backtest."""
 
 import json
 import logging
@@ -40,6 +40,11 @@ class PipelineRequest(BaseModel):
     universe: Optional[str] = None  # Preset universe name
     strategy: str = Field(default="balanced")
     enableLlm: bool = Field(default=True)
+    dataSource: Optional[str] = Field(
+        default=None,
+        description="Data source override. None=Bloomberg first (ask user if unavailable). "
+                    "'bloomberg'/'yfinance'/'fmp'/'finnhub'/'yahoo_direct'=use directly.",
+    )
 
 
 async def _sse_generator(async_gen):
@@ -166,6 +171,7 @@ async def agent_pipeline(req: PipelineRequest):
                 strategy=req.strategy,
                 universe=req.universe,
                 enable_llm=req.enableLlm,
+                data_source=req.dataSource,
             ):
                 data = json.dumps(event, default=str, ensure_ascii=False)
                 yield f"data: {data}\n\n"
@@ -199,6 +205,44 @@ async def get_strategies():
     }
 
 
+@router.get("/pipeline/data-sources")
+async def probe_data_sources():
+    """Probe available data sources (Bloomberg first).
+
+    Returns Bloomberg availability and list of alternative data sources.
+    Frontend can use this to pre-check before starting the pipeline.
+    """
+    import asyncio
+
+    def _probe():
+        from src.data_providers.factory import probe_bloomberg_first
+        return probe_bloomberg_first()
+
+    loop = asyncio.get_running_loop()
+    result = await loop.run_in_executor(None, _probe)
+
+    source_labels = {
+        "bloomberg": "Bloomberg Terminal — 最高质量机构级数据",
+        "yfinance": "Yahoo Finance (yfinance) — 免费，覆盖面广",
+        "fmp": "Financial Modeling Prep (FMP) — 需API Key，数据质量高",
+        "finnhub": "Finnhub — 需API Key，实时数据",
+        "yahoo_direct": "Yahoo Direct — 免费备选",
+    }
+
+    sources = []
+    if result.bloomberg_available:
+        sources.append({"id": "bloomberg", "label": source_labels["bloomberg"], "available": True, "primary": True})
+
+    for alt in result.available_alternatives:
+        sources.append({"id": alt, "label": source_labels.get(alt, alt), "available": True, "primary": False})
+
+    return {
+        "bloombergAvailable": result.bloomberg_available,
+        "bloombergError": result.error_message if not result.bloomberg_available else None,
+        "sources": sources,
+    }
+
+
 @router.get("/sessions")
 async def get_sessions(
     limit: int = Query(20, ge=1, le=100),
@@ -229,3 +273,475 @@ async def get_verdict(
     if not verdict:
         raise HTTPException(status_code=404, detail=f"Verdict {run_id} not found")
     return verdict
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Investment Parameters — View / Override / Reset / Audit
+# ═══════════════════════════════════════════════════════════════
+
+
+class ParamOverrideRequest(BaseModel):
+    """Request to override one or more parameters."""
+    overrides: dict = Field(..., description="Dict of param_key -> new_value")
+    reason: str = Field(default="", description="Reason for the override")
+
+
+class ParamResetRequest(BaseModel):
+    """Request to reset one or more parameters."""
+    keys: List[str] = Field(default_factory=list, description="Keys to reset; empty = reset all")
+
+
+@router.get("/params")
+async def get_all_params(
+    school: Optional[str] = Query(None, description="Filter by school"),
+    category: Optional[str] = Query(None, description="Filter by category"),
+):
+    """Get all investment parameters, optionally filtered by school or category.
+
+    Returns the full registry including current value, default, description,
+    valid range, and whether the value has been overridden.
+    """
+    from app.agent.investment_params import params
+
+    if school:
+        items = params.list_by_school(school)
+    elif category:
+        items = params.list_by_category(category)
+    else:
+        items = params.list_all()
+
+    return {
+        "parameters": items,
+        "summary": params.summary(),
+    }
+
+
+@router.get("/params/overridden")
+async def get_overridden_params():
+    """Get only parameters that differ from their defaults."""
+    from app.agent.investment_params import params
+    return {
+        "overridden": params.list_overridden(),
+        "count": len(params.list_overridden()),
+    }
+
+
+@router.get("/params/schools")
+async def get_param_schools():
+    """Get available school names and their parameter counts."""
+    from app.agent.investment_params import params
+    schools = params.get_schools()
+    return {
+        "schools": [
+            {"name": s, "parameters": params.list_by_school(s)}
+            for s in schools
+        ],
+    }
+
+
+@router.get("/params/audit")
+async def get_param_audit(limit: int = Query(50, ge=1, le=500)):
+    """Get the parameter change audit trail."""
+    from app.agent.investment_params import params
+    return {
+        "changes": params.get_change_log(limit),
+    }
+
+
+@router.post("/params/override")
+async def override_params(req: ParamOverrideRequest):
+    """Override one or more investment parameters at runtime.
+
+    Changes take effect immediately for the next pipeline run.
+    All changes are logged in the audit trail.
+
+    Example body:
+    {
+        "overrides": {"graham.pe_max": 18, "risk.z_score_danger": 1.50},
+        "reason": "当前市场PE偏高，放宽Graham PE上限"
+    }
+    """
+    from app.agent.investment_params import params
+
+    results = params.batch_override(req.overrides, req.reason)
+
+    succeeded = {k: v for k, v in results.items() if v}
+    failed = {k: v for k, v in results.items() if not v}
+
+    if failed:
+        # Return partial success with details
+        return {
+            "status": "partial" if succeeded else "failed",
+            "succeeded": list(succeeded.keys()),
+            "failed": list(failed.keys()),
+            "message": f"{len(succeeded)} 个参数修改成功, {len(failed)} 个失败 (参数不存在或值超出范围)",
+        }
+
+    return {
+        "status": "success",
+        "succeeded": list(succeeded.keys()),
+        "message": f"已成功修改 {len(succeeded)} 个参数",
+    }
+
+
+@router.post("/params/reset")
+async def reset_params(req: ParamResetRequest):
+    """Reset parameters to their default values.
+
+    If keys is empty, resets ALL parameters.
+    """
+    from app.agent.investment_params import params
+
+    if not req.keys:
+        params.reset_all()
+        return {"status": "success", "message": "所有参数已重置为默认值"}
+
+    results = {}
+    for key in req.keys:
+        results[key] = params.reset(key)
+
+    return {
+        "status": "success",
+        "reset": [k for k, v in results.items() if v],
+        "not_found": [k for k, v in results.items() if not v],
+    }
+
+
+@router.post("/params/reload")
+async def reload_params_yaml():
+    """Reload parameters from investment_params.yaml.
+
+    Use after editing the YAML file — no restart needed.
+    """
+    from app.agent.investment_params import params
+    params.reload_yaml()
+    overridden = params.list_overridden()
+    return {
+        "status": "success",
+        "message": f"YAML已重新加载, {len(overridden)} 个参数被覆盖",
+        "overridden": overridden,
+    }
+
+
+@router.get("/params/export")
+async def export_params_yaml():
+    """Export current non-default parameters as YAML string.
+
+    Can be saved to investment_params.yaml for persistence.
+    """
+    from app.agent.investment_params import params
+    return {
+        "yaml": params.export_yaml(),
+        "overridden_count": len(params.list_overridden()),
+    }
+
+
+@router.get("/params/{key}")
+async def get_single_param(key: str):
+    """Get a single parameter by its dotted key (e.g., 'graham.pe_max')."""
+    from app.agent.investment_params import params
+    p = params.get_def(key)
+    if not p:
+        raise HTTPException(status_code=404, detail=f"Parameter '{key}' not found")
+    return p.to_dict()
+
+
+@router.get("/debates/{run_id}")
+async def get_debate_records(run_id: str):
+    """Get committee debate records for a specific pipeline run.
+
+    Returns the full debate record including all agent opinions,
+    vote tally, veto decisions, and PM final verdict for each stock.
+    """
+    from app.database import get_session
+    from app.models.agent import AgentVerdict
+
+    async with get_session() as session:
+        from sqlalchemy import select
+        result = await session.execute(
+            select(AgentVerdict).where(AgentVerdict.run_id == run_id)
+        )
+        row = result.scalars().first()
+
+    if not row:
+        raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
+
+    debate_data = None
+    if row.debate_json:
+        try:
+            debate_data = json.loads(row.debate_json)
+        except json.JSONDecodeError:
+            debate_data = {"raw": row.debate_json}
+
+    backtest_data = None
+    if row.strategy_backtest:
+        try:
+            backtest_data = json.loads(row.strategy_backtest)
+        except json.JSONDecodeError:
+            backtest_data = None
+
+    return {
+        "runId": run_id,
+        "debates": debate_data,
+        "strategyBacktest": backtest_data,
+        "committeeVotes": json.loads(row.committee_votes) if row.committee_votes else None,
+    }
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Point-in-Time Backtest API
+# ═══════════════════════════════════════════════════════════════
+
+
+class BacktestRequest(BaseModel):
+    """Request body for launching a PIT backtest."""
+    stocks: list[str] = Field(default_factory=list, max_length=100)
+    universe: Optional[str] = None
+    holdingMonths: int = Field(default=6, ge=1, le=24)
+    lookbackYears: float = Field(default=3.0, ge=1.0, le=5.0)
+    commissionRate: float = Field(default=0.001, ge=0, le=0.01)
+    slippageRate: float = Field(default=0.0005, ge=0, le=0.005)
+    stopLossPct: float = Field(default=0.15, ge=0.05, le=0.40)
+    maxHoldings: int = Field(default=15, ge=3, le=50)
+    initialCapital: float = Field(default=1_000_000, ge=10_000, le=100_000_000)
+    weighting: str = Field(default="equal")
+    benchmark: str = Field(default="SPY")
+    strategy: str = Field(default="balanced")
+    dataSource: Optional[str] = Field(
+        default=None,
+        description="Data source for backtest. None=yfinance (backtest needs historical quarterly data). "
+                    "Backtest currently only supports yfinance for historical financials.",
+    )
+
+
+@router.post("/backtest/run")
+async def run_backtest(req: BacktestRequest):
+    """Launch a Point-in-Time backtest (SSE stream).
+
+    Returns real-time progress events:
+      - backtest_start / backtest_phase / backtest_progress / backtest_complete / backtest_error
+
+    The full result is also persisted to the database for later retrieval.
+    """
+    from app.agent.backtest.pit_backtester import PointInTimeBacktester
+    from app.agent.backtest.models import PITBacktestConfig
+
+    # Resolve symbols
+    stocks = [s.upper().strip() for s in req.stocks if s.strip()]
+    if not stocks and req.universe:
+        from app.agent.unified_pipeline import PRESET_UNIVERSES
+        stocks = PRESET_UNIVERSES.get(req.universe, [])
+
+    if not stocks:
+        raise HTTPException(status_code=422, detail="Provide stocks or a universe name")
+
+    config = PITBacktestConfig(
+        symbols=stocks,
+        holding_months=req.holdingMonths,
+        lookback_years=req.lookbackYears,
+        commission_rate=req.commissionRate,
+        slippage_rate=req.slippageRate,
+        stop_loss_pct=req.stopLossPct,
+        max_holdings=req.maxHoldings,
+        initial_capital=req.initialCapital,
+        weighting=req.weighting,
+        benchmark=req.benchmark,
+        strategy=req.strategy,
+    )
+
+    backtester = PointInTimeBacktester(config)
+
+    async def _stream():
+        try:
+            async for event in backtester.run():
+                if "type" in event and "event" not in event:
+                    event["event"] = event.pop("type")
+                data = json.dumps(event, default=str, ensure_ascii=False)
+                yield f"data: {data}\n\n"
+
+            # Persist result
+            result = backtester.get_result()
+            if result:
+                _persist_backtest(result)
+
+        except Exception as e:
+            logger.error(f"Backtest SSE error: {e}", exc_info=True)
+            yield f"data: {json.dumps({'event': 'backtest_error', 'message': str(e)[:500]})}\n\n"
+
+    return StreamingResponse(
+        _stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+@router.get("/backtest/results")
+async def list_backtest_results(
+    limit: int = Query(20, ge=1, le=100),
+    strategy: Optional[str] = Query(None),
+):
+    """List recent backtest runs."""
+    from app.database import SessionLocal
+    from app.models.agent import BacktestRun
+    from sqlalchemy import select
+
+    db = SessionLocal()
+    try:
+        q = select(BacktestRun).order_by(BacktestRun.created_at.desc())
+        if strategy:
+            q = q.where(BacktestRun.strategy == strategy)
+        q = q.limit(limit)
+        rows = db.execute(q).scalars().all()
+
+        return {
+            "results": [
+                {
+                    "run_id": r.run_id,
+                    "status": r.status,
+                    "verdict": r.verdict,
+                    "strategy": r.strategy,
+                    "symbols": r.symbols_csv,
+                    "total_return": r.total_return,
+                    "annualized_return": r.annualized_return,
+                    "alpha": r.alpha,
+                    "sharpe_ratio": r.sharpe_ratio,
+                    "max_drawdown": r.max_drawdown,
+                    "win_rate": r.win_rate,
+                    "duration_seconds": r.duration_seconds,
+                    "created_at": r.created_at.isoformat() if r.created_at else None,
+                }
+                for r in rows
+            ],
+            "count": len(rows),
+        }
+    finally:
+        db.close()
+
+
+@router.get("/backtest/results/{run_id}")
+async def get_backtest_result(run_id: str):
+    """Get the full result of a specific backtest run."""
+    from app.database import SessionLocal
+    from app.models.agent import BacktestRun
+    from sqlalchemy import select
+
+    db = SessionLocal()
+    try:
+        row = db.execute(
+            select(BacktestRun).where(BacktestRun.run_id == run_id)
+        ).scalars().first()
+
+        if not row:
+            raise HTTPException(status_code=404, detail=f"Backtest run {run_id} not found")
+
+        result_data = None
+        if row.result_json:
+            try:
+                result_data = json.loads(row.result_json)
+            except json.JSONDecodeError:
+                result_data = {"raw": row.result_json}
+
+        return {
+            "run_id": row.run_id,
+            "status": row.status,
+            "verdict": row.verdict,
+            "strategy": row.strategy,
+            "symbols": row.symbols_csv,
+            "config": json.loads(row.config_json) if row.config_json else None,
+            "result": result_data,
+            "created_at": row.created_at.isoformat() if row.created_at else None,
+        }
+    finally:
+        db.close()
+
+
+@router.get("/backtest/compare")
+async def compare_backtests(
+    run_ids: str = Query(..., description="Comma-separated run IDs to compare"),
+):
+    """Compare multiple backtest runs side-by-side."""
+    from app.database import SessionLocal
+    from app.models.agent import BacktestRun
+    from sqlalchemy import select
+
+    ids = [rid.strip() for rid in run_ids.split(",") if rid.strip()]
+    if not ids:
+        raise HTTPException(status_code=422, detail="Provide at least one run_id")
+
+    db = SessionLocal()
+    try:
+        rows = db.execute(
+            select(BacktestRun).where(BacktestRun.run_id.in_(ids))
+        ).scalars().all()
+
+        if not rows:
+            raise HTTPException(status_code=404, detail="No matching backtest runs found")
+
+        comparisons = []
+        for r in rows:
+            result_data = None
+            if r.result_json:
+                try:
+                    result_data = json.loads(r.result_json)
+                except json.JSONDecodeError:
+                    pass
+
+            comparisons.append({
+                "run_id": r.run_id,
+                "strategy": r.strategy,
+                "symbols": r.symbols_csv,
+                "verdict": r.verdict,
+                "total_return": r.total_return,
+                "annualized_return": r.annualized_return,
+                "alpha": r.alpha,
+                "sharpe_ratio": r.sharpe_ratio,
+                "max_drawdown": r.max_drawdown,
+                "win_rate": r.win_rate,
+                "duration_seconds": r.duration_seconds,
+                "nav_series": result_data.get("nav_series") if result_data else None,
+                "monthly_returns": result_data.get("monthly_returns") if result_data else None,
+                "created_at": r.created_at.isoformat() if r.created_at else None,
+            })
+
+        return {"comparisons": comparisons, "count": len(comparisons)}
+    finally:
+        db.close()
+
+
+def _persist_backtest(result):
+    """Save a PITBacktestResult to the database."""
+    from app.database import SessionLocal
+    from app.models.agent import BacktestRun
+
+    db = SessionLocal()
+    try:
+        m = result.metrics
+        run = BacktestRun(
+            run_id=result.run_id,
+            status="completed" if not result.error else "failed",
+            config_json=json.dumps(result.config.to_dict(), default=str),
+            result_json=result.to_json(),
+            verdict=result.verdict,
+            total_return=m.total_return,
+            annualized_return=m.annualized_return,
+            alpha=m.alpha,
+            sharpe_ratio=m.sharpe_ratio,
+            max_drawdown=m.max_drawdown,
+            win_rate=m.win_rate,
+            duration_seconds=result.duration_seconds,
+            symbols_csv=",".join(result.config.symbols),
+            strategy=result.config.strategy,
+            error=result.error,
+        )
+        db.add(run)
+        db.commit()
+        logger.info(f"[Backtest] Persisted run {result.run_id} — {result.verdict}")
+    except Exception as e:
+        db.rollback()
+        logger.error(f"[Backtest] Failed to persist run: {e}")
+    finally:
+        db.close()

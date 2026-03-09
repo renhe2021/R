@@ -28,6 +28,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, AsyncGenerator, Dict, List, Optional, Tuple
 
+from app.agent.investment_params import params as _P
+
 logger = logging.getLogger(__name__)
 
 
@@ -119,6 +121,16 @@ class StockResult:
     per_school_opinions: Dict[str, str] = field(default_factory=dict)  # school -> opinion text
     comparative_matrix: str = ""  # Cross-stock comparison text
 
+    # Stage 7 (NEW): Investment Committee debate
+    debate_record: Optional[Dict[str, Any]] = None  # Full DebateRecord.to_dict()
+    committee_verdict: str = ""      # Final verdict from committee (STRONG_BUY/BUY/HOLD/AVOID)
+    committee_confidence: float = 0.0
+    committee_vote_tally: Dict[str, int] = field(default_factory=dict)
+    committee_veto_triggered: bool = False
+
+    # Stage 9 (NEW): Strategy backtest
+    strategy_backtest: Optional[Dict[str, Any]] = None  # BacktestResult.to_dict()
+
     # Stage 8: Final
     composite_score: float = 0.0
     conviction: str = "NONE"
@@ -180,26 +192,43 @@ class StockResult:
 #  Strategy Templates
 # ═══════════════════════════════════════════════════════════════
 
-STRATEGY_TEMPLATES = {
-    "conservative": {
-        "name": "保守型 (Graham 防御型)",
-        "min_market_cap": 2e9, "max_pe": 15, "max_de": 1.0,
-        "min_current_ratio": 2.0, "require_positive_fcf": True,
-        "min_margin_of_safety": 0.33, "max_holdings": 20,
-    },
-    "balanced": {
-        "name": "均衡型 (Buffett + Quality)",
-        "min_market_cap": 5e8, "max_pe": 25, "max_de": 2.0,
-        "min_current_ratio": 1.0, "require_positive_fcf": False,
-        "min_margin_of_safety": 0.15, "max_holdings": 15,
-    },
-    "aggressive": {
-        "name": "进取型 (Greenblatt + GARP)",
-        "min_market_cap": 1e8, "max_pe": 40, "max_de": 3.0,
-        "min_current_ratio": 0.5, "require_positive_fcf": False,
-        "min_margin_of_safety": 0.0, "max_holdings": 30,
-    },
-}
+def _build_strategy_templates() -> Dict[str, Dict[str, Any]]:
+    """Build strategy templates from current params — dynamic, not hardcoded."""
+    return {
+        "conservative": {
+            "name": "保守型 (Graham 防御型)",
+            "min_market_cap": _P.get("strategy.conservative.min_market_cap", 2e9),
+            "max_pe": _P.get("strategy.conservative.max_pe", 15),
+            "max_de": _P.get("strategy.conservative.max_de", 1.0),
+            "min_current_ratio": _P.get("strategy.conservative.min_current_ratio", 2.0),
+            "require_positive_fcf": True,
+            "min_margin_of_safety": _P.get("strategy.conservative.min_margin_of_safety", 0.33),
+            "max_holdings": _P.get("strategy.conservative.max_holdings", 20),
+        },
+        "balanced": {
+            "name": "均衡型 (Buffett + Quality)",
+            "min_market_cap": _P.get("strategy.balanced.min_market_cap", 5e8),
+            "max_pe": _P.get("strategy.balanced.max_pe", 25),
+            "max_de": _P.get("strategy.balanced.max_de", 2.0),
+            "min_current_ratio": _P.get("strategy.balanced.min_current_ratio", 1.0),
+            "require_positive_fcf": False,
+            "min_margin_of_safety": _P.get("strategy.balanced.min_margin_of_safety", 0.15),
+            "max_holdings": _P.get("strategy.balanced.max_holdings", 15),
+        },
+        "aggressive": {
+            "name": "进取型 (Greenblatt + GARP)",
+            "min_market_cap": _P.get("strategy.aggressive.min_market_cap", 1e8),
+            "max_pe": _P.get("strategy.aggressive.max_pe", 40),
+            "max_de": _P.get("strategy.aggressive.max_de", 3.0),
+            "min_current_ratio": _P.get("strategy.aggressive.min_current_ratio", 0.5),
+            "require_positive_fcf": False,
+            "min_margin_of_safety": _P.get("strategy.aggressive.min_margin_of_safety", 0.0),
+            "max_holdings": _P.get("strategy.aggressive.max_holdings", 30),
+        },
+    }
+
+# Keep module-level reference for backward compatibility (used by agent_routes.py)
+STRATEGY_TEMPLATES = _build_strategy_templates()
 
 PRESET_UNIVERSES = {
     "value_30": [
@@ -267,6 +296,56 @@ class UnifiedPipeline:
         self.strategy: str = "balanced"
         self.config: Dict = {}
         self.stage_stats: Dict[int, Dict] = {}
+        self._data_source: Optional[str] = None  # user-selected data source
+
+    async def _probe_data_source(self) -> Optional[Dict[str, Any]]:
+        """Probe Bloomberg availability. If unavailable, return an SSE event for user choice.
+
+        Returns:
+            None if Bloomberg is available (pipeline should continue).
+            Dict (SSE event) if Bloomberg is unavailable (pipeline should pause).
+        """
+        import asyncio
+
+        def _probe():
+            from src.data_providers.factory import probe_bloomberg_first
+            return probe_bloomberg_first()
+
+        loop = asyncio.get_running_loop()
+        probe_result = await loop.run_in_executor(None, _probe)
+
+        if probe_result.bloomberg_available:
+            # Bloomberg ready — set as active source and continue
+            self._data_source = "bloomberg"
+            logger.info("[Pipeline] Bloomberg 可用，使用 Bloomberg 数据源")
+            return None
+
+        # Bloomberg unavailable — emit event asking user to choose
+        alternatives = probe_result.available_alternatives
+        logger.info(f"[Pipeline] Bloomberg 不可用 ({probe_result.error_message})，"
+                     f"等待用户选择数据源: {alternatives}")
+
+        # Map provider names to display labels
+        source_labels = {
+            "yfinance": "Yahoo Finance (yfinance) — 免费，覆盖面广",
+            "fmp": "Financial Modeling Prep (FMP) — 需API Key，数据质量高",
+            "finnhub": "Finnhub — 需API Key，实时数据",
+            "yahoo_direct": "Yahoo Direct — 免费备选",
+        }
+
+        return {
+            "event": "data_source_required",
+            "runId": self.run_id,
+            "stage": 2,
+            "message": f"Bloomberg 不可用: {probe_result.error_message}。请选择备选数据源：",
+            "bloomberg_error": probe_result.error_message,
+            "available_sources": [
+                {"id": src, "label": source_labels.get(src, src)}
+                for src in alternatives
+            ],
+            "symbols": [r.symbol for r in self.results],
+            "strategy": self.strategy,
+        }
 
     async def run(
         self,
@@ -274,6 +353,7 @@ class UnifiedPipeline:
         strategy: str = "balanced",
         universe: Optional[str] = None,
         enable_llm: bool = True,
+        data_source: Optional[str] = None,
     ) -> AsyncGenerator[Dict[str, Any], None]:
         """Run the full 8-stage pipeline as an async generator, yielding SSE events.
 
@@ -282,13 +362,20 @@ class UnifiedPipeline:
             strategy: Strategy template name
             universe: Preset universe name (used if symbols is empty)
             enable_llm: Whether to run Stage 7 LLM analysis
+            data_source: User-selected data source. None = Bloomberg first (ask if unavailable).
+                         "bloomberg" / "yfinance" / "fmp" / "finnhub" / "yahoo_direct" = use directly.
 
         Yields:
-            SSE events with pipeline progress and results
+            SSE events with pipeline progress and results.
+            If Bloomberg is unavailable and no data_source specified, yields a
+            ``data_source_required`` event and returns (pipeline paused).
         """
         self.run_id = str(uuid.uuid4())[:8]
         self.strategy = strategy
-        self.config = STRATEGY_TEMPLATES.get(strategy, STRATEGY_TEMPLATES["balanced"])
+        self._data_source = data_source  # store for Stage 2
+        # Build templates dynamically from current params
+        templates = _build_strategy_templates()
+        self.config = templates.get(strategy, templates["balanced"])
 
         # ── Stage 1: Universe Construction ──
         yield self._stage_event(1, "running")
@@ -299,15 +386,29 @@ class UnifiedPipeline:
             "symbols": resolved_symbols,
         })
 
-        # ── Stage 2: Data Acquisition ──
+        # ── Stage 2: Data Acquisition (Bloomberg-first + user choice) ──
         yield self._stage_event(2, "running")
+
+        # If no data_source specified, probe Bloomberg first
+        if data_source is None:
+            probe_event = await self._probe_data_source()
+            if probe_event is not None:
+                # Bloomberg unavailable — ask user to choose
+                yield probe_event
+                return  # Pipeline paused — frontend re-submits with chosen data_source
+
         data_map = await self._stage2_data_acquisition()
         alive_count = sum(1 for r in self.results if r.is_alive())
         yield self._stage_event(2, "completed", {
             "fetched": len(data_map),
             "alive": alive_count,
             "data_insufficient": len(self.results) - alive_count,
+            "data_source": self._data_source or "bloomberg",
         })
+
+        # Set the active data source for tools.py (used by Stage 4/5/6 tool functions)
+        from app.agent.tools import set_active_data_source
+        set_active_data_source(self._data_source or "auto")
 
         # ── Stage 3: Hard Knockout Gate ──
         yield self._stage_event(3, "running")
@@ -432,19 +533,27 @@ class UnifiedPipeline:
             yield self._substep_event(7, "7c", "completed",
                                       f"实时研究完成 ({rt_count} 只获取到最新动态)")
 
-            # 7d: Per-stock LLM analysis
+            # 7d: Investment Committee Multi-Agent Debate (NEW)
             yield self._substep_event(7, "7d", "running",
+                                      f"投资委员会 Multi-Agent 辩论分析 ({len(alive_for_llm)} 只)...")
+            await self._stage7d_committee_debate(alive_for_llm, data_map)
+            debate_count = sum(1 for r in alive_for_llm if r.debate_record)
+            yield self._substep_event(7, "7d", "completed",
+                                      f"投委会辩论完成 ({debate_count}/{len(alive_for_llm)} 只完成辩论)")
+
+            # 7e: Per-stock LLM deep analysis (retained as fallback / enrichment)
+            yield self._substep_event(7, "7e", "running",
                                       f"老查理逐股深度分析 ({len(alive_for_llm)} 只)...")
             await self._stage7d_per_stock_llm(alive_for_llm, data_map)
             llm_count = sum(1 for r in alive_for_llm if r.llm_analysis)
-            yield self._substep_event(7, "7d", "completed",
+            yield self._substep_event(7, "7e", "completed",
                                       f"逐股分析完成 ({llm_count}/{len(alive_for_llm)} 只生成深度报告)")
 
-            # 7e: Comparative matrix
+            # 7f: Comparative matrix
             if len(alive_for_llm) >= 2:
-                yield self._substep_event(7, "7e", "running", "横向对比 Basket 分析...")
+                yield self._substep_event(7, "7f", "running", "横向对比 Basket 分析...")
                 await self._stage7e_comparative(alive_for_llm)
-                yield self._substep_event(7, "7e", "completed", "Basket 对比分析完成")
+                yield self._substep_event(7, "7f", "completed", "Basket 对比分析完成")
 
             yield self._stage_event(7, "completed", {
                 "details": [
@@ -455,6 +564,10 @@ class UnifiedPipeline:
                         "hasLlmAnalysis": bool(r.llm_analysis),
                         "hasFilingData": r.has_financial_statements or r.has_sec_filing,
                         "hasSchoolOpinions": len(r.per_school_opinions) > 0,
+                        "hasDebateRecord": r.debate_record is not None,
+                        "committeeVerdict": r.committee_verdict,
+                        "committeeConfidence": r.committee_confidence,
+                        "vetoTriggered": r.committee_veto_triggered,
                     }
                     for r in self.results if r.is_alive()
                 ],
@@ -481,18 +594,31 @@ class UnifiedPipeline:
             ],
         })
 
-        # ── Stage 9: Historical Backtest + Position Advice ──
+        # ── Stage 9: Historical Backtest + Strategy Backtest + Position Advice ──
         yield self._stage_event(9, "running")
-        yield self._substep_event(9, "backtest", "running", "回溯 2-3 年历史数据验证方法论...")
         alive_final = [r for r in self.results if r.is_alive()]
+
+        # 9a: Per-stock historical backtest (existing)
+        yield self._substep_event(9, "backtest", "running", "回溯 2-3 年历史数据验证方法论...")
         await self._stage9_backtest(alive_final)
         yield self._substep_event(9, "backtest", "completed", "历史验证完成")
 
+        # 9b: Strategy rolling backtest (NEW — 6-month holding period)
+        yield self._substep_event(9, "strategy_backtest", "running",
+                                  "滚动策略回测 (6个月持仓周期，回溯2.5年)...")
+        strategy_bt = await self._stage9_strategy_backtest(alive_final)
+        bt_verdict = strategy_bt.get("verdict", "N/A") if strategy_bt else "N/A"
+        yield self._substep_event(9, "strategy_backtest", "completed",
+                                  f"策略回测完成: {bt_verdict}",
+                                  {"strategy_backtest": strategy_bt} if strategy_bt else None)
+
+        # 9c: Position advice
         yield self._substep_event(9, "position", "running", "生成调仓建议...")
         self._stage9_position_advice(alive_final)
         yield self._substep_event(9, "position", "completed", "调仓建议就绪")
 
         yield self._stage_event(9, "completed", {
+            "strategy_backtest": strategy_bt,
             "details": [
                 {
                     "symbol": r.symbol,
@@ -551,74 +677,45 @@ class UnifiedPipeline:
         return symbols or []
 
     async def _stage2_data_acquisition(self) -> Dict[str, Any]:
-        """Stage 2: Fetch data for all symbols with multi-source fallback.
+        """Stage 2: Fetch data for all symbols using the selected data source.
 
-        降级策略: Bloomberg → yfinance → yahoo_direct
-        每只股票独立降级，某个源失败立即尝试下一个，确保最大数据覆盖。
+        数据源策略:
+          - self._data_source = "bloomberg": 仅用 Bloomberg
+          - self._data_source = "yfinance" / "fmp" / etc: 仅用指定源
+          - self._data_source = None: 本不应到达此处 (应在 run() 中被 probe 拦截)，
+                                       但作为安全兜底用 auto 模式
         """
         import asyncio
 
         data_map = {}
+        chosen_source = self._data_source or "auto"
 
-        # 构建有序数据源列表（每次调用都 fresh，避免共享状态问题）
-        def _build_provider_chain():
+        def _build_provider():
+            """Build the single provider based on user's choice."""
             from src.data_providers.factory import get_data_provider
-            chain = []
-            # 1. Bloomberg（如果可用）
-            try:
-                bp = get_data_provider("bloomberg")
-                chain.append(bp)
-            except Exception:
-                pass
-            # 2. yfinance（免费兜底，最可靠）
-            try:
-                yf = get_data_provider("yfinance")
-                chain.append(yf)
-            except Exception:
-                pass
-            # 3. yahoo_direct（备用）
-            try:
-                yd = get_data_provider("yahoo_direct")
-                chain.append(yd)
-            except Exception:
-                pass
-            return chain
+            return get_data_provider(chosen_source)
 
-        def _fetch_with_fallback(symbol: str):
-            """对单只股票尝试多个数据源，返回覆盖率最高的结果。"""
+        def _fetch_single(symbol: str):
+            """Fetch data for one symbol using the chosen provider."""
             from src.symbol_resolver import resolve_for_provider
+            from src.data_providers.factory import get_data_provider
 
-            providers = _build_provider_chain()
-            best_stock = None
-            best_pct = -1
-            best_source = "unknown"
+            provider = get_data_provider(chosen_source)
+            resolved = resolve_for_provider(symbol, provider.name)
+            logger.info(f"[Stage2] {symbol} → {provider.name} (chosen: {chosen_source})")
 
-            for provider in providers:
-                try:
-                    resolved = resolve_for_provider(symbol, provider.name)
-                    stock = provider.fetch(resolved)
-                    if stock is None or not hasattr(stock, 'to_dict'):
-                        continue
-                    cov = stock.data_coverage() if hasattr(stock, 'data_coverage') else {}
-                    pct = cov.get('core', {}).get('pct', 0) if cov else 0
-                    logger.info(f"[{provider.name}] {symbol} → 核心覆盖率 {pct}%")
-                    if pct > best_pct:
-                        best_stock = stock
-                        best_pct = pct
-                        best_source = provider.name
-                    # 覆盖率 >= 60% 即可，不必再试其它源
-                    if pct >= 60:
-                        break
-                except Exception as e:
-                    logger.warning(f"[{provider.name}] {symbol} 获取失败: {e}")
-                    continue
+            stock = provider.fetch(resolved)
+            if stock is None or not hasattr(stock, 'to_dict'):
+                return None, provider.name, 0
 
-            return best_stock, best_source, best_pct
+            cov = stock.data_coverage() if hasattr(stock, 'data_coverage') else {}
+            pct = cov.get('core', {}).get('pct', 0) if cov else 0
+            return stock, provider.name, pct
 
         async def _fetch_one(result: StockResult) -> Tuple[str, Any]:
             loop = asyncio.get_running_loop()
             return result.symbol, await asyncio.wait_for(
-                loop.run_in_executor(None, _fetch_with_fallback, result.symbol),
+                loop.run_in_executor(None, _fetch_single, result.symbol),
                 timeout=60,
             )
 
@@ -635,7 +732,7 @@ class UnifiedPipeline:
                 continue
 
             if stock is None or not hasattr(stock, 'to_dict'):
-                result.eliminate(2, "所有数据源均获取失败")
+                result.eliminate(2, f"数据源 {chosen_source} 获取失败")
                 continue
 
             d = stock.to_dict()
@@ -647,8 +744,9 @@ class UnifiedPipeline:
             result.data_quality = core_pct
             result.data_source = source_name
 
-            # Quality gate: core coverage must be >= 40%
-            if core_pct < 40:
+            # Quality gate: core coverage must be >= threshold
+            min_coverage = _P.get("data.core_coverage_min", 40)
+            if core_pct < min_coverage:
                 result.eliminate(2, f"数据质量不足 (核心覆盖率 {core_pct}%)")
                 continue
 
@@ -737,9 +835,11 @@ class UnifiedPipeline:
                     result.risk_tier = RiskTier.NEUTRAL.value
                 else:
                     # Refine based on F-Score and Z-Score
-                    if result.f_score >= 7 and result.z_zone == "safe" and len(result.red_flags) == 0:
+                    fortress_f = _P.get("risk_tier.fortress_f_score_min", 7)
+                    solid_f = _P.get("risk_tier.solid_f_score_min", 5)
+                    if result.f_score >= fortress_f and result.z_zone == "safe" and len(result.red_flags) == 0:
                         result.risk_tier = RiskTier.FORTRESS.value
-                    elif result.f_score >= 5 and result.z_zone in ("safe", "grey"):
+                    elif result.f_score >= solid_f and result.z_zone in ("safe", "grey"):
                         result.risk_tier = RiskTier.SOLID.value
                     else:
                         result.risk_tier = RiskTier.NEUTRAL.value
@@ -779,8 +879,13 @@ class UnifiedPipeline:
 
                 # Weighted consensus score (0-100)
                 school_weights = {
-                    "graham": 1.5, "buffett": 2.0, "quantitative": 1.5,
-                    "quality": 2.0, "valuation": 1.5, "contrarian": 0.5, "garp": 1.0,
+                    "graham": _P.get("school_weight.graham", 1.5),
+                    "buffett": _P.get("school_weight.buffett", 2.0),
+                    "quantitative": _P.get("school_weight.quantitative", 1.5),
+                    "quality": _P.get("school_weight.quality", 2.0),
+                    "valuation": _P.get("school_weight.valuation", 1.5),
+                    "contrarian": _P.get("school_weight.contrarian", 0.5),
+                    "garp": _P.get("school_weight.garp", 1.0),
                 }
                 total_w, max_w = 0.0, 0.0
                 for sk, sd in result.school_results.items():
@@ -1005,6 +1110,99 @@ class UnifiedPipeline:
         except Exception as e:
             logger.warning(f"[Stage7e] Comparative analysis failed: {e}")
 
+    async def _stage7d_committee_debate(
+        self,
+        alive_results: List[StockResult],
+        data_map: Dict[str, Any],
+    ):
+        """Stage 7d (NEW): Multi-Agent Investment Committee debate.
+
+        For each stock, runs 12 agents (7 school + 5 role) in parallel,
+        then PM synthesizes a debate and delivers the final verdict.
+        Committee debate events are logged but not yielded (parent yields substeps).
+        """
+        try:
+            from app.agent.committee.debate import DebateEngine
+
+            engine = DebateEngine()
+
+            async def _debate_one(result: StockResult):
+                try:
+                    stock_snapshot = self._build_single_stock_snapshot(result, data_map)
+
+                    debate_events = []
+                    async for event in engine.run_debate(
+                        symbol=result.symbol,
+                        stock_name=result.name,
+                        stock_snapshot=stock_snapshot,
+                        z_score=result.z_score,
+                        m_score=result.m_score,
+                        f_score=result.f_score,
+                    ):
+                        debate_events.append(event)
+                        logger.info(
+                            f"[Committee] {result.symbol} — {event.get('type')}: "
+                            f"{event.get('message', '')[:80]}"
+                        )
+
+                    # Extract final results from events
+                    for evt in debate_events:
+                        if evt.get("type") == "debate_end":
+                            record = evt.get("debate_record", {})
+                            result.debate_record = record
+                            result.committee_verdict = record.get("final_verdict", "")
+                            result.committee_confidence = record.get("final_confidence", 0.0)
+                            result.committee_vote_tally = record.get("vote_tally", {})
+                            result.committee_veto_triggered = record.get("veto", {}).get("triggered", False)
+
+                            # Also populate per_school_opinions from debate
+                            for op in record.get("round1_opinions", []):
+                                if op.get("agent_type") == "school":
+                                    result.per_school_opinions[op["agent_name"]] = (
+                                        f"{op['stance']} ({op['confidence']:.0%}): "
+                                        f"{op.get('analysis_text', '')[:300]}"
+                                    )
+
+                except Exception as e:
+                    logger.warning(f"[Committee] Debate failed for {result.symbol}: {e}")
+
+            # Run debates for up to 8 stocks concurrently
+            await asyncio.gather(
+                *[_debate_one(r) for r in alive_results[:8]],
+                return_exceptions=True,
+            )
+        except Exception as e:
+            logger.warning(f"[Committee] Batch debate failed: {e}")
+
+    async def _stage9_strategy_backtest(
+        self, alive_results: List[StockResult]
+    ) -> Optional[Dict[str, Any]]:
+        """Stage 9b (NEW): Rolling strategy backtest with 6-month holding periods.
+
+        Tests: "If we had bought these stocks 6 months ago, would we have beaten S&P500?"
+        Uses rolling windows over 2.5 years.
+        """
+        try:
+            from app.agent.backtest.strategy_backtest import StrategyBacktester
+
+            symbols = [r.symbol for r in alive_results if r.is_alive()]
+            if not symbols:
+                return None
+
+            backtester = StrategyBacktester(holding_months=6, lookback_years=2.5)
+            bt_result = await backtester.run_backtest(symbols)
+
+            # Store in each stock result
+            bt_dict = bt_result.to_dict()
+            for r in alive_results:
+                r.strategy_backtest = bt_dict
+
+            return bt_dict
+
+        except Exception as e:
+            logger.warning(f"[Strategy Backtest] Failed: {e}")
+            return None
+
     # ═══════════════════════════════════════════════════════════════
     #  Timing Signals (new)
     # ═══════════════════════════════════════════════════════════════
@@ -1135,9 +1333,11 @@ class UnifiedPipeline:
                 result.timing_score = round(max(0, min(100, score)), 1)
 
                 # Timing verdict
-                if result.timing_score >= 65:
+                buy_now_th = _P.get("timing.buy_now_threshold", 65)
+                caution_th = _P.get("timing.caution_threshold", 40)
+                if result.timing_score >= buy_now_th:
                     result.timing_verdict = "BUY_NOW"
-                elif result.timing_score >= 40:
+                elif result.timing_score >= caution_th:
                     result.timing_verdict = "WAIT"
                 else:
                     result.timing_verdict = "CAUTION"
@@ -1272,14 +1472,17 @@ class UnifiedPipeline:
 
             # Buy price range based on intrinsic value and safety margin
             if r.intrinsic_value and r.intrinsic_value > 0 and r.price and r.price > 0:
-                # Ideal buy: 20-33% below intrinsic value
-                r.buy_price_low = round(r.intrinsic_value * 0.67, 2)
-                r.buy_price_high = round(r.intrinsic_value * 0.85, 2)
+                # Ideal buy: below intrinsic value
+                r.buy_price_low = round(r.intrinsic_value * _P.get("buy_price.low_multiplier", 0.67), 2)
+                r.buy_price_high = round(r.intrinsic_value * _P.get("buy_price.high_multiplier", 0.85), 2)
 
-                # Stop loss: 15-25% below current price depending on conviction
+                # Stop loss: below current price depending on conviction
                 stop_pct = {
-                    "HIGHEST": 0.25, "HIGH": 0.20, "MEDIUM": 0.15,
-                    "LOW": 0.12, "NONE": 0.10,
+                    "HIGHEST": _P.get("stoploss.highest_pct", 0.25),
+                    "HIGH": _P.get("stoploss.high_pct", 0.20),
+                    "MEDIUM": _P.get("stoploss.medium_pct", 0.15),
+                    "LOW": _P.get("stoploss.low_pct", 0.12),
+                    "NONE": _P.get("stoploss.none_pct", 0.10),
                 }.get(r.conviction, 0.15)
                 r.stop_loss_price = round(r.price * (1 - stop_pct), 2)
             elif r.price and r.price > 0:
@@ -1290,16 +1493,22 @@ class UnifiedPipeline:
 
             # Position size (% of portfolio) based on conviction
             base_sizes = {
-                "HIGHEST": 12.0, "HIGH": 8.0, "MEDIUM": 5.0,
-                "LOW": 3.0, "NONE": 2.0,
+                "HIGHEST": _P.get("position.highest_pct", 12.0),
+                "HIGH": _P.get("position.high_pct", 8.0),
+                "MEDIUM": _P.get("position.medium_pct", 5.0),
+                "LOW": _P.get("position.low_pct", 3.0),
+                "NONE": _P.get("position.none_pct", 2.0),
             }
             r.position_size_pct = base_sizes.get(r.conviction, 5.0)
 
             # Adjust by timing
             if r.timing_verdict == "BUY_NOW":
-                r.position_size_pct = min(r.position_size_pct * 1.2, 15.0)
+                r.position_size_pct = min(
+                    r.position_size_pct * _P.get("position.buy_now_multiplier", 1.2),
+                    _P.get("position.max_single_pct", 15.0),
+                )
             elif r.timing_verdict == "CAUTION":
-                r.position_size_pct = r.position_size_pct * 0.7
+                r.position_size_pct = r.position_size_pct * _P.get("position.caution_multiplier", 0.7)
 
             r.position_size_pct = round(r.position_size_pct, 1)
 
@@ -1324,14 +1533,18 @@ class UnifiedPipeline:
             # Valuation dimension (30 points)
             if r.margin_of_safety is not None:
                 mos = r.margin_of_safety
-                if mos >= 0.33:
-                    score += 30
-                elif mos >= 0.20:
-                    score += 24
-                elif mos >= 0.10:
-                    score += 16
+                mos_excellent = _P.get("scoring.mos_band_excellent", 0.33)
+                mos_good = _P.get("scoring.mos_band_good", 0.20)
+                mos_fair = _P.get("scoring.mos_band_fair", 0.10)
+                val_max = _P.get("scoring.valuation_max_points", 30)
+                if mos >= mos_excellent:
+                    score += val_max
+                elif mos >= mos_good:
+                    score += val_max * 0.8
+                elif mos >= mos_fair:
+                    score += val_max * 0.53
                 elif mos >= 0:
-                    score += 8
+                    score += val_max * 0.27
 
             # School consensus (25 points)
             score += r.school_consensus_score * 0.25
@@ -1354,6 +1567,19 @@ class UnifiedPipeline:
                 if r.knowledge_snippets:
                     score += 2  # Bonus for book knowledge
 
+            # Committee debate adjustment (NEW — up to 15 points)
+            if r.debate_record:
+                cv = r.committee_verdict
+                cc = r.committee_confidence
+                if cv in ("STRONG_BUY", "BUY") and cc >= 0.6:
+                    score += 15 * cc  # Strong committee endorsement
+                elif cv == "HOLD":
+                    score += 5 * cc
+                elif cv == "AVOID":
+                    score -= 10 * cc  # Committee concern reduces score
+                if r.committee_veto_triggered:
+                    score -= 20  # Veto is a major penalty
+
             # Sentiment bonus (5 points) — from school strong count
             strong_bonus = min(len(r.strong_schools) * 1.5, 5)
             score += strong_bonus
@@ -1364,9 +1590,9 @@ class UnifiedPipeline:
             strong_count = len(r.strong_schools)
             mos = r.margin_of_safety or -1
 
-            if strong_count >= 3 and mos >= 0.30 and r.risk_tier == "FORTRESS" and r.moat == "Wide":
+            if strong_count >= _P.get("conviction.highest_strong_schools", 3) and mos >= _P.get("conviction.highest_mos_min", 0.30) and r.risk_tier == "FORTRESS" and r.moat == "Wide":
                 r.conviction = ConvictionLevel.HIGHEST.value
-            elif strong_count >= 2 and mos >= 0.15 and r.risk_tier in ("FORTRESS", "SOLID"):
+            elif strong_count >= _P.get("conviction.high_strong_schools", 2) and mos >= _P.get("conviction.high_mos_min", 0.15) and r.risk_tier in ("FORTRESS", "SOLID"):
                 r.conviction = ConvictionLevel.HIGH.value
             elif strong_count >= 1 or (mos is not None and mos >= 0):
                 r.conviction = ConvictionLevel.MEDIUM.value
@@ -1376,13 +1602,13 @@ class UnifiedPipeline:
                 r.conviction = ConvictionLevel.NONE.value
 
             # Verdict
-            if r.composite_score >= 75 and r.conviction in ("HIGHEST", "HIGH"):
+            if r.composite_score >= _P.get("verdict.strong_buy_score", 75) and r.conviction in ("HIGHEST", "HIGH"):
                 r.verdict = Verdict.STRONG_BUY.value
-            elif r.composite_score >= 55 and r.conviction in ("HIGHEST", "HIGH", "MEDIUM"):
+            elif r.composite_score >= _P.get("verdict.buy_score", 55) and r.conviction in ("HIGHEST", "HIGH", "MEDIUM"):
                 r.verdict = Verdict.BUY.value
-            elif r.composite_score >= 35:
+            elif r.composite_score >= _P.get("verdict.hold_score", 35):
                 r.verdict = Verdict.HOLD.value
-            elif r.composite_score >= 20:
+            elif r.composite_score >= _P.get("verdict.avoid_score", 20):
                 r.verdict = Verdict.AVOID.value
             else:
                 r.verdict = Verdict.REJECT.value
@@ -1731,6 +1957,13 @@ class UnifiedPipeline:
                 }
                 for r in alive
             },
+            # NEW: Committee debate records
+            "committeeDebates": {
+                r.symbol: r.debate_record
+                for r in alive if r.debate_record
+            },
+            # NEW: Strategy rolling backtest
+            "strategyBacktest": alive[0].strategy_backtest if alive and alive[0].strategy_backtest else None,
         }
 
     async def _persist_verdict(self, report: Dict):

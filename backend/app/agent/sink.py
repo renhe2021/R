@@ -45,6 +45,12 @@ async def run_sink(verdict: Dict[str, Any], run_id: str) -> Dict[str, Any]:
                 red_flags_count=red_flags_count,
                 status="completed",
                 charlie_summary=verdict.get("charlie_summary", ""),
+                debate_json=json.dumps(verdict.get("committeeDebates"), default=str) if verdict.get("committeeDebates") else None,
+                committee_votes=json.dumps(
+                    {sym: d.get("vote_tally", {}) for sym, d in (verdict.get("committeeDebates") or {}).items()},
+                    default=str,
+                ) if verdict.get("committeeDebates") else None,
+                strategy_backtest=json.dumps(verdict.get("strategyBacktest"), default=str) if verdict.get("strategyBacktest") else None,
             )
             db.add(record)
             db.commit()

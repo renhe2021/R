@@ -364,6 +364,8 @@ async def reporter_node(state: AgentState) -> Dict[str, Any]:
         "final_avoids": final_avoids,
         "charlie_summary": charlie_summary,
         "llm_analysis": llm_analysis,
+        "debate_records": state.get("debate_records"),
+        "strategy_backtest": state.get("strategy_backtest"),
     }
 
     return {

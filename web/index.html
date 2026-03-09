@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>老查理 — 深度价值投资平台</title>
     <link rel="stylesheet" href="/assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <!-- 侧边导航 -->
@@ -57,6 +58,13 @@
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
                 语义搜索
+            </a>
+            <a href="#" class="nav-item" data-page="backtest">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                    <polyline points="17 6 23 6 23 12"></polyline>
+                </svg>
+                策略回测
             </a>
         </div>
     </nav>
@@ -302,7 +310,164 @@
             </div>
         </section>
 
+        <!-- ====== 策略回测页 ====== -->
+        <section id="page-backtest" class="page">
+            <div class="page-header">
+                <h1>策略回测</h1>
+                <p class="subtitle">Point-in-Time 历史回测 — 用真实市场数据验证选股策略</p>
+            </div>
+
+            <!-- 参数配置面板 -->
+            <div class="bt-config-panel">
+                <div class="bt-config-row">
+                    <div class="bt-config-left">
+                        <label>股票池</label>
+                        <div class="bt-stock-input-wrap">
+                            <input type="text" id="bt-stock-input" placeholder="输入股票代码，逗号分隔，如 AAPL, MSFT, BRK-B">
+                        </div>
+                        <div class="bt-presets">
+                            <button class="bt-preset-btn" data-bt-preset="value_30">价值30</button>
+                            <button class="bt-preset-btn" data-bt-preset="sp500_top50">S&P50</button>
+                            <button class="bt-preset-btn" data-bt-preset="dividend_kings">股息之王</button>
+                            <button class="bt-preset-btn" data-bt-preset="buffett_portfolio">巴菲特</button>
+                        </div>
+                    </div>
+                    <div class="bt-config-grid">
+                        <div class="bt-param">
+                            <label>持仓周期</label>
+                            <select id="bt-holding-months">
+                                <option value="3">3个月</option>
+                                <option value="6" selected>6个月</option>
+                                <option value="12">12个月</option>
+                            </select>
+                        </div>
+                        <div class="bt-param">
+                            <label>回溯年数</label>
+                            <select id="bt-lookback">
+                                <option value="2">2年</option>
+                                <option value="3" selected>3年</option>
+                                <option value="4">4年</option>
+                            </select>
+                        </div>
+                        <div class="bt-param">
+                            <label>止损比例</label>
+                            <select id="bt-stoploss">
+                                <option value="0.10">10%</option>
+                                <option value="0.15" selected>15%</option>
+                                <option value="0.20">20%</option>
+                                <option value="0.25">25%</option>
+                            </select>
+                        </div>
+                        <div class="bt-param">
+                            <label>策略类型</label>
+                            <select id="bt-strategy">
+                                <option value="conservative">保守型</option>
+                                <option value="balanced" selected>均衡型</option>
+                                <option value="aggressive">进取型</option>
+                            </select>
+                        </div>
+                        <div class="bt-param">
+                            <label>权重模式</label>
+                            <select id="bt-weighting">
+                                <option value="equal" selected>等权重</option>
+                                <option value="conviction">信念加权</option>
+                            </select>
+                        </div>
+                        <div class="bt-param">
+                            <label>最大持仓</label>
+                            <input type="number" id="bt-max-holdings" value="15" min="3" max="50">
+                        </div>
+                    </div>
+                </div>
+                <div class="bt-config-actions">
+                    <button id="btn-run-backtest" class="bt-run-btn" onclick="runBacktest()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                            <polyline points="17 6 23 6 23 12"></polyline>
+                        </svg>
+                        开始回测
+                    </button>
+                    <button class="bt-history-btn" onclick="loadBacktestHistory()">历史记录</button>
+                </div>
+            </div>
+
+            <!-- 进度条 -->
+            <div id="bt-progress" class="bt-progress hidden">
+                <div class="bt-progress-bar-wrap">
+                    <div class="bt-progress-bar" id="bt-progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="bt-progress-text" id="bt-progress-text">准备中...</div>
+            </div>
+
+            <!-- 回测结果区 -->
+            <div id="bt-results" class="hidden">
+
+                <!-- 核心指标仪表盘 -->
+                <div class="bt-metrics-grid" id="bt-metrics-grid"></div>
+
+                <!-- 净值曲线 + 回撤图 -->
+                <div class="bt-chart-section">
+                    <div class="bt-chart-card">
+                        <h3>净值曲线</h3>
+                        <canvas id="bt-nav-chart"></canvas>
+                    </div>
+                    <div class="bt-chart-card">
+                        <h3>回撤分析</h3>
+                        <canvas id="bt-drawdown-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 月度收益热力图 -->
+                <div class="bt-heatmap-section">
+                    <h3>月度收益热力图</h3>
+                    <div class="bt-heatmap" id="bt-heatmap"></div>
+                </div>
+
+                <!-- 各期持仓明细 -->
+                <div class="bt-periods-section">
+                    <h3>各期持仓明细</h3>
+                    <div class="bt-periods-table-wrap">
+                        <table class="bt-periods-table" id="bt-periods-table">
+                            <thead><tr>
+                                <th>窗口</th><th>开始</th><th>结束</th>
+                                <th>组合收益</th><th>基准收益</th><th>Alpha</th>
+                                <th>持仓数</th><th>止损次数</th><th>交易成本</th>
+                            </tr></thead>
+                            <tbody id="bt-periods-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 历史记录 & 对比 -->
+                <div class="bt-history-section">
+                    <h3>历史回测记录</h3>
+                    <div class="bt-history-list" id="bt-history-list"></div>
+                </div>
+            </div>
+        </section>
+
     </main>
+
+    <!-- 数据源选择对话框 -->
+    <div id="data-source-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <h3>选择数据源</h3>
+            </div>
+            <div class="modal-body">
+                <p id="ds-modal-message" class="ds-modal-msg">Bloomberg 不可用，请选择备选数据源：</p>
+                <div id="ds-modal-options" class="ds-options"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeDataSourceModal()">取消</button>
+            </div>
+        </div>
+    </div>
 
     <script src="/assets/app.js"></script>
 </body>

@@ -2106,3 +2106,544 @@ body {
     .basket-bottom-row { gap: 4px; }
     .basket-preset-btn { font-size: 10px; padding: 2px 6px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   策略回测页样式
+   ═══════════════════════════════════════════════════════════════ */
+
+.bt-config-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+}
+.bt-config-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+.bt-config-left {
+    flex: 1;
+    min-width: 280px;
+}
+.bt-config-left label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+.bt-stock-input-wrap input {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+}
+.bt-stock-input-wrap input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(108,156,252,0.15);
+}
+.bt-presets {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+.bt-preset-btn {
+    background: rgba(108,156,252,0.08);
+    border: 1px solid rgba(108,156,252,0.2);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.bt-preset-btn:hover {
+    background: rgba(108,156,252,0.18);
+    border-color: var(--accent);
+}
+.bt-config-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    flex: 1.5;
+}
+.bt-param label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.bt-param select,
+.bt-param input {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+}
+.bt-param select:focus,
+.bt-param input:focus {
+    border-color: var(--accent);
+}
+.bt-config-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    justify-content: flex-end;
+}
+.bt-run-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #6C9CFC 0%, #4ECDC4 100%);
+    border: none;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 15px rgba(108,156,252,0.3);
+}
+.bt-run-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(108,156,252,0.4);
+}
+.bt-run-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+.bt-history-btn {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.bt-history-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+/* Progress bar */
+.bt-progress {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+.bt-progress-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: rgba(108,156,252,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.bt-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #6C9CFC, #4ECDC4);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+.bt-progress-text {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.4;
+}
+
+/* Metrics grid */
+.bt-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+.bt-metric-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    text-align: center;
+    transition: border-color 0.2s;
+}
+.bt-metric-card:hover {
+    border-color: rgba(108,156,252,0.3);
+}
+.bt-metric-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+.bt-metric-value {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+.bt-verdict-card {
+    border-width: 2px;
+}
+
+/* Charts */
+.bt-chart-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.bt-chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+}
+.bt-chart-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+.bt-chart-card canvas {
+    width: 100% !important;
+    height: 260px !important;
+}
+
+/* Heatmap */
+.bt-heatmap-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 24px;
+}
+.bt-heatmap-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+.bt-heatmap-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.bt-heatmap-table th {
+    background: rgba(255,255,255,0.03);
+    color: var(--text-dim);
+    padding: 6px 4px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 11px;
+}
+.bt-hm-year {
+    font-weight: 700;
+    color: var(--text);
+    text-align: left;
+    padding-left: 8px;
+}
+.bt-hm-cell {
+    text-align: center;
+    padding: 6px 4px;
+    font-variant-numeric: tabular-nums;
+    border-radius: 4px;
+    transition: transform 0.15s;
+}
+.bt-hm-cell:hover {
+    transform: scale(1.15);
+    z-index: 1;
+}
+.bt-hm-strong-green { background: rgba(74,222,128,0.25); color: #4ADE80; font-weight: 600; }
+.bt-hm-green { background: rgba(74,222,128,0.10); color: #4ADE80; }
+.bt-hm-red { background: rgba(248,113,113,0.10); color: #F87171; }
+.bt-hm-strong-red { background: rgba(248,113,113,0.25); color: #F87171; font-weight: 600; }
+.bt-hm-empty { color: var(--text-dim); opacity: 0.4; }
+
+/* Periods table */
+.bt-periods-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 24px;
+}
+.bt-periods-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+.bt-periods-table-wrap {
+    overflow-x: auto;
+}
+.bt-periods-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.bt-periods-table th {
+    background: rgba(255,255,255,0.03);
+    color: var(--text-dim);
+    padding: 10px 12px;
+    font-weight: 600;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+}
+.bt-periods-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+.bt-periods-table tr:hover td {
+    background: rgba(108,156,252,0.04);
+}
+
+/* History section */
+.bt-history-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+}
+.bt-history-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+.bt-history-item {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.bt-history-item:hover {
+    border-color: var(--accent);
+    transform: translateX(2px);
+}
+.bt-hist-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+.bt-hist-verdict {
+    font-weight: 700;
+    font-size: 14px;
+}
+.bt-hist-strategy {
+    background: rgba(108,156,252,0.1);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+.bt-hist-date {
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-left: auto;
+}
+.bt-hist-metrics {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+}
+.bt-hist-symbols {
+    font-size: 11px;
+    color: var(--text-dim);
+    opacity: 0.6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .bt-config-row { flex-direction: column; }
+    .bt-config-grid { grid-template-columns: repeat(2, 1fr); }
+    .bt-metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .bt-chart-section { grid-template-columns: 1fr; }
+}
+
+/* ─── 数据源选择模态 ─────────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(6px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+.modal-overlay.hidden { display: none; }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    min-width: 420px;
+    max-width: 520px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: slideUp 0.25s ease;
+}
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.modal-body {
+    margin-bottom: 20px;
+}
+
+.ds-modal-msg {
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.ds-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ds-option-btn {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.ds-option-btn:hover {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+    transform: translateX(4px);
+}
+.ds-option-btn .ds-opt-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(108, 92, 231, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+.ds-option-btn .ds-opt-info {
+    flex: 1;
+}
+.ds-option-btn .ds-opt-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+}
+.ds-option-btn .ds-opt-desc {
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 8px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-secondary:hover {
+    border-color: var(--text-dim);
+    color: var(--text);
+}
+
+/* 数据源指示器（分析页标题旁） */
+.data-source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(108, 92, 231, 0.1);
+    border: 1px solid rgba(108, 92, 231, 0.2);
+    color: var(--accent-light);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 12px;
+    vertical-align: middle;
+}
+.data-source-badge .ds-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+}
+.data-source-badge.ds-fallback .ds-dot {
+    background: var(--yellow);
+}

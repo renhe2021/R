@@ -104,10 +104,34 @@ class BloombergProvider(DataProvider):
         return "bloomberg"
 
     def is_available(self) -> bool:
+        """检查 Bloomberg Terminal 是否真正可用（不仅检查 blpapi 安装，还验证终端连接）。"""
         try:
-            import blpapi  # noqa: F401
-            return True
+            import blpapi
         except ImportError:
+            return False
+
+        # blpapi 已安装 — 尝试轻量级连接验证
+        try:
+            options = blpapi.SessionOptions()
+            options.setServerHost(self._host)
+            options.setServerPort(self._port)
+
+            session = blpapi.Session(options)
+            if not session.start():
+                logger.debug(f"[Bloomberg] Terminal 未启动 ({self._host}:{self._port})")
+                return False
+
+            if not session.openService("//blp/refdata"):
+                session.stop()
+                logger.debug("[Bloomberg] 无法打开 refdata 服务")
+                return False
+
+            # 连接成功 — 复用 session 避免重复连接
+            self._session = session
+            logger.info(f"[Bloomberg] Terminal 已连接 ({self._host}:{self._port})")
+            return True
+        except Exception as e:
+            logger.debug(f"[Bloomberg] 连接测试失败: {e}")
             return False
 
     def _get_session(self):

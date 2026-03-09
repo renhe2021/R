@@ -428,9 +428,115 @@ function handlePipelineEvent(event) {
         updateStageUI(event.stage, event.status, event.stageNameCn, event.data);
     } else if (type === 'substep_update') {
         updateSubstepUI(event.stage, event.substep, event.status, event.message, event.data);
+    } else if (type === 'data_source_required') {
+        // Bloomberg unavailable — show modal for user to choose data source
+        showDataSourceModal(event);
     } else if (type === 'pipeline_done') {
         pipelineReport = event.report;
         onPipelineComplete(event);
+    }
+}
+
+// ─── 数据源选择模态 ─────────────────────────────────────────
+// Stores pending pipeline params when Bloomberg is unavailable
+let _pendingPipelineParams = null;
+
+function showDataSourceModal(event) {
+    _pendingPipelineParams = {
+        stocks: event.symbols || basket.getSymbols(),
+        strategy: event.strategy || document.getElementById('strategy-select').value,
+    };
+
+    const modal = document.getElementById('data-source-modal');
+    const msgEl = document.getElementById('ds-modal-message');
+    const optEl = document.getElementById('ds-modal-options');
+
+    msgEl.textContent = event.message || 'Bloomberg 不可用，请选择备选数据源：';
+
+    // Build option buttons
+    const sources = event.available_sources || [];
+    const icons = {
+        yfinance: '📊', fmp: '📈', finnhub: '🔍', yahoo_direct: '📉', bloomberg: '🏛️',
+    };
+
+    optEl.innerHTML = sources.map(src => `
+        <button class="ds-option-btn" onclick="selectDataSource('${src.id}')">
+            <div class="ds-opt-icon">${icons[src.id] || '📊'}</div>
+            <div class="ds-opt-info">
+                <div class="ds-opt-name">${src.id.toUpperCase()}</div>
+                <div class="ds-opt-desc">${src.label}</div>
+            </div>
+        </button>
+    `).join('');
+
+    // Update pipeline status
+    document.getElementById('pipeline-status').textContent = '⚠️ 等待选择数据源...';
+    document.getElementById('pipeline-status').style.color = 'var(--yellow)';
+
+    modal.classList.remove('hidden');
+}
+
+function closeDataSourceModal() {
+    document.getElementById('data-source-modal').classList.add('hidden');
+    _pendingPipelineParams = null;
+    document.getElementById('btn-pipeline').disabled = false;
+    document.getElementById('pipeline-status').textContent = '已取消 — 需要选择数据源才能继续';
+    document.getElementById('pipeline-status').style.color = '';
+}
+
+async function selectDataSource(sourceId) {
+    document.getElementById('data-source-modal').classList.add('hidden');
+
+    if (!_pendingPipelineParams) return;
+
+    const { stocks, strategy } = _pendingPipelineParams;
+    _pendingPipelineParams = null;
+
+    // Update status
+    const sourceNames = { yfinance: 'Yahoo Finance', fmp: 'FMP', finnhub: 'Finnhub', yahoo_direct: 'Yahoo Direct' };
+    document.getElementById('pipeline-status').textContent =
+        `使用 ${sourceNames[sourceId] || sourceId} 数据源重新开始...`;
+    document.getElementById('pipeline-status').style.color = '';
+
+    // Reset pipeline UI for fresh run
+    resetPipelineUI();
+    document.getElementById('pipeline-progress').classList.remove('hidden');
+    document.getElementById('btn-pipeline').disabled = true;
+
+    // Re-submit pipeline with chosen data source
+    const body = { stocks, strategy, dataSource: sourceId };
+
+    try {
+        const resp = await fetch('/api/v1/agent/pipeline', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                try {
+                    const evt = JSON.parse(line.slice(6));
+                    handlePipelineEvent(evt);
+                } catch (e) { /* skip bad JSON */ }
+            }
+        }
+    } catch (err) {
+        document.getElementById('pipeline-status').textContent = `错误: ${err.message}`;
+    } finally {
+        document.getElementById('btn-pipeline').disabled = false;
     }
 }
 
@@ -490,6 +596,18 @@ function updateStageUI(stageId, status, nameCn, data) {
 }
 
 function processStageData(stageId, data) {
+    // Stage 2: Show data source used
+    if (stageId === 2 && data.data_source) {
+        const sourceNames = {
+            bloomberg: 'Bloomberg', yfinance: 'Yahoo Finance',
+            fmp: 'FMP', finnhub: 'Finnhub', yahoo_direct: 'Yahoo Direct', auto: 'Auto',
+        };
+        const srcName = sourceNames[data.data_source] || data.data_source;
+        const isBBG = data.data_source === 'bloomberg';
+        const statusEl = document.getElementById('pipeline-status');
+        statusEl.innerHTML = `阶段 2/9: 数据采集 完成 — <span class="data-source-badge ${isBBG ? '' : 'ds-fallback'}"><span class="ds-dot"></span>${srcName}</span>`;
+    }
+
     if (stageId === 3 && data.details) {
         // Stage 3: Knockout — show eliminated
         for (const d of data.details) {
@@ -2184,4 +2302,395 @@ function renderScreenerResults(results) {
         </tr>`).join('');
 
     el.classList.remove('hidden');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  策略回测页
+// ═══════════════════════════════════════════════════════════════
+
+let _btNavChart = null;
+let _btDDChart = null;
+
+// Preset universes for backtest
+const BT_PRESETS = {
+    value_30: 'BRK-B,JNJ,PG,KO,PEP,WMT,JPM,V,MA,UNH,HD,COST,MRK,ABT,LLY,AVGO,TXN,INTC,CVX,XOM,CAT,DE,MMM,GE,HON,UPS,UNP,LMT,RTX,CL',
+    sp500_top50: 'AAPL,MSFT,AMZN,NVDA,GOOGL,META,BRK-B,UNH,XOM,JNJ,JPM,V,PG,MA,AVGO,HD,CVX,MRK,ABBV,LLY,PEP,KO,COST,TMO,WMT,MCD,CSCO,ACN,ABT,DHR,TXN,NEE,PM,UNP,RTX,LOW,UPS,LIN,HON,AMGN,GE,CAT,BA,DE,SYK,ISRG,MDT,BKNG,ADI,REGN',
+    dividend_kings: 'PG,KO,JNJ,MMM,EMR,PH,GPC,DOV,SWK,ABT,HRL,SJM,TGT,PPG,AWR,NWN,CWT,FRT,SCL,LANC',
+    buffett_portfolio: 'AAPL,BAC,AXP,KO,CVX,OXY,KHC,MCO,DVA,ATVI,HPQ,PARA,ALLY,C,GM,NU,SNOW',
+};
+
+document.querySelectorAll('.bt-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const preset = btn.dataset.btPreset;
+        if (BT_PRESETS[preset]) {
+            document.getElementById('bt-stock-input').value = BT_PRESETS[preset];
+        }
+    });
+});
+
+async function runBacktest() {
+    const stocksRaw = document.getElementById('bt-stock-input').value.trim();
+    if (!stocksRaw) { alert('请输入股票代码'); return; }
+
+    const stocks = stocksRaw.split(/[,\s]+/).map(s => s.trim().toUpperCase()).filter(Boolean);
+    const config = {
+        stocks,
+        holdingMonths: parseInt(document.getElementById('bt-holding-months').value),
+        lookbackYears: parseFloat(document.getElementById('bt-lookback').value),
+        stopLossPct: parseFloat(document.getElementById('bt-stoploss').value),
+        strategy: document.getElementById('bt-strategy').value,
+        weighting: document.getElementById('bt-weighting').value,
+        maxHoldings: parseInt(document.getElementById('bt-max-holdings').value),
+    };
+
+    // Show progress, hide results
+    document.getElementById('bt-progress').classList.remove('hidden');
+    document.getElementById('bt-results').classList.add('hidden');
+    document.getElementById('bt-progress-bar').style.width = '0%';
+    document.getElementById('bt-progress-text').textContent = '正在启动回测...';
+    document.getElementById('btn-run-backtest').disabled = true;
+
+    try {
+        const resp = await fetch('/api/v1/agent/backtest/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(config),
+        });
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                try {
+                    const evt = JSON.parse(line.slice(6));
+                    handleBacktestEvent(evt);
+                } catch (e) { /* skip malformed */ }
+            }
+        }
+    } catch (err) {
+        document.getElementById('bt-progress-text').textContent = `错误: ${err.message}`;
+    } finally {
+        document.getElementById('btn-run-backtest').disabled = false;
+    }
+}
+
+function handleBacktestEvent(evt) {
+    const event = evt.event || evt.type;
+    const d = evt.data || evt;
+
+    if (event === 'backtest_start') {
+        document.getElementById('bt-progress-text').textContent = d.message || '回测开始...';
+    }
+    else if (event === 'backtest_phase') {
+        document.getElementById('bt-progress-text').textContent = d.message || '';
+    }
+    else if (event === 'backtest_progress') {
+        const pct = d.progress || 0;
+        document.getElementById('bt-progress-bar').style.width = pct + '%';
+        document.getElementById('bt-progress-text').textContent = d.message || '';
+    }
+    else if (event === 'backtest_complete') {
+        document.getElementById('bt-progress').classList.add('hidden');
+        document.getElementById('bt-results').classList.remove('hidden');
+        renderBacktestResults(d);
+    }
+    else if (event === 'backtest_error') {
+        document.getElementById('bt-progress-text').textContent = '❌ ' + (d.message || '回测失败');
+        document.getElementById('bt-progress-bar').style.width = '100%';
+        document.getElementById('bt-progress-bar').style.background = 'var(--red)';
+    }
+}
+
+function renderBacktestResults(data) {
+    // Metrics dashboard
+    const m = data.metrics || {};
+    const verdict = data.verdict || 'UNKNOWN';
+    const verdictColor = verdict === 'VALIDATED' ? 'var(--green)' : verdict === 'MIXED' ? 'var(--yellow)' : 'var(--red)';
+
+    document.getElementById('bt-metrics-grid').innerHTML = `
+        <div class="bt-metric-card">
+            <div class="bt-metric-label">年化收益</div>
+            <div class="bt-metric-value" style="color:${(m.annualized_return||0)>=0?'var(--green)':'var(--red)'}">${((m.annualized_return||0)*100).toFixed(2)}%</div>
+        </div>
+        <div class="bt-metric-card">
+            <div class="bt-metric-label">Alpha</div>
+            <div class="bt-metric-value" style="color:${(m.alpha||0)>=0?'var(--green)':'var(--red)'}">${((m.alpha||0)*100).toFixed(2)}%</div>
+        </div>
+        <div class="bt-metric-card">
+            <div class="bt-metric-label">Sharpe Ratio</div>
+            <div class="bt-metric-value">${m.sharpe_ratio != null ? m.sharpe_ratio.toFixed(3) : 'N/A'}</div>
+        </div>
+        <div class="bt-metric-card">
+            <div class="bt-metric-label">最大回撤</div>
+            <div class="bt-metric-value" style="color:var(--red)">${((m.max_drawdown||0)*100).toFixed(2)}%</div>
+        </div>
+        <div class="bt-metric-card">
+            <div class="bt-metric-label">胜率</div>
+            <div class="bt-metric-value">${((m.win_rate||0)*100).toFixed(0)}%</div>
+        </div>
+        <div class="bt-metric-card">
+            <div class="bt-metric-label">Sortino Ratio</div>
+            <div class="bt-metric-value">${m.sortino_ratio != null ? m.sortino_ratio.toFixed(3) : 'N/A'}</div>
+        </div>
+        <div class="bt-metric-card">
+            <div class="bt-metric-label">总交易成本</div>
+            <div class="bt-metric-value">$${((m.total_commission_paid||0)+(m.total_slippage_cost||0)).toLocaleString()}</div>
+        </div>
+        <div class="bt-metric-card bt-verdict-card" style="border-color:${verdictColor}">
+            <div class="bt-metric-label">回测结论</div>
+            <div class="bt-metric-value" style="color:${verdictColor};font-size:1.3em">${verdict}</div>
+        </div>
+    `;
+
+    // NAV chart
+    renderNavChart(data);
+    // Drawdown chart
+    renderDrawdownChart(data);
+    // Heatmap
+    renderHeatmap(data.monthly_returns || []);
+    // Periods table
+    renderPeriodsTable(data);
+    // Load history
+    loadBacktestHistory();
+}
+
+function renderNavChart(data) {
+    const ctx = document.getElementById('bt-nav-chart').getContext('2d');
+    if (_btNavChart) _btNavChart.destroy();
+
+    // Get full result with nav_series from API if needed
+    const runId = data.run_id;
+    // Use the nav_series_length hint; we fetch full data from API
+    fetch(`/api/v1/agent/backtest/results/${runId}`)
+        .then(r => r.json())
+        .then(full => {
+            const navSeries = (full.result && full.result.nav_series) || [];
+            if (!navSeries.length) return;
+
+            const labels = navSeries.map(p => p.date);
+            const portfolio = navSeries.map(p => p.nav);
+            const benchmark = navSeries.map(p => p.benchmark_nav);
+
+            _btNavChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: '策略组合',
+                            data: portfolio,
+                            borderColor: '#6C9CFC',
+                            backgroundColor: 'rgba(108,156,252,0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 0,
+                            borderWidth: 2,
+                        },
+                        {
+                            label: 'SPY 基准',
+                            data: benchmark,
+                            borderColor: '#8B92A8',
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.3,
+                            pointRadius: 0,
+                            borderWidth: 1.5,
+                        },
+                    ],
+                },
+                options: _chartOptions('净值 ($)'),
+            });
+        })
+        .catch(() => {});
+}
+
+function renderDrawdownChart(data) {
+    const ctx = document.getElementById('bt-drawdown-chart').getContext('2d');
+    if (_btDDChart) _btDDChart.destroy();
+
+    fetch(`/api/v1/agent/backtest/results/${data.run_id}`)
+        .then(r => r.json())
+        .then(full => {
+            const navSeries = (full.result && full.result.nav_series) || [];
+            if (!navSeries.length) return;
+
+            // Calculate drawdown from NAV
+            let peak = navSeries[0].nav;
+            const labels = [];
+            const ddValues = [];
+            for (const p of navSeries) {
+                if (p.nav > peak) peak = p.nav;
+                const dd = (peak - p.nav) / peak * -100;
+                labels.push(p.date);
+                ddValues.push(dd);
+            }
+
+            _btDDChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: '回撤 (%)',
+                        data: ddValues,
+                        borderColor: '#F87171',
+                        backgroundColor: 'rgba(248,113,113,0.15)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 0,
+                        borderWidth: 2,
+                    }],
+                },
+                options: _chartOptions('回撤 (%)'),
+            });
+        })
+        .catch(() => {});
+}
+
+function _chartOptions(yLabel) {
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+            legend: { labels: { color: '#E8ECF4', font: { size: 12 } } },
+            tooltip: {
+                backgroundColor: '#252840',
+                titleColor: '#E8ECF4',
+                bodyColor: '#8B92A8',
+                borderColor: '#3a3d55',
+                borderWidth: 1,
+            },
+        },
+        scales: {
+            x: {
+                ticks: { color: '#5A6178', maxTicksLimit: 12, maxRotation: 0 },
+                grid: { color: 'rgba(90,97,120,0.15)' },
+            },
+            y: {
+                title: { display: true, text: yLabel, color: '#8B92A8' },
+                ticks: { color: '#5A6178' },
+                grid: { color: 'rgba(90,97,120,0.15)' },
+            },
+        },
+    };
+}
+
+function renderHeatmap(monthlyReturns) {
+    const container = document.getElementById('bt-heatmap');
+    if (!monthlyReturns || !monthlyReturns.length) {
+        container.innerHTML = '<p style="color:var(--text-dim)">无月度数据</p>';
+        return;
+    }
+
+    const years = [...new Set(monthlyReturns.map(m => m.year))].sort();
+    const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+    let html = '<table class="bt-heatmap-table"><thead><tr><th>年份</th>';
+    months.forEach(m => html += `<th>${m}</th>`);
+    html += '<th>年度</th></tr></thead><tbody>';
+
+    for (const yr of years) {
+        html += `<tr><td class="bt-hm-year">${yr}</td>`;
+        let yrReturn = 1;
+        for (let mo = 1; mo <= 12; mo++) {
+            const cell = monthlyReturns.find(m => m.year === yr && m.month === mo);
+            const ret = cell ? (cell.portfolio || cell.portfolio_return || 0) : null;
+            if (ret !== null) {
+                yrReturn *= (1 + ret);
+                const pct = (ret * 100).toFixed(1);
+                const cls = ret > 0.02 ? 'bt-hm-strong-green' : ret > 0 ? 'bt-hm-green' : ret > -0.02 ? 'bt-hm-red' : 'bt-hm-strong-red';
+                html += `<td class="bt-hm-cell ${cls}" title="${yr}年${mo}月: ${pct}%">${pct}</td>`;
+            } else {
+                html += '<td class="bt-hm-cell bt-hm-empty">—</td>';
+            }
+        }
+        const yrPct = ((yrReturn - 1) * 100).toFixed(1);
+        const yrCls = yrReturn >= 1 ? 'bt-hm-green' : 'bt-hm-red';
+        html += `<td class="bt-hm-cell ${yrCls}" style="font-weight:700">${yrPct}</td></tr>`;
+    }
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+
+function renderPeriodsTable(data) {
+    const tbody = document.getElementById('bt-periods-tbody');
+    // Fetch full result for periods
+    fetch(`/api/v1/agent/backtest/results/${data.run_id}`)
+        .then(r => r.json())
+        .then(full => {
+            const periods = (full.result && full.result.periods) || [];
+            tbody.innerHTML = periods.map((p, i) => {
+                const retCls = p.portfolio_return >= 0 ? 'style="color:var(--green)"' : 'style="color:var(--red)"';
+                const alphaCls = p.alpha >= 0 ? 'style="color:var(--green)"' : 'style="color:var(--red)"';
+                return `<tr>
+                    <td>${i + 1}</td>
+                    <td>${p.start_date}</td>
+                    <td>${p.end_date}</td>
+                    <td ${retCls}>${(p.portfolio_return * 100).toFixed(2)}%</td>
+                    <td>${(p.benchmark_return * 100).toFixed(2)}%</td>
+                    <td ${alphaCls}>${(p.alpha * 100).toFixed(2)}%</td>
+                    <td>${p.holdings_count}</td>
+                    <td>${p.stop_losses_triggered || 0}</td>
+                    <td>$${((p.commission_paid||0)+(p.slippage_paid||0)).toFixed(0)}</td>
+                </tr>`;
+            }).join('');
+        })
+        .catch(() => {});
+}
+
+async function loadBacktestHistory() {
+    const container = document.getElementById('bt-history-list');
+    try {
+        const resp = await fetch('/api/v1/agent/backtest/results?limit=10');
+        const data = await resp.json();
+        const results = data.results || [];
+        if (!results.length) {
+            container.innerHTML = '<p style="color:var(--text-dim)">暂无回测记录</p>';
+            return;
+        }
+        container.innerHTML = results.map(r => {
+            const vc = r.verdict === 'VALIDATED' ? 'var(--green)' : r.verdict === 'MIXED' ? 'var(--yellow)' : 'var(--red)';
+            return `<div class="bt-history-item" onclick="viewBacktestDetail('${r.run_id}')">
+                <div class="bt-hist-top">
+                    <span class="bt-hist-verdict" style="color:${vc}">${r.verdict || '—'}</span>
+                    <span class="bt-hist-strategy">${r.strategy || ''}</span>
+                    <span class="bt-hist-date">${r.created_at ? r.created_at.slice(0,10) : ''}</span>
+                </div>
+                <div class="bt-hist-metrics">
+                    <span>年化: ${r.annualized_return != null ? (r.annualized_return*100).toFixed(1)+'%' : '—'}</span>
+                    <span>Alpha: ${r.alpha != null ? (r.alpha*100).toFixed(1)+'%' : '—'}</span>
+                    <span>Sharpe: ${r.sharpe_ratio != null ? r.sharpe_ratio.toFixed(2) : '—'}</span>
+                    <span>回撤: ${r.max_drawdown != null ? (r.max_drawdown*100).toFixed(1)+'%' : '—'}</span>
+                </div>
+                <div class="bt-hist-symbols">${r.symbols || ''}</div>
+            </div>`;
+        }).join('');
+    } catch (e) {
+        container.innerHTML = '<p style="color:var(--red)">加载失败</p>';
+    }
+}
+
+async function viewBacktestDetail(runId) {
+    try {
+        const resp = await fetch(`/api/v1/agent/backtest/results/${runId}`);
+        const data = await resp.json();
+        if (data.result) {
+            document.getElementById('bt-results').classList.remove('hidden');
+            renderBacktestResults({
+                ...data.result.metrics,
+                metrics: data.result.metrics,
+                verdict: data.result.verdict || data.verdict,
+                run_id: runId,
+                monthly_returns: data.result.monthly_returns,
+            });
+        }
+    } catch (e) { /* ignore */ }
 }

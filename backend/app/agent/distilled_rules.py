@@ -16,6 +16,8 @@ These rules power:
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 
+from app.agent.investment_params import params as _P
+
 # ═══════════════════════════════════════════════════════════════
 #  Data Structures
 # ═══════════════════════════════════════════════════════════════
@@ -604,6 +606,102 @@ for school in SCHOOLS.values():
 
 
 # ═══════════════════════════════════════════════════════════════
+#  Dynamic Rule Builder — rebuilds expressions from current params
+# ═══════════════════════════════════════════════════════════════
+
+# Mapping: (param_key) → list of (school_rules_var, rule_index, expression_template)
+# expression_template uses {param_key} placeholders that get formatted with current values.
+_PARAM_TO_RULE_MAP: Dict[str, List[Dict[str, Any]]] = {
+    # Graham
+    "graham.pe_max":              [{"school": "graham", "rule_idx": 0, "tpl": "pe is not None and pe > 0 and pe < {v}"}],
+    "graham.pe_pb_product_max":   [{"school": "graham", "rule_idx": 1, "tpl": "pe is not None and pb is not None and pe > 0 and pb > 0 and pe * pb < {v}"}],
+    "graham.margin_of_safety_min":[{"school": "graham", "rule_idx": 2, "tpl": "margin_of_safety is not None and margin_of_safety >= {v}"}],
+    "graham.current_ratio_min":   [{"school": "graham", "rule_idx": 3, "tpl": "current_ratio is not None and current_ratio >= {v}"}],
+    "graham.debt_to_equity_max":  [{"school": "graham", "rule_idx": 4, "tpl": "debt_to_equity is not None and debt_to_equity < {v}"}],
+    "graham.profitable_years_min":[{"school": "graham", "rule_idx": 5, "tpl": "profitable_years is not None and profitable_years >= {v}"}],
+    "graham.dividend_years_min":  [{"school": "graham", "rule_idx": 6, "tpl": "consecutive_dividend_years is not None and consecutive_dividend_years >= {v}"}],
+    "graham.market_cap_min":      [{"school": "graham", "rule_idx": 8, "tpl": "market_cap is not None and market_cap >= {v}"}],
+    "graham.ncav_discount":       [{"school": "graham", "rule_idx": 9, "tpl": "ncav_per_share is not None and price is not None and ncav_per_share > 0 and price < ncav_per_share * {v}"}],
+    # Buffett
+    "buffett.roe_min":            [{"school": "buffett", "rule_idx": 0, "tpl": "roe is not None and roe > {v}"}],
+    "buffett.profit_margin_min":  [{"school": "buffett", "rule_idx": 1, "tpl": "profit_margin is not None and profit_margin > {v}"}],
+    "buffett.debt_to_equity_max": [{"school": "buffett", "rule_idx": 2, "tpl": "debt_to_equity is not None and debt_to_equity < {v}"}],
+    "buffett.margin_of_safety_min":[{"school": "buffett", "rule_idx": 5, "tpl": "margin_of_safety is not None and margin_of_safety >= {v}"}],
+    "buffett.operating_margin_min":[{"school": "buffett", "rule_idx": 6, "tpl": "operating_margin is not None and operating_margin > {v}"}],
+    "buffett.earnings_growth_10y_min":[{"school": "buffett", "rule_idx": 7, "tpl": "earnings_growth_10y is not None and earnings_growth_10y > {v}"}],
+    "buffett.profitable_years_min":[{"school": "buffett", "rule_idx": 4, "tpl": "profitable_years is not None and profitable_years >= {v}"}],
+    # Quantitative
+    "quantitative.earnings_yield_min":[{"school": "quantitative", "rule_idx": 0, "tpl": "earnings_yield is not None and earnings_yield > {v}"}],
+    "quantitative.roe_min":       [{"school": "quantitative", "rule_idx": 3, "tpl": "roe is not None and roe > {v}"}],
+    "quantitative.interest_coverage_min":[{"school": "quantitative", "rule_idx": 4, "tpl": "interest_coverage_ratio is not None and interest_coverage_ratio > {v}"}],
+    "quantitative.market_cap_min":[{"school": "quantitative", "rule_idx": 5, "tpl": "market_cap is not None and market_cap >= {v}"}],
+    "quantitative.ps_max":        [{"school": "quantitative", "rule_idx": 6, "tpl": "ps is not None and ps < {v}"}],
+    "quantitative.greenblatt_roe_min":[{"school": "quantitative", "rule_idx": 8, "tpl": "earnings_yield is not None and roe is not None and earnings_yield > 0.08 and roe > {v}"}],
+    # Quality
+    "quality.roe_min":            [{"school": "quality", "rule_idx": 0, "tpl_fn": lambda v: f"roe is not None and roe > {v} and profitable_years is not None and profitable_years >= {_P.get('quality.profitable_years_min', 8)}"}],
+    "quality.profitable_years_min":[{"school": "quality", "rule_idx": 0, "tpl_fn": lambda v: f"roe is not None and roe > {_P.get('quality.roe_min', 0.15)} and profitable_years is not None and profitable_years >= {v}"}],
+    "quality.operating_margin_min":[{"school": "quality", "rule_idx": 1, "tpl": "operating_margin is not None and operating_margin > {v}"}],
+    "quality.debt_to_equity_max": [{"school": "quality", "rule_idx": 3, "tpl": "debt_to_equity is not None and debt_to_equity < {v}"}],
+    "quality.revenue_growth_min": [{"school": "quality", "rule_idx": 4, "tpl": "revenue_growth_rate is not None and revenue_growth_rate > {v}"}],
+    "quality.max_eps_decline":    [{"school": "quality", "rule_idx": 5, "tpl": "max_eps_decline is not None and max_eps_decline > {v}"}],
+    "quality.eps_growth_min":     [{"school": "quality", "rule_idx": 6, "tpl": "eps_growth_rate is not None and eps_growth_rate > {v}"}],
+    "quality.pe_max":             [{"school": "quality", "rule_idx": 7, "tpl": "pe is not None and pe > 0 and pe < {v}"}],
+    # Valuation
+    "valuation.peg_max":          [{"school": "valuation", "rule_idx": 2, "tpl": "pe is not None and eps_growth_rate is not None and eps_growth_rate > 0 and pe > 0 and (pe / (eps_growth_rate * 100)) < {v}"}],
+    "valuation.operating_margin_min":[{"school": "valuation", "rule_idx": 3, "tpl": "operating_margin is not None and operating_margin > {v}"}],
+    # Contrarian
+    "contrarian.price_vs_52w_high_max":[{"school": "contrarian", "rule_idx": 0, "tpl": "price is not None and price_52w_high is not None and price < price_52w_high * {v}"}],
+    "contrarian.ps_max":          [{"school": "contrarian", "rule_idx": 1, "tpl": "ps is not None and ps < {v}"}],
+    "contrarian.pe_max":          [{"school": "contrarian", "rule_idx": 2, "tpl": "pe is not None and pe > 0 and pe < {v}"}],
+    "contrarian.dividend_yield_min":[{"school": "contrarian", "rule_idx": 3, "tpl": "dividend_yield is not None and dividend_yield > {v}"}],
+    "contrarian.roe_min":         [{"school": "contrarian", "rule_idx": 4, "tpl": "roe is not None and roe > {v} and free_cash_flow is not None and free_cash_flow > 0"}],
+    # GARP
+    "garp.eps_growth_min":        [{"school": "garp", "rule_idx": 0, "tpl": "eps_growth_rate is not None and eps_growth_rate > {v}"}],
+    "garp.pe_max":                [{"school": "garp", "rule_idx": 1, "tpl": "pe is not None and pe > 0 and pe < {v}"}],
+    "garp.peg_max":               [{"school": "garp", "rule_idx": 2, "tpl": "pe is not None and eps_growth_rate is not None and eps_growth_rate > 0 and pe > 0 and (pe / (eps_growth_rate * 100)) < {v}"}],
+    "garp.roe_min":               [{"school": "garp", "rule_idx": 3, "tpl": "roe is not None and roe > {v}"}],
+    "garp.revenue_growth_min":    [{"school": "garp", "rule_idx": 4, "tpl": "revenue_growth_rate is not None and revenue_growth_rate > {v}"}],
+    "garp.debt_to_equity_max":    [{"school": "garp", "rule_idx": 5, "tpl": "debt_to_equity is not None and debt_to_equity < {v}"}],
+}
+
+# School key → SCHOOLS dict key mapping
+_SCHOOL_RULES_MAP = {
+    "graham": GRAHAM_RULES,
+    "buffett": BUFFETT_RULES,
+    "quantitative": QUANT_VALUE_RULES,
+    "quality": QUALITY_RULES,
+    "valuation": VALUATION_RULES,
+    "contrarian": CONTRARIAN_RULES,
+    "garp": GARP_RULES,
+}
+
+
+def _apply_param_overrides():
+    """Apply current param values to rule expressions and school pass rates.
+
+    Called before every evaluation to ensure rules reflect latest params.
+    """
+    # 1. Update rule expressions
+    for param_key, mappings in _PARAM_TO_RULE_MAP.items():
+        value = _P.get(param_key)
+        if value is None:
+            continue
+        for m in mappings:
+            rules_list = _SCHOOL_RULES_MAP.get(m["school"])
+            if rules_list and m["rule_idx"] < len(rules_list):
+                if "tpl_fn" in m:
+                    rules_list[m["rule_idx"]].expression = m["tpl_fn"](value)
+                else:
+                    rules_list[m["rule_idx"]].expression = m["tpl"].format(v=value)
+
+    # 2. Update school pass rates
+    for school_key, school in SCHOOLS.items():
+        rate = _P.get(f"school_pass_rate.{school_key}")
+        if rate is not None:
+            school.min_pass_rate = rate
+
+
+# ═══════════════════════════════════════════════════════════════
 #  Rule Evaluation Engine
 # ═══════════════════════════════════════════════════════════════
 
@@ -613,6 +711,8 @@ def evaluate_stock_against_school(
 ) -> Dict[str, Any]:
     """Evaluate a stock against all rules of a specific school.
 
+    Dynamically applies any parameter overrides before evaluation.
+
     Args:
         stock_data: Dict of field_name -> value (from StockData.to_dict())
         school_name: Key in SCHOOLS dict
@@ -620,6 +720,9 @@ def evaluate_stock_against_school(
     Returns:
         Dict with: school, passed, failed, skipped, score, max_score, pass_rate, recommendation
     """
+    # Apply latest param overrides to rule expressions
+    _apply_param_overrides()
+
     school = SCHOOLS.get(school_name)
     if not school:
         return {"error": f"Unknown school: {school_name}"}

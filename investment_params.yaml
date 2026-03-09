@@ -1,0 +1,67 @@
+# ═══════════════════════════════════════════════════════════════
+#  Investment Parameters Configuration — 老查理投资参数配置
+# ═══════════════════════════════════════════════════════════════
+#
+# 这个文件用于覆盖系统默认的投资筛选参数。
+# 只需列出你想修改的参数，未列出的参数使用系统默认值。
+# 修改后通过 API POST /agent/params/reload 热加载，无需重启服务。
+#
+# 参数格式: 使用嵌套结构，key用"."分隔
+# 例如: graham.pe_max → graham: { pe_max: 15 }
+#
+# 查看所有可用参数: GET /agent/params
+# 查看当前覆盖: GET /agent/params/overridden
+# ═══════════════════════════════════════════════════════════════
+
+# ── 示例: 放宽 Graham 的 PE 上限 ──
+# graham:
+#   pe_max: 18
+#   margin_of_safety_min: 0.25
+
+# ── 示例: 调整 Risk Manager 否决阈值 ──
+# risk:
+#   z_score_danger: 1.50     # 更严格 (默认 1.81)
+#   f_score_danger: 4        # 更严格 (默认 3)
+
+# ── 示例: 调整流派权重 ──
+# school_weight:
+#   buffett: 2.5             # 增加 Buffett 流派权重
+#   contrarian: 1.0          # 增加逆向投资权重
+
+# ── 示例: 调整仓位管理 ──
+# position:
+#   highest_pct: 15.0        # 最高信念仓位提升到15%
+#   max_single_pct: 20.0     # 单只最大仓位
+
+# ── 示例: 调整评分阈值 ──
+# verdict:
+#   strong_buy_score: 80     # 提高 STRONG_BUY 门槛
+#   buy_score: 60            # 提高 BUY 门槛
+
+# ═══════════════════════════════════════════════════════════════
+#  回测参数 (Backtest Parameters)
+# ═══════════════════════════════════════════════════════════════
+# 通过 POST /agent/backtest/run 传入的参数会覆盖这里的默认值。
+# 这里定义的是"判定回测是否验证通过"的阈值。
+
+backtest:
+  # 持仓周期（月）
+  holding_months: 6
+  # 回溯年数
+  lookback_years: 3.0
+  # 交易成本
+  commission_rate: 0.001      # 0.1%
+  slippage_rate: 0.0005       # 0.05%
+  # 止损比例（跌幅触发）
+  stop_loss_pct: 0.15         # 15%
+  # 最大持仓数
+  max_holdings: 15
+  # 初始资金
+  initial_capital: 1000000.0
+  # 基准指数
+  benchmark: "SPY"
+  # 回测结果判定阈值
+  validated_win_rate: 0.60      # 胜率 >= 60% → VALIDATED
+  validated_avg_alpha: 0.02     # 年化 Alpha >= 2% → VALIDATED
+  mixed_win_rate: 0.40          # 胜率 >= 40% → MIXED
+  mixed_avg_alpha: -0.02        # 年化 Alpha >= -2% → MIXED

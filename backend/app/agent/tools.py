@@ -22,6 +22,26 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent  # R/
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
+# ── Active data source (set by pipeline before calling tools) ──
+# Bloomberg 优先；若不可用由用户选择的备选源。默认 "auto" 兼容旧行为。
+_active_data_source: str = "auto"
+
+
+def set_active_data_source(source: str):
+    """Set the active data source for all tool functions.
+
+    Called by UnifiedPipeline before running stages that use tools.
+    Valid values: "bloomberg", "yfinance", "fmp", "finnhub", "yahoo_direct", "auto".
+    """
+    global _active_data_source
+    _active_data_source = source
+    logger.info(f"[tools] 活动数据源切换为: {source}")
+
+
+def get_active_data_source() -> str:
+    """Get the currently active data source."""
+    return _active_data_source
+
 
 # ════════════════════════════════════════════════════════════════
 #  1. scan_fundamentals — Get comprehensive stock fundamentals
@@ -37,9 +57,9 @@ async def scan_fundamentals(symbol: str) -> str:
     def _fetch():
         from src.symbol_resolver import resolve_for_provider
         from src.data_providers.factory import get_data_provider
-        provider = get_data_provider("auto")
+        provider = get_data_provider(_active_data_source)
         resolved_symbol = resolve_for_provider(symbol, provider.name)
-        logger.info(f"[scan_fundamentals] {symbol} → {provider.name}")
+        logger.info(f"[scan_fundamentals] {symbol} → {provider.name} (source={_active_data_source})")
         stock = provider.fetch(resolved_symbol)
         return stock, resolved_symbol
 
@@ -177,9 +197,9 @@ async def detect_shenanigans(symbol: str) -> Dict[str, Any]:
         from src.symbol_resolver import resolve_for_provider
         import yfinance as yf
 
-        provider = get_data_provider("auto")
+        provider = get_data_provider(_active_data_source)
         resolved = resolve_for_provider(symbol, provider.name)
-        logger.info(f"[detect_shenanigans] {symbol} → {provider.name}")
+        logger.info(f"[detect_shenanigans] {symbol} → {provider.name} (source={_active_data_source})")
         stock = provider.fetch(resolved)
         # M-Score 需要 yfinance 的 balance_sheet/income_stmt
         yf_resolved = resolve_for_provider(symbol, "yfinance")
@@ -364,7 +384,7 @@ async def detect_shenanigans(symbol: str) -> Dict[str, Any]:
         }
 
     import asyncio
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_running_loop()
     return await loop.run_in_executor(None, _compute)
 
 
@@ -379,9 +399,9 @@ async def run_full_valuation(symbol: str) -> Dict[str, Any]:
     def _compute():
         from src.data_providers.factory import get_data_provider
         from src.symbol_resolver import resolve_for_provider
-        provider = get_data_provider("auto")
+        provider = get_data_provider(_active_data_source)
         resolved = resolve_for_provider(symbol, provider.name)
-        logger.info(f"[run_full_valuation] {symbol} → {provider.name}")
+        logger.info(f"[run_full_valuation] {symbol} → {provider.name} (source={_active_data_source})")
         stock = provider.fetch(resolved)
 
         valuations = {}
@@ -679,9 +699,9 @@ async def evaluate_stock_rules(symbol: str, school: str = "all") -> str:
             evaluate_stock_all_schools, evaluate_stock_against_school, SCHOOLS,
         )
 
-        provider = get_data_provider("auto")
+        provider = get_data_provider(_active_data_source)
         resolved = resolve_for_provider(symbol, provider.name)
-        logger.info(f"[evaluate_stock_rules] {symbol} → {provider.name}")
+        logger.info(f"[evaluate_stock_rules] {symbol} → {provider.name} (source={_active_data_source})")
         stock = provider.fetch(resolved)
         data = stock.to_dict()
 

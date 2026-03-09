@@ -24,3 +24,5 @@ class AgentState(TypedDict, total=False):
     appraisal_results: Optional[Dict[str, Any]]
     final_report: Optional[Dict[str, Any]]
     sink_results: Optional[Dict[str, Any]]
+    debate_records: Optional[Dict[str, Any]]  # symbol -> DebateRecord.to_dict()
+    strategy_backtest: Optional[Dict[str, Any]]  # BacktestResult.to_dict()
