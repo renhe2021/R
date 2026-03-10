@@ -347,6 +347,10 @@ class UnifiedPipeline:
             "strategy": self.strategy,
         }
 
+    # ── Checkpoint cache for resume ──
+    # Class-level cache: run_id -> (results, data_map, config, strategy, data_source)
+    _checkpoint_cache: Dict[str, Any] = {}
+
     async def run(
         self,
         symbols: List[str],
@@ -354,8 +358,10 @@ class UnifiedPipeline:
         universe: Optional[str] = None,
         enable_llm: bool = True,
         data_source: Optional[str] = None,
+        resume_from: Optional[int] = None,
+        resume_run_id: Optional[str] = None,
     ) -> AsyncGenerator[Dict[str, Any], None]:
-        """Run the full 8-stage pipeline as an async generator, yielding SSE events.
+        """Run the full 9-stage pipeline as an async generator, yielding SSE events.
 
         Args:
             symbols: Stock symbols to analyze (overrides universe if provided)
@@ -364,51 +370,104 @@ class UnifiedPipeline:
             enable_llm: Whether to run Stage 7 LLM analysis
             data_source: User-selected data source. None = Bloomberg first (ask if unavailable).
                          "bloomberg" / "yfinance" / "fmp" / "finnhub" / "yahoo_direct" = use directly.
+            resume_from: Stage number to resume from (skips earlier stages).
+                         Use 3 to skip data checkpoint and continue from Stage 3.
+            resume_run_id: The run_id from the previous paused run (for cache lookup).
 
         Yields:
             SSE events with pipeline progress and results.
-            If Bloomberg is unavailable and no data_source specified, yields a
-            ``data_source_required`` event and returns (pipeline paused).
+            - ``data_source_required``: Bloomberg unavailable, user must choose source (pauses).
+            - ``checkpoint``: Data quality review point, user can continue or abort (pauses).
+            - ``stage_update``, ``substep_update``: Normal progress events.
+            - ``pipeline_done``: Final report.
         """
-        self.run_id = str(uuid.uuid4())[:8]
-        self.strategy = strategy
-        self._data_source = data_source  # store for Stage 2
-        # Build templates dynamically from current params
-        templates = _build_strategy_templates()
-        self.config = templates.get(strategy, templates["balanced"])
+        # ── Handle resume from checkpoint ──
+        if resume_from and resume_run_id and resume_run_id in UnifiedPipeline._checkpoint_cache:
+            cached = UnifiedPipeline._checkpoint_cache.pop(resume_run_id)
+            self.run_id = resume_run_id
+            self.results = cached["results"]
+            data_map = cached["data_map"]
+            self.config = cached["config"]
+            self.strategy = cached["strategy"]
+            self._data_source = cached["data_source"]
 
-        # ── Stage 1: Universe Construction ──
-        yield self._stage_event(1, "running")
-        resolved_symbols = self._stage1_universe(symbols, universe)
-        self.results = [StockResult(symbol=s) for s in resolved_symbols]
-        yield self._stage_event(1, "completed", {
-            "count": len(self.results),
-            "symbols": resolved_symbols,
-        })
+            logger.info(f"[Pipeline] 从检查点恢复: run_id={self.run_id}, "
+                        f"resume_from=Stage {resume_from}, "
+                        f"{len(self.results)} stocks, {len(data_map)} with data")
 
-        # ── Stage 2: Data Acquisition (Bloomberg-first + user choice) ──
-        yield self._stage_event(2, "running")
+            # Set the active data source for tools.py
+            from app.agent.tools import set_active_data_source
+            set_active_data_source(self._data_source or "auto")
 
-        # If no data_source specified, probe Bloomberg first
-        if data_source is None:
-            probe_event = await self._probe_data_source()
-            if probe_event is not None:
-                # Bloomberg unavailable — ask user to choose
-                yield probe_event
-                return  # Pipeline paused — frontend re-submits with chosen data_source
+            # Emit resumed event
+            yield {
+                "event": "checkpoint_resumed",
+                "runId": self.run_id,
+                "resumeFrom": resume_from,
+                "message": f"从 Stage {resume_from} 恢复分析...",
+            }
 
-        data_map = await self._stage2_data_acquisition()
-        alive_count = sum(1 for r in self.results if r.is_alive())
-        yield self._stage_event(2, "completed", {
-            "fetched": len(data_map),
-            "alive": alive_count,
-            "data_insufficient": len(self.results) - alive_count,
-            "data_source": self._data_source or "bloomberg",
-        })
+        else:
+            # ── Fresh run: Stage 1 + Stage 2 ──
+            self.run_id = str(uuid.uuid4())[:8]
+            self.strategy = strategy
+            self._data_source = data_source
+            templates = _build_strategy_templates()
+            self.config = templates.get(strategy, templates["balanced"])
 
-        # Set the active data source for tools.py (used by Stage 4/5/6 tool functions)
-        from app.agent.tools import set_active_data_source
-        set_active_data_source(self._data_source or "auto")
+            # ── Stage 1: Universe Construction ──
+            yield self._stage_event(1, "running")
+            resolved_symbols = self._stage1_universe(symbols, universe)
+            self.results = [StockResult(symbol=s) for s in resolved_symbols]
+            yield self._stage_event(1, "completed", {
+                "count": len(self.results),
+                "symbols": resolved_symbols,
+            })
+
+            # ── Stage 2: Data Acquisition (Bloomberg-first + user choice) ──
+            yield self._stage_event(2, "running")
+
+            # If no data_source specified, probe Bloomberg first
+            if data_source is None:
+                probe_event = await self._probe_data_source()
+                if probe_event is not None:
+                    yield probe_event
+                    return  # Pipeline paused — frontend re-submits with chosen data_source
+
+            data_map = await self._stage2_data_acquisition()
+            alive_count = sum(1 for r in self.results if r.is_alive())
+            yield self._stage_event(2, "completed", {
+                "fetched": len(data_map),
+                "alive": alive_count,
+                "data_insufficient": len(self.results) - alive_count,
+                "data_source": self._data_source or "bloomberg",
+            })
+
+            # Set the active data source for tools.py
+            from app.agent.tools import set_active_data_source
+            set_active_data_source(self._data_source or "auto")
+
+            # ── Data Checkpoint: pause for user review ──
+            checkpoint_report = self._build_data_checkpoint(data_map)
+
+            # Cache state for resume
+            UnifiedPipeline._checkpoint_cache[self.run_id] = {
+                "results": self.results,
+                "data_map": data_map,
+                "config": self.config,
+                "strategy": self.strategy,
+                "data_source": self._data_source,
+            }
+
+            yield {
+                "event": "checkpoint",
+                "runId": self.run_id,
+                "stage": 2,
+                "checkpointType": "data_quality",
+                "message": "数据采集完成 — 请检查数据质量后继续",
+                "report": checkpoint_report,
+            }
+            return  # Pipeline paused — frontend shows review modal
 
         # ── Stage 3: Hard Knockout Gate ──
         yield self._stage_event(3, "running")
@@ -426,7 +485,7 @@ class UnifiedPipeline:
 
         # ── Stage 4: Financial Forensics ──
         yield self._stage_event(4, "running")
-        await self._stage4_forensics([r for r in self.results if r.is_alive()])
+        await self._stage4_forensics([r for r in self.results if r.is_alive()], data_map)
         alive_after = [r for r in self.results if r.is_alive()]
         failed = [r for r in self.results if not r.is_alive() and r.eliminated_at_stage == 4]
         yield self._stage_event(4, "completed", {
@@ -663,6 +722,251 @@ class UnifiedPipeline:
         }
 
     # ═══════════════════════════════════════════════════════════════
+    #  Data Checkpoint Builder
+    # ═══════════════════════════════════════════════════════════════
+
+    def _build_data_checkpoint(self, data_map: Dict[str, Any]) -> Dict[str, Any]:
+        """Build a comprehensive data quality report for user review.
+
+        Returns a dict that the frontend renders as a checkpoint review modal:
+        - summary: overall stats
+        - stocks: per-stock data coverage & quality details
+        - warnings: issues requiring attention
+        - strategy_impact: which strategy filters might eliminate stocks
+        """
+        cfg = self.config
+        stocks_report = []
+        warnings = []
+        total_core_coverage = 0.0
+        stocks_with_data = 0
+
+        for result in self.results:
+            stock_info: Dict[str, Any] = {
+                "symbol": result.symbol,
+                "name": result.name or result.symbol,
+                "alive": result.is_alive(),
+                "dataSource": result.data_source or self._data_source or "unknown",
+                "price": result.price,
+            }
+
+            if not result.is_alive():
+                # Eliminated at Stage 2 — show why
+                stock_info["status"] = "eliminated"
+                stock_info["reason"] = result.gate_failures[-1] if result.gate_failures else "数据获取失败"
+                stock_info["coverage"] = {"core": 0, "extended": 0, "historical": 0, "overall": 0}
+                stock_info["missingCore"] = []
+                warnings.append({
+                    "type": "data_fail",
+                    "symbol": result.symbol,
+                    "message": f"{result.symbol}: {stock_info['reason']}",
+                })
+            elif result.symbol in data_map:
+                stocks_with_data += 1
+                stock_obj = data_map[result.symbol].get("stock")
+                d = data_map[result.symbol].get("dict", {})
+
+                # Coverage breakdown
+                if hasattr(stock_obj, 'data_coverage'):
+                    cov = stock_obj.data_coverage()
+                else:
+                    cov = {"core": {"pct": 0}, "extended": {"pct": 0},
+                           "historical": {"pct": 0}, "overall": {"pct": 0},
+                           "missing_core": []}
+
+                core_pct = cov.get("core", {}).get("pct", 0)
+                total_core_coverage += core_pct
+
+                stock_info["status"] = "ok" if core_pct >= 70 else ("warning" if core_pct >= 40 else "poor")
+                stock_info["coverage"] = {
+                    "core": cov.get("core", {}).get("pct", 0),
+                    "extended": cov.get("extended", {}).get("pct", 0),
+                    "historical": cov.get("historical", {}).get("pct", 0),
+                    "overall": cov.get("overall", {}).get("pct", 0),
+                }
+                stock_info["missingCore"] = cov.get("missing_core", [])
+
+                # ── Historical data depth ──
+                eps_history = getattr(stock_obj, 'eps_history', []) or []
+                div_history = getattr(stock_obj, 'dividend_history', []) or []
+                stock_info["historicalDepth"] = {
+                    "epsYears": len(eps_history),
+                    "dividendYears": len(div_history),
+                    "hasGrowthData": d.get("earnings_growth_10y") is not None,
+                    "has10YAvg": d.get("avg_eps_10y") is not None,
+                    "profitableYears": d.get("profitable_years"),
+                    "consecutiveProfitable": d.get("consecutive_profitable_years"),
+                    "consecutiveDividend": d.get("consecutive_dividend_years"),
+                }
+
+                # ── Data freshness ──
+                fetched_at = getattr(stock_obj, '_fetched_at', None)
+                cache_info = None
+                try:
+                    from src.data_providers.cache import CachingProvider
+                    from src.data_providers.factory import get_data_provider
+                    provider = get_data_provider(self._data_source or "auto")
+                    if isinstance(provider, CachingProvider):
+                        cache_info = provider.get_cache_info(result.symbol)
+                except Exception:
+                    pass
+
+                stock_info["freshness"] = {
+                    "fetchedAt": fetched_at,
+                    "isCached": cache_info.get("is_cached", False) if cache_info else False,
+                    "cacheAge": cache_info.get("cache_age_str", "") if cache_info else "",
+                    "source": result.data_source or self._data_source or "unknown",
+                }
+
+                # ── Data anomaly detection ──
+                anomalies = []
+                pe_val = d.get("pe")
+                if pe_val is not None and pe_val > 200:
+                    anomalies.append({"field": "PE", "value": pe_val,
+                                      "issue": "PE 异常偏高，可能是一次性损益或微利导致"})
+                if pe_val is not None and pe_val < 0:
+                    anomalies.append({"field": "PE", "value": pe_val,
+                                      "issue": "PE 为负，公司亏损"})
+                de_val = d.get("debt_to_equity")
+                if de_val is not None and de_val < 0:
+                    anomalies.append({"field": "D/E", "value": de_val,
+                                      "issue": "D/E 为负，可能是负股东权益"})
+                if de_val is not None and de_val > 5:
+                    anomalies.append({"field": "D/E", "value": de_val,
+                                      "issue": "D/E 极高，杠杆风险突出"})
+                fcf_val = d.get("free_cash_flow")
+                ni_val = d.get("net_income")
+                if (fcf_val is not None and ni_val is not None
+                        and fcf_val < 0 and ni_val > 0):
+                    anomalies.append({"field": "FCF vs 净利润", "value": f"FCF={fcf_val}, NI={ni_val}",
+                                      "issue": "现金流与利润背离，盈利质量存疑"})
+                roe_val = d.get("roe")
+                if roe_val is not None and roe_val > 1.0:
+                    anomalies.append({"field": "ROE", "value": f"{roe_val*100:.0f}%",
+                                      "issue": "ROE 超过 100%，可能是低权益或负权益"})
+                stock_info["anomalies"] = anomalies
+                if anomalies:
+                    warnings.append({
+                        "type": "anomaly",
+                        "symbol": result.symbol,
+                        "message": f"{result.symbol}: {len(anomalies)} 个数据异常 — {anomalies[0]['issue']}",
+                    })
+
+                # Key values for user to verify
+                stock_info["keyMetrics"] = {
+                    "marketCap": d.get("market_cap"),
+                    "pe": d.get("pe"),
+                    "pb": d.get("pb"),
+                    "roe": d.get("roe"),
+                    "debtToEquity": d.get("debt_to_equity"),
+                    "currentRatio": d.get("current_ratio"),
+                    "dividendYield": d.get("dividend_yield"),
+                    "eps": d.get("eps"),
+                    "revenue": d.get("revenue"),
+                    "freeCashFlow": d.get("free_cash_flow"),
+                    "profitMargin": d.get("profit_margin"),
+                    "sector": d.get("sector", result.sector),
+                    "industry": d.get("industry", result.industry),
+                }
+
+                # Strategy impact preview: would this stock pass Stage 3?
+                preview_fails = []
+                mc = d.get("market_cap")
+                if mc is not None and cfg.get("min_market_cap") and mc < cfg["min_market_cap"]:
+                    preview_fails.append({
+                        "gate": "市值门槛",
+                        "actual": f"${mc/1e9:.1f}B",
+                        "threshold": f"≥ ${cfg['min_market_cap']/1e9:.1f}B",
+                        "severity": "hard",
+                        "suggestion": "切换到进取型策略（最低市值 $0.1B）" if cfg.get("min_market_cap", 0) > 1e8 else "",
+                    })
+                pe = d.get("pe")
+                if pe is not None and cfg.get("max_pe") and pe > cfg["max_pe"]:
+                    preview_fails.append({
+                        "gate": "PE合理",
+                        "actual": f"{pe:.1f}",
+                        "threshold": f"< {cfg['max_pe']}",
+                        "severity": "hard",
+                        "suggestion": f"切换到进取型策略（max_pe={40}）" if cfg.get("max_pe", 99) < 40 else "",
+                    })
+                de = d.get("debt_to_equity")
+                if de is not None and cfg.get("max_de") and de > cfg["max_de"]:
+                    preview_fails.append({
+                        "gate": "负债可控",
+                        "actual": f"{de:.2f}",
+                        "threshold": f"< {cfg['max_de']}",
+                        "severity": "hard",
+                        "suggestion": "",
+                    })
+                cr = d.get("current_ratio")
+                if cr is not None and cfg.get("min_current_ratio") and cr < cfg["min_current_ratio"]:
+                    preview_fails.append({
+                        "gate": "流动性",
+                        "actual": f"{cr:.2f}",
+                        "threshold": f"≥ {cfg['min_current_ratio']}",
+                        "severity": "hard",
+                        "suggestion": "",
+                    })
+                fcf = d.get("free_cash_flow")
+                if cfg.get("require_positive_fcf") and (fcf is None or fcf <= 0):
+                    preview_fails.append({
+                        "gate": "正自由现金流",
+                        "actual": f"${fcf/1e6:.0f}M" if fcf is not None else "N/A",
+                        "threshold": "> 0",
+                        "severity": "hard",
+                        "suggestion": "切换到均衡/进取型策略（不强制要求正 FCF）",
+                    })
+
+                stock_info["stage3Preview"] = {
+                    "willPass": len(preview_fails) == 0,
+                    "failCount": len(preview_fails),
+                    "failures": preview_fails,
+                    # Keep backward-compatible flat list for existing frontend
+                    "potentialFailures": [
+                        f"{f['gate']}: {f['actual']} vs {f['threshold']}"
+                        for f in preview_fails
+                    ],
+                }
+
+                if preview_fails:
+                    first_fail = preview_fails[0]
+                    warnings.append({
+                        "type": "stage3_risk",
+                        "symbol": result.symbol,
+                        "message": f"{result.symbol}: 可能在 Stage 3 被淘汰 — {first_fail['gate']}({first_fail['actual']} vs {first_fail['threshold']})",
+                    })
+
+                if stock_info["missingCore"]:
+                    missing = stock_info["missingCore"]
+                    if len(missing) >= 4:
+                        warnings.append({
+                            "type": "low_coverage",
+                            "symbol": result.symbol,
+                            "message": f"{result.symbol}: 核心字段缺失较多 ({len(missing)}/{12}) — {', '.join(missing[:4])}...",
+                        })
+            else:
+                stock_info["status"] = "no_data"
+                stock_info["coverage"] = {"core": 0, "extended": 0, "historical": 0, "overall": 0}
+                stock_info["missingCore"] = []
+
+            stocks_report.append(stock_info)
+
+        avg_core_coverage = total_core_coverage / max(stocks_with_data, 1)
+
+        return {
+            "summary": {
+                "totalStocks": len(self.results),
+                "withData": stocks_with_data,
+                "eliminated": len(self.results) - sum(1 for r in self.results if r.is_alive()),
+                "avgCoreCoverage": round(avg_core_coverage, 1),
+                "dataSource": self._data_source or "bloomberg",
+                "strategy": self.strategy,
+                "strategyName": self.config.get("name", self.strategy),
+            },
+            "stocks": stocks_report,
+            "warnings": warnings,
+        }
+
+    # ═══════════════════════════════════════════════════════════════
     #  Stage Implementations
     # ═══════════════════════════════════════════════════════════════
 
@@ -684,33 +988,36 @@ class UnifiedPipeline:
           - self._data_source = "yfinance" / "fmp" / etc: 仅用指定源
           - self._data_source = None: 本不应到达此处 (应在 run() 中被 probe 拦截)，
                                        但作为安全兜底用 auto 模式
+
+        性能优化:
+          - provider 在循环外创建一次（单例），所有股票复用同一个连接
+          - 对 Bloomberg 等有状态连接的 provider 尤其重要，避免连接风暴
         """
         import asyncio
 
         data_map = {}
         chosen_source = self._data_source or "auto"
 
-        def _build_provider():
-            """Build the single provider based on user's choice."""
-            from src.data_providers.factory import get_data_provider
-            return get_data_provider(chosen_source)
+        # ── 创建 provider 一次，所有股票共享 ──
+        from src.data_providers.factory import get_data_provider
+        shared_provider = get_data_provider(chosen_source)
+        provider_name = shared_provider.name
+        logger.info(f"[Stage2] 使用共享 provider: {provider_name} (chosen: {chosen_source})")
 
         def _fetch_single(symbol: str):
-            """Fetch data for one symbol using the chosen provider."""
+            """Fetch data for one symbol using the shared provider."""
             from src.symbol_resolver import resolve_for_provider
-            from src.data_providers.factory import get_data_provider
 
-            provider = get_data_provider(chosen_source)
-            resolved = resolve_for_provider(symbol, provider.name)
-            logger.info(f"[Stage2] {symbol} → {provider.name} (chosen: {chosen_source})")
+            resolved = resolve_for_provider(symbol, provider_name)
+            logger.info(f"[Stage2] {symbol} → {provider_name} (共享连接)")
 
-            stock = provider.fetch(resolved)
+            stock = shared_provider.fetch(resolved)
             if stock is None or not hasattr(stock, 'to_dict'):
-                return None, provider.name, 0
+                return None, provider_name, 0
 
             cov = stock.data_coverage() if hasattr(stock, 'data_coverage') else {}
             pct = cov.get('core', {}).get('pct', 0) if cov else 0
-            return stock, provider.name, pct
+            return stock, provider_name, pct
 
         async def _fetch_one(result: StockResult) -> Tuple[str, Any]:
             loop = asyncio.get_running_loop()
@@ -803,13 +1110,23 @@ class UnifiedPipeline:
                 result.gate_failures = failures
                 result.eliminate(3, "; ".join(failures[:3]))
 
-    async def _stage4_forensics(self, alive_results: List[StockResult]):
-        """Stage 4: Financial forensics — F-Score, Z-Score, M-Score, Schilit detection."""
+    async def _stage4_forensics(self, alive_results: List[StockResult],
+                               data_map: Optional[Dict[str, Any]] = None):
+        """Stage 4: Financial forensics — F-Score, Z-Score, M-Score, Schilit detection.
+
+        Args:
+            alive_results: Stocks that survived previous stages.
+            data_map: Stage 2 data cache. When provided, avoids redundant fetch in tools.
+        """
         from app.agent.tools import detect_shenanigans
 
         async def _check_one(result: StockResult):
             try:
-                data = await detect_shenanigans(result.symbol)
+                # Pass pre-fetched StockData to avoid redundant API calls
+                stock_obj = None
+                if data_map and result.symbol in data_map:
+                    stock_obj = data_map[result.symbol].get("stock")
+                data = await detect_shenanigans(result.symbol, stock_data=stock_obj)
                 result.f_score = data.get("fScore", 0)
                 result.f_score_details = data.get("fReasons", [])
                 result.z_score = data.get("zScore")
@@ -912,7 +1229,11 @@ class UnifiedPipeline:
 
         async def _value_one(result: StockResult):
             try:
-                val = await run_full_valuation(result.symbol)
+                # Pass pre-fetched StockData to avoid redundant API calls
+                stock_obj = None
+                if result.symbol in data_map:
+                    stock_obj = data_map[result.symbol].get("stock")
+                val = await run_full_valuation(result.symbol, stock_data=stock_obj)
                 if isinstance(val, dict) and not val.get("error"):
                     result.valuations = val.get("valuations", {})
                     result.intrinsic_value = val.get("intrinsicValue")
@@ -1052,8 +1373,14 @@ class UnifiedPipeline:
                 except Exception as e:
                     logger.warning(f"[Stage7d] LLM analysis for {result.symbol} failed: {e}")
 
+            llm_semaphore = asyncio.Semaphore(2)  # Max 2 concurrent LLM analyses
+
+            async def _analyze_with_limit(r):
+                async with llm_semaphore:
+                    await _analyze_one(r)
+
             await asyncio.gather(
-                *[_analyze_one(r) for r in alive_results[:8]],
+                *[_analyze_with_limit(r) for r in alive_results[:8]],
                 return_exceptions=True,
             )
         except Exception as e:
@@ -1166,9 +1493,17 @@ class UnifiedPipeline:
                 except Exception as e:
                     logger.warning(f"[Committee] Debate failed for {result.symbol}: {e}")
 
-            # Run debates for up to 8 stocks concurrently
+            # Run debates for stocks with limited concurrency
+            # (Each stock runs 12 agents internally; limit stock-level parallelism
+            #  to avoid overwhelming the API rate limit)
+            stock_semaphore = asyncio.Semaphore(2)  # Max 2 stocks debating at once
+
+            async def _debate_with_limit(result: StockResult):
+                async with stock_semaphore:
+                    await _debate_one(result)
+
             await asyncio.gather(
-                *[_debate_one(r) for r in alive_results[:8]],
+                *[_debate_with_limit(r) for r in alive_results[:8]],
                 return_exceptions=True,
             )
         except Exception as e:

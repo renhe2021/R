@@ -470,6 +470,67 @@
         </div>
     </div>
 
+    <!-- 数据质量检查点对话框 -->
+    <div id="checkpoint-modal" class="modal-overlay hidden">
+        <div class="modal-card ckpt-modal-card">
+            <div class="modal-header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <h3>数据质量检查点</h3>
+            </div>
+            <div class="modal-body ckpt-body">
+                <p class="ckpt-desc">数据采集完成 — 请检查以下数据质量和覆盖率，确认无误后继续分析。</p>
+
+                <!-- Summary -->
+                <div id="ckpt-summary" class="ckpt-summary"></div>
+
+                <!-- Warnings -->
+                <div class="ckpt-warnings-section">
+                    <h4 class="ckpt-section-title">⚠️ 注意事项</h4>
+                    <div id="ckpt-warnings" class="ckpt-warnings"></div>
+                </div>
+
+                <!-- Stock detail table -->
+                <div class="ckpt-table-section">
+                    <h4 class="ckpt-section-title">📊 逐股数据详情</h4>
+                    <div class="ckpt-table-wrap">
+                        <table class="ckpt-table">
+                            <thead>
+                                <tr>
+                                    <th>股票</th>
+                                    <th>状态</th>
+                                    <th>核心覆盖</th>
+                                    <th>PE</th>
+                                    <th>PB</th>
+                                    <th>ROE</th>
+                                    <th>D/E</th>
+                                    <th>市值</th>
+                                    <th>价格</th>
+                                    <th>历史深度</th>
+                                    <th>新鲜度</th>
+                                    <th>Stage 3</th>
+                                    <th>缺失/异常</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ckpt-stock-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer ckpt-footer">
+                <button class="btn-secondary" onclick="abortCheckpoint()">中止分析</button>
+                <button class="ckpt-continue-btn" onclick="continueFromCheckpoint()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    确认数据，继续分析
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="/assets/app.js"></script>
 </body>
 </html>

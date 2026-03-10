@@ -21,6 +21,7 @@ Supports:
 import asyncio
 import json
 import logging
+import time
 from typing import List, Dict, Any, Optional, AsyncGenerator
 
 from openai import AsyncOpenAI, APIError, APIStatusError
@@ -36,6 +37,45 @@ _active_model: Optional[str] = None
 
 # GPT-5 specific: doesn't support temperature/top_p, uses max_completion_tokens
 _GPT5_MODELS = {"gpt-5", "gpt-5-mini", "gpt-5-nano"}
+
+# ── Rate limiter: 防止并发请求风暴触发 API 频率限制 ──
+# Semaphore 控制最大并发数，_last_request_time 保证请求间隔
+_llm_semaphore: Optional[asyncio.Semaphore] = None
+_last_request_time: float = 0.0
+_request_lock: Optional[asyncio.Lock] = None
+
+# 可通过环境变量或代码配置
+LLM_MAX_CONCURRENCY = 3       # 最大同时并发 LLM 请求数
+LLM_MIN_INTERVAL_MS = 200     # 两次请求之间最小间隔（毫秒）
+
+
+def _get_semaphore() -> asyncio.Semaphore:
+    """Lazy init semaphore (必须在 event loop 内创建)."""
+    global _llm_semaphore
+    if _llm_semaphore is None:
+        _llm_semaphore = asyncio.Semaphore(LLM_MAX_CONCURRENCY)
+    return _llm_semaphore
+
+
+def _get_request_lock() -> asyncio.Lock:
+    """Lazy init lock."""
+    global _request_lock
+    if _request_lock is None:
+        _request_lock = asyncio.Lock()
+    return _request_lock
+
+
+async def _rate_limited_wait():
+    """Ensure minimum interval between LLM requests to avoid rate limiting."""
+    global _last_request_time
+    lock = _get_request_lock()
+    async with lock:
+        now = time.monotonic()
+        elapsed_ms = (now - _last_request_time) * 1000
+        if elapsed_ms < LLM_MIN_INTERVAL_MS:
+            wait_s = (LLM_MIN_INTERVAL_MS - elapsed_ms) / 1000
+            await asyncio.sleep(wait_s)
+        _last_request_time = time.monotonic()
 
 
 def _get_client() -> Optional[AsyncOpenAI]:
@@ -89,17 +129,18 @@ def get_model_chain() -> List[str]:
 def _adapt_kwargs_for_model(model: str, kwargs: Dict[str, Any]) -> Dict[str, Any]:
     """Adapt API kwargs based on model-specific requirements.
 
-    GPT-5 系列不支持 temperature/top_p，使用 max_completion_tokens 而非 max_tokens。
+    GPT-5 系列不支持 temperature/top_p。
+    注意：代理 API (fit-ai proxy) 不一定支持 max_completion_tokens，
+    所以我们只移除不兼容的参数，不添加新参数。
     """
     adapted = dict(kwargs)
     adapted["model"] = model
 
     if model in _GPT5_MODELS:
-        # GPT-5: remove unsupported params, rename max_tokens
+        # GPT-5: remove unsupported params
         adapted.pop("temperature", None)
         adapted.pop("top_p", None)
-        if "max_tokens" in adapted:
-            adapted["max_completion_tokens"] = adapted.pop("max_tokens")
+        # 代理 API 统一用 max_tokens；如果需要直连 OpenAI GPT-5 再改回 max_completion_tokens
     return adapted
 
 
@@ -416,6 +457,10 @@ async def _retry_create(client: AsyncOpenAI, max_retries: int = 2, **kwargs) -> 
     1. 对当前模型重试 max_retries 次（指数退避）
     2. 如果全部失败，切换到降级链中的下一个模型
     3. 每个模型都用完后，最后尝试无 tools 模式
+
+    并发控制:
+    - Semaphore 限制最大同时并发数 (LLM_MAX_CONCURRENCY)
+    - 请求间隔限制 (LLM_MIN_INTERVAL_MS) 避免触发 rate limit
     """
     global _active_model
     model_chain = get_model_chain()
@@ -426,13 +471,17 @@ async def _retry_create(client: AsyncOpenAI, max_retries: int = 2, **kwargs) -> 
         model_chain = [original_model] + [m for m in model_chain if m != original_model]
 
     last_error = None
+    semaphore = _get_semaphore()
 
     for model_idx, model in enumerate(model_chain):
         adapted_kwargs = _adapt_kwargs_for_model(model, kwargs)
 
         for attempt in range(1, max_retries + 1):
             try:
-                result = await client.chat.completions.create(**adapted_kwargs)
+                # Rate limiting: acquire semaphore + enforce interval
+                async with semaphore:
+                    await _rate_limited_wait()
+                    result = await client.chat.completions.create(**adapted_kwargs)
                 # Success — record the active model
                 if model != original_model:
                     _active_model = model
@@ -451,6 +500,14 @@ async def _retry_create(client: AsyncOpenAI, max_retries: int = 2, **kwargs) -> 
                 if status == 429:
                     wait = 5 * attempt
                 elif status in (400, 422):
+                    # Check if it's a rate limit error disguised as 400
+                    err_str = str(e)
+                    if "频率超出限制" in err_str or "rate" in err_str.lower():
+                        wait = 3 * attempt
+                        logger.info(f"  频率限制 (HTTP {status}): {wait}s 后重试...")
+                        if attempt < max_retries:
+                            await asyncio.sleep(wait)
+                        continue
                     # Bad request — likely model doesn't support this format
                     # Try next model immediately instead of retrying same one
                     logger.info(f"  HTTP {status}: 跳过 {model}，尝试下一个模型")
@@ -481,7 +538,9 @@ async def _retry_create(client: AsyncOpenAI, max_retries: int = 2, **kwargs) -> 
     if "messages" in fallback_kwargs:
         fallback_kwargs["messages"] = _sanitize_messages_for_no_tools(fallback_kwargs["messages"])
     try:
-        result = await client.chat.completions.create(**fallback_kwargs)
+        async with semaphore:
+            await _rate_limited_wait()
+            result = await client.chat.completions.create(**fallback_kwargs)
         _active_model = fallback_model
         logger.info(f"✅ 无tools兜底成功 (模型: {fallback_model})")
         return result

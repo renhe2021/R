@@ -433,6 +433,13 @@ function handlePipelineEvent(event) {
     } else if (type === 'data_source_required') {
         // Bloomberg unavailable — show modal for user to choose data source
         showDataSourceModal(event);
+    } else if (type === 'checkpoint') {
+        // Data quality checkpoint — show review modal for user to inspect data
+        showCheckpointModal(event);
+    } else if (type === 'checkpoint_resumed') {
+        // Pipeline resumed from checkpoint — update status
+        document.getElementById('pipeline-status').textContent = event.message || '从检查点恢复...';
+        document.getElementById('pipeline-status').style.color = 'var(--green)';
     } else if (type === 'pipeline_done') {
         pipelineReport = event.report;
         onPipelineComplete(event);
@@ -540,6 +547,246 @@ async function selectDataSource(sourceId) {
     } finally {
         document.getElementById('btn-pipeline').disabled = false;
     }
+}
+
+// ─── 数据质量检查点模态 ─────────────────────────────────────────
+let _checkpointRunId = null;
+let _checkpointStocks = [];
+let _checkpointStrategy = '';
+
+function showCheckpointModal(event) {
+    const report = event.report || {};
+    const summary = report.summary || {};
+    const stocks = report.stocks || [];
+    const warnings = report.warnings || [];
+
+    _checkpointRunId = event.runId;
+    _checkpointStocks = stocks.map(s => s.symbol);
+    _checkpointStrategy = summary.strategy || 'balanced';
+
+    // Update pipeline status
+    document.getElementById('pipeline-status').textContent = '⏸ 数据采集完成 — 请检查数据质量后继续';
+    document.getElementById('pipeline-status').style.color = 'var(--yellow)';
+
+    const modal = document.getElementById('checkpoint-modal');
+    if (!modal) return;
+
+    // Summary section
+    const summaryEl = document.getElementById('ckpt-summary');
+    const srcLabel = { bloomberg: 'Bloomberg', yfinance: 'Yahoo Finance', fmp: 'FMP', finnhub: 'Finnhub' };
+    summaryEl.innerHTML = `
+        <div class="ckpt-summary-grid">
+            <div class="ckpt-stat">
+                <span class="ckpt-stat-value">${summary.totalStocks || 0}</span>
+                <span class="ckpt-stat-label">总股票数</span>
+            </div>
+            <div class="ckpt-stat">
+                <span class="ckpt-stat-value" style="color:var(--green)">${summary.withData || 0}</span>
+                <span class="ckpt-stat-label">获取到数据</span>
+            </div>
+            <div class="ckpt-stat">
+                <span class="ckpt-stat-value" style="color:var(--red)">${summary.eliminated || 0}</span>
+                <span class="ckpt-stat-label">已淘汰</span>
+            </div>
+            <div class="ckpt-stat">
+                <span class="ckpt-stat-value" style="color:var(--accent-light)">${summary.avgCoreCoverage || 0}%</span>
+                <span class="ckpt-stat-label">平均核心覆盖率</span>
+            </div>
+            <div class="ckpt-stat">
+                <span class="ckpt-stat-value">${srcLabel[summary.dataSource] || summary.dataSource || '?'}</span>
+                <span class="ckpt-stat-label">数据源</span>
+            </div>
+            <div class="ckpt-stat">
+                <span class="ckpt-stat-value">${summary.strategyName || summary.strategy || '?'}</span>
+                <span class="ckpt-stat-label">策略</span>
+            </div>
+        </div>
+    `;
+
+    // Warnings section
+    const warnEl = document.getElementById('ckpt-warnings');
+    if (warnings.length > 0) {
+        warnEl.innerHTML = warnings.map(w => {
+            const icon = w.type === 'data_fail' ? '❌' : w.type === 'stage3_risk' ? '⚠️' : w.type === 'anomaly' ? '⚡' : '📉';
+            const cls = w.type === 'data_fail' ? 'ckpt-warn-error' : w.type === 'anomaly' ? 'ckpt-warn-warning' : 'ckpt-warn-warning';
+            return `<div class="ckpt-warn-item ${cls}"><span>${icon}</span> ${w.message}</div>`;
+        }).join('');
+        warnEl.parentElement.classList.remove('hidden');
+    } else {
+        warnEl.parentElement.classList.add('hidden');
+    }
+
+    // Stock table
+    const tbodyEl = document.getElementById('ckpt-stock-tbody');
+    tbodyEl.innerHTML = stocks.map(s => {
+        const cov = s.coverage || {};
+        const km = s.keyMetrics || {};
+        const hd = s.historicalDepth || {};
+        const fresh = s.freshness || {};
+        const anomalies = s.anomalies || [];
+        const statusIcon = s.status === 'ok' ? '✅' :
+                           s.status === 'warning' ? '⚠️' :
+                           s.status === 'eliminated' ? '❌' :
+                           s.status === 'poor' ? '📉' : '—';
+        const covBarColor = cov.core >= 70 ? 'var(--green)' :
+                            cov.core >= 40 ? 'var(--yellow)' : 'var(--red)';
+
+        // Historical depth indicator
+        const epsYears = hd.epsYears || 0;
+        let hdIcon = '❌ 无';
+        let hdColor = 'var(--red)';
+        if (epsYears >= 8) { hdIcon = `📊 ${epsYears}年`; hdColor = 'var(--green)'; }
+        else if (epsYears >= 4) { hdIcon = `📊 ${epsYears}年`; hdColor = 'var(--yellow)'; }
+        else if (epsYears > 0) { hdIcon = `⚠️ ${epsYears}年`; hdColor = 'var(--yellow)'; }
+        const hdTitle = [
+            `EPS: ${epsYears}年`,
+            `分红: ${hd.dividendYears || 0}年`,
+            hd.has10YAvg ? '有10年均值' : '无10年均值',
+            `盈利年数: ${hd.profitableYears || '?'}`,
+            `连续盈利: ${hd.consecutiveProfitable || '?'}年`,
+        ].join('\n');
+
+        // Freshness indicator
+        let freshIcon = '🔄 实时';
+        if (fresh.isCached && fresh.cacheAge) {
+            freshIcon = `💾 ${fresh.cacheAge}`;
+        }
+
+        // Stage 3 preview (enhanced with detailed failures)
+        const s3 = s.stage3Preview || {};
+        let s3Cell = '<span style="color:var(--green)">✅ 通过</span>';
+        if (s3.willPass === false) {
+            const failures = s3.failures || [];
+            const failDetails = failures.map(f =>
+                `${f.gate}: ${f.actual} (需 ${f.threshold})${f.suggestion ? ' → ' + f.suggestion : ''}`
+            ).join('\n');
+            const failSummary = failures.length > 0
+                ? failures.map(f => f.gate).join(', ')
+                : (s3.potentialFailures || []).join('; ');
+            s3Cell = `<span style="color:var(--red);cursor:help" title="${failDetails}">⚠️ ${s3.failCount || '?'}项不过</span>`;
+        }
+        if (s.status === 'eliminated') {
+            s3Cell = '<span style="color:var(--text-muted)">—</span>';
+        }
+
+        // Missing + anomaly cell
+        const missingParts = (s.missingCore || []).slice(0, 2);
+        const anomalyParts = anomalies.slice(0, 2).map(a => `⚡${a.field}`);
+        const combinedParts = [...anomalyParts, ...missingParts].slice(0, 3);
+        const combinedTitle = [
+            ...(s.missingCore || []).map(f => `缺失: ${f}`),
+            ...anomalies.map(a => `${a.field}: ${a.issue}`),
+        ].join('\n');
+
+        const fmtNum = (v, d=1) => v != null ? Number(v).toFixed(d) : '—';
+        const fmtBig = (v) => {
+            if (v == null) return '—';
+            const abs = Math.abs(v);
+            const sign = v < 0 ? '-' : '';
+            if (abs >= 1e12) return sign + (abs/1e12).toFixed(1) + 'T';
+            if (abs >= 1e9) return sign + (abs/1e9).toFixed(1) + 'B';
+            if (abs >= 1e6) return sign + (abs/1e6).toFixed(1) + 'M';
+            return sign + abs.toLocaleString();
+        };
+        const fmtPct = (v) => v != null ? (v * 100).toFixed(1) + '%' : '—';
+
+        // Highlight anomalous values
+        const peClass = anomalies.some(a => a.field === 'PE') ? 'ckpt-anomaly' : '';
+        const deClass = anomalies.some(a => a.field === 'D/E') ? 'ckpt-anomaly' : '';
+
+        return `<tr class="${s.alive === false ? 'ckpt-row-eliminated' : ''}">
+            <td>
+                <div class="ckpt-stock-info">
+                    <span class="ckpt-stock-symbol">${s.symbol}</span>
+                    <span class="ckpt-stock-name">${s.name || ''}</span>
+                </div>
+            </td>
+            <td>${statusIcon}</td>
+            <td>
+                <div class="ckpt-cov-bar-wrap">
+                    <div class="ckpt-cov-bar" style="width:${Math.min(cov.core||0,100)}%;background:${covBarColor}"></div>
+                </div>
+                <span class="ckpt-cov-text">${cov.core||0}%</span>
+            </td>
+            <td class="ckpt-mono ${peClass}">${fmtNum(km.pe)}</td>
+            <td class="ckpt-mono">${fmtNum(km.pb)}</td>
+            <td class="ckpt-mono">${fmtPct(km.roe)}</td>
+            <td class="ckpt-mono ${deClass}">${fmtNum(km.debtToEquity, 2)}</td>
+            <td class="ckpt-mono">$${fmtBig(km.marketCap)}</td>
+            <td class="ckpt-mono">${s.price != null ? '$' + fmtNum(s.price, 2) : '—'}</td>
+            <td title="${hdTitle}" style="color:${hdColor};cursor:help">${hdIcon}</td>
+            <td>${freshIcon}</td>
+            <td>${s3Cell}</td>
+            <td class="ckpt-missing-cell" title="${combinedTitle}">${combinedParts.join(', ') || '—'}</td>
+        </tr>`;
+    }).join('');
+
+    modal.classList.remove('hidden');
+}
+
+async function continueFromCheckpoint() {
+    const modal = document.getElementById('checkpoint-modal');
+    modal.classList.add('hidden');
+
+    if (!_checkpointRunId) {
+        document.getElementById('pipeline-status').textContent = '错误: 无检查点信息';
+        return;
+    }
+
+    // Update status
+    document.getElementById('pipeline-status').textContent = '从检查点恢复，继续 Stage 3...';
+    document.getElementById('pipeline-status').style.color = '';
+
+    // Re-submit pipeline with resume params
+    const body = {
+        stocks: _checkpointStocks,
+        strategy: _checkpointStrategy,
+        resumeFrom: 3,
+        resumeRunId: _checkpointRunId,
+    };
+
+    _checkpointRunId = null;
+
+    try {
+        const resp = await fetch('/api/v1/agent/pipeline', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                try {
+                    const evt = JSON.parse(line.slice(6));
+                    handlePipelineEvent(evt);
+                } catch (e) { /* skip bad JSON */ }
+            }
+        }
+    } catch (err) {
+        document.getElementById('pipeline-status').textContent = `错误: ${err.message}`;
+    } finally {
+        document.getElementById('btn-pipeline').disabled = false;
+    }
+}
+
+function abortCheckpoint() {
+    document.getElementById('checkpoint-modal').classList.add('hidden');
+    _checkpointRunId = null;
+    document.getElementById('btn-pipeline').disabled = false;
+    document.getElementById('pipeline-status').textContent = '已取消 — 分析已中止';
+    document.getElementById('pipeline-status').style.color = '';
 }
 
 function updateSubstepUI(stageId, substep, status, message, data) {

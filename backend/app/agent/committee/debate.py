@@ -180,13 +180,20 @@ class DebateEngine:
             "message": f"投委会开始分析 {symbol} ({stock_name})...",
         }
 
-        # ── Round 1: All agents analyze in parallel ──
+        # ── Round 1: All agents analyze with controlled concurrency ──
         all_agents: List[InvestmentAgent] = self.school_agents + self.role_agents
         opinions: List[AgentOpinion] = []
 
-        # Run all agents concurrently, yield each result as it completes
+        # Limit agent-level concurrency per stock to avoid rate limit storms
+        agent_semaphore = asyncio.Semaphore(3)  # Max 3 agents per stock at once
+
+        async def _run_agent(agent: InvestmentAgent) -> AgentOpinion:
+            async with agent_semaphore:
+                return await agent.analyze(symbol, stock_snapshot)
+
+        # Run agents concurrently (semaphore-limited), yield each result as it completes
         tasks = {
-            asyncio.create_task(agent.analyze(symbol, stock_snapshot)): agent
+            asyncio.create_task(_run_agent(agent)): agent
             for agent in all_agents
         }
 

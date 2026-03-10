@@ -68,9 +68,11 @@ async def startup():
 # ── Mount API routers ──
 from app.api.agent_routes import router as agent_router  # noqa: E402
 from app.api.symbol_routes import router as symbol_router  # noqa: E402
+from app.api.knowledge_routes import router as knowledge_router  # noqa: E402
 
 app.include_router(agent_router, prefix="/api/v1")
 app.include_router(symbol_router, prefix="/api")
+app.include_router(knowledge_router, prefix="/api")
 
 
 # ── Serve frontend static files ──

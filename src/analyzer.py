@@ -116,10 +116,36 @@ class StockData:
 
     # === 数据质量追踪 ===
     _data_quality: dict = field(default_factory=dict, repr=False)
+    _fetched_at: Optional[str] = field(default=None, repr=False)  # ISO timestamp of fetch
 
     def to_dict(self) -> dict:
-        return {k: v for k, v in self.__dict__.items()
-                if v is not None and v != "" and v != [] and not k.startswith("_")}
+        d = {k: v for k, v in self.__dict__.items()
+             if v is not None and v != "" and v != [] and not k.startswith("_")}
+        # Include _fetched_at for cache serialization
+        if self._fetched_at:
+            d["_fetched_at"] = self._fetched_at
+        return d
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "StockData":
+        """Reconstruct a StockData from a dict (cache deserialization).
+
+        Handles type coercion for int/float/list fields.
+        """
+        import dataclasses
+        valid_fields = {f.name for f in dataclasses.fields(cls) if not f.name.startswith("_")}
+        kwargs = {}
+        for k, v in d.items():
+            if k.startswith("_") and k != "_fetched_at":
+                continue
+            if k == "_fetched_at":
+                continue  # handled separately below
+            if k not in valid_fields:
+                continue
+            kwargs[k] = v
+        obj = cls(**kwargs)
+        obj._fetched_at = d.get("_fetched_at")
+        return obj
 
     def data_coverage(self) -> dict:
         """计算数据覆盖率 — 多少核心字段真正有值"""

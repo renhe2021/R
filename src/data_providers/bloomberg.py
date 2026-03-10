@@ -92,12 +92,27 @@ MARKET_BENCHMARKS = {
 
 
 class BloombergProvider(DataProvider):
-    """通过 blpapi 连接 Bloomberg Terminal 获取数据"""
+    """通过 blpapi 连接 Bloomberg Terminal 获取数据
+    
+    线程安全说明:
+        blpapi session 的 sendRequest/nextEvent 不能被多线程交叉调用，
+        否则 thread A 可能拿到 thread B 的响应，导致数据串线。
+        使用 _lock 确保同一时刻只有一个线程在执行 BDP/BDH 请求。
+    
+    基准数据缓存:
+        SPX PE 和国债利率一天只变一次，30只股票共享同一份基准数据。
+        _benchmark_cache 在 class 级别缓存，同一天内只查一次。
+    """
+
+    # Class-level benchmark cache: {"date": "2026-03-10", "data": {...}}
+    _benchmark_cache: dict = {}
 
     def __init__(self, host: str = "localhost", port: int = 8194):
+        import threading
         self._host = host
         self._port = port
         self._session = None
+        self._lock = threading.Lock()  # 保护 session 的并发访问
 
     @property
     def name(self) -> str:
@@ -284,7 +299,16 @@ class BloombergProvider(DataProvider):
         return rows
 
     def fetch(self, symbol: str) -> StockData:
-        """获取完整股票数据（实时 + 10年历史 + 市场基准）"""
+        """获取完整股票数据（实时 + 10年历史 + 市场基准）
+        
+        注意: 整个 fetch 过程在 _lock 下串行执行，
+        因为 blpapi session 的 sendRequest/nextEvent 不支持并发调用。
+        """
+        with self._lock:
+            return self._fetch_locked(symbol)
+
+    def _fetch_locked(self, symbol: str) -> StockData:
+        """fetch 的实际实现（已持有 _lock）"""
         security = self._to_bbg_ticker(symbol)
         logger.info(f"[Bloomberg] 获取 {security} ...")
 
@@ -412,7 +436,21 @@ class BloombergProvider(DataProvider):
         stock.annual_sales = stock.revenue
 
     def _fetch_market_benchmarks(self) -> dict:
-        """拉取市场基准数据（S&P 500 PE, 国债利率, AA 债券利率）"""
+        """拉取市场基准数据（S&P 500 PE, 国债利率, AA 债券利率）
+        
+        使用 class-level 内存缓存：基准数据一天只变一次，
+        30只股票共享同一份，避免 60 次无意义的 Bloomberg 查询。
+        """
+        from datetime import date as date_cls
+        today = date_cls.today().isoformat()
+
+        # 命中缓存
+        if (BloombergProvider._benchmark_cache.get("date") == today
+                and BloombergProvider._benchmark_cache.get("data")):
+            logger.debug("[Bloomberg] 基准数据命中内存缓存")
+            return BloombergProvider._benchmark_cache["data"]
+
+        # Cache miss — 从 Bloomberg 获取
         benchmarks = {}
         for security, fields in MARKET_BENCHMARKS.items():
             try:
@@ -421,6 +459,12 @@ class BloombergProvider(DataProvider):
                 logger.info(f"[Bloomberg] 基准 {security}: {data}")
             except Exception as e:
                 logger.warning(f"[Bloomberg] 获取基准 {security} 失败: {e}")
+
+        # 写入缓存
+        if benchmarks:
+            BloombergProvider._benchmark_cache = {"date": today, "data": benchmarks}
+            logger.info(f"[Bloomberg] 基准数据已缓存（当日有效）")
+
         return benchmarks
 
     def _populate_benchmarks(self, stock: StockData, benchmarks: dict):
@@ -607,11 +651,24 @@ class BloombergProvider(DataProvider):
         return f"{symbol} US Equity"
 
     def close(self):
-        """关闭连接"""
+        """显式关闭连接（由 factory.clear_provider_cache 调用）"""
         if self._session:
-            self._session.stop()
+            try:
+                self._session.stop()
+            except Exception:
+                pass
             self._session = None
-            logger.info("[Bloomberg] 连接已关闭")
+            logger.info("[Bloomberg] 连接已关闭（显式调用）")
 
     def __del__(self):
-        self.close()
+        """GC 析构时静默关闭 session，不打日志，避免连接风暴假象。
+        
+        注意：单例模式下 BloombergProvider 不会被 GC（被 _provider_instances 持有），
+        只有进程退出时才会触发 __del__。
+        """
+        if self._session:
+            try:
+                self._session.stop()
+            except Exception:
+                pass
+            self._session = None

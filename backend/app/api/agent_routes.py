@@ -45,6 +45,15 @@ class PipelineRequest(BaseModel):
         description="Data source override. None=Bloomberg first (ask user if unavailable). "
                     "'bloomberg'/'yfinance'/'fmp'/'finnhub'/'yahoo_direct'=use directly.",
     )
+    resumeFrom: Optional[int] = Field(
+        default=None,
+        description="Stage number to resume from (e.g. 3 to skip data checkpoint). "
+                    "Requires resumeRunId to restore cached state.",
+    )
+    resumeRunId: Optional[str] = Field(
+        default=None,
+        description="The run_id from the paused run, used to look up cached pipeline state.",
+    )
 
 
 async def _sse_generator(async_gen):
@@ -172,6 +181,8 @@ async def agent_pipeline(req: PipelineRequest):
                 universe=req.universe,
                 enable_llm=req.enableLlm,
                 data_source=req.dataSource,
+                resume_from=req.resumeFrom,
+                resume_run_id=req.resumeRunId,
             ):
                 data = json.dumps(event, default=str, ensure_ascii=False)
                 yield f"data: {data}\n\n"

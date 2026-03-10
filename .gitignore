@@ -52,6 +52,9 @@ backend/app/knowledge/user_docs/*.txt
 # Bloomberg cache
 bloomberg_cache/
 
+# Data provider disk cache
+data/cache/
+
 # DB WAL/SHM files
 *.db-shm
 *.db-wal

@@ -127,20 +127,19 @@ async def scan_history(symbol: str, days: int = 365) -> str:
 
         # 历史价格：先尝试 BBG，失败则 yfinance
         try:
-            from src.data_providers.bloomberg import BloombergProvider
-            bp = BloombergProvider()
-            if bp.is_available():
-                resolved = resolve_for_provider(symbol, "bloomberg")
-                end = datetime.now()
-                start = end - timedelta(days=days)
-                import blpapi  # noqa: F401
-                # BBG 历史数据请求
-                stock = bp.fetch(resolved)
-                name = stock.name or resolved
-                # 用 BBG 获取 OHLCV
-                hist = bp.fetch_history(resolved, start, end) if hasattr(bp, 'fetch_history') else None
-                if hist is not None and not hist.empty:
-                    return hist, name, resolved
+            from src.data_providers.factory import get_data_provider as _gdp
+            bp = _gdp("bloomberg")
+            resolved = resolve_for_provider(symbol, "bloomberg")
+            end = datetime.now()
+            start = end - timedelta(days=days)
+            # BBG 历史数据请求
+            stock = bp.fetch(resolved)
+            name = stock.name or resolved
+            # 用 BBG 获取 OHLCV
+            inner = getattr(bp, '_inner', bp)  # 解包 CachingProvider
+            hist = inner.fetch_history(resolved, start, end) if hasattr(inner, 'fetch_history') else None
+            if hist is not None and not hist.empty:
+                return hist, name, resolved
         except Exception as e:
             logger.debug(f"[scan_history] BBG 历史数据回退: {e}")
 
@@ -185,8 +184,13 @@ async def scan_history(symbol: str, days: int = 365) -> str:
 #  3. detect_shenanigans — Financial fraud detection
 # ════════════════════════════════════════════════════════════════
 
-async def detect_shenanigans(symbol: str) -> Dict[str, Any]:
+async def detect_shenanigans(symbol: str, stock_data=None) -> Dict[str, Any]:
     """Run Beneish M-Score, Altman Z-Score, and Piotroski F-Score.
+
+    Args:
+        symbol: Stock ticker symbol.
+        stock_data: Optional pre-fetched StockData object from pipeline data_map.
+                    When provided, skips the redundant provider.fetch() call.
 
     Returns dict with: redFlags, riskLevel, mScore, zScore, fScore, summary.
     """
@@ -197,10 +201,14 @@ async def detect_shenanigans(symbol: str) -> Dict[str, Any]:
         from src.symbol_resolver import resolve_for_provider
         import yfinance as yf
 
-        provider = get_data_provider(_active_data_source)
-        resolved = resolve_for_provider(symbol, provider.name)
-        logger.info(f"[detect_shenanigans] {symbol} → {provider.name} (source={_active_data_source})")
-        stock = provider.fetch(resolved)
+        if stock_data is not None:
+            stock = stock_data
+            logger.info(f"[detect_shenanigans] {symbol} — 使用 Pipeline 缓存数据（跳过重复 fetch）")
+        else:
+            provider = get_data_provider(_active_data_source)
+            resolved = resolve_for_provider(symbol, provider.name)
+            logger.info(f"[detect_shenanigans] {symbol} → {provider.name} (source={_active_data_source})")
+            stock = provider.fetch(resolved)
         # M-Score 需要 yfinance 的 balance_sheet/income_stmt
         yf_resolved = resolve_for_provider(symbol, "yfinance")
         ticker = yf.Ticker(yf_resolved)
@@ -392,17 +400,27 @@ async def detect_shenanigans(symbol: str) -> Dict[str, Any]:
 #  4. run_full_valuation — 7 valuation models
 # ════════════════════════════════════════════════════════════════
 
-async def run_full_valuation(symbol: str) -> Dict[str, Any]:
-    """Run 7 valuation models and return consolidated results."""
+async def run_full_valuation(symbol: str, stock_data=None) -> Dict[str, Any]:
+    """Run 7 valuation models and return consolidated results.
+
+    Args:
+        symbol: Stock ticker symbol.
+        stock_data: Optional pre-fetched StockData object from pipeline data_map.
+                    When provided, skips the redundant provider.fetch() call.
+    """
     import asyncio
 
     def _compute():
-        from src.data_providers.factory import get_data_provider
-        from src.symbol_resolver import resolve_for_provider
-        provider = get_data_provider(_active_data_source)
-        resolved = resolve_for_provider(symbol, provider.name)
-        logger.info(f"[run_full_valuation] {symbol} → {provider.name} (source={_active_data_source})")
-        stock = provider.fetch(resolved)
+        if stock_data is not None:
+            stock = stock_data
+            logger.info(f"[run_full_valuation] {symbol} — 使用 Pipeline 缓存数据（跳过重复 fetch）")
+        else:
+            from src.data_providers.factory import get_data_provider
+            from src.symbol_resolver import resolve_for_provider
+            provider = get_data_provider(_active_data_source)
+            resolved = resolve_for_provider(symbol, provider.name)
+            logger.info(f"[run_full_valuation] {symbol} → {provider.name} (source={_active_data_source})")
+            stock = provider.fetch(resolved)
 
         valuations = {}
         errors = []
