@@ -68,8 +68,10 @@ package-lock.json
 # Vite cache
 .vite/
 
-# .codebuddy
-.codebuddy/
+# .codebuddy (保留 memory/ 用于跨机器延续 CodeBuddy 工作记忆)
+.codebuddy/*
+!.codebuddy/memory/
+!.codebuddy/MEMORY.md
 
 # Backend env
 backend/.env
