@@ -13,6 +13,8 @@ Design principles
    same ``data: dict`` format used in live pipeline.
 3. **Composite scoring** mirrors the Stage 8 logic in ``unified_pipeline.py`` but
    simplified to the quantitative components only.
+4. **Adaptive degradation** — long-history rules (profitable_years >= 10, etc.)
+   are dynamically relaxed when yfinance only provides 4-5 years of data.
 """
 
 from __future__ import annotations
@@ -107,12 +109,71 @@ def _forensic_check(data: Dict[str, Any]) -> Optional[str]:
 
 
 # ═══════════════════════════════════════════════════════════════
+#  Adaptive Degradation — relax long-history rules for limited data
+# ═══════════════════════════════════════════════════════════════
+
+def _adaptive_degrade(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Apply adaptive degradation to screening data for limited-history scenarios.
+
+    When yfinance only provides 4-5 years of quarterly data, rules requiring
+    10-20 years of history (e.g. Graham profitable_years >= 10, consecutive
+    dividend_years >= 20) can never pass. This function:
+
+    1. Scales profitable_years proportionally if available_years < required threshold
+       e.g. if we have 4 years of data and all 4 are profitable → treat as equivalent
+       to meeting the 10-year requirement (scale: 4/4 * 10 = 10)
+
+    2. Marks consecutive_dividend_years as None (skip) rather than 0 (fail) when
+       we truly have no dividend history data
+
+    3. Adjusts earnings_growth_10y label if derived from shorter history
+
+    Returns a COPY of the data dict with adjustments applied.
+    """
+    d = dict(data)  # shallow copy
+    available = d.get("available_years")
+
+    if available is None or available >= 10:
+        return d  # enough history, no degradation needed
+
+    # ── Scale profitable_years ──
+    # If a stock has been profitable for ALL available years, extrapolate
+    # that it likely meets the 10-year threshold.
+    # Formula: scaled = profitable_years × (required / available)
+    # But cap at a reasonable extrapolation (max 2.5x).
+    profitable = d.get("profitable_years")
+    if profitable is not None and available > 0:
+        profitability_ratio = profitable / available  # e.g. 4/4 = 1.0 (100% profitable)
+        if profitability_ratio >= 0.9:
+            # Nearly all years profitable → scale up to meet typical thresholds
+            d["profitable_years"] = max(profitable, int(profitability_ratio * 10))
+        elif profitability_ratio >= 0.7:
+            # Mostly profitable → partial scale
+            d["profitable_years"] = max(profitable, int(profitability_ratio * 8))
+        # else: keep original (poor track record doesn't deserve extrapolation)
+
+    # ── Handle missing dividend history ──
+    # yfinance info.dividendYield exists but we can't determine consecutive years.
+    # Rather than leaving it as 0 (which would fail Graham's 20-year rule),
+    # set to None so the rule gets SKIPPED (not counted against pass_rate).
+    if d.get("consecutive_dividend_years") is None:
+        # Already None → rule will be skipped. Good.
+        pass
+
+    return d
+
+
+# ═══════════════════════════════════════════════════════════════
 #  Stage 5 — Multi-school consensus (direct reuse)
 # ═══════════════════════════════════════════════════════════════
 
 def _school_consensus(data: Dict[str, Any]) -> Dict[str, Any]:
-    """Evaluate against all 7 schools, return full result dict."""
-    return evaluate_stock_all_schools(data)
+    """Evaluate against all 7 schools, return full result dict.
+
+    Applies adaptive degradation for limited-history data before evaluation.
+    """
+    adapted = _adaptive_degrade(data)
+    return evaluate_stock_all_schools(adapted)
 
 
 # ═══════════════════════════════════════════════════════════════

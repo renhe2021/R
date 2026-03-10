@@ -445,6 +445,197 @@
                     <div class="bt-history-list" id="bt-history-list"></div>
                 </div>
             </div>
+
+            <!-- ═══ 阈值优化 & Walk-Forward 验证 ═══ -->
+            <div class="opt-section-divider">
+                <span class="opt-divider-line"></span>
+                <span class="opt-divider-label">🎯 阈值优化引擎</span>
+                <span class="opt-divider-line"></span>
+            </div>
+
+            <!-- 阈值优化面板 -->
+            <div class="opt-config-panel" id="opt-config-panel">
+                <div class="opt-panel-header">
+                    <div class="opt-panel-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        <h3>自动阈值优化</h3>
+                    </div>
+                    <p class="opt-panel-desc">搜索最优筛选参数组合（PE上限、ROE下限、各流派权重等），以 Sharpe Ratio 为目标函数，带过拟合惩罚。</p>
+                </div>
+
+                <div class="opt-config-body">
+                    <div class="opt-config-row">
+                        <div class="opt-config-left">
+                            <label>股票池</label>
+                            <div class="opt-stock-input-wrap">
+                                <input type="text" id="opt-stock-input" placeholder="输入股票代码，如 AAPL, MSFT, BRK-B（留空则使用上方回测股票池）">
+                            </div>
+                            <div class="opt-presets">
+                                <button class="opt-preset-btn" data-opt-preset="value_30">价值30</button>
+                                <button class="opt-preset-btn" data-opt-preset="sp500_top50">S&P50</button>
+                                <button class="opt-preset-btn" data-opt-preset="dividend_kings">股息之王</button>
+                                <button class="opt-preset-btn" data-opt-preset="buffett_portfolio">巴菲特</button>
+                            </div>
+                        </div>
+                        <div class="opt-config-grid">
+                            <div class="opt-param">
+                                <label>搜索方式</label>
+                                <select id="opt-search-method">
+                                    <option value="grid" selected>网格搜索 (Grid)</option>
+                                    <option value="random">随机搜索</option>
+                                </select>
+                            </div>
+                            <div class="opt-param">
+                                <label>最大试验次数</label>
+                                <input type="number" id="opt-max-trials" value="200" min="5" max="2000">
+                            </div>
+                            <div class="opt-param">
+                                <label>持仓周期</label>
+                                <select id="opt-holding-months">
+                                    <option value="3">3个月</option>
+                                    <option value="6" selected>6个月</option>
+                                    <option value="12">12个月</option>
+                                </select>
+                            </div>
+                            <div class="opt-param">
+                                <label>回溯年数</label>
+                                <select id="opt-lookback">
+                                    <option value="3">3年</option>
+                                    <option value="5">5年</option>
+                                    <option value="7">7年</option>
+                                    <option value="10" selected>10年</option>
+                                    <option value="15">15年</option>
+                                </select>
+                            </div>
+                            <div class="opt-param">
+                                <label>测试期年数 🧪</label>
+                                <select id="opt-test-years">
+                                    <option value="2">2年</option>
+                                    <option value="3" selected>3年</option>
+                                    <option value="4">4年</option>
+                                    <option value="5">5年</option>
+                                </select>
+                            </div>
+                            <div class="opt-param">
+                                <label>策略类型</label>
+                                <select id="opt-strategy">
+                                    <option value="conservative">保守型</option>
+                                    <option value="balanced" selected>均衡型</option>
+                                    <option value="aggressive">进取型</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 参数选择 -->
+                    <div class="opt-param-selector">
+                        <label>优化参数选择 <span class="opt-param-hint">（留空 = 使用默认12个关键参数）</span></label>
+                        <div class="opt-param-tags" id="opt-param-tags">
+                            <span class="opt-ptag" data-key="screener.pe_max">PE上限</span>
+                            <span class="opt-ptag" data-key="screener.pb_max">PB上限</span>
+                            <span class="opt-ptag" data-key="screener.roe_min">ROE下限</span>
+                            <span class="opt-ptag" data-key="screener.debt_equity_max">D/E上限</span>
+                            <span class="opt-ptag" data-key="screener.current_ratio_min">流动比率下限</span>
+                            <span class="opt-ptag" data-key="school_weight.graham">Graham权重</span>
+                            <span class="opt-ptag" data-key="school_weight.buffett">Buffett权重</span>
+                            <span class="opt-ptag" data-key="school_weight.quantitative">量化权重</span>
+                            <span class="opt-ptag" data-key="school_weight.quality">质量权重</span>
+                            <span class="opt-ptag" data-key="school_weight.damodaran">Damodaran权重</span>
+                            <span class="opt-ptag" data-key="school_weight.contrarian">逆向权重</span>
+                            <span class="opt-ptag" data-key="school_weight.garp">GARP权重</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opt-config-actions">
+                    <button class="opt-run-btn" id="btn-run-optimize" onclick="runOptimization()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06"></path>
+                        </svg>
+                        开始阈值优化
+                    </button>
+                    <button class="opt-wf-btn" id="btn-run-walkforward" onclick="runWalkForward()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                            <line x1="9" y1="20" x2="15" y2="20"></line>
+                            <line x1="12" y1="4" x2="12" y2="20"></line>
+                        </svg>
+                        Walk-Forward 验证
+                    </button>
+                </div>
+            </div>
+
+            <!-- Walk-Forward 额外参数（展开/收起） -->
+            <div class="wf-extra-config hidden" id="wf-extra-config">
+                <div class="wf-extra-grid">
+                    <div class="opt-param">
+                        <label>折数 (K-Fold)</label>
+                        <input type="number" id="wf-n-folds" value="3" min="2" max="10">
+                    </div>
+                    <div class="opt-param">
+                        <label>训练窗口 (月)</label>
+                        <input type="number" id="wf-train-window" value="48" min="12" max="120">
+                    </div>
+                    <div class="opt-param">
+                        <label>测试窗口 (月) 🧪</label>
+                        <input type="number" id="wf-test-window" value="36" min="12" max="60">
+                    </div>
+                    <div class="opt-param">
+                        <label>每折最大试验</label>
+                        <input type="number" id="wf-max-trials-fold" value="100" min="5" max="500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 优化进度 -->
+            <div id="opt-progress" class="opt-progress hidden">
+                <div class="opt-progress-header">
+                    <span class="opt-progress-title" id="opt-progress-title">优化进行中...</span>
+                    <span class="opt-progress-phase" id="opt-progress-phase"></span>
+                </div>
+                <div class="opt-progress-bar-wrap">
+                    <div class="opt-progress-bar" id="opt-progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="opt-progress-text" id="opt-progress-text">准备中...</div>
+                <div class="opt-trial-counter" id="opt-trial-counter"></div>
+            </div>
+
+            <!-- 优化结果区 -->
+            <div id="opt-results" class="hidden">
+
+                <!-- Baseline vs Best 对比卡 -->
+                <div class="opt-compare-cards" id="opt-compare-cards"></div>
+
+                <!-- 最优参数表 -->
+                <div class="opt-best-params-section" id="opt-best-params-section"></div>
+
+                <!-- 试验排行表 -->
+                <div class="opt-trials-section" id="opt-trials-section"></div>
+
+                <!-- 应用按钮 -->
+                <div class="opt-apply-section" id="opt-apply-section"></div>
+            </div>
+
+            <!-- Walk-Forward 结果区 -->
+            <div id="wf-results" class="hidden">
+
+                <!-- 汇总指标 -->
+                <div class="wf-summary-cards" id="wf-summary-cards"></div>
+
+                <!-- 各折结果 -->
+                <div class="wf-folds-section" id="wf-folds-section"></div>
+
+                <!-- 共识参数 -->
+                <div class="wf-consensus-section" id="wf-consensus-section"></div>
+
+                <!-- 应用按钮 -->
+                <div class="wf-apply-section" id="wf-apply-section"></div>
+            </div>
+
         </section>
 
     </main>

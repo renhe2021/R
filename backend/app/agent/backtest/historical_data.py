@@ -65,6 +65,13 @@ def _get_latest_col_before(df: pd.DataFrame, cutoff: date) -> Optional[pd.Timest
     return max(valid) if valid else None
 
 
+def _get_earliest_col(df: pd.DataFrame) -> Optional[pd.Timestamp]:
+    """Return the earliest column date in *df* (fallback for pre-data snapshots)."""
+    if df is None or df.empty:
+        return None
+    return min(df.columns)
+
+
 def _iloc_safe(df: pd.DataFrame, row_label: str, col) -> Optional[float]:
     """Safely extract a cell from a DataFrame with row-label index."""
     if df is None or df.empty:
@@ -165,11 +172,312 @@ def _price_on_date(symbol: str, target: date, tolerance_days: int = 5) -> Option
 
 
 # ═══════════════════════════════════════════════════════════════
+#  Piotroski F-Score (9 binary criteria)
+# ═══════════════════════════════════════════════════════════════
+
+def _compute_f_score(
+    inc: pd.DataFrame,
+    bs: pd.DataFrame,
+    cf: pd.DataFrame,
+    inc_col: pd.Timestamp,
+    bs_col: pd.Timestamp,
+    cf_col: pd.Timestamp,
+    as_of: date,
+) -> Optional[int]:
+    """Compute Piotroski F-Score (0-9) from quarterly financial statements.
+
+    Uses current and year-ago data for YoY comparisons.
+    Returns None if insufficient data.
+    """
+    if inc_col is None and bs_col is None:
+        return None
+
+    score = 0
+
+    # --- Helpers: get TTM sums for a given set of columns ---
+    def _ttm_sum(df, cols, *labels):
+        return sum(_try_rows(df, c, *labels) or 0 for c in cols)
+
+    # Current and prior year columns (TTM approximation)
+    inc_cols = sorted([c for c in inc.columns if c <= pd.Timestamp(as_of)], reverse=True) if not inc.empty else []
+    bs_cols = sorted([c for c in bs.columns if c <= pd.Timestamp(as_of)], reverse=True) if not bs.empty else []
+    cf_cols = sorted([c for c in cf.columns if c <= pd.Timestamp(as_of)], reverse=True) if not cf.empty else []
+
+    cur_inc = inc_cols[:4]
+    prev_inc = inc_cols[4:8]
+    cur_bs = bs_cols[0] if bs_cols else None
+    prev_bs = bs_cols[4] if len(bs_cols) > 4 else None
+    cur_cf = cf_cols[:4]
+
+    # 1. ROA positive (net income TTM > 0)
+    if len(cur_inc) >= 2:
+        ni_ttm = _ttm_sum(inc, cur_inc, "Net Income", "Net Income Common Stockholders")
+        if ni_ttm > 0:
+            score += 1
+
+    # 2. Operating Cash Flow positive
+    if len(cur_cf) >= 2:
+        ocf_ttm = _ttm_sum(cf, cur_cf, "Operating Cash Flow", "Cash Flow From Continuing Operating Activities")
+        if ocf_ttm > 0:
+            score += 1
+
+    # 3. ROA increasing (current vs prior year)
+    if len(cur_inc) >= 2 and len(prev_inc) >= 2:
+        ni_cur = _ttm_sum(inc, cur_inc, "Net Income", "Net Income Common Stockholders")
+        ni_prev = _ttm_sum(inc, prev_inc, "Net Income", "Net Income Common Stockholders")
+        ta_cur = _try_rows(bs, cur_bs, "Total Assets") if cur_bs else None
+        ta_prev = _try_rows(bs, prev_bs, "Total Assets") if prev_bs else None
+        if ta_cur and ta_cur > 0 and ta_prev and ta_prev > 0:
+            roa_cur = ni_cur / ta_cur
+            roa_prev = ni_prev / ta_prev
+            if roa_cur > roa_prev:
+                score += 1
+
+    # 4. Cash flow > Net Income (accrual quality)
+    if len(cur_inc) >= 2 and len(cur_cf) >= 2:
+        ni_ttm = _ttm_sum(inc, cur_inc, "Net Income", "Net Income Common Stockholders")
+        ocf_ttm = _ttm_sum(cf, cur_cf, "Operating Cash Flow", "Cash Flow From Continuing Operating Activities")
+        if ocf_ttm > ni_ttm:
+            score += 1
+
+    # 5. Leverage decreasing (long-term debt / total assets)
+    if cur_bs and prev_bs:
+        debt_cur = _try_rows(bs, cur_bs, "Total Debt", "Long Term Debt") or 0
+        debt_prev = _try_rows(bs, prev_bs, "Total Debt", "Long Term Debt") or 0
+        ta_cur = _try_rows(bs, cur_bs, "Total Assets") or 1
+        ta_prev = _try_rows(bs, prev_bs, "Total Assets") or 1
+        if ta_cur > 0 and ta_prev > 0:
+            if (debt_cur / ta_cur) <= (debt_prev / ta_prev):
+                score += 1
+
+    # 6. Current ratio increasing
+    if cur_bs and prev_bs:
+        ca_cur = _try_rows(bs, cur_bs, "Current Assets", "Total Current Assets") or 0
+        cl_cur = _try_rows(bs, cur_bs, "Current Liabilities", "Total Current Liabilities") or 1
+        ca_prev = _try_rows(bs, prev_bs, "Current Assets", "Total Current Assets") or 0
+        cl_prev = _try_rows(bs, prev_bs, "Current Liabilities", "Total Current Liabilities") or 1
+        cr_cur = ca_cur / cl_cur if cl_cur > 0 else 0
+        cr_prev = ca_prev / cl_prev if cl_prev > 0 else 0
+        if cr_cur > cr_prev:
+            score += 1
+
+    # 7. No new shares issued (shares outstanding not increased)
+    if cur_bs and prev_bs:
+        shares_cur = _try_rows(bs, cur_bs, "Ordinary Shares Number", "Share Issued")
+        shares_prev = _try_rows(bs, prev_bs, "Ordinary Shares Number", "Share Issued")
+        if shares_cur and shares_prev and shares_cur <= shares_prev:
+            score += 1
+
+    # 8. Gross margin increasing
+    if len(cur_inc) >= 2 and len(prev_inc) >= 2:
+        rev_cur = _ttm_sum(inc, cur_inc, "Total Revenue", "Revenue")
+        cogs_cur = _ttm_sum(inc, cur_inc, "Cost Of Revenue")
+        rev_prev = _ttm_sum(inc, prev_inc, "Total Revenue", "Revenue")
+        cogs_prev = _ttm_sum(inc, prev_inc, "Cost Of Revenue")
+        if rev_cur > 0 and rev_prev > 0:
+            gm_cur = (rev_cur - cogs_cur) / rev_cur
+            gm_prev = (rev_prev - cogs_prev) / rev_prev
+            if gm_cur > gm_prev:
+                score += 1
+
+    # 9. Asset turnover increasing
+    if len(cur_inc) >= 2 and len(prev_inc) >= 2:
+        rev_cur = _ttm_sum(inc, cur_inc, "Total Revenue", "Revenue")
+        rev_prev = _ttm_sum(inc, prev_inc, "Total Revenue", "Revenue")
+        ta_cur = _try_rows(bs, cur_bs, "Total Assets") if cur_bs else None
+        ta_prev = _try_rows(bs, prev_bs, "Total Assets") if prev_bs else None
+        if ta_cur and ta_cur > 0 and ta_prev and ta_prev > 0:
+            at_cur = rev_cur / ta_cur
+            at_prev = rev_prev / ta_prev
+            if at_cur > at_prev:
+                score += 1
+
+    return score
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Altman Z-Score (5-factor model for manufacturing firms)
+# ═══════════════════════════════════════════════════════════════
+
+def _compute_z_score(
+    inc: pd.DataFrame,
+    bs: pd.DataFrame,
+    inc_cols_before: list,
+    bs_col: pd.Timestamp,
+    market_cap: Optional[float],
+) -> Optional[float]:
+    """Compute Altman Z-Score from quarterly financial data.
+
+    Z = 1.2*X1 + 1.4*X2 + 3.3*X3 + 0.6*X4 + 1.0*X5
+    Where:
+      X1 = Working Capital / Total Assets
+      X2 = Retained Earnings / Total Assets
+      X3 = EBIT / Total Assets
+      X4 = Market Cap / Total Liabilities
+      X5 = Revenue / Total Assets
+
+    Returns None if insufficient data.
+    """
+    if bs_col is None:
+        return None
+
+    ta = _try_rows(bs, bs_col, "Total Assets")
+    if not ta or ta <= 0:
+        return None
+
+    ca = _try_rows(bs, bs_col, "Current Assets", "Total Current Assets") or 0
+    cl = _try_rows(bs, bs_col, "Current Liabilities", "Total Current Liabilities") or 0
+    tl = _try_rows(bs, bs_col, "Total Liabilities Net Minority Interest", "Total Liabilities") or 0
+    re = _try_rows(bs, bs_col, "Retained Earnings") or 0
+
+    # TTM EBIT and Revenue
+    ebit_ttm = 0
+    rev_ttm = 0
+    if inc_cols_before and len(inc_cols_before) >= 2:
+        ebit_ttm = sum(_try_rows(inc, c, "EBIT", "Operating Income") or 0 for c in inc_cols_before[:4])
+        rev_ttm = sum(_try_rows(inc, c, "Total Revenue", "Revenue") or 0 for c in inc_cols_before[:4])
+
+    x1 = (ca - cl) / ta
+    x2 = re / ta
+    x3 = ebit_ttm / ta
+    x4 = (market_cap / tl) if (market_cap and tl > 0) else 0
+    x5 = rev_ttm / ta
+
+    z = 1.2 * x1 + 1.4 * x2 + 3.3 * x3 + 0.6 * x4 + 1.0 * x5
+    return round(z, 2)
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Beneish M-Score (8-variable model for earnings manipulation)
+# ═══════════════════════════════════════════════════════════════
+
+def _compute_m_score(
+    inc: pd.DataFrame,
+    bs: pd.DataFrame,
+    cf: pd.DataFrame,
+    inc_cols_before: list,
+    bs_col: pd.Timestamp,
+    as_of: date,
+) -> Optional[float]:
+    """Compute Beneish M-Score from quarterly financial data.
+
+    M = -4.84 + 0.920*DSRI + 0.528*GMI + 0.404*AQI + 0.892*SGI
+        + 0.115*DEPI - 0.172*SGAI + 4.679*TATA - 0.327*LVGI
+
+    Requires current and year-ago data. Returns None if insufficient.
+    A score > -1.78 suggests earnings manipulation.
+    """
+    if not inc_cols_before or len(inc_cols_before) < 8:
+        return None  # need at least 2 years of quarterly data
+
+    bs_cols = sorted([c for c in bs.columns if c <= pd.Timestamp(as_of)], reverse=True) if not bs.empty else []
+    if len(bs_cols) < 5:
+        return None
+
+    cur_bs = bs_cols[0]
+    prev_bs = bs_cols[4] if len(bs_cols) > 4 else None
+    if prev_bs is None:
+        return None
+
+    cur_inc = inc_cols_before[:4]
+    prev_inc = inc_cols_before[4:8]
+
+    def _ttm(df, cols, *labels):
+        return sum(_try_rows(df, c, *labels) or 0 for c in cols)
+
+    # Current year
+    rev_cur = _ttm(inc, cur_inc, "Total Revenue", "Revenue")
+    cogs_cur = _ttm(inc, cur_inc, "Cost Of Revenue")
+    ni_cur = _ttm(inc, cur_inc, "Net Income", "Net Income Common Stockholders")
+    sga_cur = _ttm(inc, cur_inc, "Selling General And Administration", "General And Administrative Expense")
+    dep_cur = _ttm(inc, cur_inc, "Depreciation And Amortization In Income Statement",
+                    "Reconciled Depreciation", "Depreciation")
+
+    # Prior year
+    rev_prev = _ttm(inc, prev_inc, "Total Revenue", "Revenue")
+    cogs_prev = _ttm(inc, prev_inc, "Cost Of Revenue")
+    sga_prev = _ttm(inc, prev_inc, "Selling General And Administration", "General And Administrative Expense")
+    dep_prev = _ttm(inc, prev_inc, "Depreciation And Amortization In Income Statement",
+                     "Reconciled Depreciation", "Depreciation")
+
+    # Balance sheet
+    recv_cur = _try_rows(bs, cur_bs, "Net Receivable", "Accounts Receivable") or 0
+    recv_prev = _try_rows(bs, prev_bs, "Net Receivable", "Accounts Receivable") or 0
+    ta_cur = _try_rows(bs, cur_bs, "Total Assets") or 0
+    ta_prev = _try_rows(bs, prev_bs, "Total Assets") or 0
+    ca_cur = _try_rows(bs, cur_bs, "Current Assets", "Total Current Assets") or 0
+    ppe_cur = _try_rows(bs, cur_bs, "Net PPE", "Gross PPE") or 0
+    ca_prev = _try_rows(bs, prev_bs, "Current Assets", "Total Current Assets") or 0
+    ppe_prev = _try_rows(bs, prev_bs, "Net PPE", "Gross PPE") or 0
+    cl_cur = _try_rows(bs, cur_bs, "Current Liabilities", "Total Current Liabilities") or 0
+    tl_cur = _try_rows(bs, cur_bs, "Total Liabilities Net Minority Interest", "Total Liabilities") or 0
+    cl_prev = _try_rows(bs, prev_bs, "Current Liabilities", "Total Current Liabilities") or 0
+    tl_prev = _try_rows(bs, prev_bs, "Total Liabilities Net Minority Interest", "Total Liabilities") or 0
+
+    # Cash flow for TATA
+    cf_cols = sorted([c for c in cf.columns if c <= pd.Timestamp(as_of)], reverse=True) if not cf.empty else []
+    ocf_ttm = sum(_try_rows(cf, c, "Operating Cash Flow", "Cash Flow From Continuing Operating Activities") or 0
+                  for c in cf_cols[:4]) if len(cf_cols) >= 2 else 0
+
+    # Guard divisions
+    if rev_prev <= 0 or rev_cur <= 0 or ta_cur <= 0 or ta_prev <= 0:
+        return None
+
+    gm_cur = (rev_cur - cogs_cur) / rev_cur
+    gm_prev = (rev_prev - cogs_prev) / rev_prev
+
+    # 1. DSRI — Days Sales in Receivables Index
+    dsri = ((recv_cur / rev_cur) / (recv_prev / rev_prev)) if recv_prev > 0 and rev_prev > 0 else 1.0
+
+    # 2. GMI — Gross Margin Index
+    gmi = (gm_prev / gm_cur) if gm_cur != 0 else 1.0
+
+    # 3. AQI — Asset Quality Index (non-current, non-PPE assets / TA)
+    aq_cur = 1 - ((ca_cur + ppe_cur) / ta_cur) if ta_cur > 0 else 0
+    aq_prev = 1 - ((ca_prev + ppe_prev) / ta_prev) if ta_prev > 0 else 0
+    aqi = (aq_cur / aq_prev) if aq_prev != 0 else 1.0
+
+    # 4. SGI — Sales Growth Index
+    sgi = rev_cur / rev_prev
+
+    # 5. DEPI — Depreciation Index
+    dep_rate_cur = dep_cur / (dep_cur + ppe_cur) if (dep_cur + ppe_cur) > 0 else 0
+    dep_rate_prev = dep_prev / (dep_prev + ppe_prev) if (dep_prev + ppe_prev) > 0 else 0
+    depi = (dep_rate_prev / dep_rate_cur) if dep_rate_cur != 0 else 1.0
+
+    # 6. SGAI — SGA Expense Index
+    sga_rate_cur = sga_cur / rev_cur if rev_cur > 0 else 0
+    sga_rate_prev = sga_prev / rev_prev if rev_prev > 0 else 0
+    sgai = (sga_rate_cur / sga_rate_prev) if sga_rate_prev != 0 else 1.0
+
+    # 7. TATA — Total Accruals to Total Assets
+    tata = (ni_cur - ocf_ttm) / ta_cur if ta_cur > 0 else 0
+
+    # 8. LVGI — Leverage Index
+    lev_cur = tl_cur / ta_cur if ta_cur > 0 else 0
+    lev_prev = tl_prev / ta_prev if ta_prev > 0 else 0
+    lvgi = (lev_cur / lev_prev) if lev_prev != 0 else 1.0
+
+    m = (-4.84 + 0.920 * dsri + 0.528 * gmi + 0.404 * aqi + 0.892 * sgi
+         + 0.115 * depi - 0.172 * sgai + 4.679 * tata - 0.327 * lvgi)
+
+    return round(m, 2)
+
+
+# ═══════════════════════════════════════════════════════════════
 #  Snapshot builder
 # ═══════════════════════════════════════════════════════════════
 
 def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[HistoricalSnapshot]:
-    """Build a HistoricalSnapshot from raw quarterly data, using only data known as of *as_of*."""
+    """Build a HistoricalSnapshot from raw quarterly data, using only data known as of *as_of*.
+
+    For dates that precede all available quarterly data (e.g. requesting a snapshot
+    from 8 years ago when only 5 years of financials exist), the function falls back
+    to the EARLIEST available financial column while still using the as_of-date price.
+    This lets us run long-horizon backtests (10 yr+) even with limited financial history
+    — the fundamentals for the earliest periods will be approximate but the price-driven
+    P&L is accurate.
+    """
     inc: pd.DataFrame = raw.get("income", pd.DataFrame())
     bs: pd.DataFrame = raw.get("balance", pd.DataFrame())
     cf: pd.DataFrame = raw.get("cashflow", pd.DataFrame())
@@ -179,8 +487,16 @@ def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[Hi
     bs_col = _get_latest_col_before(bs, as_of)
     cf_col = _get_latest_col_before(cf, as_of)
 
+    # ── Fallback: if as_of is before all financial data, use earliest available ──
+    _used_fallback = False
     if inc_col is None and bs_col is None:
-        return None  # no usable financial data
+        # Try earliest financial column as fallback (for long-lookback scenarios)
+        inc_col = _get_earliest_col(inc)
+        bs_col = _get_earliest_col(bs)
+        cf_col = _get_earliest_col(cf)
+        if inc_col is None and bs_col is None:
+            return None  # truly no usable financial data
+        _used_fallback = True
 
     # ── Price ──
     price = _price_on_date(symbol, as_of) or _safe_float(info.get("currentPrice"))
@@ -194,14 +510,31 @@ def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[Hi
     eps_val = _try_rows(inc, inc_col, "Basic EPS", "Diluted EPS") if inc_col else None
     interest_expense = _try_rows(inc, inc_col, "Interest Expense", "Interest Expense Non Operating") if inc_col else None
 
-    # Annualise quarterly data (sum last 4 quarters)
+    # Annualise quarterly data (TTM — sum last 4 quarters, with safety valve)
+    _data_quality = "normal"
+    _ttm_quarters = 0
     if inc_col is not None and not inc.empty:
         cols_before = sorted([c for c in inc.columns if c <= pd.Timestamp(as_of)], reverse=True)[:4]
-        if len(cols_before) >= 2:
-            revenue_ttm = _safe_float(sum(_try_rows(inc, c, "Total Revenue", "Revenue") or 0 for c in cols_before))
-            net_income_ttm = _safe_float(sum(_try_rows(inc, c, "Net Income", "Net Income Common Stockholders") or 0 for c in cols_before))
-            ebit_ttm = _safe_float(sum(_try_rows(inc, c, "EBIT", "Operating Income") or 0 for c in cols_before))
-            eps_ttm = _safe_float(sum(_try_rows(inc, c, "Basic EPS", "Diluted EPS") or 0 for c in cols_before))
+        _ttm_quarters = len(cols_before)
+        if _ttm_quarters >= 2:
+            revenue_raw = sum(_try_rows(inc, c, "Total Revenue", "Revenue") or 0 for c in cols_before)
+            ni_raw = sum(_try_rows(inc, c, "Net Income", "Net Income Common Stockholders") or 0 for c in cols_before)
+            ebit_raw = sum(_try_rows(inc, c, "EBIT", "Operating Income") or 0 for c in cols_before)
+            eps_raw = sum(_try_rows(inc, c, "Basic EPS", "Diluted EPS") or 0 for c in cols_before)
+
+            # TTM safety valve: if < 4 quarters, annualise by scaling up
+            if _ttm_quarters < 4:
+                scale = 4.0 / _ttm_quarters
+                revenue_raw *= scale
+                ni_raw *= scale
+                ebit_raw *= scale
+                eps_raw *= scale
+                _data_quality = "low"
+
+            revenue_ttm = _safe_float(revenue_raw)
+            net_income_ttm = _safe_float(ni_raw)
+            ebit_ttm = _safe_float(ebit_raw)
+            eps_ttm = _safe_float(eps_raw)
             if revenue_ttm and revenue_ttm > 0:
                 revenue = revenue_ttm
             if net_income_ttm:
@@ -228,15 +561,23 @@ def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[Hi
     ocf = _try_rows(cf, cf_col, "Operating Cash Flow", "Cash Flow From Continuing Operating Activities") if cf_col else None
     capex = _try_rows(cf, cf_col, "Capital Expenditure") if cf_col else None
 
-    # Annualise cash flow (TTM — sum last 4 quarters)
+    # Annualise cash flow (TTM — sum last 4 quarters, with safety valve)
     if cf_col is not None and cf is not None and not cf.empty:
         cf_cols_before = sorted([c for c in cf.columns if c <= pd.Timestamp(as_of)], reverse=True)[:4]
-        if len(cf_cols_before) >= 2:
-            fcf_ttm = _safe_float(sum(_try_rows(cf, c, "Free Cash Flow") or 0 for c in cf_cols_before))
-            ocf_ttm = _safe_float(sum(
+        cf_q_count = len(cf_cols_before)
+        if cf_q_count >= 2:
+            fcf_raw = sum(_try_rows(cf, c, "Free Cash Flow") or 0 for c in cf_cols_before)
+            ocf_raw = sum(
                 _try_rows(cf, c, "Operating Cash Flow", "Cash Flow From Continuing Operating Activities") or 0
                 for c in cf_cols_before
-            ))
+            )
+            # Scale up if fewer than 4 quarters
+            if cf_q_count < 4:
+                cf_scale = 4.0 / cf_q_count
+                fcf_raw *= cf_scale
+                ocf_raw *= cf_scale
+            fcf_ttm = _safe_float(fcf_raw)
+            ocf_ttm = _safe_float(ocf_raw)
             if fcf_ttm:
                 fcf = fcf_ttm
             if ocf_ttm:
@@ -374,10 +715,13 @@ def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[Hi
     # avg_eps_3y, avg_eps_10y: average EPS over past 3/10 years (from quarterly data)
     # max_eps_decline: maximum year-over-year EPS decline seen in history
     # profitable_years: number of years with positive net income
+    # earnings_growth_10y: CAGR of EPS over all available years
     avg_eps_3y = None
     avg_eps_10y = None
     max_eps_decline = None
     profitable_years_val = None
+    earnings_growth_10y = None
+    available_years_val = None
 
     if inc_col is not None and not inc.empty:
         cols_sorted = sorted([c for c in inc.columns if c <= pd.Timestamp(as_of)], reverse=True)
@@ -386,11 +730,16 @@ def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[Hi
         for i in range(0, len(cols_sorted), 4):
             chunk = cols_sorted[i:i + 4]
             if len(chunk) >= 2:  # at least 2 quarters for reasonable annual estimate
-                annual_eps = sum(
+                # Scale up if partial year
+                raw_eps = sum(
                     _try_rows(inc, c, "Basic EPS", "Diluted EPS") or 0
                     for c in chunk
                 )
-                annual_eps_list.append(annual_eps)
+                if len(chunk) < 4:
+                    raw_eps = raw_eps * (4.0 / len(chunk))
+                annual_eps_list.append(raw_eps)
+
+        available_years_val = len(annual_eps_list)
 
         if len(annual_eps_list) >= 1:
             avg_eps_3y = sum(annual_eps_list[:3]) / min(len(annual_eps_list), 3)
@@ -413,6 +762,25 @@ def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[Hi
         # profitable_years: count years with positive annual EPS
         profitable_years_val = sum(1 for e in annual_eps_list if e > 0)
 
+        # earnings_growth_10y: CAGR using first and last available annual EPS
+        if len(annual_eps_list) >= 2:
+            newest_eps = annual_eps_list[0]
+            oldest_eps = annual_eps_list[-1]
+            n_years = len(annual_eps_list) - 1
+            if oldest_eps > 0 and newest_eps > 0 and n_years > 0:
+                earnings_growth_10y = (newest_eps / oldest_eps) ** (1.0 / n_years) - 1.0
+
+    # ── F-Score / Z-Score / M-Score ──
+    # Compute using dedicated helper functions from quarterly data
+    inc_cols_all = sorted([c for c in inc.columns if c <= pd.Timestamp(as_of)], reverse=True) if not inc.empty else []
+    f_score_val = _compute_f_score(inc, bs, cf, inc_col, bs_col, cf_col, as_of)
+    z_score_val = _compute_z_score(inc, bs, inc_cols_all, bs_col, market_cap)
+    m_score_val = _compute_m_score(inc, bs, cf, inc_cols_all, bs_col, as_of)
+
+    # Mark data_quality as extrapolated if we used fallback
+    if _used_fallback:
+        _data_quality = "extrapolated"
+
     snap = HistoricalSnapshot(
         symbol=symbol,
         as_of_date=as_of,
@@ -431,8 +799,14 @@ def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[Hi
         eps=eps_val,
         eps_growth=eps_growth,
         revenue_growth=revenue_growth,
+        earnings_growth_10y=earnings_growth_10y,
         peg=peg,
         earnings_yield=earnings_yield,
+        f_score=f_score_val,
+        z_score=z_score_val,
+        m_score=m_score_val,
+        data_quality=_data_quality,
+        available_years=available_years_val,
         price_vs_52w_high=price_vs_52w_high,
         total_assets=total_assets,
         total_liabilities=total_liabilities,
@@ -494,6 +868,13 @@ class HistoricalDataFetcher:
         self._semaphore = asyncio.Semaphore(max_concurrent)
         self._rebalance_dates: List[date] = []
 
+        if lookback_years > 5:
+            logger.info(
+                f"[PIT-Data] Long lookback: {lookback_years:.1f} years. "
+                f"Note: yfinance quarterly financials cover ~4-5 years. "
+                f"Snapshots beyond that will use earliest available data + price history."
+            )
+
     def compute_rebalance_dates(self) -> List[date]:
         """Generate rebalance dates going back *lookback_years* from today."""
         today = date.today()
@@ -514,6 +895,10 @@ class HistoricalDataFetcher:
         """Fetch all snapshots for all symbols at all rebalance dates.
 
         Returns {symbol: {date: HistoricalSnapshot}}.
+
+        Post-processing:
+        - Extracts benchmark PE (market_pe) from SPY snapshots
+        - Injects market_pe into all stock snapshots for Quantitative rules
         """
         if not self._rebalance_dates:
             self.compute_rebalance_dates()
@@ -538,6 +923,20 @@ class HistoricalDataFetcher:
                     total=total,
                     symbol=sym,
                 )
+
+        # ── Post-processing: inject market_pe from benchmark ──
+        bench_snaps = result.get(self.benchmark, {})
+        if bench_snaps:
+            for rd, bench_snap in bench_snaps.items():
+                bench_pe = bench_snap.pe
+                if bench_pe and bench_pe > 0:
+                    # Inject market_pe into all non-benchmark stocks at this date
+                    for sym, sym_snaps in result.items():
+                        if sym == self.benchmark:
+                            continue
+                        snap = sym_snaps.get(rd)
+                        if snap:
+                            snap.market_pe = bench_pe
 
         return result
 

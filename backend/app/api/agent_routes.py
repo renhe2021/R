@@ -723,6 +723,327 @@ async def compare_backtests(
         db.close()
 
 
+# ═══════════════════════════════════════════════════════════════
+#  Threshold Optimization API
+# ═══════════════════════════════════════════════════════════════
+
+
+class OptimizeRequest(BaseModel):
+    """Request body for launching threshold optimisation.
+
+    Time-split model: lookback_years = train + test.
+    Default: 10 years total → 7 years train + 3 years test.
+    The test period is used to validate the entire stock-picking logic
+    with the thresholds found during training.
+    """
+    stocks: list[str] = Field(default_factory=list, max_length=100)
+    universe: Optional[str] = None
+    paramKeys: List[str] = Field(
+        default_factory=list,
+        description="Parameter keys to optimise (e.g. ['screener.pe_max', 'school_weight.buffett']). "
+                    "Empty = use default optimisable set (~12 key parameters).",
+    )
+    searchMethod: str = Field(default="grid", description="'grid' | 'random'")
+    maxTrials: int = Field(default=200, ge=5, le=2000)
+    holdingMonths: int = Field(default=6, ge=1, le=24)
+    lookbackYears: float = Field(
+        default=10.0, ge=3.0, le=20.0,
+        description="Total data period (years). Default 10. Need long history for meaningful train/test.",
+    )
+    testYears: float = Field(
+        default=3.0, ge=2.0, le=10.0,
+        description="Fixed test period at the END of the data (years). Must be ≥ 3. "
+                    "Remaining (lookback - test) years form the training set for Grid Search.",
+    )
+    strategy: str = Field(default="balanced")
+    benchmark: str = Field(default="SPY")
+    initialCapital: float = Field(default=1_000_000, ge=10_000, le=100_000_000)
+    maxHoldings: int = Field(default=15, ge=3, le=50)
+    trainRatio: float = Field(
+        default=0.70, ge=0.5, le=0.9,
+        description="Fallback train ratio (only used when testYears=0).",
+    )
+    targetSharpe: float = Field(default=1.0, ge=0.0, le=5.0)
+    seed: int = Field(default=42)
+
+
+@router.post("/backtest/optimize")
+async def run_optimization(req: OptimizeRequest):
+    """Launch automated threshold optimisation (SSE stream).
+
+    Uses Train/Test temporal split to find the best parameter combination
+    that maximises Sharpe Ratio on in-sample data and validates on
+    out-of-sample data.
+
+    Returns real-time progress events:
+      - optimize_start / optimize_phase / optimize_trial / optimize_complete / optimize_error
+
+    Target: Sharpe Ratio ≥ 1.0 on the test set.
+    """
+    from app.agent.backtest.threshold_optimizer import (
+        ThresholdOptimizer,
+        OptimizationConfig,
+    )
+
+    # Resolve symbols
+    stocks = [s.upper().strip() for s in req.stocks if s.strip()]
+    if not stocks and req.universe:
+        from app.agent.unified_pipeline import PRESET_UNIVERSES
+        stocks = PRESET_UNIVERSES.get(req.universe, [])
+
+    if not stocks:
+        raise HTTPException(status_code=422, detail="Provide stocks or a universe name")
+
+    config = OptimizationConfig(
+        symbols=stocks,
+        param_keys=req.paramKeys,
+        search_method=req.searchMethod,
+        max_trials=req.maxTrials,
+        holding_months=req.holdingMonths,
+        lookback_years=req.lookbackYears,
+        strategy=req.strategy,
+        benchmark=req.benchmark,
+        initial_capital=req.initialCapital,
+        max_holdings=req.maxHoldings,
+        test_years=req.testYears,
+        train_ratio=req.trainRatio,
+        target_sharpe=req.targetSharpe,
+        seed=req.seed,
+    )
+
+    optimizer = ThresholdOptimizer(config)
+
+    async def _stream():
+        try:
+            async for event in optimizer.run():
+                if "type" in event and "event" not in event:
+                    event["event"] = event.pop("type")
+                data = json.dumps(event, default=str, ensure_ascii=False)
+                yield f"data: {data}\n\n"
+
+            # Persist result
+            result = optimizer.get_result()
+            if result:
+                _persist_optimization(result)
+
+        except Exception as e:
+            logger.error(f"Optimize SSE error: {e}", exc_info=True)
+            yield f"data: {json.dumps({'event': 'optimize_error', 'message': str(e)[:500]})}\n\n"
+
+    return StreamingResponse(
+        _stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+class WalkForwardRequest(BaseModel):
+    """Request body for launching Walk-Forward validation.
+
+    Walk-Forward uses multiple rolling windows, each with a training
+    period followed by a fixed test period (≥3 years).
+    """
+    stocks: list[str] = Field(default_factory=list, max_length=100)
+    universe: Optional[str] = None
+    paramKeys: List[str] = Field(default_factory=list)
+    nFolds: int = Field(default=3, ge=2, le=10)
+    trainWindowMonths: int = Field(default=48, ge=12, le=120)
+    testWindowMonths: int = Field(default=36, ge=12, le=60)
+    searchMethod: str = Field(default="grid")
+    maxTrialsPerFold: int = Field(default=100, ge=5, le=500)
+    holdingMonths: int = Field(default=6, ge=1, le=24)
+    lookbackYears: float = Field(
+        default=10.0, ge=3.0, le=20.0,
+        description="Total data period. Default 10 years.",
+    )
+    strategy: str = Field(default="balanced")
+    benchmark: str = Field(default="SPY")
+    initialCapital: float = Field(default=1_000_000, ge=10_000, le=100_000_000)
+    maxHoldings: int = Field(default=15, ge=3, le=50)
+    targetSharpe: float = Field(default=1.0, ge=0.0, le=5.0)
+    seed: int = Field(default=42)
+
+
+@router.post("/backtest/walk-forward")
+async def run_walk_forward(req: WalkForwardRequest):
+    """Launch Walk-Forward validation (SSE stream).
+
+    Unlike a single Train/Test split, Walk-Forward uses K rolling windows
+    to validate that the optimised parameters work across different market
+    regimes, not just one lucky period.
+
+    Returns real-time progress events:
+      - walkforward_start / walkforward_phase / walkforward_fold_start /
+        walkforward_fold_progress / walkforward_fold_complete / walkforward_complete
+
+    Target: Average out-of-sample Sharpe ≥ 1.0 across all folds.
+    """
+    from app.agent.backtest.walk_forward import (
+        WalkForwardValidator,
+        WalkForwardConfig,
+    )
+
+    # Resolve symbols
+    stocks = [s.upper().strip() for s in req.stocks if s.strip()]
+    if not stocks and req.universe:
+        from app.agent.unified_pipeline import PRESET_UNIVERSES
+        stocks = PRESET_UNIVERSES.get(req.universe, [])
+
+    if not stocks:
+        raise HTTPException(status_code=422, detail="Provide stocks or a universe name")
+
+    config = WalkForwardConfig(
+        symbols=stocks,
+        param_keys=req.paramKeys,
+        n_folds=req.nFolds,
+        train_window_months=req.trainWindowMonths,
+        test_window_months=req.testWindowMonths,
+        search_method=req.searchMethod,
+        max_trials_per_fold=req.maxTrialsPerFold,
+        holding_months=req.holdingMonths,
+        lookback_years=req.lookbackYears,
+        strategy=req.strategy,
+        benchmark=req.benchmark,
+        initial_capital=req.initialCapital,
+        max_holdings=req.maxHoldings,
+        target_sharpe=req.targetSharpe,
+        seed=req.seed,
+    )
+
+    validator = WalkForwardValidator(config)
+
+    async def _stream():
+        try:
+            async for event in validator.run():
+                if "type" in event and "event" not in event:
+                    event["event"] = event.pop("type")
+                data = json.dumps(event, default=str, ensure_ascii=False)
+                yield f"data: {data}\n\n"
+
+            # Persist result
+            result = validator.get_result()
+            if result:
+                _persist_walk_forward(result)
+
+        except Exception as e:
+            logger.error(f"WalkForward SSE error: {e}", exc_info=True)
+            yield f"data: {json.dumps({'event': 'walkforward_error', 'message': str(e)[:500]})}\n\n"
+
+    return StreamingResponse(
+        _stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+class ApplyOptimizedRequest(BaseModel):
+    """Request to apply optimised parameters to the live system."""
+    params: dict = Field(..., description="Optimised parameter dict from optimize/walk-forward result")
+    reason: str = Field(default="Applied from threshold optimizer")
+
+
+@router.post("/backtest/apply-optimized")
+async def apply_optimized_params(req: ApplyOptimizedRequest):
+    """Apply optimised parameters to the live system.
+
+    Convenience endpoint: takes the best_params or consensus_params from
+    an optimisation run and applies them via the parameter override system.
+    """
+    from app.agent.investment_params import params as _P
+
+    if not req.params:
+        raise HTTPException(status_code=422, detail="No parameters provided")
+
+    results = _P.batch_override(req.params, req.reason)
+    succeeded = {k: v for k, v in results.items() if v}
+    failed = {k: v for k, v in results.items() if not v}
+
+    return {
+        "status": "success" if not failed else "partial",
+        "applied": list(succeeded.keys()),
+        "failed": list(failed.keys()),
+        "message": f"已应用 {len(succeeded)} 个优化参数" + (
+            f", {len(failed)} 个失败" if failed else ""
+        ),
+    }
+
+
+def _persist_optimization(result):
+    """Save an OptimizationResult to the database."""
+    from app.database import SessionLocal
+    from app.models.agent import BacktestRun
+
+    db = SessionLocal()
+    try:
+        run = BacktestRun(
+            run_id=f"opt_{result.run_id}",
+            status="completed" if not result.error else "failed",
+            config_json=json.dumps(result.config.to_dict(), default=str),
+            result_json=json.dumps(result.to_dict(), default=str),
+            verdict="OPTIMIZED" if result.target_achieved else "SUBOPTIMAL",
+            total_return=0,
+            annualized_return=0,
+            alpha=0,
+            sharpe_ratio=result.best_test_sharpe,
+            max_drawdown=0,
+            win_rate=0,
+            duration_seconds=result.duration_seconds,
+            symbols_csv=",".join(result.config.symbols),
+            strategy=result.config.strategy,
+            error=result.error,
+        )
+        db.add(run)
+        db.commit()
+        logger.info(f"[Optimizer] Persisted run opt_{result.run_id}")
+    except Exception as e:
+        db.rollback()
+        logger.error(f"[Optimizer] Failed to persist: {e}")
+    finally:
+        db.close()
+
+
+def _persist_walk_forward(result):
+    """Save a WalkForwardResult to the database."""
+    from app.database import SessionLocal
+    from app.models.agent import BacktestRun
+
+    db = SessionLocal()
+    try:
+        run = BacktestRun(
+            run_id=f"wf_{result.run_id}",
+            status="completed" if not result.error else "failed",
+            config_json=json.dumps(result.config.to_dict(), default=str),
+            result_json=json.dumps(result.to_dict(), default=str),
+            verdict="WF_VALIDATED" if result.target_achieved else "WF_SUBOPTIMAL",
+            total_return=0,
+            annualized_return=0,
+            alpha=0,
+            sharpe_ratio=result.avg_oos_sharpe,
+            max_drawdown=0,
+            win_rate=0,
+            duration_seconds=result.duration_seconds,
+            symbols_csv=",".join(result.config.symbols),
+            strategy=result.config.strategy,
+            error=result.error,
+        )
+        db.add(run)
+        db.commit()
+        logger.info(f"[WalkForward] Persisted run wf_{result.run_id}")
+    except Exception as e:
+        db.rollback()
+        logger.error(f"[WalkForward] Failed to persist: {e}")
+    finally:
+        db.close()
+
+
 def _persist_backtest(result):
     """Save a PITBacktestResult to the database."""
     from app.database import SessionLocal

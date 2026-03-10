@@ -84,6 +84,10 @@ class HistoricalSnapshot:
     f_score: Optional[int] = None
     z_score: Optional[float] = None
     m_score: Optional[float] = None
+    forward_pe: Optional[float] = None
+    market_pe: Optional[float] = None
+    data_quality: str = "normal"          # "normal" | "low" | "extrapolated"
+    available_years: Optional[int] = None  # how many years of data are available
     price_vs_52w_high: Optional[float] = None
     # raw balance-sheet fields for valuation models
     total_assets: Optional[float] = None
@@ -135,6 +139,8 @@ class HistoricalSnapshot:
         """
         d = asdict(self)
         d.pop("as_of_date", None)
+        d.pop("data_quality", None)       # metadata, not used in rule eval
+        # Note: available_years is kept — used by _adaptive_degrade() in screener
 
         # field name mappings: snapshot name → distilled_rules name
         _RENAMES = {

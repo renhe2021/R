@@ -3149,3 +3149,541 @@ async function viewBacktestDetail(runId) {
         }
     } catch (e) { /* ignore */ }
 }
+
+// ═══════════════════════════════════════════════════════════════
+//   阈值优化 & Walk-Forward 验证
+// ═══════════════════════════════════════════════════════════════
+
+// --- Optimisation preset buttons ---
+document.querySelectorAll('.opt-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const preset = btn.dataset.optPreset;
+        if (BT_PRESETS[preset]) {
+            document.getElementById('opt-stock-input').value = BT_PRESETS[preset];
+        }
+    });
+});
+
+// --- Parameter tag selection ---
+document.querySelectorAll('.opt-ptag').forEach(tag => {
+    tag.addEventListener('click', () => {
+        tag.classList.toggle('selected');
+    });
+});
+
+// --- Walk-Forward extra config toggle ---
+document.getElementById('btn-run-walkforward').addEventListener('click', () => {
+    // toggle is handled in runWalkForward; we just show the config
+});
+
+// Helper: get selected param keys from tags
+function _getSelectedParamKeys() {
+    const selected = document.querySelectorAll('.opt-ptag.selected');
+    return Array.from(selected).map(t => t.dataset.key);
+}
+
+// Helper: get optimisation stocks (fallback to backtest input)
+function _getOptStocks() {
+    let raw = document.getElementById('opt-stock-input').value.trim();
+    if (!raw) raw = document.getElementById('bt-stock-input').value.trim();
+    if (!raw) return [];
+    return raw.split(/[,\s]+/).map(s => s.trim().toUpperCase()).filter(Boolean);
+}
+
+// Store latest optimisation/walk-forward results for apply
+window._lastOptResult = null;
+window._lastWfResult = null;
+
+// ─── Run Threshold Optimisation ──────────────────────────
+async function runOptimization() {
+    const stocks = _getOptStocks();
+    if (!stocks.length) { alert('请输入股票代码'); return; }
+
+    const paramKeys = _getSelectedParamKeys();
+    const config = {
+        stocks,
+        paramKeys,
+        searchMethod: document.getElementById('opt-search-method').value,
+        maxTrials: parseInt(document.getElementById('opt-max-trials').value),
+        holdingMonths: parseInt(document.getElementById('opt-holding-months').value),
+        lookbackYears: parseFloat(document.getElementById('opt-lookback').value),
+        testYears: parseFloat(document.getElementById('opt-test-years').value),
+        strategy: document.getElementById('opt-strategy').value,
+    };
+
+    // Show progress
+    document.getElementById('opt-progress').classList.remove('hidden');
+    document.getElementById('opt-results').classList.add('hidden');
+    document.getElementById('wf-results').classList.add('hidden');
+    document.getElementById('opt-progress-bar').style.width = '0%';
+    document.getElementById('opt-progress-bar').style.background = '';
+    document.getElementById('opt-progress-text').textContent = '正在启动优化引擎...';
+    document.getElementById('opt-progress-title').textContent = '阈值优化进行中...';
+    document.getElementById('opt-progress-phase').textContent = '';
+    document.getElementById('opt-trial-counter').textContent = '';
+    document.getElementById('btn-run-optimize').disabled = true;
+    document.getElementById('btn-run-walkforward').disabled = true;
+
+    try {
+        const resp = await fetch('/api/v1/agent/backtest/optimize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(config),
+        });
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                try {
+                    const evt = JSON.parse(line.slice(6));
+                    handleOptimizeEvent(evt);
+                } catch (e) { /* skip */ }
+            }
+        }
+    } catch (err) {
+        document.getElementById('opt-progress-text').textContent = `错误: ${err.message}`;
+        document.getElementById('opt-progress-bar').style.width = '100%';
+        document.getElementById('opt-progress-bar').style.background = 'var(--red)';
+    } finally {
+        document.getElementById('btn-run-optimize').disabled = false;
+        document.getElementById('btn-run-walkforward').disabled = false;
+    }
+}
+
+function handleOptimizeEvent(evt) {
+    const event = evt.event || evt.type;
+    const d = evt.data || evt;
+
+    if (event === 'optimize_phase') {
+        document.getElementById('opt-progress-phase').textContent = d.phase || '';
+        document.getElementById('opt-progress-text').textContent = d.message || '';
+    }
+    else if (event === 'optimize_progress') {
+        const pct = d.progress || 0;
+        document.getElementById('opt-progress-bar').style.width = pct + '%';
+        document.getElementById('opt-progress-text').textContent = d.message || '';
+        if (d.trial_num && d.total_trials) {
+            document.getElementById('opt-trial-counter').textContent =
+                `试验 ${d.trial_num} / ${d.total_trials}` +
+                (d.sharpe != null ? `  |  Sharpe: ${d.sharpe.toFixed(3)}` : '') +
+                (d.best_sharpe != null ? `  |  最佳: ${d.best_sharpe.toFixed(3)}` : '');
+        }
+    }
+    else if (event === 'optimize_baseline') {
+        document.getElementById('opt-progress-text').textContent =
+            `基准评估完成 — Sharpe: ${(d.sharpe||0).toFixed(3)}, 年化: ${((d.annualized_return||0)*100).toFixed(1)}%`;
+    }
+    else if (event === 'optimize_complete') {
+        document.getElementById('opt-progress').classList.add('hidden');
+        document.getElementById('opt-results').classList.remove('hidden');
+        window._lastOptResult = d;
+        renderOptimizationResults(d);
+    }
+    else if (event === 'optimize_error') {
+        document.getElementById('opt-progress-text').textContent = '❌ ' + (d.message || '优化失败');
+        document.getElementById('opt-progress-bar').style.width = '100%';
+        document.getElementById('opt-progress-bar').style.background = 'var(--red)';
+    }
+}
+
+function renderOptimizationResults(data) {
+    const baseline = data.baseline || {};
+    const best = data.best_trial || {};
+    const trials = data.trials || [];
+    const bestParams = data.best_params || {};
+
+    // 1. Compare cards
+    const sharpeImprove = (best.sharpe || 0) - (baseline.sharpe || 0);
+    const improveCls = sharpeImprove >= 0 ? 'positive' : 'negative';
+    const improveSign = sharpeImprove >= 0 ? '+' : '';
+
+    document.getElementById('opt-compare-cards').innerHTML = `
+        <div class="opt-compare-card baseline">
+            <div class="opt-card-label baseline">📊 基准 (当前参数)</div>
+            <div class="opt-card-metrics">
+                <div class="opt-card-metric">
+                    <div class="opt-card-metric-value">${(baseline.sharpe||0).toFixed(3)}</div>
+                    <div class="opt-card-metric-label">Sharpe Ratio</div>
+                </div>
+                <div class="opt-card-metric">
+                    <div class="opt-card-metric-value" style="color:${(baseline.annualized_return||0)>=0?'var(--green)':'var(--red)'}">${((baseline.annualized_return||0)*100).toFixed(1)}%</div>
+                    <div class="opt-card-metric-label">年化收益</div>
+                </div>
+                <div class="opt-card-metric">
+                    <div class="opt-card-metric-value" style="color:${(baseline.alpha||0)>=0?'var(--green)':'var(--red)'}">${((baseline.alpha||0)*100).toFixed(1)}%</div>
+                    <div class="opt-card-metric-label">Alpha</div>
+                </div>
+                <div class="opt-card-metric">
+                    <div class="opt-card-metric-value" style="color:var(--red)">${((baseline.max_drawdown||0)*100).toFixed(1)}%</div>
+                    <div class="opt-card-metric-label">最大回撤</div>
+                </div>
+            </div>
+        </div>
+        <div class="opt-compare-card best">
+            <div class="opt-card-label best">🏆 最优参数组合</div>
+            <div class="opt-card-metrics">
+                <div class="opt-card-metric">
+                    <div class="opt-card-metric-value" style="color:var(--accent-light)">${(best.sharpe||0).toFixed(3)}</div>
+                    <div class="opt-card-metric-label">Sharpe Ratio</div>
+                </div>
+                <div class="opt-card-metric">
+                    <div class="opt-card-metric-value" style="color:${(best.annualized_return||0)>=0?'var(--green)':'var(--red)'}">${((best.annualized_return||0)*100).toFixed(1)}%</div>
+                    <div class="opt-card-metric-label">年化收益</div>
+                </div>
+                <div class="opt-card-metric">
+                    <div class="opt-card-metric-value" style="color:${(best.alpha||0)>=0?'var(--green)':'var(--red)'}">${((best.alpha||0)*100).toFixed(1)}%</div>
+                    <div class="opt-card-metric-label">Alpha</div>
+                </div>
+                <div class="opt-card-metric">
+                    <div class="opt-card-metric-value" style="color:var(--red)">${((best.max_drawdown||0)*100).toFixed(1)}%</div>
+                    <div class="opt-card-metric-label">最大回撤</div>
+                </div>
+            </div>
+            <div class="opt-card-improvement ${improveCls}">
+                Sharpe ${improveSign}${sharpeImprove.toFixed(3)}
+            </div>
+        </div>
+    `;
+
+    // 2. Best params table
+    const paramEntries = Object.entries(bestParams);
+    const originalParams = data.original_params || {};
+    if (paramEntries.length) {
+        let paramsHTML = `<h3>🎛️ 最优参数</h3>
+            <table class="opt-params-table">
+                <thead><tr><th>参数</th><th>原始值</th><th></th><th>优化值</th><th>变化</th></tr></thead>
+                <tbody>`;
+        for (const [key, val] of paramEntries) {
+            const oldVal = originalParams[key] != null ? originalParams[key] : '—';
+            const newVal = typeof val === 'number' ? val.toFixed(4) : val;
+            const oldDisp = typeof oldVal === 'number' ? oldVal.toFixed(4) : oldVal;
+            let delta = '';
+            let deltaCls = 'neutral';
+            if (typeof val === 'number' && typeof oldVal === 'number') {
+                const diff = val - oldVal;
+                delta = (diff >= 0 ? '+' : '') + diff.toFixed(4);
+                deltaCls = diff > 0 ? 'positive' : diff < 0 ? 'negative' : 'neutral';
+            }
+            paramsHTML += `<tr>
+                <td class="opt-param-key">${escapeHtml(key)}</td>
+                <td class="opt-param-old">${oldDisp}</td>
+                <td class="opt-param-arrow">→</td>
+                <td class="opt-param-new">${newVal}</td>
+                <td class="opt-param-delta ${deltaCls}">${delta}</td>
+            </tr>`;
+        }
+        paramsHTML += '</tbody></table>';
+        document.getElementById('opt-best-params-section').innerHTML = paramsHTML;
+    }
+
+    // 3. Trials table
+    if (trials.length) {
+        const sortedTrials = [...trials].sort((a, b) => (b.sharpe || 0) - (a.sharpe || 0));
+        let trialsHTML = `<h3>试验排行 (共 ${trials.length} 次)</h3>
+            <div class="opt-trials-table-wrap">
+            <table class="opt-trials-table">
+                <thead><tr><th>#</th><th>Sharpe</th><th>年化</th><th>Alpha</th><th>胜率</th><th>回撤</th><th>目标值</th></tr></thead>
+                <tbody>`;
+        sortedTrials.slice(0, 50).forEach((t, i) => {
+            const isBest = (t.sharpe === best.sharpe);
+            const rowCls = isBest ? 'opt-trial-best' : '';
+            trialsHTML += `<tr class="${rowCls}">
+                <td class="opt-trial-rank">${i + 1}${isBest ? ' 🏆' : ''}</td>
+                <td style="color:${(t.sharpe||0)>=1?'var(--green)':'var(--text)'};font-weight:700">${(t.sharpe||0).toFixed(3)}</td>
+                <td style="color:${(t.annualized_return||0)>=0?'var(--green)':'var(--red)'}">${((t.annualized_return||0)*100).toFixed(1)}%</td>
+                <td style="color:${(t.alpha||0)>=0?'var(--green)':'var(--red)'}">${((t.alpha||0)*100).toFixed(1)}%</td>
+                <td>${((t.win_rate||0)*100).toFixed(0)}%</td>
+                <td style="color:var(--red)">${((t.max_drawdown||0)*100).toFixed(1)}%</td>
+                <td>${(t.objective_value||t.sharpe||0).toFixed(3)}</td>
+            </tr>`;
+        });
+        trialsHTML += '</tbody></table></div>';
+        document.getElementById('opt-trials-section').innerHTML = trialsHTML;
+    }
+
+    // 4. Apply button
+    document.getElementById('opt-apply-section').innerHTML = `
+        <button class="opt-apply-btn" onclick="applyOptimizedParams('optimize')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            应用最优参数到系统
+        </button>
+        <span class="opt-apply-msg">将上述优化参数覆盖到投资参数注册表，影响后续所有筛选和分析。可随时通过 YAML 重置。</span>
+    `;
+}
+
+// ─── Run Walk-Forward Validation ──────────────────────────
+async function runWalkForward() {
+    const stocks = _getOptStocks();
+    if (!stocks.length) { alert('请输入股票代码'); return; }
+
+    // Show WF extra config
+    const wfExtra = document.getElementById('wf-extra-config');
+    if (wfExtra.classList.contains('hidden')) {
+        wfExtra.classList.remove('hidden');
+        return; // First click shows config; second click runs
+    }
+
+    const paramKeys = _getSelectedParamKeys();
+    const config = {
+        stocks,
+        paramKeys,
+        nFolds: parseInt(document.getElementById('wf-n-folds').value),
+        trainWindowMonths: parseInt(document.getElementById('wf-train-window').value),
+        testWindowMonths: parseInt(document.getElementById('wf-test-window').value),
+        maxTrialsPerFold: parseInt(document.getElementById('wf-max-trials-fold').value),
+        searchMethod: document.getElementById('opt-search-method').value,
+        holdingMonths: parseInt(document.getElementById('opt-holding-months').value),
+        lookbackYears: parseFloat(document.getElementById('opt-lookback').value),
+        strategy: document.getElementById('opt-strategy').value,
+    };
+
+    // Show progress
+    document.getElementById('opt-progress').classList.remove('hidden');
+    document.getElementById('opt-results').classList.add('hidden');
+    document.getElementById('wf-results').classList.add('hidden');
+    document.getElementById('opt-progress-bar').style.width = '0%';
+    document.getElementById('opt-progress-bar').style.background = 'linear-gradient(90deg, #00b894, #55efc4)';
+    document.getElementById('opt-progress-text').textContent = '正在启动 Walk-Forward 验证...';
+    document.getElementById('opt-progress-title').textContent = 'Walk-Forward 验证进行中...';
+    document.getElementById('opt-progress-phase').textContent = '';
+    document.getElementById('opt-progress-phase').style.background = 'rgba(0, 184, 148, 0.1)';
+    document.getElementById('opt-progress-phase').style.color = 'var(--green)';
+    document.getElementById('opt-trial-counter').textContent = '';
+    document.getElementById('btn-run-optimize').disabled = true;
+    document.getElementById('btn-run-walkforward').disabled = true;
+
+    try {
+        const resp = await fetch('/api/v1/agent/backtest/walk-forward', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(config),
+        });
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop();
+
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                try {
+                    const evt = JSON.parse(line.slice(6));
+                    handleWalkForwardEvent(evt);
+                } catch (e) { /* skip */ }
+            }
+        }
+    } catch (err) {
+        document.getElementById('opt-progress-text').textContent = `错误: ${err.message}`;
+        document.getElementById('opt-progress-bar').style.width = '100%';
+        document.getElementById('opt-progress-bar').style.background = 'var(--red)';
+    } finally {
+        document.getElementById('btn-run-optimize').disabled = false;
+        document.getElementById('btn-run-walkforward').disabled = false;
+        // Reset phase styling
+        document.getElementById('opt-progress-phase').style.background = '';
+        document.getElementById('opt-progress-phase').style.color = '';
+    }
+}
+
+function handleWalkForwardEvent(evt) {
+    const event = evt.event || evt.type;
+    const d = evt.data || evt;
+
+    if (event === 'walkforward_phase') {
+        document.getElementById('opt-progress-phase').textContent = d.phase || '';
+        document.getElementById('opt-progress-text').textContent = d.message || '';
+    }
+    else if (event === 'walkforward_fold_start') {
+        document.getElementById('opt-progress-text').textContent =
+            `Fold ${d.fold}/${d.total_folds}: ${d.message || ''}`;
+    }
+    else if (event === 'walkforward_progress') {
+        const pct = d.progress || 0;
+        document.getElementById('opt-progress-bar').style.width = pct + '%';
+        document.getElementById('opt-progress-text').textContent = d.message || '';
+        if (d.trial_num && d.total_trials) {
+            document.getElementById('opt-trial-counter').textContent =
+                `Fold ${d.fold || '?'}  |  试验 ${d.trial_num}/${d.total_trials}` +
+                (d.sharpe != null ? `  |  Sharpe: ${d.sharpe.toFixed(3)}` : '');
+        }
+    }
+    else if (event === 'walkforward_fold_complete') {
+        document.getElementById('opt-progress-text').textContent =
+            `Fold ${d.fold} 完成 — 样本外 Sharpe: ${(d.test_sharpe||0).toFixed(3)}`;
+    }
+    else if (event === 'walkforward_complete') {
+        document.getElementById('opt-progress').classList.add('hidden');
+        document.getElementById('wf-results').classList.remove('hidden');
+        window._lastWfResult = d;
+        renderWalkForwardResults(d);
+    }
+    else if (event === 'walkforward_error') {
+        document.getElementById('opt-progress-text').textContent = '❌ ' + (d.message || 'Walk-Forward 失败');
+        document.getElementById('opt-progress-bar').style.width = '100%';
+        document.getElementById('opt-progress-bar').style.background = 'var(--red)';
+    }
+}
+
+function renderWalkForwardResults(data) {
+    const folds = data.folds || [];
+    const consensus = data.consensus_params || {};
+    const avgSharpe = data.avg_oos_sharpe || 0;
+    const minSharpe = data.min_oos_sharpe || 0;
+    const maxSharpe = data.max_oos_sharpe || 0;
+    const verdict = data.verdict || 'UNKNOWN';
+    const verdictColor = verdict.startsWith('WF_VALIDATED') ? 'var(--green)' :
+                         verdict === 'WF_SUBOPTIMAL' ? 'var(--yellow)' : 'var(--red)';
+
+    // 1. Summary cards
+    document.getElementById('wf-summary-cards').innerHTML = `
+        <div class="wf-summary-card">
+            <div class="wf-summary-label">平均样本外 Sharpe</div>
+            <div class="wf-summary-value" style="color:${avgSharpe>=1?'var(--green)':avgSharpe>=0.5?'var(--yellow)':'var(--red)'}">${avgSharpe.toFixed(3)}</div>
+        </div>
+        <div class="wf-summary-card">
+            <div class="wf-summary-label">最小 OOS Sharpe</div>
+            <div class="wf-summary-value" style="color:${minSharpe>=0?'var(--green)':'var(--red)'}">${minSharpe.toFixed(3)}</div>
+        </div>
+        <div class="wf-summary-card">
+            <div class="wf-summary-label">最大 OOS Sharpe</div>
+            <div class="wf-summary-value" style="color:var(--green)">${maxSharpe.toFixed(3)}</div>
+        </div>
+        <div class="wf-summary-card verdict-card" style="border-color:${verdictColor}">
+            <div class="wf-summary-label">验证结论</div>
+            <div class="wf-summary-value" style="color:${verdictColor};font-size:1.1em">${verdict}</div>
+        </div>
+    `;
+
+    // 2. Fold cards
+    if (folds.length) {
+        let foldsHTML = '<h3>各折详情</h3>';
+        folds.forEach((f, i) => {
+            const trainSharpe = f.train_sharpe || 0;
+            const testSharpe = f.test_sharpe || 0;
+            const overfit = trainSharpe - testSharpe;
+            const ofCls = overfit > 1 ? 'color:var(--red)' : overfit > 0.5 ? 'color:var(--yellow)' : 'color:var(--green)';
+
+            foldsHTML += `
+                <div class="wf-fold-card">
+                    <div class="wf-fold-header">
+                        <span class="wf-fold-num">Fold ${i + 1}</span>
+                        <span class="wf-fold-dates">${f.train_start || ''} → ${f.train_end || ''} | ${f.test_start || ''} → ${f.test_end || ''}</span>
+                    </div>
+                    <div class="wf-fold-metrics">
+                        <div class="wf-fold-metric">
+                            <span class="wf-fold-metric-label">训练 Sharpe:</span>
+                            <span class="wf-fold-metric-value" style="color:var(--accent-light)">${trainSharpe.toFixed(3)}</span>
+                        </div>
+                        <div class="wf-fold-metric">
+                            <span class="wf-fold-metric-label">测试 Sharpe:</span>
+                            <span class="wf-fold-metric-value" style="color:${testSharpe>=1?'var(--green)':testSharpe>=0?'var(--yellow)':'var(--red)'}">${testSharpe.toFixed(3)}</span>
+                        </div>
+                        <div class="wf-fold-metric">
+                            <span class="wf-fold-metric-label">过拟合差距:</span>
+                            <span class="wf-fold-metric-value" style="${ofCls}">${overfit.toFixed(3)}</span>
+                        </div>
+                        <div class="wf-fold-metric">
+                            <span class="wf-fold-metric-label">年化收益:</span>
+                            <span class="wf-fold-metric-value" style="color:${(f.test_return||0)>=0?'var(--green)':'var(--red)'}">${((f.test_return||0)*100).toFixed(1)}%</span>
+                        </div>
+                    </div>
+                </div>`;
+        });
+        document.getElementById('wf-folds-section').innerHTML = foldsHTML;
+    }
+
+    // 3. Consensus params
+    const cEntries = Object.entries(consensus);
+    if (cEntries.length) {
+        let cHTML = `<h3>🤝 共识参数 (各折中位数)</h3>
+            <table class="opt-params-table">
+                <thead><tr><th>参数</th><th>共识值</th></tr></thead>
+                <tbody>`;
+        for (const [key, val] of cEntries) {
+            const disp = typeof val === 'number' ? val.toFixed(4) : val;
+            cHTML += `<tr>
+                <td class="opt-param-key">${escapeHtml(key)}</td>
+                <td class="opt-param-new">${disp}</td>
+            </tr>`;
+        }
+        cHTML += '</tbody></table>';
+        document.getElementById('wf-consensus-section').innerHTML = cHTML;
+    }
+
+    // 4. Apply button
+    document.getElementById('wf-apply-section').innerHTML = `
+        <button class="opt-apply-btn" onclick="applyOptimizedParams('walkforward')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            应用共识参数到系统
+        </button>
+        <span class="opt-apply-msg">经 Walk-Forward ${folds.length}-折交叉验证的稳健参数。平均样本外 Sharpe: ${avgSharpe.toFixed(3)}</span>
+    `;
+}
+
+// ─── Apply Optimised Parameters ──────────────────────────
+async function applyOptimizedParams(source) {
+    let params, reason;
+    if (source === 'optimize') {
+        params = window._lastOptResult && window._lastOptResult.best_params;
+        reason = 'Applied from threshold optimizer';
+    } else {
+        params = window._lastWfResult && window._lastWfResult.consensus_params;
+        reason = 'Applied from Walk-Forward consensus';
+    }
+
+    if (!params || !Object.keys(params).length) {
+        alert('没有可用的优化参数');
+        return;
+    }
+
+    const sectionId = source === 'optimize' ? 'opt-apply-section' : 'wf-apply-section';
+    const section = document.getElementById(sectionId);
+    const btn = section.querySelector('.opt-apply-btn');
+    if (btn) btn.disabled = true;
+
+    try {
+        const resp = await fetch('/api/v1/agent/backtest/apply-optimized', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ params, reason }),
+        });
+        const data = await resp.json();
+        if (resp.ok) {
+            section.innerHTML = `
+                <span class="opt-apply-success">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    参数已应用！共更新 ${data.applied_count || Object.keys(params).length} 个参数
+                </span>
+                <span class="opt-apply-msg">${data.message || '参数已覆盖到投资参数注册表'}</span>
+            `;
+        } else {
+            alert('应用失败: ' + (data.detail || JSON.stringify(data)));
+            if (btn) btn.disabled = false;
+        }
+    } catch (err) {
+        alert('请求失败: ' + err.message);
+        if (btn) btn.disabled = false;
+    }
+}
