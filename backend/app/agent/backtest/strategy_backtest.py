@@ -144,9 +144,11 @@ class StrategyBacktester:
     def _fetch_all_prices(self, symbols: List[str]) -> Dict[str, Any]:
         """Fetch historical daily close prices for all symbols + SPY.
 
+        Uses RawDataSource (Bloomberg preferred, yfinance fallback) for price history.
+
         Returns: {symbol: pandas.Series of daily close prices}
         """
-        import yfinance as yf
+        from datetime import date as date_cls
 
         # Determine date range
         end_date = datetime.now()
@@ -154,6 +156,35 @@ class StrategyBacktester:
 
         all_symbols = list(set(symbols + ["SPY"]))
         price_data: Dict[str, Any] = {}
+
+        # ── 获取 RawDataSource（Bloomberg 优先） ──
+        raw_source = None
+        try:
+            from src.data_providers.raw_source import get_raw_source
+            raw_source = get_raw_source("auto")
+            logger.info(f"[Backtest] 使用 {raw_source.name} 获取价格历史")
+        except Exception:
+            logger.info("[Backtest] RawDataSource 不可用，降级到 yfinance direct")
+
+        if raw_source is not None:
+            # ── 走 RawDataSource 抽象层 ──
+            start_d = date_cls(start_date.year, start_date.month, start_date.day)
+            end_d = date_cls(end_date.year, end_date.month, end_date.day)
+
+            for symbol in all_symbols:
+                try:
+                    hist = raw_source.fetch_price_history(symbol, start_d, end_d)
+                    if hist is not None and not hist.empty and len(hist) >= 20:
+                        price_data[symbol] = hist["Close"]
+                    else:
+                        logger.warning(f"[Backtest] Insufficient data for {symbol}")
+                except Exception as e:
+                    logger.warning(f"[Backtest] Failed to fetch {symbol}: {e}")
+
+            return price_data
+
+        # ── Legacy path: 直接 yfinance ──
+        import yfinance as yf
 
         # Resolve symbols for yfinance
         try:

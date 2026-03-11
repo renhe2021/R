@@ -44,10 +44,11 @@ class PointInTimeBacktester:
             yield f"data: {json.dumps(event)}\\n\\n"
     """
 
-    def __init__(self, config: PITBacktestConfig):
+    def __init__(self, config: PITBacktestConfig, raw_source=None):
         self.config = config
         self.run_id = uuid.uuid4().hex[:16]
         self._result: Optional[PITBacktestResult] = None
+        self._raw_source = raw_source  # RawDataSource: Bloomberg/yfinance/auto
 
     async def run(self) -> AsyncGenerator[Dict[str, Any], None]:
         """Execute the full backtest pipeline, yielding SSE events."""
@@ -70,6 +71,7 @@ class PointInTimeBacktester:
                 lookback_years=self.config.lookback_years,
                 holding_months=self.config.holding_months,
                 benchmark=self.config.benchmark,
+                raw_source=self._raw_source,
             )
             rebalance_dates = fetcher.compute_rebalance_dates()
 

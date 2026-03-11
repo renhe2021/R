@@ -7,6 +7,13 @@ from .factory import (
     probe_bloomberg_first,
     DataSourceProbeResult,
 )
+from .raw_source import (
+    RawDataSource,
+    BloombergRawSource,
+    YFinanceRawSource,
+    get_raw_source,
+    clear_raw_source_cache,
+)
 
 __all__ = [
     "DataProvider",
@@ -14,4 +21,9 @@ __all__ = [
     "get_all_available_providers",
     "probe_bloomberg_first",
     "DataSourceProbeResult",
+    "RawDataSource",
+    "BloombergRawSource",
+    "YFinanceRawSource",
+    "get_raw_source",
+    "clear_raw_source_cache",
 ]

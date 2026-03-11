@@ -1,15 +1,20 @@
 """Point-in-Time historical data fetcher.
 
-Uses yfinance quarterly financial statements to build snapshots of each stock's
-fundamental data **as it was known** at each historical point in time, ensuring
-no look-ahead bias.
+Builds snapshots of each stock's fundamental data **as it was known** at each
+historical point in time, ensuring no look-ahead bias.
+
+Data source abstraction
+───────────────────────
+底层数据获取通过 ``RawDataSource`` 抽象层，支持 Bloomberg（BDH QUARTERLY）和
+yfinance 两种数据源，Bloomberg 优先。数据获取统一返回 yfinance 兼容的 DataFrame
+格式，所以 ``build_snapshot()`` 和 F/Z/M Score 计算逻辑完全不需要改动。
 
 Key design choices
 ──────────────────
 1. Only data from reports with dates **<= rebalance_date** are used.
-2. ``ticker.quarterly_income_stmt`` / ``quarterly_balance_sheet`` / ``quarterly_cashflow``
-   give ~16-20 quarters of history (4-5 years).
-3. Price history comes from ``ticker.history()``.
+2. Quarterly financials from Bloomberg BDH or yfinance (16-20 quarters / 4-5 years;
+   Bloomberg may provide 20+ years).
+3. Price history from Bloomberg BDH DAILY or yfinance ``ticker.history()``.
 4. LRU-style in-memory cache avoids re-fetching the same ticker within a run.
 5. Concurrency controlled via ``asyncio.Semaphore`` (default 5).
 """
@@ -22,13 +27,15 @@ import math
 import time
 from datetime import date, datetime, timedelta
 from functools import lru_cache
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
 
-import yfinance as yf
 import pandas as pd
 import numpy as np
 
 from app.agent.backtest.models import HistoricalSnapshot
+
+if TYPE_CHECKING:
+    from src.data_providers.raw_source import RawDataSource
 
 logger = logging.getLogger(__name__)
 
@@ -98,12 +105,34 @@ def _try_rows(df: pd.DataFrame, col, *labels) -> Optional[float]:
 #  Synchronous raw-data loader
 # ═══════════════════════════════════════════════════════════════
 
-def _fetch_raw(symbol: str, lookback_start: date) -> Dict[str, Any]:
-    """Fetch and cache raw quarterly financials + price history for *symbol*."""
+def _fetch_raw(
+    symbol: str,
+    lookback_start: date,
+    raw_source: Optional["RawDataSource"] = None,
+) -> Dict[str, Any]:
+    """Fetch and cache raw quarterly financials for *symbol*.
+
+    Args:
+        symbol: Stock ticker (e.g. "AAPL")
+        lookback_start: Earliest date needed (for price range)
+        raw_source: RawDataSource instance (Bloomberg/yfinance).
+                    If None, falls back to direct yfinance (legacy path).
+    """
     if symbol in _RAW_CACHE:
         return _RAW_CACHE[symbol]
 
-    logger.info(f"[PIT-Data] Fetching raw data for {symbol}")
+    end_date = date.today()
+
+    if raw_source is not None:
+        # ── 走 RawDataSource 抽象层（Bloomberg 或 yfinance） ──
+        logger.info(f"[PIT-Data] Fetching raw data for {symbol} via {raw_source.name}")
+        raw = raw_source.fetch_quarterly_financials(symbol, lookback_start, end_date)
+        _RAW_CACHE[symbol] = raw
+        return raw
+
+    # ── Legacy path: 直接用 yfinance（向后兼容） ──
+    import yfinance as yf
+    logger.info(f"[PIT-Data] Fetching raw data for {symbol} (yfinance direct)")
     ticker = yf.Ticker(symbol)
     time.sleep(0.3)  # rate-limit courtesy
 
@@ -129,8 +158,17 @@ def _fetch_raw(symbol: str, lookback_start: date) -> Dict[str, Any]:
     return raw
 
 
-def _fetch_price_history(symbol: str, start: date, end: date) -> pd.DataFrame:
-    """Fetch daily Close prices for *symbol* between [start, end]."""
+def _fetch_price_history(
+    symbol: str,
+    start: date,
+    end: date,
+    raw_source: Optional["RawDataSource"] = None,
+) -> pd.DataFrame:
+    """Fetch daily Close prices for *symbol* between [start, end].
+
+    Args:
+        raw_source: RawDataSource instance. If None, falls back to yfinance direct.
+    """
     cache_key = symbol
     if cache_key in _PRICE_CACHE:
         df = _PRICE_CACHE[cache_key]
@@ -139,7 +177,17 @@ def _fetch_price_history(symbol: str, start: date, end: date) -> pd.DataFrame:
         if not sub.empty:
             return sub
 
-    logger.debug(f"[PIT-Data] Fetching price history for {symbol}")
+    if raw_source is not None:
+        # ── 走 RawDataSource 抽象层 ──
+        logger.debug(f"[PIT-Data] Fetching price history for {symbol} via {raw_source.name}")
+        hist = raw_source.fetch_price_history(symbol, start, end)
+        if hist is not None and not hist.empty:
+            _PRICE_CACHE[cache_key] = hist
+        return hist if hist is not None else pd.DataFrame()
+
+    # ── Legacy path: 直接用 yfinance ──
+    import yfinance as yf
+    logger.debug(f"[PIT-Data] Fetching price history for {symbol} (yfinance direct)")
     ticker = yf.Ticker(symbol)
     time.sleep(0.2)
     start_str = (start - timedelta(days=30)).strftime("%Y-%m-%d")
@@ -845,6 +893,8 @@ def build_snapshot(symbol: str, as_of: date, raw: Dict[str, Any]) -> Optional[Hi
 class HistoricalDataFetcher:
     """Fetch & cache Point-in-Time fundamental snapshots for a list of symbols.
 
+    Data source: Bloomberg (BDH QUARTERLY) preferred, yfinance fallback.
+
     Usage::
 
         fetcher = HistoricalDataFetcher(symbols, lookback_years=3.0)
@@ -860,6 +910,7 @@ class HistoricalDataFetcher:
         holding_months: int = 6,
         benchmark: str = "SPY",
         max_concurrent: int = 5,
+        raw_source: Optional["RawDataSource"] = None,
     ):
         self.symbols = [s.upper() for s in symbols]
         self.lookback_years = lookback_years
@@ -868,12 +919,40 @@ class HistoricalDataFetcher:
         self._semaphore = asyncio.Semaphore(max_concurrent)
         self._rebalance_dates: List[date] = []
 
-        if lookback_years > 5:
+        # ── 解析数据源：Bloomberg 优先，yfinance fallback ──
+        if raw_source is not None:
+            self._raw_source = raw_source
+        else:
+            self._raw_source = self._resolve_raw_source()
+
+        source_name = self._raw_source.name if self._raw_source else "yfinance (legacy)"
+        logger.info(
+            f"[PIT-Data] HistoricalDataFetcher: "
+            f"symbols={len(self.symbols)}, lookback={lookback_years:.1f}y, "
+            f"data_source={source_name}"
+        )
+
+        if lookback_years > 5 and (not self._raw_source or self._raw_source.name != "bloomberg"):
             logger.info(
                 f"[PIT-Data] Long lookback: {lookback_years:.1f} years. "
                 f"Note: yfinance quarterly financials cover ~4-5 years. "
                 f"Snapshots beyond that will use earliest available data + price history."
             )
+        elif lookback_years > 5 and self._raw_source and self._raw_source.name == "bloomberg":
+            logger.info(
+                f"[PIT-Data] Long lookback: {lookback_years:.1f} years. "
+                f"Bloomberg BDH can provide 20+ years of quarterly data."
+            )
+
+    @staticmethod
+    def _resolve_raw_source() -> Optional["RawDataSource"]:
+        """尝试获取 RawDataSource（Bloomberg 优先），失败返回 None（走 legacy yfinance 路径）。"""
+        try:
+            from src.data_providers.raw_source import get_raw_source
+            return get_raw_source("auto")
+        except Exception as e:
+            logger.debug(f"[PIT-Data] RawDataSource 不可用，使用 legacy yfinance: {e}")
+            return None
 
     def compute_rebalance_dates(self) -> List[date]:
         """Generate rebalance dates going back *lookback_years* from today."""
@@ -950,9 +1029,13 @@ class HistoricalDataFetcher:
         """Fetch raw data and build snapshots for one symbol."""
         async with self._semaphore:
             loop = asyncio.get_running_loop()
-            raw = await loop.run_in_executor(None, _fetch_raw, symbol, price_start)
+            # Bloomberg 的 session lock 使得请求串行化，这里的 semaphore 主要控制 yfinance 并发
+            raw_source = self._raw_source
+            raw = await loop.run_in_executor(
+                None, _fetch_raw, symbol, price_start, raw_source
+            )
             await loop.run_in_executor(
-                None, _fetch_price_history, symbol, price_start, price_end
+                None, _fetch_price_history, symbol, price_start, price_end, raw_source
             )
 
         snapshots: Dict[date, HistoricalSnapshot] = {}
@@ -971,8 +1054,9 @@ class HistoricalDataFetcher:
         earliest = self._rebalance_dates[0] - timedelta(days=30)
         latest = date.today() + timedelta(days=5)
         loop = asyncio.get_running_loop()
+        raw_source = self._raw_source
         await loop.run_in_executor(
-            None, _fetch_price_history, self.benchmark, earliest, latest
+            None, _fetch_price_history, self.benchmark, earliest, latest, raw_source
         )
         return _PRICE_CACHE.get(self.benchmark, pd.DataFrame())
 

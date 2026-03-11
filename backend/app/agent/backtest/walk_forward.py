@@ -157,10 +157,11 @@ class WalkForwardValidator:
             yield f"data: {json.dumps(event)}\\n\\n"
     """
 
-    def __init__(self, config: WalkForwardConfig):
+    def __init__(self, config: WalkForwardConfig, raw_source=None):
         self.config = config
         self.run_id = uuid.uuid4().hex[:16]
         self._result: Optional[WalkForwardResult] = None
+        self._raw_source = raw_source  # RawDataSource: Bloomberg/yfinance/auto
 
     async def run(self) -> AsyncGenerator[Dict[str, Any], None]:
         """Execute walk-forward validation, yielding SSE events."""
@@ -190,6 +191,7 @@ class WalkForwardValidator:
                 lookback_years=self.config.lookback_years,
                 holding_months=self.config.holding_months,
                 benchmark=self.config.benchmark,
+                raw_source=self._raw_source,
             )
             all_rebalance_dates = fetcher.compute_rebalance_dates()
             snapshots = await fetcher.fetch_all()

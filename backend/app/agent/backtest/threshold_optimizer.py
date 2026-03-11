@@ -138,7 +138,7 @@ class OptimizationConfig:
     # Parameters to optimise (dotted keys from InvestmentParamsRegistry)
     param_keys: List[str] = field(default_factory=list)
     # Search settings
-    search_method: str = "grid"  # "grid" | "random" | "bayesian"
+    search_method: str = "stepwise"  # "stepwise" | "grid" | "random" | "bayesian"
     max_trials: int = 200
     # Backtest settings
     holding_months: int = 6
@@ -246,6 +246,37 @@ DEFAULT_OPTIMIZE_KEYS = [
 ]
 
 
+# ── Stepwise 搜索的参数分组 ──
+# 同一组的参数一起做 mini grid search，不同组之间逐步优化。
+# 分组逻辑：同一功能模块的参数有交互效应，应该一起搜索。
+PARAM_GROUPS = [
+    {
+        "name": "screener_gates",
+        "label": "筛选门槛 (Stage 3)",
+        "keys": ["screener.pe_max", "screener.debt_to_equity_max", "screener.market_cap_min"],
+    },
+    {
+        "name": "school_weights",
+        "label": "学派权重 (Stage 5)",
+        "keys": ["school_weight.graham", "school_weight.buffett",
+                 "school_weight.quantitative", "school_weight.quality",
+                 "school_weight.valuation", "school_weight.contrarian",
+                 "school_weight.garp"],
+    },
+    {
+        "name": "forensics",
+        "label": "风控阈值 (Stage 4)",
+        "keys": ["forensics.high_red_flags_eliminate"],
+    },
+    {
+        "name": "scoring_verdict",
+        "label": "评分与判定 (Stage 6-8)",
+        "keys": ["scoring.mos_band_excellent", "scoring.mos_band_good",
+                 "verdict.strong_buy_score", "verdict.buy_score"],
+    },
+]
+
+
 # ═══════════════════════════════════════════════════════════════
 #  Core Optimizer
 # ═══════════════════════════════════════════════════════════════
@@ -266,11 +297,12 @@ class ThresholdOptimizer:
             yield f"data: {json.dumps(event)}\\n\\n"
     """
 
-    def __init__(self, config: OptimizationConfig):
+    def __init__(self, config: OptimizationConfig, raw_source=None):
         self.config = config
         self.run_id = uuid.uuid4().hex[:16]
         self._result: Optional[OptimizationResult] = None
         self._rng = random.Random(config.seed)
+        self._raw_source = raw_source  # RawDataSource: Bloomberg/yfinance/auto
 
     async def run(self) -> AsyncGenerator[Dict[str, Any], None]:
         """Execute the full optimisation pipeline, yielding SSE events."""
@@ -330,6 +362,7 @@ class ThresholdOptimizer:
                 lookback_years=self.config.lookback_years,
                 holding_months=self.config.holding_months,
                 benchmark=self.config.benchmark,
+                raw_source=self._raw_source,
             )
             rebalance_dates = fetcher.compute_rebalance_dates()
             snapshots = await fetcher.fetch_all()
@@ -432,73 +465,261 @@ class ThresholdOptimizer:
                 "message": f"开始参数搜索 ({self.config.search_method})...",
             })
 
-            candidates = self._generate_candidates(opt_params)
-            total_trials = min(len(candidates), self.config.max_trials)
-
             all_trials: List[TrialResult] = []
             best_trial: Optional[TrialResult] = None
+            trial_counter = 0  # global trial counter across all methods
 
-            for idx, candidate in enumerate(candidates[:total_trials]):
-                trial_start = datetime.now(timezone.utc)
+            if self.config.search_method == "stepwise":
+                # ── Stepwise (Coordinate Descent) Search ──
+                # max_trials = 每组最大试验次数（不是全局上限）
+                # 逐组搜索 → 锁定该组局部最优 → 下一组
+                # 最多 max_outer_rounds 轮，收敛则提前退出
 
-                # Apply candidate params
-                self._apply_params(candidate)
+                groups = self._build_stepwise_groups(opt_params)
+                current_best = {p.key: p.current for p in opt_params}
+                max_outer_rounds = 3
+                convergence_threshold = 0.01
+                prev_round_sharpe = -999.0
+                steps_per_param = 7
+                trials_per_group = self.config.max_trials  # 每组预算上限
 
-                # Evaluate on TRAIN set
-                train_result = self._evaluate_params(
-                    candidate, snapshots, train_dates, fetcher,
-                )
+                # 估算总预算用于进度条
+                estimated_total = trials_per_group * len(groups) * max_outer_rounds
 
-                # Evaluate on TEST set
-                test_result = self._evaluate_params(
-                    candidate, snapshots, test_dates, fetcher,
-                )
-
-                trial = TrialResult(
-                    trial_id=idx + 1,
-                    params=candidate,
-                    train_sharpe=train_result.train_sharpe,
-                    train_return=train_result.train_return,
-                    train_alpha=train_result.train_alpha,
-                    train_win_rate=train_result.train_win_rate,
-                    train_max_drawdown=train_result.train_max_drawdown,
-                    train_periods=train_result.train_periods,
-                    test_sharpe=test_result.train_sharpe,  # using train_* fields from test evaluation
-                    test_return=test_result.train_return,
-                    test_alpha=test_result.train_alpha,
-                    test_win_rate=test_result.train_win_rate,
-                    test_max_drawdown=test_result.train_max_drawdown,
-                    test_periods=test_result.train_periods,
-                    duration_seconds=round(
-                        (datetime.now(timezone.utc) - trial_start).total_seconds(), 1
-                    ),
-                    error=train_result.error or test_result.error,
-                )
-                all_trials.append(trial)
-
-                # Track best
-                if best_trial is None or trial.objective_value > best_trial.objective_value:
-                    best_trial = trial
-
-                yield _evt("optimize_trial", {
-                    "trial": idx + 1,
-                    "total": total_trials,
-                    "progress": round((idx + 1) / total_trials * 100),
-                    "params": candidate,
-                    "train_sharpe": trial.train_sharpe,
-                    "test_sharpe": trial.test_sharpe,
-                    "train_return": round(trial.train_return, 4),
-                    "test_return": round(trial.test_return, 4),
-                    "is_best": trial is best_trial,
-                    "best_so_far_sharpe": best_trial.train_sharpe if best_trial else None,
-                    "message": f"Trial {idx + 1}/{total_trials}: "
-                               f"Train Sharpe={_fmt_sharpe(trial.train_sharpe)} | "
-                               f"Test Sharpe={_fmt_sharpe(trial.test_sharpe)}"
-                               + (" ★ New Best!" if trial is best_trial and idx > 0 else ""),
+                yield _evt("optimize_phase", {
+                    "phase": "search",
+                    "message": f"Stepwise 搜索 — {len(groups)} 组, "
+                               f"每组最多 {trials_per_group} 次试验, "
+                               f"最多 {max_outer_rounds} 轮 "
+                               f"(估算上限 ~{estimated_total} 次)",
                 })
 
-                # Restore defaults after each trial
-                self._restore_params(opt_params)
+                for outer_round in range(max_outer_rounds):
+                    round_label = f"Round {outer_round + 1}/{max_outer_rounds}"
+
+                    yield _evt("optimize_phase", {
+                        "phase": "search",
+                        "message": f"Stepwise {round_label} — 逐组优化 ({len(groups)} 组参数)...",
+                    })
+
+                    for grp_idx, group in enumerate(groups):
+                        grp_params = group["params"]
+                        grp_label = group["label"]
+
+                        if not grp_params:
+                            continue
+
+                        # Generate mini grid for this group
+                        mini_grid = self._stepwise_mini_grid(
+                            grp_params, steps_per_param
+                        )
+
+                        # 如果 mini grid 超过每组预算，随机采样截断
+                        if len(mini_grid) > trials_per_group:
+                            self._rng.shuffle(mini_grid)
+                            mini_grid = mini_grid[:trials_per_group]
+                            grid_note = f"(随机采样 {trials_per_group}/{len(mini_grid)} 组合)"
+                        else:
+                            grid_note = f"(全量 {len(mini_grid)} 组合)"
+
+                        yield _evt("optimize_phase", {
+                            "phase": "search",
+                            "message": f"Stepwise {round_label} — "
+                                       f"组 {grp_idx + 1}/{len(groups)}: {grp_label} "
+                                       f"{grid_note}, {len(grp_params)} 个参数",
+                        })
+
+                        # Track this group's local best
+                        grp_best_trial: Optional[TrialResult] = None
+                        grp_trial_count = 0
+
+                        for combo in mini_grid:
+                            trial_start = datetime.now(timezone.utc)
+
+                            # Build full param set: locked params + this group's combo
+                            full_params = dict(current_best)
+                            full_params.update(combo)
+
+                            self._apply_params(full_params)
+
+                            train_result = self._evaluate_params(
+                                full_params, snapshots, train_dates, fetcher,
+                            )
+                            test_result = self._evaluate_params(
+                                full_params, snapshots, test_dates, fetcher,
+                            )
+
+                            trial_counter += 1
+                            grp_trial_count += 1
+                            trial = TrialResult(
+                                trial_id=trial_counter,
+                                params=full_params,
+                                train_sharpe=train_result.train_sharpe,
+                                train_return=train_result.train_return,
+                                train_alpha=train_result.train_alpha,
+                                train_win_rate=train_result.train_win_rate,
+                                train_max_drawdown=train_result.train_max_drawdown,
+                                train_periods=train_result.train_periods,
+                                test_sharpe=test_result.train_sharpe,
+                                test_return=test_result.train_return,
+                                test_alpha=test_result.train_alpha,
+                                test_win_rate=test_result.train_win_rate,
+                                test_max_drawdown=test_result.train_max_drawdown,
+                                test_periods=test_result.train_periods,
+                                duration_seconds=round(
+                                    (datetime.now(timezone.utc) - trial_start).total_seconds(), 1
+                                ),
+                                error=train_result.error or test_result.error,
+                            )
+                            all_trials.append(trial)
+
+                            # Update global best
+                            if best_trial is None or trial.objective_value > best_trial.objective_value:
+                                best_trial = trial
+
+                            # Update group-local best
+                            if grp_best_trial is None or trial.objective_value > grp_best_trial.objective_value:
+                                grp_best_trial = trial
+
+                            yield _evt("optimize_progress", {
+                                "trial_num": trial_counter,
+                                "total_trials": estimated_total,
+                                "trial": trial_counter,
+                                "total": estimated_total,
+                                "progress": round(trial_counter / estimated_total * 100),
+                                "group": grp_label,
+                                "group_trial": grp_trial_count,
+                                "group_total": len(mini_grid),
+                                "params": combo,
+                                "sharpe": trial.train_sharpe,
+                                "best_sharpe": best_trial.train_sharpe if best_trial else None,
+                                "train_sharpe": trial.train_sharpe,
+                                "test_sharpe": trial.test_sharpe,
+                                "train_return": round(trial.train_return, 4),
+                                "test_return": round(trial.test_return, 4),
+                                "is_best": trial is best_trial,
+                                "best_so_far_sharpe": best_trial.train_sharpe if best_trial else None,
+                                "message": f"Stepwise {round_label} [{grp_label}] "
+                                           f"{grp_trial_count}/{len(mini_grid)}: "
+                                           f"Train={_fmt_sharpe(trial.train_sharpe)} | "
+                                           f"Test={_fmt_sharpe(trial.test_sharpe)}"
+                                           + (" ★ Best!" if trial is best_trial and trial_counter > 1 else ""),
+                            })
+
+                            self._restore_params(opt_params)
+
+                        # ── Lock in this group's local best ──
+                        # Use group-local best (not global best) to set this group's values
+                        if grp_best_trial:
+                            for p in grp_params:
+                                current_best[p.key] = grp_best_trial.params.get(
+                                    p.key, p.current
+                                )
+                            logger.info(
+                                f"[Optimizer] Stepwise locked group '{grp_label}': "
+                                + ", ".join(
+                                    f"{p.key}={current_best[p.key]}"
+                                    for p in grp_params
+                                )
+                                + f" (group best Sharpe={_fmt_sharpe(grp_best_trial.train_sharpe)})"
+                            )
+
+                    # Check convergence: if Sharpe didn't improve by threshold, stop
+                    round_sharpe = best_trial.objective_value if best_trial else -999.0
+                    improvement_this_round = round_sharpe - prev_round_sharpe
+                    logger.info(
+                        f"[Optimizer] Stepwise {round_label} done: "
+                        f"Sharpe {_fmt_sharpe(prev_round_sharpe)} → {_fmt_sharpe(round_sharpe)} "
+                        f"(Δ={improvement_this_round:+.3f})"
+                    )
+
+                    if outer_round > 0 and improvement_this_round < convergence_threshold:
+                        logger.info(
+                            f"[Optimizer] Stepwise converged (Δ={improvement_this_round:.4f} "
+                            f"< {convergence_threshold})"
+                        )
+                        yield _evt("optimize_phase", {
+                            "phase": "search",
+                            "message": f"Stepwise 已收敛 — Round {outer_round + 1} "
+                                       f"改善 Δ={improvement_this_round:+.3f} < {convergence_threshold}",
+                        })
+                        break
+
+                    prev_round_sharpe = round_sharpe
+
+                total_trials = trial_counter
+
+            else:
+                # ── Grid / Random search (original logic) ──
+                candidates = self._generate_candidates(opt_params)
+                total_trials = min(len(candidates), self.config.max_trials)
+
+                for idx, candidate in enumerate(candidates[:total_trials]):
+                    trial_start = datetime.now(timezone.utc)
+
+                    # Apply candidate params
+                    self._apply_params(candidate)
+
+                    # Evaluate on TRAIN set
+                    train_result = self._evaluate_params(
+                        candidate, snapshots, train_dates, fetcher,
+                    )
+
+                    # Evaluate on TEST set
+                    test_result = self._evaluate_params(
+                        candidate, snapshots, test_dates, fetcher,
+                    )
+
+                    trial_counter += 1
+                    trial = TrialResult(
+                        trial_id=trial_counter,
+                        params=candidate,
+                        train_sharpe=train_result.train_sharpe,
+                        train_return=train_result.train_return,
+                        train_alpha=train_result.train_alpha,
+                        train_win_rate=train_result.train_win_rate,
+                        train_max_drawdown=train_result.train_max_drawdown,
+                        train_periods=train_result.train_periods,
+                        test_sharpe=test_result.train_sharpe,
+                        test_return=test_result.train_return,
+                        test_alpha=test_result.train_alpha,
+                        test_win_rate=test_result.train_win_rate,
+                        test_max_drawdown=test_result.train_max_drawdown,
+                        test_periods=test_result.train_periods,
+                        duration_seconds=round(
+                            (datetime.now(timezone.utc) - trial_start).total_seconds(), 1
+                        ),
+                        error=train_result.error or test_result.error,
+                    )
+                    all_trials.append(trial)
+
+                    # Track best
+                    if best_trial is None or trial.objective_value > best_trial.objective_value:
+                        best_trial = trial
+
+                    yield _evt("optimize_progress", {
+                        "trial_num": trial_counter,
+                        "total_trials": total_trials,
+                        "trial": trial_counter,
+                        "total": total_trials,
+                        "progress": round(trial_counter / total_trials * 100),
+                        "params": candidate,
+                        "sharpe": trial.train_sharpe,
+                        "best_sharpe": best_trial.train_sharpe if best_trial else None,
+                        "train_sharpe": trial.train_sharpe,
+                        "test_sharpe": trial.test_sharpe,
+                        "train_return": round(trial.train_return, 4),
+                        "test_return": round(trial.test_return, 4),
+                        "is_best": trial is best_trial,
+                        "best_so_far_sharpe": best_trial.train_sharpe if best_trial else None,
+                        "message": f"Trial {trial_counter}/{total_trials}: "
+                                   f"Train Sharpe={_fmt_sharpe(trial.train_sharpe)} | "
+                                   f"Test Sharpe={_fmt_sharpe(trial.test_sharpe)}"
+                                   + (" ★ New Best!" if trial is best_trial and trial_counter > 1 else ""),
+                    })
+
+                    # Restore defaults after each trial
+                    self._restore_params(opt_params)
 
             # ── Phase 6: Final validation — re-run best on full period ──
             yield _evt("optimize_phase", {
@@ -569,10 +790,62 @@ class ThresholdOptimizer:
             best_s = best_trial.test_sharpe if best_trial and best_trial.test_sharpe else 0
             improvement = best_s - baseline_s
 
+            # ── Build frontend-compatible data structure ──
+            # Frontend renderOptimizationResults() expects:
+            #   data.baseline = {sharpe, annualized_return, alpha, max_drawdown}
+            #   data.best_trial = {sharpe, annualized_return, alpha, max_drawdown}
+            #   data.trials = [{trial_id, params, train_sharpe, test_sharpe, ...}]
+            #   data.best_params = {key: value}
+            #   data.original_params = {key: original_value}
+
+            baseline_obj = {
+                "sharpe": baseline_test.train_sharpe,
+                "annualized_return": baseline_test.train_return,
+                "alpha": baseline_test.train_alpha,
+                "max_drawdown": baseline_test.train_max_drawdown,
+                "win_rate": baseline_test.train_win_rate,
+                "periods": baseline_test.train_periods,
+            }
+
+            best_trial_obj = {}
+            if best_trial:
+                best_trial_obj = {
+                    "sharpe": best_trial.test_sharpe,
+                    "annualized_return": best_trial.test_return,
+                    "alpha": best_trial.test_alpha,
+                    "max_drawdown": best_trial.test_max_drawdown,
+                    "win_rate": best_trial.test_win_rate,
+                    "periods": best_trial.test_periods,
+                    "train_sharpe": best_trial.train_sharpe,
+                    "train_return": best_trial.train_return,
+                }
+
+            trials_list = []
+            for t in all_trials:
+                trials_list.append({
+                    "trial_id": t.trial_id,
+                    "params": t.params,
+                    "train_sharpe": t.train_sharpe,
+                    "test_sharpe": t.test_sharpe,
+                    "train_return": round(t.train_return, 4),
+                    "test_return": round(t.test_return, 4),
+                    "train_alpha": round(t.train_alpha, 4),
+                    "test_alpha": round(t.test_alpha, 4),
+                    "error": t.error,
+                })
+
+            original_params_obj = {p.key: p.current for p in opt_params}
+
             yield _evt("optimize_complete", {
                 "run_id": self.run_id,
                 "target_achieved": target_achieved,
+                # ── Frontend-compatible structure ──
+                "baseline": baseline_obj,
+                "best_trial": best_trial_obj,
+                "trials": trials_list,
                 "best_params": best_trial.params if best_trial else {},
+                "original_params": original_params_obj,
+                # ── Legacy fields (for persistence / debugging) ──
                 "best_train_sharpe": best_trial.train_sharpe if best_trial else None,
                 "best_test_sharpe": best_trial.test_sharpe if best_trial else None,
                 "baseline_train_sharpe": baseline_train.train_sharpe,
@@ -725,6 +998,110 @@ class ThresholdOptimizer:
                     combo[p.key] = round(val, 2)
             candidates.append(combo)
         return candidates
+
+    # ──────────────────────────────────────────────────────────
+    #  Stepwise (Coordinate Descent) helpers
+    # ──────────────────────────────────────────────────────────
+
+    def _build_stepwise_groups(
+        self, opt_params: List[OptimizableParam]
+    ) -> List[Dict[str, Any]]:
+        """Map PARAM_GROUPS definitions to actual OptimizableParam objects.
+
+        Only includes groups that have at least one param in the current
+        optimisation set.  Params not covered by any group are collected
+        into a catch-all "其他参数" group at the end.
+        """
+        param_by_key = {p.key: p for p in opt_params}
+        assigned_keys: set = set()
+        groups: List[Dict[str, Any]] = []
+
+        for grp_def in PARAM_GROUPS:
+            grp_params = [
+                param_by_key[k]
+                for k in grp_def["keys"]
+                if k in param_by_key
+            ]
+            if grp_params:
+                groups.append({
+                    "name": grp_def["name"],
+                    "label": grp_def["label"],
+                    "params": grp_params,
+                })
+                assigned_keys.update(p.key for p in grp_params)
+
+        # Catch-all for any param not in a predefined group
+        remainder = [p for p in opt_params if p.key not in assigned_keys]
+        if remainder:
+            groups.append({
+                "name": "other",
+                "label": "其他参数",
+                "params": remainder,
+            })
+
+        logger.info(
+            f"[Optimizer] Stepwise groups: "
+            + ", ".join(
+                f"{g['label']}({len(g['params'])}p)" for g in groups
+            )
+        )
+        return groups
+
+    def _stepwise_mini_grid(
+        self,
+        grp_params: List[OptimizableParam],
+        steps_per_param: int = 7,
+    ) -> List[Dict[str, Any]]:
+        """Generate a Cartesian-product mini grid for a small group of params.
+
+        For a group of N params with S steps each, produces S^N combinations.
+        This is manageable because groups are small (typically 1-4 params):
+          1 param × 7 steps  =   7 combos
+          3 params × 7 steps = 343 combos
+          4 params × 7 steps = 2401 combos (capped by max_trials anyway)
+        """
+        grid_values: Dict[str, List[Any]] = {}
+
+        for p in grp_params:
+            if isinstance(p.default, int) and p.key not in (
+                "school_weight.graham", "school_weight.buffett",
+                "school_weight.quantitative", "school_weight.quality",
+                "school_weight.valuation", "school_weight.contrarian",
+                "school_weight.garp",
+            ):
+                vals = _int_linspace(int(p.min_val), int(p.max_val), steps_per_param)
+            else:
+                vals = _float_linspace(p.min_val, p.max_val, steps_per_param)
+
+            # Always include current value
+            if isinstance(p.default, int):
+                current = int(p.current)
+                if current not in vals:
+                    vals.append(current)
+                    vals.sort()
+            else:
+                current = round(float(p.current), 3)
+                if current not in vals:
+                    vals.append(current)
+                    vals.sort()
+
+            grid_values[p.key] = vals
+
+        # Cartesian product
+        keys = list(grid_values.keys())
+        values = list(grid_values.values())
+        combos = list(itertools.product(*values))
+
+        # Shuffle to avoid systematic bias if we hit budget early
+        self._rng.shuffle(combos)
+
+        logger.info(
+            f"[Optimizer] Stepwise mini-grid: "
+            f"{len(grp_params)} params × {steps_per_param} steps = "
+            f"{len(combos)} combinations"
+        )
+
+        return [{k: v for k, v in zip(keys, combo)} for combo in combos]
 
     # ──────────────────────────────────────────────────────────
     #  Parameter application / restoration

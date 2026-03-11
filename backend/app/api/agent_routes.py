@@ -17,6 +17,25 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/agent", tags=["agent"])
 
 
+# ── 回测数据源解析 ─────────────────────────────────────────────
+def _resolve_backtest_raw_source(data_source: Optional[str] = None):
+    """解析回测数据源：Bloomberg 优先，yfinance fallback。
+
+    Args:
+        data_source: "bloomberg" / "yfinance" / "auto" / None
+                     None 和 "auto" 都走自动选择（Bloomberg 优先）
+    Returns:
+        RawDataSource 实例，失败返回 None（HistoricalDataFetcher 会自行 fallback）
+    """
+    preferred = data_source or "auto"
+    try:
+        from src.data_providers.raw_source import get_raw_source
+        return get_raw_source(preferred)
+    except Exception as e:
+        logger.warning(f"[BacktestRoute] RawDataSource({preferred}) 不可用: {e}")
+        return None
+
+
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=5000)
     sessionId: Optional[str] = None
@@ -520,8 +539,9 @@ class BacktestRequest(BaseModel):
     strategy: str = Field(default="balanced")
     dataSource: Optional[str] = Field(
         default=None,
-        description="Data source for backtest. None=yfinance (backtest needs historical quarterly data). "
-                    "Backtest currently only supports yfinance for historical financials.",
+        description="Data source for backtest: 'bloomberg' / 'yfinance' / 'auto' (default). "
+                    "auto = Bloomberg preferred, yfinance fallback. "
+                    "Bloomberg provides 20+ years of quarterly data via BDH.",
     )
 
 
@@ -560,7 +580,7 @@ async def run_backtest(req: BacktestRequest):
         strategy=req.strategy,
     )
 
-    backtester = PointInTimeBacktester(config)
+    backtester = PointInTimeBacktester(config, raw_source=_resolve_backtest_raw_source(req.dataSource))
 
     async def _stream():
         try:
@@ -743,7 +763,7 @@ class OptimizeRequest(BaseModel):
         description="Parameter keys to optimise (e.g. ['screener.pe_max', 'school_weight.buffett']). "
                     "Empty = use default optimisable set (~12 key parameters).",
     )
-    searchMethod: str = Field(default="grid", description="'grid' | 'random'")
+    searchMethod: str = Field(default="stepwise", description="'stepwise' (coordinate descent, recommended) | 'grid' | 'random'")
     maxTrials: int = Field(default=200, ge=5, le=2000)
     holdingMonths: int = Field(default=6, ge=1, le=24)
     lookbackYears: float = Field(
@@ -811,7 +831,7 @@ async def run_optimization(req: OptimizeRequest):
         seed=req.seed,
     )
 
-    optimizer = ThresholdOptimizer(config)
+    optimizer = ThresholdOptimizer(config, raw_source=_resolve_backtest_raw_source())
 
     async def _stream():
         try:
@@ -914,7 +934,7 @@ async def run_walk_forward(req: WalkForwardRequest):
         seed=req.seed,
     )
 
-    validator = WalkForwardValidator(config)
+    validator = WalkForwardValidator(config, raw_source=_resolve_backtest_raw_source())
 
     async def _stream():
         try:
